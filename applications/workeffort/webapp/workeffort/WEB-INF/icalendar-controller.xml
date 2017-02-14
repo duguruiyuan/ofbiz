@@ -19,7 +19,7 @@ under the License.
 -->
 
 <site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/site-conf.xsd">
+        xmlns="http://ofbiz.apache.org/Site-Conf" xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
     <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
     <description>iCalendar UI Configuration File</description>
     
@@ -31,7 +31,7 @@ under the License.
     <!-- Events to run on every request after all other processing (chains exempt) -->
     <!--
     <postprocessor>
-        <event name="test" type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/>
+        <event name="test" type="java" path="org.apache.ofbiz.webapp.event.TestEvent" invoke="test"/>
     </postprocessor>
     -->
 

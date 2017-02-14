@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
      <screen name="FindLeads">
         <section>
             <actions>
@@ -86,7 +86,7 @@ under the License.
                 <decorator-screen name="CommonLeadDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.CommonCreate} ${uiLabelMap.SfaLead}">
-                            <include-form name="createLead" location="component://marketing/widget/sfa/forms/LeadForms.xml"/>
+                            <include-form name="CreateLead" location="component://marketing/widget/sfa/forms/LeadForms.xml"/>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>
@@ -130,13 +130,13 @@ under the License.
             <actions>
                 <set field="headerItem" value="Leads"/>
                 <set field="tabButtonItem" value="CloneLead"/>
-                <script location="component://marketing/webapp/sfa/WEB-INF/action/CloneLead.groovy"/>
+                <script location="component://marketing/groovyScripts/sfa/CloneLead.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonLeadDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.SfaCloneLead}">
-                            <include-form name="createLead" location="component://marketing/widget/sfa/forms/LeadForms.xml"/>
+                            <include-form name="CreateLead" location="component://marketing/widget/sfa/forms/LeadForms.xml"/>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>
@@ -149,7 +149,7 @@ under the License.
             <actions>
                 <set field="headerItem" value="Leads"/>
                 <set field="tabButtonItem" value="MergeLeads"/>
-                <script location="component://marketing/webapp/sfa/WEB-INF/action/MergeContacts.groovy"/>
+                <script location="component://marketing/groovyScripts/sfa/MergeContacts.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonLeadDecorator" location="${parameters.mainDecoratorLocation}">
@@ -163,7 +163,7 @@ under the License.
                             </condition>
                             <widgets>
                                 <platform-specific>
-                                    <html><html-template location="component://marketing/webapp/sfa/lead/mergeLeads.ftl"/></html>
+                                    <html><html-template location="component://marketing/template/lead/MergeLeads.ftl"/></html>
                                 </platform-specific>
                             </widgets>
                             <fail-widgets>

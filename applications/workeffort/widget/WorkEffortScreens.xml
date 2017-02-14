@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="UserJobs">
         <section>
             <actions>
@@ -74,7 +74,7 @@ under the License.
                                 <if-service-permission service-name="workEffortGenericPermission" main-action="VIEW"/>
                             </condition>
                             <widgets>
-                                <platform-specific><html><html-template location="component://workeffort/webapp/workeffort/task/mytasks.ftl"/></html></platform-specific>
+                                <platform-specific><html><html-template location="component://workeffort/template/task/MyTasks.ftl"/></html></platform-specific>
                             </widgets>
                             <fail-widgets>
                                 <label style="h3">${uiLabelMap.WorkEffortViewPermissionError}</label>
@@ -110,20 +110,13 @@ under the License.
                                 </screenlet>
                             </widgets>
                             <fail-widgets>
-                                <container style="button-bar">
-                                    <link text="${uiLabelMap.WorkEffortCreate}" target="EditWorkEffort" style="buttontext">
-                                        <parameter param-name="DONE_PAGE" from-field="donePage"/>
-                                    </link>
-                                </container>
                                 <screenlet>
                                     <include-form name="EditWorkEffort" location="component://workeffort/widget/WorkEffortForms.xml"/>
                                 </screenlet>
                             </fail-widgets>
                         </section>
                         <screenlet title="${uiLabelMap.WorkEffortDuplicateWorkEffort}">
-                            <platform-specific>
-                                <html><html-template location="component://workeffort/webapp/workeffort/workeffort/EditWorkEffortDupForm.ftl"/></html>
-                            </platform-specific>
+                            <include-form name="EditWorkEffortDuplicate" location="component://workeffort/widget/WorkEffortForms.xml"/>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>
@@ -674,13 +667,13 @@ under the License.
         <section>
             <actions>
                 <set field="titleProperty" value="PageTitleSearchResults"/>
-                <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/find/WorkEffortSearchResults.groovy"/>
+                <script location="component://workeffort/groovyScripts/workeffort/find/WorkEffortSearchResults.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonWorkEffortDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                          <platform-specific>
-                              <html><html-template location="component://workeffort/webapp/workeffort/find/WorkEffortSearchResults.ftl"/></html>
+                              <html><html-template location="component://workeffort/template/find/WorkEffortSearchResults.ftl"/></html>
                          </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -692,13 +685,13 @@ under the License.
         <section>
             <actions>
                 <set field="titleProperty" value="PageTitleSearchResults"/>
-                <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/find/WorkEffortSearchOptions.groovy"/>
+                <script location="component://workeffort/groovyScripts/workeffort/find/WorkEffortSearchOptions.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonWorkEffortDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                          <platform-specific>
-                              <html><html-template location="component://workeffort/webapp/workeffort/find/WorkEffortSearchOptions.ftl"/></html>
+                              <html><html-template location="component://workeffort/template/find/WorkEffortSearchOptions.ftl"/></html>
                          </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -719,6 +712,27 @@ under the License.
                             <include-form name="AddAgreementWorkEffortApplic" location="component://workeffort/widget/WorkEffortForms.xml"/>
                         </screenlet>
                         <include-form name="ListAgreementWorkEffortApplics" location="component://workeffort/widget/WorkEffortForms.xml"/>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <screen name="ListWorkEffortAttributes">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitleListWorkEffortAttributes"/>
+                <set field="labelTitleProperty" from-field="titleProperty"/>
+                <set field="tabButtonItem" value="WorkEffortAttributes"/>
+                <set field="workEffortId" from-field="parameters.workEffortId"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="CommonWorkEffortDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <screenlet id="AddWorkEffortEventAttribute" title="${uiLabelMap.PageTitleAddWorkEffortAttribute}" collapsible="true">
+                            <include-form name="EditWorkEffortAttribute" location="component://workeffort/widget/WorkEffortForms.xml"/>
+                        </screenlet>
+                        <include-form name="ListWorkEffortAttributes" location="component://workeffort/widget/WorkEffortForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -767,7 +781,7 @@ under the License.
                 </entity-and>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://workeffort/webapp/workeffort/workeffort/EventReminderEmail.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://workeffort/template/workeffort/EventReminderEmail.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -798,6 +812,9 @@ under the License.
                                 </or>
                             </condition>
                             <widgets>
+                                <container style="button-bar">
+                                    <link text="${uiLabelMap.CommonCreate}" target="EditICalendar" style="buttontext"/>
+                                </container>
                                 <container style="h1">
                                     <label text="${title}"/>
                                 </container>
@@ -880,9 +897,6 @@ under the License.
                                         <include-form name="EditICalendar" location="component://workeffort/widget/WorkEffortForms.xml"/>
                                     </widgets>
                                     <fail-widgets>
-                                        <container style="button-bar">
-                                            <link text="${uiLabelMap.CommonCreate}" target="EditICalendar" style="buttontext"/>
-                                        </container>
                                         <include-form name="EditICalendar" location="component://workeffort/widget/WorkEffortForms.xml"/>
                                     </fail-widgets>
                                 </section>
@@ -1009,7 +1023,7 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <html><html-template location="component://workeffort/webapp/workeffort/workeffort/ICalendarHelp.ftl"/></html>
+                                    <html><html-template location="component://workeffort/template/workeffort/ICalendarHelp.ftl"/></html>
                                 </platform-specific>
                             </widgets>
                         </section>

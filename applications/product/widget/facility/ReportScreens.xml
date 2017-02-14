@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <!-- main reports screen of facility's reports section -->
     <screen name="InventoryReports">
@@ -45,7 +45,7 @@ under the License.
                 <set field="internalName" from-field="parameters.internalName"/>
                 <set field="productId" from-field="parameters.productId"/>
 
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/ViewFacilityInventoryByProduct.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/ViewFacilityInventoryByProduct.groovy"/>
                 <entity-one entity-name="Facility" value-field="facility" use-cache="true"/>
             </actions>
             <widgets>

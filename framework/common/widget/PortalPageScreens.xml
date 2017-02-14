@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+    xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="showPortlet">
         <section>
@@ -35,7 +35,7 @@ under the License.
                         -->
                         <platform-specific>
                             <html>
-                                <html-template location="component://common/webcommon/portal/showPortlet.ftl" />
+                                <html-template location="component://common/template/portal/ShowPortlet.ftl" />
                             </html>
                         </platform-specific>
                     </widgets>
@@ -73,7 +73,7 @@ under the License.
                 <set field="layoutSettings.javaScripts[]" value="/images/myportal.js" global="true"/>
                 <set field="layoutSettings.styleSheets[+0]" value="/images/myportal.css" global="true"/>
                 <entity-one entity-name="PortalPage" value-field="portalPage"/>
-                <set field="page.title" from-field="portalPage.portalPageName"/>
+                <set field="title" from-field="portalPage.portalPageName"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -94,7 +94,7 @@ under the License.
                 <set field="layoutSettings.javaScripts[]" value="/images/myportal.js" global="true"/>
                 <set field="layoutSettings.styleSheets[+0]" value="/images/myportal.css" global="true"/>
                 <entity-one entity-name="PortalPage" value-field="portalPage"/>
-                <set field="portalPages" value="${groovy:org.ofbiz.widget.portal.PortalPageWorker.getPortalPages(parameters.parentPortalPageId,context)}"/>
+                <set field="portalPages" value="${groovy:org.apache.ofbiz.widget.portal.PortalPageWorker.getPortalPages(parameters.parentPortalPageId,context)}"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -128,7 +128,7 @@ under the License.
             <actions>
                 <set field="originalPortalPageId" from-field="parameters.originalPortalPageId"/>
                 <set field="mainPortalPageId" from-field="parameters.mainPortalPageId"/>
-                <script location="component://common/webcommon/WEB-INF/actions/includes/ListPortalPortlets.groovy"/>
+                <script location="component://common/groovyScripts/ListPortalPortlets.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -137,7 +137,7 @@ under the License.
                         <screenlet title="${uiLabelMap.CommonPortalCategoryPage}: ${parameters.parentPortalPageId}">
                             <include-form name="PortletCategoryAndPortlet" location="component://common/widget/PortalPageForms.xml"/>
                         </screenlet>
-                        <platform-specific><html><html-template location="component://common/webcommon/portal/listPortalPortlets.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://common/template/portal/ListPortalPortlets.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
             </widgets>

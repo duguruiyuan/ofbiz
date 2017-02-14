@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+ xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="CommonPaymentDecorator">
         <section>
@@ -170,13 +170,13 @@ under the License.
                 <entity-one entity-name="Payment" value-field="payment"/>
                 <set field="appliedAmount" type="String" value="${groovy:
                     import java.text.NumberFormat;
-                    return(NumberFormat.getNumberInstance(context.get(&quot;locale&quot;)).format(org.ofbiz.accounting.payment.PaymentWorker.getPaymentApplied(payment)));}"/>
-                <set field="notAppliedAmount" type="BigDecimal" value="${groovy:org.ofbiz.accounting.payment.PaymentWorker.getPaymentNotApplied(payment)}"/>
+                    return(NumberFormat.getNumberInstance(context.get(&quot;locale&quot;)).format(org.apache.ofbiz.accounting.payment.PaymentWorker.getPaymentApplied(payment)));}"/>
+                <set field="notAppliedAmount" type="BigDecimal" value="${groovy:org.apache.ofbiz.accounting.payment.PaymentWorker.getPaymentNotApplied(payment)}"/>
                 <set field="notAppliedAmountStr" type="String" value="${groovy:
                     import java.text.NumberFormat;
-                    return(NumberFormat.getCurrencyInstance(context.get(&quot;locale&quot;)).format(org.ofbiz.accounting.payment.PaymentWorker.getPaymentNotApplied(payment)));}"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/payment/ListNotAppliedInvoices.groovy"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/payment/ListNotAppliedPayments.groovy"/>
+                    return(NumberFormat.getCurrencyInstance(context.get(&quot;locale&quot;)).format(org.apache.ofbiz.accounting.payment.PaymentWorker.getPaymentNotApplied(payment)));}"/>
+                <script location="component://accounting/groovyScripts/payment/ListNotAppliedInvoices.groovy"/>
+                <script location="component://accounting/groovyScripts/payment/ListNotAppliedPayments.groovy"/>
                 <entity-one entity-name="PartyNameView" value-field="partyNameViewTo">
                     <field-map field-name="partyId" from-field="payment.partyIdTo"/>
                 </entity-one>
@@ -235,7 +235,7 @@ under the License.
                                     </condition>
                                     <widgets>
                                         <screenlet title="${uiLabelMap.AccountingPayment} ${uiLabelMap.AccountingApplications}">
-                                            <include-form name="editPaymentApplicationsInv" location="component://accounting/widget/PaymentForms.xml"/>
+                                            <include-form name="EditPaymentApplicationsInv" location="component://accounting/widget/PaymentForms.xml"/>
                                         </screenlet>
                                     </widgets>
                                 </section>
@@ -254,7 +254,7 @@ under the License.
                                                     <not><if-empty field="paymentApplicationsPay"/></not>
                                                 </condition>
                                                 <widgets>
-                                                    <include-form name="editPaymentApplicationsPay" location="component://accounting/widget/PaymentForms.xml"/>
+                                                    <include-form name="EditPaymentApplicationsPay" location="component://accounting/widget/PaymentForms.xml"/>
                                                 </widgets>
                                             </section>
                                             <section>
@@ -262,7 +262,7 @@ under the License.
                                                     <not><if-empty field="paymentApplicationsBil"/></not>
                                                 </condition>
                                                 <widgets>
-                                                    <include-form name="editPaymentApplicationsBil" location="component://accounting/widget/PaymentForms.xml"/>
+                                                    <include-form name="EditPaymentApplicationsBil" location="component://accounting/widget/PaymentForms.xml"/>
                                                 </widgets>
                                             </section>
                                             <section>
@@ -270,7 +270,7 @@ under the License.
                                                     <not><if-empty field="paymentApplicationsTax"/></not>
                                                 </condition>
                                                 <widgets>
-                                                    <include-form name="editPaymentApplicationsTax" location="component://accounting/widget/PaymentForms.xml"/>
+                                                    <include-form name="EditPaymentApplicationsTax" location="component://accounting/widget/PaymentForms.xml"/>
                                                 </widgets>
                                             </section>
                                         </screenlet>
@@ -301,7 +301,7 @@ under the License.
                                                     <not><if-empty field="invoices"/></not>
                                                 </condition>
                                                 <widgets>
-                                                    <include-form name="listInvoicesNotApplied" location="component://accounting/widget/PaymentForms.xml"/>
+                                                    <include-form name="ListInvoicesNotApplied" location="component://accounting/widget/PaymentForms.xml"/>
                                                 </widgets>
                                             </section>
                                             <section>
@@ -310,7 +310,7 @@ under the License.
                                                 </condition>
                                                 <widgets>
                                                     <label style="h2" text="${uiLabelMap.FormFieldTitle_otherCurrency}"/>
-                                                    <include-form name="listInvoicesNotAppliedOtherCurrency" location="component://accounting/widget/PaymentForms.xml"/>
+                                                    <include-form name="ListInvoicesNotAppliedOtherCurrency" location="component://accounting/widget/PaymentForms.xml"/>
                                                 </widgets>
                                             </section>
                                         </screenlet>
@@ -326,12 +326,12 @@ under the License.
                                                 <label style="h2" text="${uiLabelMap.CommonFrom}: ${partyNameViewTo.groupName}${partyNameViewTo.lastName},${partyNameViewTo.firstName} ${partyNameViewTo.middleName}[${payment.partyIdTo}]"/>
                                                 <label style="h2" text="${uiLabelMap.CommonTo}: ${partyNameViewFrom.groupName}${partyNameViewFrom.lastName},${partyNameViewFrom.firstName} ${partyNameViewFrom.middleName} [${payment.partyIdFrom}]"/>
                                             </container>
-                                            <include-form name="listPaymentsNotApplied" location="component://accounting/widget/PaymentForms.xml"/>
+                                            <include-form name="ListPaymentsNotApplied" location="component://accounting/widget/PaymentForms.xml"/>
                                         </screenlet>
                                     </widgets>
                                 </section>
                                 <screenlet title="${uiLabelMap.AccountingApplyPaymentoTo}">
-                                   <include-form name="addPaymentApplication" location="component://accounting/widget/PaymentForms.xml"/>
+                                   <include-form name="AddPaymentApplication" location="component://accounting/widget/PaymentForms.xml"/>
                                 </screenlet>
                             </widgets>
                         </section>
@@ -351,8 +351,8 @@ under the License.
                 <entity-one entity-name="Payment" value-field="payment"/>
                 <set field="finAccountTransId" from-field="payment.finAccountTransId"/>
                 <entity-one entity-name="FinAccountTrans" value-field="finAccountTrans"/>
-                <set field="appliedAmount" value="${groovy:org.ofbiz.accounting.payment.PaymentWorker.getPaymentApplied(payment).toString()}"/>
-                <set field="notAppliedAmount" value="${groovy:org.ofbiz.accounting.payment.PaymentWorker.getPaymentNotApplied(payment).toString()}"/>
+                <set field="appliedAmount" value="${groovy:org.apache.ofbiz.accounting.payment.PaymentWorker.getPaymentApplied(payment).toString()}"/>
+                <set field="notAppliedAmount" value="${groovy:org.apache.ofbiz.accounting.payment.PaymentWorker.getPaymentNotApplied(payment).toString()}"/>
                 <entity-condition entity-name="AcctgTransAndEntries" list="AcctgTransAndEntries">
                     <condition-expr field-name="paymentId" from-field="paymentId"/>
                     <order-by field-name="acctgTransId"/>
@@ -372,7 +372,7 @@ under the License.
                                         <link target="editPayment" text="${uiLabelMap.CommonUpdate}" style="buttontext">
                                             <parameter param-name="paymentId"/>
                                         </link>
-                                        <include-form name="paymentHeader" location="component://accounting/widget/PaymentForms.xml"/>
+                                        <include-form name="PaymentHeader" location="component://accounting/widget/PaymentForms.xml"/>
                                     </screenlet>
                                 </container>
                                 <container style="righthalf">
@@ -380,7 +380,7 @@ under the License.
                                         <link target="editPaymentApplications" text="${uiLabelMap.CommonUpdate}" style="buttontext">
                                             <parameter param-name="paymentId"/>
                                         </link>
-                                        <include-form name="paymentApplications" location="component://accounting/widget/PaymentForms.xml"/>
+                                        <include-form name="PaymentApplications" location="component://accounting/widget/PaymentForms.xml"/>
                                     </screenlet>
                                     <section>
                                         <condition>
@@ -401,12 +401,12 @@ under the License.
                             <fail-widgets>
                                 <container style="lefthalf">
                                     <screenlet title="${uiLabelMap.AccountingPaymentHeader}">
-                                        <include-form name="paymentHeader" location="component://accounting/widget/PaymentForms.xml"/>
+                                        <include-form name="PaymentHeader" location="component://accounting/widget/PaymentForms.xml"/>
                                     </screenlet>
                                 </container>
                                 <container style="righthalf">
                                     <screenlet title="${uiLabelMap.AccountingPaymentsApplied} ${appliedAmount?currency(${payment.currencyUomId})} ${uiLabelMap.AccountingOpenPayments} ${notAppliedAmount?currency(${payment.currencyUomId})}">
-                                        <include-form name="paymentApplications" location="component://accounting/widget/PaymentForms.xml"/>
+                                        <include-form name="PaymentApplications" location="component://accounting/widget/PaymentForms.xml"/>
                                     </screenlet>
                                         <section>
                                             <condition>
@@ -437,7 +437,7 @@ under the License.
                 <set field="titleProperty" value="AccountingManualTransaction"/>
                 <set field="headerItem" value="transaction"/>
                 <set field="tabButtonItem" value="manualtransactiontab"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/payment/ManualTx.groovy"/>
+                <script location="component://accounting/groovyScripts/payment/ManualTx.groovy"/>
                 <property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
             </actions>
             <widgets>
@@ -445,7 +445,7 @@ under the License.
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.AccountingManualTransaction}">
                             <platform-specific>
-                                <html><html-template location="component://accounting/webapp/accounting/payment/manualTx.ftl"/></html>
+                                <html><html-template location="component://accounting/template/payment/ManualTx.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>
@@ -457,7 +457,7 @@ under the License.
          <section>
             <widgets>
                 <platform-specific>
-                    <html><html-template location="component://accounting/webapp/accounting/payment/manualCCTx.ftl"/></html>
+                    <html><html-template location="component://accounting/template/payment/ManualCCTx.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>
@@ -467,7 +467,7 @@ under the License.
             <widgets>
                 <platform-specific>
                     <!-- TODO: problem here: the original manualTx file referred to manualGCTx, but no such ftl files seems to exist, so this will blow up -->
-                    <html><html-template location="component://accounting/webapp/accounting/payment/manualGCTx.ftl"/></html>
+                    <html><html-template location="component://accounting/template/payment/manualGCTx.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>
@@ -480,14 +480,14 @@ under the License.
                 <set field="paymentId" from-field="parameters.paymentId"/>
                 <property-map resource="AccountingUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/payment/PrintChecks.groovy"/>
+                <script location="component://accounting/groovyScripts/payment/PrintChecks.groovy"/>
                 <entity-condition entity-name="InvoiceItemType" list="PayrolGroup">
                     <condition-expr field-name="parentTypeId" value="PAYROL"/>
                 </entity-condition>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://accounting/webapp/accounting/payment/PrintChecks.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://accounting/template/payment/PrintChecks.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -501,8 +501,7 @@ under the License.
                 <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer" default-value="0"/>
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
-
-                <set field="invoicePaymentInfoList" from-field="parameters.invoicePaymentInfoList" type="List"/>
+                <script location="component://accounting/groovyScripts/payment/FindInvoicesByDueDate.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -533,8 +532,7 @@ under the License.
                 <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer" default-value="0"/>
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
-
-                <set field="invoicePaymentInfoList" from-field="parameters.invoicePaymentInfoList" type="List"/>
+                <script location="component://accounting/groovyScripts/payment/FindInvoicesByDueDate.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">

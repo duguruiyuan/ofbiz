@@ -19,14 +19,14 @@ under the License.
 -->
 
 <site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/site-conf.xsd">
+        xmlns="http://ofbiz.apache.org/Site-Conf" xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
     <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
     <include location="component://common/webcommon/WEB-INF/portal-controller.xml"/>
     <include location="component://common/webcommon/WEB-INF/security-controller.xml"/>
     <include location="component://common/webcommon/WEB-INF/tempexpr-controller.xml"/>
     <description>WebTools Site Configuration File</description>
 
-    <handler name="ftl" type="view" class="org.ofbiz.webapp.ftl.FreeMarkerViewHandler"/>
+    <handler name="ftl" type="view" class="org.apache.ofbiz.webapp.ftl.FreeMarkerViewHandler"/>
 
     <!-- Events to run on every request before security (chains exempt) -->
     <!--
@@ -36,7 +36,7 @@ under the License.
     <!-- Events to run on every request after all other processing (chains exempt) -->
     <!--
     <postprocessor>
-        <event name="test" type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/>
+        <event name="test" type="java" path="org.apache.ofbiz.webapp.event.TestEvent" invoke="test"/>
     </postprocessor>
     -->
 
@@ -44,16 +44,18 @@ under the License.
 
     <!-- Begin Utility Requests -->
     <request-map uri="httpService">
-        <event type="java" path="org.ofbiz.service.engine.HttpEngine" invoke="httpEngine"/>
+        <event type="java" path="org.apache.ofbiz.service.engine.HttpEngine" invoke="httpEngine"/>
         <response name="success" type="none"/>
         <response name="error" type="none"/>
     </request-map>
     <request-map uri="SOAPService">
+        <security https="false"/>
         <event type="soap"/>
         <response name="error" type="none"/>
         <response name="success" type="none"/>
     </request-map>
     <request-map uri="xmlrpc" track-serverhit="false" track-visit="false">
+        <security https="false"/>
         <event type="xmlrpc"/>
         <response name="error" type="none"/>
         <response name="success" type="none"/>
@@ -95,7 +97,7 @@ under the License.
         <response name="success" type="view" value="main"/>
     </request-map>
     <request-map uri="chain">
-        <event type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/>
+        <event type="java" path="org.apache.ofbiz.webapp.event.TestEvent" invoke="test"/>
         <response name="success" type="request" value="/view"/>
         <response name="error" type="view" value="error"/>
     </request-map>
@@ -121,7 +123,7 @@ under the License.
     </request-map>
     <request-map uri="UpdateGeneric">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webtools.GenericWebEvent" invoke="updateGeneric"/>
+        <event type="java" path="org.apache.ofbiz.webtools.GenericWebEvent" invoke="updateGeneric"/>
         <response name="success" type="view" value="ViewGeneric"/>
         <response name="error" type="view" value="ViewGeneric"/>
     </request-map>
@@ -167,13 +169,13 @@ under the License.
     </request-map>
     <request-map uri="FindUtilCacheClear">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webtools.UtilCacheEvents" invoke="clearEvent"/>
+        <event type="java" path="org.apache.ofbiz.webtools.UtilCacheEvents" invoke="clearEvent"/>
         <response name="success" type="view" value="FindUtilCache"/>
         <response name="error" type="view" value="FindUtilCache"/>
     </request-map>
     <request-map uri="FindUtilCacheClearAll">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webtools.UtilCacheEvents" invoke="clearAllEvent"/>
+        <event type="java" path="org.apache.ofbiz.webtools.UtilCacheEvents" invoke="clearAllEvent"/>
         <response name="success" type="view" value="FindUtilCache"/>
         <response name="error" type="view" value="FindUtilCache"/>
     </request-map>
@@ -189,13 +191,13 @@ under the License.
     </request-map>
     <request-map uri="EditUtilCacheUpdate">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webtools.UtilCacheEvents" invoke="updateEvent"/>
+        <event type="java" path="org.apache.ofbiz.webtools.UtilCacheEvents" invoke="updateEvent"/>
         <response name="success" type="view" value="EditUtilCache"/>
         <response name="error" type="view" value="EditUtilCache"/>
     </request-map>
     <request-map uri="EditUtilCacheClear">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webtools.UtilCacheEvents" invoke="clearEvent"/>
+        <event type="java" path="org.apache.ofbiz.webtools.UtilCacheEvents" invoke="clearEvent"/>
         <response name="success" type="view" value="EditUtilCache"/>
         <response name="error" type="view" value="EditUtilCache"/>
     </request-map>
@@ -205,7 +207,7 @@ under the License.
     </request-map>
     <request-map uri="FindUtilCacheElementsRemoveElement">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webtools.UtilCacheEvents" invoke="removeElementEvent"/>
+        <event type="java" path="org.apache.ofbiz.webtools.UtilCacheEvents" invoke="removeElementEvent"/>
         <response name="success" type="view" value="FindUtilCacheElements"/>
         <response name="error" type="view" value="FindUtilCacheElements"/>
     </request-map>
@@ -251,6 +253,10 @@ under the License.
     <request-map uri="LogView">
         <security https="true" auth="true"/>
         <response name="success" type="view" value="LogView"/>
+    </request-map>
+    <request-map uri="FetchLogs">
+        <security https="true" auth="true"/>
+        <response name="success" type="view" value="FetchLogs"/>
     </request-map>
 
     <!-- Service Engine Info and Job Management Requests -->
@@ -305,14 +311,14 @@ under the License.
     </request-map>
     <request-map uri="scheduleService">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webapp.event.CoreEvents" invoke="scheduleService"/>
+        <event type="java" path="org.apache.ofbiz.webapp.event.CoreEvents" invoke="scheduleService"/>
         <response name="success" type="view" value="FindJob"/>
         <response name="sync_success" type="view" value="serviceResult"/>
         <response name="error" type="view" value="scheduleJob"/>
     </request-map>
     <request-map uri="scheduleServiceSync">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webapp.event.CoreEvents" invoke="scheduleService"/>
+        <event type="java" path="org.apache.ofbiz.webapp.event.CoreEvents" invoke="scheduleService"/>
         <response name="success" type="view" value="serviceResult"/>
         <response name="sync_success" type="view" value="serviceResult"/>
         <response name="error" type="view" value="runService"/>
@@ -323,9 +329,23 @@ under the License.
     </request-map>
     <request-map uri="saveServiceResultsToSession">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webapp.event.CoreEvents" invoke="saveServiceResultsToSession"/>
+        <event type="java" path="org.apache.ofbiz.webapp.event.CoreEvents" invoke="saveServiceResultsToSession"/>
         <response name="success" type="view" value="runService"/>
         <response name="error" type="view" value="error"/>
+    </request-map>
+    <request-map uri="AddJobManagerLock"><security https="true" auth="true"/><response name="success" type="view" value="AddJobManagerLock"/></request-map>
+    <request-map uri="FindJobManagerLock"><security https="true" auth="true"/><response name="success" type="view" save-current-view="false" value="FindJobManagerLock"/></request-map>
+    <request-map uri="createJobManagerLock">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="createJobManagerLock"/>
+        <response name="success" type="request" value="json"/>
+        <response name="error" type="request" value="json"/>
+    </request-map>
+    <request-map uri="updateJobManagerLock">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="updateJobManagerLock"/>
+        <response name="success" type="view" value="FindJobManagerLock"/>
+        <response name="error" type="view" value="FindJobManagerLock"/>
     </request-map>
 
     <!-- Available services requests -->
@@ -359,7 +379,7 @@ under the License.
 
     <request-map uri="RunTest">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.webtools.artifactinfo.RunTestEvents" invoke="runTest"/>
+        <event type="java" path="org.apache.ofbiz.webtools.artifactinfo.RunTestEvents" invoke="runTest"/>
         <response name="success" type="request-redirect" value="TestSuiteInfo"/>
     </request-map>
     <!-- EntitySQL requests -->
@@ -484,53 +504,6 @@ under the License.
         <response name="success" type="view" value="viewbrowsercerts"/>
     </request-map>
 
-    <!-- printing requests -->
-    <request-map uri="print">
-        <event type="java" path="org.ofbiz.webtools.print.rmi.FopPrintServer" invoke="readFopPrintServerSettings"/>
-        <response name="success" type="view" value="printStart"/>
-        <response name="error" type="view" value="error"/>
-    </request-map>
-    <request-map uri="updatePrintSettings">
-        <event type="java" path="org.ofbiz.webtools.print.rmi.FopPrintServer" invoke="receiveUpdateAppletSettings"/>
-        <response name="success" type="none"/>
-        <response name="error" type="none"/>
-    </request-map>
-    <request-map uri="printComplete">
-        <event type="java" path="org.ofbiz.webtools.print.rmi.FopPrintServer" invoke="writeFopPrintServerSettings"/>
-        <response name="success" type="view" value="printDone"/>
-        <response name="error" type="view" value="error"/>
-    </request-map>
-    <request-map uri="getXslFo">
-        <event type="java" path="org.ofbiz.webtools.print.FoPrintServerEvents" invoke="getXslFo"/>
-        <response name="success" type="none"/>
-        <response name="error" type="none"/>
-    </request-map>
-    <request-map uri="META-INF">
-        <event type="java" path="org.ofbiz.webtools.print.rmi.FopPrintServer" invoke="return404"/>
-        <response name="success" type="none"/>
-        <response name="error" type="none"/>
-    </request-map>
-    <request-map uri="barcode.class">
-        <event type="java" path="org.ofbiz.webtools.print.rmi.FopPrintServer" invoke="return404"/>
-        <response name="success" type="none"/>
-        <response name="error" type="none"/>
-    </request-map>
-    <request-map uri="default.class">
-        <event type="java" path="org.ofbiz.webtools.print.rmi.FopPrintServer" invoke="return404"/>
-        <response name="success" type="none"/>
-        <response name="error" type="none"/>
-    </request-map>
-    <request-map uri="com">
-        <event type="java" path="org.ofbiz.webtools.print.rmi.FopPrintServer" invoke="return404"/>
-        <response name="success" type="none"/>
-        <response name="error" type="none"/>
-    </request-map>
-    <request-map uri="org">
-        <event type="java" path="org.ofbiz.webtools.print.rmi.FopPrintServer" invoke="return404"/>
-        <response name="success" type="none"/>
-        <response name="error" type="none"/>
-    </request-map>
-
     <!-- Temporal expression view mapping -->
     <request-map uri="editTemporalExpression">
         <security https="true" auth="true"/>
@@ -543,6 +516,8 @@ under the License.
 
     <!-- Geo Management -->
     <request-map uri="FindGeo"><security https="true" auth="true"/><response name="success" type="view" value="FindGeo" save-home-view="true"/></request-map>
+    <request-map uri="geoPoint"><security https="true" auth="true"/><response name="success" type="view" value="geoPoint" save-home-view="true"/></request-map>
+    <request-map uri="geoPoints"><security https="true" auth="true"/><response name="success" type="view" value="geoPoints" save-home-view="true"/></request-map>
     <request-map uri="EditGeo"><security https="true" auth="true"/><response name="success" type="view" value="EditGeo"/></request-map>
     <request-map uri="LinkGeos"><security https="true" auth="true"/><response name="success" type="view" value="LinkGeos"/></request-map>
     <request-map uri="LookupGeo"><security https="true" auth="true"/><response name="success" type="view" value="LookupGeo"/></request-map>
@@ -565,7 +540,13 @@ under the License.
             <redirect-parameter name="noConditionFind"/>
         </response>
         <response name="error" type="view" value="FindGeo"/>
-    </request-map>    
+    </request-map>
+    <request-map uri="deleteGeoAssoc">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="deleteGeoAssoc"/>
+        <response name="success" type="view" value="EditGeo"/>
+        <response name="error" type="view" value="EditGeo"/>
+    </request-map>
     <request-map uri="linkGeos">
         <security https="true" auth="true"/>
         <event type="service" path="" invoke="linkGeos"/>
@@ -576,18 +557,21 @@ under the License.
         <security https="true" auth="true"/>
         <response name="success" type="view" value="FindUserLogin"/>
     </request-map>
-    
-    <request-map uri="WebtoolsLayoutDemo">
-        <security https="true" auth="true"/>
-        <response name="success" type="view" value="WebtoolsLayoutDemo"/>
-    </request-map>
+
+    <request-map uri="WebtoolsLayoutDemo"><security https="true" auth="true"/><response name="success" type="view" value="WebtoolsLayoutDemo"/></request-map>
+    <request-map uri="WebtoolsLayoutDemoFop"><security https="true" auth="true"/><response name="success" type="view" value="WebtoolsLayoutDemoFop"/></request-map>
+    <request-map uri="WebtoolsLayoutDemoText"><security https="true" auth="true"/><response name="success" type="view" value="WebtoolsLayoutDemoText"/></request-map>
+    <request-map uri="WebtoolsLayoutDemoXml"><security https="true" auth="true"/><response name="success" type="view" value="WebtoolsLayoutDemoXml"/></request-map>
+    <request-map uri="WebtoolsLayoutDemoXls"><security https="true" auth="true"/><response name="success" type="view" value="WebtoolsLayoutDemoXls"/></request-map>
+    <request-map uri="WebtoolsLayoutDemoCsv"><security https="true" auth="true"/><response name="success" type="view" value="WebtoolsLayoutDemoCsv"/></request-map>
+    <request-map uri="WebtoolsLayoutDemoXls"><security https="true" auth="true"/><response name="success" type="view" value="WebtoolsLayoutDemoXls"/></request-map>
 
     <!-- end of request mappings -->
 
     <!-- View Mappings -->
     <view-map name="main" type="screen" page="component://webtools/widget/CommonScreens.xml#main"/>
-    <view-map name="ping" type="ftl" page="component://webtools/webapp/webtools/ping.ftl"/>
-    <view-map name="showDateTime" type="ftl" page="component://webtools/webapp/webtools/showDateTime.ftl"/>
+    <view-map name="ping" type="ftl" page="component://webtools/template/Ping.ftl"/>
+    <view-map name="showDateTime" type="ftl" page="component://webtools/template/ShowDateTime.ftl"/>
 
     <view-map name="entityref" type="screen" page="component://webtools/widget/EntityScreens.xml#EntityRef"/>
     <view-map name="entityref_list" type="screen" page="component://webtools/widget/EntityScreens.xml#EntityRefList"/>
@@ -621,6 +605,7 @@ under the License.
 
     <view-map name="LogConfiguration" type="screen" page="component://webtools/widget/LogScreens.xml#LogConfiguration"/>
     <view-map name="LogView" type="screen" page="component://webtools/widget/LogScreens.xml#LogView"/>
+    <view-map name="FetchLogs" type="screen" page="component://webtools/widget/LogScreens.xml#FetchLogs"/>
 
     <view-map name="StatsSinceStart" type="screen" page="component://webtools/widget/StatsScreens.xml#StatsSinceStart"/>
     <view-map name="StatBinsHistory" type="screen" page="component://webtools/widget/StatsScreens.xml#StatBinsHistory"/>
@@ -639,6 +624,8 @@ under the License.
     <view-map name="setServiceParameters" type="screen" page="component://webtools/widget/ServiceScreens.xml#setServiceParameters"/>
     <view-map name="setSyncServiceParameters" type="screen" page="component://webtools/widget/ServiceScreens.xml#setSyncServiceParameters"/>
     <view-map name="serviceEcaDetail" type="screen" page="component://webtools/widget/AvailableServicesScreens.xml#ServiceEcaDetail"/>
+    <view-map name="AddJobManagerLock" type="screen" page="component://webtools/widget/ServiceScreens.xml#AddJobManagerLock"/>
+    <view-map name="FindJobManagerLock" type="screen" page="component://webtools/widget/ServiceScreens.xml#FindJobManagerLock"/>
 
     <view-map name="printStart" type="screen" page="component://webtools/widget/CommonScreens.xml#printStart"/>
     <view-map name="printDone" type="screen" page="component://webtools/widget/CommonScreens.xml#printDone"/>
@@ -672,11 +659,19 @@ under the License.
 
     <!-- Geo Management -->
     <view-map name="FindGeo" type="screen" page="component://webtools/widget/GeoManagementScreens.xml#FindGeo"/>
+    <view-map name="geoPoint" type="screen" page="component://webtools/widget/GeoManagementScreens.xml#GeoPoint"/>
+    <view-map name="geoPoints" type="screen" page="component://webtools/widget/GeoManagementScreens.xml#GeoPoints"/>
     <view-map name="EditGeo" type="screen" page="component://webtools/widget/GeoManagementScreens.xml#EditGeo"/>
     <view-map name="LinkGeos" type="screen" page="component://webtools/widget/GeoManagementScreens.xml#LinkGeos"/>
-    <view-map name="LookupGeo" type="screen" page="component://webtools/widget/GeoManagementScreens.xml#LookupGeo"/>    
-    
+    <view-map name="LookupGeo" type="screen" page="component://webtools/widget/GeoManagementScreens.xml#LookupGeo"/>
+
+    <!-- Layout Demo -->
     <view-map name="WebtoolsLayoutDemo" page="component://webtools/widget/MiscScreens.xml#WebtoolsLayoutDemo" type="screen"/>
+    <view-map name="WebtoolsLayoutDemoFop" page="component://webtools/widget/MiscScreens.xml#WebtoolsLayoutDemoFop" type="screenfop" content-type="application/pdf" encoding="none"/>
+    <view-map name="WebtoolsLayoutDemoText" page="component://webtools/widget/MiscScreens.xml#WebtoolsLayoutDemoText" type="screentext"/>
+    <view-map name="WebtoolsLayoutDemoXml" page="component://webtools/widget/MiscScreens.xml#WebtoolsLayoutDemoText" content-type="text/xml" type="screenxml"/>
+    <view-map name="WebtoolsLayoutDemoCsv" page="component://webtools/widget/MiscScreens.xml#WebtoolsLayoutDemoText" content-type="text/csv" type="screencsv"/>
+    <view-map name="WebtoolsLayoutDemoXls" page="component://webtools/widget/MiscScreens.xml#WebtoolsLayoutDemoText" content-type="application/vnd.ms-excel" type="screenxls"/>
 
     <!-- end of view mappings -->
 </site-conf>

@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="FindEmployee">
         <section>
             <actions>
@@ -41,7 +41,7 @@ under the License.
                                 <section>
                                     <widgets>
                                         <platform-specific>
-                                            <html><html-template location="component://humanres/webapp/humanres/humanres/findEmployee.ftl"/></html>
+                                            <html><html-template location="component://humanres/template/FindEmployee.ftl"/></html>
                                         </platform-specific>
                                     </widgets>
                                 </section>
@@ -85,8 +85,8 @@ under the License.
                 <set field="labelTitleProperty" value="PartyTaxAuthInfos"/>
                 <set field="partyId" from-field="parameters.partyId"/>
                 <set field="layoutSettings.javaScripts[]" value="/partymgr/static/PartyProfileContent.js" global="true"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/ViewProfile.groovy"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetUserLoginPrimaryEmail.groovy"/>
+                <script location="component://party/groovyScripts/party/ViewProfile.groovy"/>
+                <script location="component://party/groovyScripts/party/GetUserLoginPrimaryEmail.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="EmployeeDecorator" location="${parameters.mainDecoratorLocation}">
@@ -303,7 +303,7 @@ under the License.
         <section>
             <widgets>
                 <screenlet title="${uiLabelMap.HumanResTrainings}">
-                    <include-form name="simpleListTrainingStatus" location="component://humanres/widget/forms/PersonTrainingForms.xml"/>
+                    <include-form name="SimpleListTrainingStatus" location="component://humanres/widget/forms/PersonTrainingForms.xml"/>
                 </screenlet>
             </widgets>
         </section>
@@ -316,7 +316,7 @@ under the License.
                 <set field="tabButtonItem" value="PayrollHistory"/>
                 <set field="partyId" from-field="parameters.partyId"/>
                 <set field="parameters.sortField" from-field="parameters.sortField" default-value="invoiceDate DESC"/>
-                <entity-condition list="payroll" entity-name="InvoiceAndType">
+                <entity-condition entity-name="InvoiceAndType" list="payroll">
                     <condition-list combine="and">
                         <condition-expr field-name="partyIdFrom" operator="equals" from-field="partyId"/>
                         <condition-expr field-name="invoiceTypeId" operator="equals" value="PAYROL_INVOICE"/>

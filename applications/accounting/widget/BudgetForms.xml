@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <!-- list all assets in a tabular format -->
     <form name="ListBudgets" type="list" list-name="listIt" paginate-target="ListBudgets"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
@@ -33,7 +33,7 @@ under the License.
             </service>
         </actions>
         <field name="budgetId" widget-style="linktext" sort-field="true">
-            <hyperlink also-hidden="false" description="${budgetId}" target="EditBudget">
+            <hyperlink description="${budgetId}" target="EditBudget" also-hidden="false">
                 <parameter param-name="budgetId"/>
             </hyperlink>
         </field>
@@ -47,7 +47,7 @@ under the License.
         <on-event-update-area event-type="paginate" area-id="search-results" area-target="BudgetSearchResults"/>
     </form>
 
-    <form name="FindBudgetOptions" extends="lookupBudget" extends-resource="component://accounting/widget/FieldLookupForms.xml"
+    <form name="FindBudgetOptions" extends="LookupBudget" extends-resource="component://accounting/widget/FieldLookupForms.xml"
         target="ListBudgets">
         <field name="searchOptions_collapsed"><hidden value="true"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonFind}" widget-style="smallSubmit"><submit button-type="button"/></field>
@@ -60,7 +60,7 @@ under the License.
         <field use-when="budget != null" name="budgetId"><display/></field>
         <field name="budgetTypeId">
             <drop-down allow-empty="false">
-                <entity-options entity-name="BudgetType" description="${description}">
+                <entity-options entity-name="BudgetType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -82,8 +82,9 @@ under the License.
     <form name="BudgetStatus" list-name="budgetStatuses" target="" title="" type="list" separate-columns="true" paginate-target="budgetOverview"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="budgetId"><hidden/></field>
-        <field name="statusDate"><display/></field>
-        <field name="statusId" title="${uiLabelMap.AccountingBudgetStatus}"><display-entity entity-name="StatusItem" description="${description}"/></field>
+        <field name="statusDate"><display type="date-time"/></field>
+        <field name="statusId" title="${uiLabelMap.AccountingBudgetStatus}"><display-entity entity-name="StatusItem"/></field>
+        <field name="changeByUserLoginId"><display/></field>
     </form>
     
     <form name="BudgetRoles" type="list" use-row-submit="true" title="" list-name="budgetRoles" paginate-target="BudgetOverview"
@@ -132,7 +133,7 @@ under the License.
     </form>
     
     <form name="EditBudgetItems" type="multi"  list-name="budgetItems" default-entity-name="BudgetItem" target="updateBudgetItem?budgetId=${budgetId}&amp;viewSize=${viewSize}&amp;viewIndex=${viewIndex}" title="Edit Budget Items" paginate-target="EditBudgetItems"
-       odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
+       odd-row-style="alternate-row" default-table-style="basic-table hover-bar" separate-columns="true">
        <field name="viewSize"><hidden value="${viewSize}"/></field>
        <field name="viewIndex"><hidden value="${viewIndex}"/></field>
        <field name="budgetId"><hidden/></field>
@@ -144,7 +145,7 @@ under the License.
         </field>
        <field name="budgetItemTypeId">
            <drop-down allow-empty="false">
-               <entity-options entity-name="BudgetItemType" description="${description}" key-field-name="budgetItemTypeId"/>
+               <entity-options entity-name="BudgetItemType" key-field-name="budgetItemTypeId"/>
            </drop-down>
        </field>
        <field name="amount" ><text size="10"/></field>
@@ -166,7 +167,7 @@ under the License.
         <field name="budgetId"><hidden/></field>
        <field name="budgetItemTypeId">
            <drop-down allow-empty="false">
-               <entity-options entity-name="BudgetItemType" description="${description}" key-field-name="budgetItemTypeId"/>
+               <entity-options entity-name="BudgetItemType" key-field-name="budgetItemTypeId"/>
            </drop-down>
        </field>
        <field name="amount" ><text size="10"/></field>
@@ -187,7 +188,7 @@ under the License.
         <field name="partyId"><lookup target-form-name="LookupPartyName"/></field>
         <field name="roleTypeId">
             <drop-down allow-empty="false">
-                <entity-options description="${description}" entity-name="RoleType">
+                <entity-options entity-name="RoleType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -226,7 +227,7 @@ under the License.
         <field name="partyId"><lookup target-form-name="LookupPartyName"/></field>
         <field name="budgetReviewResultTypeId" title="${uiLabelMap.AccountingBudgetReviewResult}">
             <drop-down allow-empty="false">
-                <entity-options description="${description}" entity-name="BudgetReviewResultType">
+                <entity-options entity-name="BudgetReviewResultType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>

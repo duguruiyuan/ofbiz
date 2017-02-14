@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+       xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="TrackingCodeReportOptions" type="single" target="TrackingCodeReport" title="${uiLabelMap.MarketingTrackingCodeReportTitle}"
         header-row-style="header-row" default-table-style="basic-table">
@@ -32,7 +32,6 @@ under the License.
 
         <field name="trackingCodeId" title="${uiLabelMap.MarketingTrackingCode}">
             <drop-down allow-empty="true">
-                <option key="" description="- ${uiLabelMap.CommonAny} -"/>
                 <entity-options entity-name="TrackingCode" description="${trackingCodeId}">
                 </entity-options>
             </drop-down>
@@ -54,7 +53,6 @@ under the License.
 
          <field name="marketingCampaignId" title="${uiLabelMap.MarketingCampaign}">
             <drop-down allow-empty="true">
-                <option key="" description="- ${uiLabelMap.CommonAny} -"/>
                 <entity-options entity-name="MarketingCampaign" description="${campaignName}">
                 </entity-options>
             </drop-down>
@@ -81,16 +79,14 @@ under the License.
         </field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <option key="" description="- ${uiLabelMap.CommonSelectAny} -"/>
-                <entity-options entity-name="StatusItem" description="${description}" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="COM_EVENT_STATUS"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="roleStatusId" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupRole} ${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <option key="" description="- ${uiLabelMap.CommonSelectAny} -"/>
-                <entity-options entity-name="StatusItem" description="${description}" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="COM_EVENT_ROL_STATUS"/>
                 </entity-options>
             </drop-down>
@@ -113,15 +109,13 @@ under the License.
         </field>
         <field name="contactListId" title="${uiLabelMap.PartyContactLists}">
             <drop-down allow-empty="true">
-                <option key="" description="- ${uiLabelMap.CommonAny} -"/>
                 <entity-options entity-name="ContactList" description="${contactListName}">
                 </entity-options>
             </drop-down>
         </field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <option key="" description="- ${uiLabelMap.CommonSelectAny} -"/>
-                <entity-options entity-name="StatusItem" description="${description}" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="CONTACTLST_PARTY"/>
                 </entity-options>
             </drop-down>
@@ -161,11 +155,11 @@ under the License.
         <field name="communicationEventId" title="${uiLabelMap.MarketingContactListCommEventId}"><display/></field> 
         <field name="communicationEventTypeId" title="${uiLabelMap.MarketingContactListCommEventTypeId}"><display description="${communicationEventType.description}"/></field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
-            <display-entity entity-name="StatusItem" description="${description}"/>
+            <display-entity entity-name="StatusItem"/>
         </field>
         <field name="partyIdTo" title="${uiLabelMap.FormFieldTitle_toPartyId}"><display/></field>
         <field name="roleStatusId" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupRole} ${uiLabelMap.CommonStatus}">
-            <display-entity entity-name="StatusItem" key-field-name="statusId" description="${description}"/>
+            <display-entity entity-name="StatusItem" key-field-name="statusId"/>
         </field>
         <field name="partyIdFrom" title="${uiLabelMap.FormFieldTitle_fromPartyId}"><display/></field>
         <field name="entryDate" title="${uiLabelMap.PartyEnteredDate}"><display/></field>

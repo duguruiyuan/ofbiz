@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="FindVisits">
         <section>
@@ -42,7 +42,7 @@ under the License.
                                         <include-form name="FindVisits"  location="component://party/widget/partymgr/PartyVisitForms.xml"/>
                                     </decorator-section>
                                     <decorator-section name="search-results">
-                                        <include-form name="ListVisits"  location="component://party/widget/partymgr/PartyVisitForms.xml"/>
+                                        <include-grid name="ListVisits" location="component://party/widget/partymgr/PartyVisitForms.xml"/>
                                     </decorator-section>
                                 </decorator-screen>
                             </widgets>
@@ -79,7 +79,7 @@ under the License.
             </condition>
             <widgets>
                 <screenlet title="${uiLabelMap.PageTitleListLoggedInUsers}">
-                    <include-form name="ListLoggedInUsers"  location="component://party/widget/partymgr/PartyVisitForms.xml"/>
+                    <include-grid name="ListLoggedInUsers" location="component://party/widget/partymgr/PartyVisitForms.xml"/>
                 </screenlet>
             </widgets>
             <fail-widgets>
@@ -95,7 +95,7 @@ under the License.
                 <set field="headerItem" value="visits"/>
                 <set field="tabButtonItem" value="visitdetail"/>
 
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/visit/VisitDetails.groovy"/>
+                <script location="component://party/groovyScripts/visit/VisitDetails.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
@@ -107,7 +107,7 @@ under the License.
                             </condition>
                             <widgets>
                                 <platform-specific>
-                                    <html><html-template location="component://party/webapp/partymgr/visit/visitdetail.ftl"/></html>
+                                    <html><html-template location="component://party/template/visit/VisitDetail.ftl"/></html>
                                 </platform-specific>
                             </widgets>
                             <fail-widgets>

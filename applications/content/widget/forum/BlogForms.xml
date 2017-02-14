@@ -19,12 +19,12 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="ListBlogs" type="list" list-name="blogs" separate-columns="true" paginate-target="blogMain"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <field name="contentId"><hidden/></field>
         <field name="contentName">
-            <hyperlink target="editBlog" description="${contentName} [${contentId}]">
+            <hyperlink description="${contentName} [${contentId}]" target="editBlog">
                 <parameter param-name="blogContentId" from-field="contentId"/>
             </hyperlink>
         </field>
@@ -40,7 +40,7 @@ under the License.
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <field name="contentId"><hidden/></field>
         <field name="contentName">
-            <hyperlink target="ViewBlogArticle" description="${contentName} [${contentId}]">
+            <hyperlink description="${contentName} [${contentId}]" target="ViewBlogArticle">
                 <parameter param-name="articleContentId" from-field="contentId"/>
                 <parameter param-name="blogContentId" from-field="parameters.blogContentId"/>
             </hyperlink>

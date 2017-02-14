@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="EditReturn" type="single" target="updateReturn" default-map-name="returnHeader" id="editReturn"
         header-row-style="header-row" default-table-style="basic-table">
         <actions>
@@ -34,12 +34,12 @@ under the License.
         <field use-when="returnHeader==null&amp;&amp;returnId==null" name="returnId"><ignored/></field>
         <field name="returnHeaderTypeId" id-name="returnHeaderTypeId">
             <drop-down allow-empty="false">
-                <entity-options entity-name="ReturnHeaderType" description="${description}"/>
+                <entity-options entity-name="ReturnHeaderType"/>
             </drop-down>
         </field>
         <field name="statusId" use-when="returnHeader==null" id-name="statusId">
             <drop-down>
-                <entity-options entity-name="StatusItem" description="${description}">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" value="ORDER_RETURN_STTS"/>
                     <entity-order-by field-name="sequenceId"/>
                 </entity-options>
@@ -94,18 +94,19 @@ under the License.
         </field>
         <field name="paymentMethodId" use-when="creditCardList!=null&amp;&amp;creditCardList.size()&gt;0">
             <drop-down allow-empty="true">
-                <list-options list-name="creditCardList" list-entry-name="creditCardPm" key-name="creditCardPm.paymentMethodId" description="${bsh:org.ofbiz.party.contact.ContactHelper.formatCreditCard(creditCardPm.getRelatedOne(&quot;CreditCard&quot;, false))}"/>
+                <list-options list-name="creditCardList" list-entry-name="creditCardPm" key-name="creditCardPm.paymentMethodId" description="${groovy:org.apache.ofbiz.party.contact.ContactHelper.formatCreditCard(creditCardPm.getRelatedOne(&quot;CreditCard&quot;, false))}"/>
             </drop-down>
         </field>
         <field name="newCreditCard" widget-style="buttontext" use-when="returnHeader!=null&amp;&amp;returnHeader.getString(&quot;fromPartyId&quot;)!=null">
-            <hyperlink also-hidden="false" target="/partymgr/control/editcreditcard" target-window="partymgr" description="${uiLabelMap.AccountingCreateNewCreditCard}" target-type="inter-app">
+            <hyperlink also-hidden="false" target="/partymgr/control/editcreditcard" target-window="partymgr" description="${uiLabelMap.AccountingAddNewCreditCard}" target-type="inter-app">
                 <parameter param-name="partyId" from-field="returnHeader.fromPartyId"/>
             </hyperlink>
         </field>
         <field name="needsInventoryReceive" tooltip="${uiLabelMap.OrderReturnNecessaryReceiveInventoryMessage}">
             <drop-down no-current-selected-key="N"><option key="N"/><option key="Y"/></drop-down>
         </field>
-        <field name="createdBy"><display/></field>
+        <field name="createdBy" use-when="returnHeader!=null"><display/></field>
+        <field use-when="returnHeader==null&amp;&amp;returnId==null" name="createdBy"><ignored/></field>
         <field name="submitButton" title="${uiLabelMap.CommonSubmit}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
     <!-- UNUSED FORM
@@ -123,7 +124,7 @@ under the License.
         header-row-style="header-row" default-table-style="basic-table">
         <field name="returnHeaderTypeId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="ReturnHeaderType" description="${description}"/>
+                <entity-options entity-name="ReturnHeaderType"/>
             </drop-down>
         </field>
         <field name="returnId" title="${uiLabelMap.OrderReturnId}"><text-find/></field>
@@ -134,11 +135,11 @@ under the License.
             <text-find/>
         </field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
-            <drop-down allow-empty="true">
-                <entity-options entity-name="StatusItem" description="${description}">
+            <check all-checked="false">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="ORDER_RETURN_STTS"/>
                 </entity-options>
-            </drop-down>
+            </check>
         </field>
         <field name="entryDate" title="${uiLabelMap.OrderEntryDate}">
             <date-find/>
@@ -181,7 +182,7 @@ under the License.
             </hyperlink>
         </field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
-            <display-entity entity-name="StatusItem" key-field-name="statusId" description="${description}"/>
+            <display-entity entity-name="StatusItem" key-field-name="statusId"/>
         </field>
     </form>
 
@@ -189,7 +190,7 @@ under the License.
             odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <field name="returnId"><display/></field>
         <field name="returnItemSeqId"><display/></field>
-        <field name="statusId"><display-entity entity-name="StatusItem" description="${description}"/></field>
+        <field name="statusId"><display-entity entity-name="StatusItem"/></field>
         <field name="statusDatetime" title="${uiLabelMap.CommonDate}"><display/></field>
         <field name="changeByUserLoginId" title="${uiLabelMap.FormFieldTitle_modifiedByUserLoginId}"><display/></field>
     </form>
@@ -205,10 +206,10 @@ under the License.
             odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <field name="returnId"><display description="${returnId}"/></field>
         <field name="oldValueText">
-            <display-entity entity-name="ReturnReason" description="${description}" key-field-name="returnReasonId"/>
+            <display-entity entity-name="ReturnReason" key-field-name="returnReasonId"/>
         </field>
         <field name="newValueText">
-            <display-entity entity-name="ReturnReason" description="${description}" key-field-name="returnReasonId"/>
+            <display-entity entity-name="ReturnReason" key-field-name="returnReasonId"/>
         </field>
         <field name="changedDate" title="${uiLabelMap.CommonDate}"><display/></field>
         <field name="changedByInfo" title="${uiLabelMap.FormFieldTitle_modifiedByUserLoginId}"><display/></field>
@@ -217,10 +218,10 @@ under the License.
             odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <field name="returnId"><display description="${returnId}"/></field>
         <field name="oldValueText">
-            <display-entity entity-name="ReturnType" description="${description}" key-field-name="returnTypeId"/>
+            <display-entity entity-name="ReturnType" key-field-name="returnTypeId"/>
         </field>
         <field name="newValueText">
-            <display-entity entity-name="ReturnType" description="${description}" key-field-name="returnTypeId"/>
+            <display-entity entity-name="ReturnType" key-field-name="returnTypeId"/>
         </field>
         <field name="changedDate" title="${uiLabelMap.CommonDate}"><display/></field>
         <field name="changedByInfo" title="${uiLabelMap.FormFieldTitle_modifiedByUserLoginId}"><display/></field>

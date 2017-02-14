@@ -19,7 +19,7 @@
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="LookupBudget">
         <section>
             <actions>
@@ -114,6 +114,7 @@
         <section>
             <actions>
                 <property-map resource="HumanResUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="AccountingUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="title" value="${uiLabelMap.HumanResLookupSalaryStepSeqId}"/>
                 <set field="queryString" from-field="result.queryString"/>
                 <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer" default-value="0"/>
@@ -198,27 +199,6 @@
             </widgets>
         </section>
     </screen>
-
-    <!-- TO BE REMOVED
-    <screen name="LookupAgreement">
-        <section>
-            <actions>
-                <property-map resource="HumanResUiLabels" map-name="uiLabelMap" global="true"/>
-                <set field="title" value="${uiLabelMap.HumanResLookupAgreement}"/>
-            </actions>
-            <widgets>
-                <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">
-                    <decorator-section name="search-options">
-                        <include-form name="LookupAgreement" location="component://humanres/widget/forms/LookupForms.xml"/>
-                    </decorator-section>
-                    <decorator-section name="search-results">
-                        <include-form name="ListAgreements" location="component://humanres/widget/forms/LookupForms.xml"/>
-                    </decorator-section>
-                </decorator-screen>
-            </widgets>
-        </section>
-    </screen>
-    -->
 
     <screen name="LookupAgreementEmploymentAppl">
         <section>

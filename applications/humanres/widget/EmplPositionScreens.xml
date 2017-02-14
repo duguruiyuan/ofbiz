@@ -19,7 +19,7 @@
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="FindEmplPositions">
         <section>
             <actions>
@@ -306,7 +306,7 @@
             <actions>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://humanres/webapp/humanres/humanres/internalorg/editinternalorg.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://humanres/template/internalorg/EditInternalOrg.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -326,7 +326,7 @@
     <screen name="RemoveInternalOrgFtl">
         <section>
             <widgets>
-                <platform-specific><html><html-template location="component://humanres/webapp/humanres/humanres/internalorg/removeinternalorg.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://humanres/template/internalorg/RemoveInternalOrg.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>

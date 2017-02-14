@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="ManufacturingReports">
         <section>
             <actions>
@@ -29,12 +29,12 @@ under the License.
                 <set field="mrpName" from-field="parameters.mrpName"/>
             </actions>
             <widgets>
-                <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
+                <decorator-screen name="CommonManufacturingDecorator" location="${parameters.commonManufacturingDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.ManufacturingReports}">
                             <include-form name="SelectMrpName" location="component://manufacturing/widget/manufacturing/ProductionRunForms.xml"/>
                             <platform-specific>
-                                <html><html-template location="component://manufacturing/webapp/manufacturing/jobshopmgt/MrpReports.ftl"/></html>
+                                <html><html-template location="component://manufacturing/template/jobshopmgt/MrpReports.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>
@@ -52,11 +52,11 @@ under the License.
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/CuttingListReport.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/CuttingListReport.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/jobshopmgt/CuttingListReport.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/jobshopmgt/CuttingListReport.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -76,11 +76,11 @@ under the License.
                 <set field="productCategoryIdPar" from-field="parameters.productCategoryIdPar"/>
                 <set field="productFeatureTypeIdPar" from-field="parameters.productFeatureTypeIdPar"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/PRunsProductsByFeature.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/PRunsProductsByFeature.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/reports/PRunsProductsByFeature.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/reports/PRunsProductsByFeature.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -103,11 +103,11 @@ under the License.
 
                 <entity-one entity-name="Shipment" value-field="shipment"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/PRunsProductsByFeature.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/PRunsProductsByFeature.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/reports/PRunsProductsByFeature.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/reports/PRunsProductsByFeature.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -128,11 +128,11 @@ under the License.
                 <set field="productCategoryIdPar" from-field="parameters.productCategoryIdPar"/>
                 <set field="productFeatureTypeIdPar" from-field="parameters.productFeatureTypeIdPar"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/PRunsComponentsByFeature.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/PRunsComponentsByFeature.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/reports/PRunsComponentsByFeature.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/reports/PRunsComponentsByFeature.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -156,12 +156,12 @@ under the License.
 
                 <entity-one entity-name="Shipment" value-field="shipment"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/PRunsComponentsByFeature.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/PRunsComponentsByFeature.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
                     <!-- NOTE: this is really generating XSL:FO, but the HTML oriented renderer should do fine, the screen will need to be called differently though to get binary output from it -->
-                    <html><html-template location="component://manufacturing/webapp/manufacturing/reports/PRunsComponentsByFeature.fo.ftl"/></html>
+                    <html><html-template location="component://manufacturing/template/reports/PRunsComponentsByFeature.fo.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>
@@ -182,11 +182,11 @@ under the License.
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/PRunsProductsStacks.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/PRunsProductsStacks.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/reports/PRunsProductsStacks.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/reports/PRunsProductsStacks.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -208,12 +208,12 @@ under the License.
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/PackageContentsAndOrder.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/PackageContentsAndOrder.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
                     <!-- NOTE: this is really generating XSL:FO, but the HTML oriented renderer should do fine, the screen will need to be called differently though to get binary output from it -->
-                    <html><html-template location="component://manufacturing/webapp/manufacturing/reports/PackageContentsAndOrder.fo.ftl"/></html>
+                    <html><html-template location="component://manufacturing/template/reports/PackageContentsAndOrder.fo.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>
@@ -234,11 +234,11 @@ under the License.
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/PRunsProductsAndOrder.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/PRunsProductsAndOrder.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/reports/PRunsProductsAndOrder.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/reports/PRunsProductsAndOrder.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -259,11 +259,11 @@ under the License.
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/PRunsInfoAndOrder.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/PRunsInfoAndOrder.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/reports/PRunsInfoAndOrder.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/reports/PRunsInfoAndOrder.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -278,11 +278,11 @@ under the License.
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/ShipmentPlanStockReport.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/ShipmentPlanStockReport.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/reports/ShipmentPlanStockReport.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/reports/ShipmentPlanStockReport.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -297,12 +297,13 @@ under the License.
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/ShipmentLabel.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/ShipmentLabel.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/reports/ShipmentLabel.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/reports/ShipmentLabel.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -315,13 +316,14 @@ under the License.
                 <set field="shipmentId" from-field="parameters.shipmentId"/>
                 <property-map resource="ManufacturingReportsUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/reports/ShipmentWorkEffortTasks.groovy"/>
+                <script location="component://manufacturing/groovyScripts/reports/ShipmentWorkEffortTasks.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://manufacturing/webapp/manufacturing/reports/ShipmentWorkEffortTasks.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://manufacturing/template/reports/ShipmentWorkEffortTasks.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>

@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="WorkEffortSummary">
         <section>
             <actions>
@@ -76,7 +76,7 @@ under the License.
                                     <label text="${uiLabelMap.PageTitleListWorkEffortPartyAssigns}"/>
                                 </container>
                                 <container style="screenlet-body">
-                                    <include-form location="component://workeffort/widget/WorkEffortForms.xml" name="DisplayWorkEffortPartyAssigns"/>
+                                    <include-form name="DisplayWorkEffortPartyAssigns" location="component://workeffort/widget/WorkEffortForms.xml"/>
                                 </container>
                             </widgets>
                         </section>
@@ -88,7 +88,7 @@ under the License.
                                     <label text="${uiLabelMap.PageTitleListWorkEffortFixedAssetAssigns}"/>
                                 </container>
                                 <container style="screenlet-body">
-                                    <include-form location="component://workeffort/widget/WorkEffortForms.xml" name="DisplayWorkEffortFixedAssetAssigns"/>
+                                    <include-form name="DisplayWorkEffortFixedAssetAssigns" location="component://workeffort/widget/WorkEffortForms.xml"/>
                                 </container>
                             </widgets>
                         </section>

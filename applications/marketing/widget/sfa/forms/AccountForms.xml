@@ -19,11 +19,11 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="NewAccount" type="single" target="createAccount" header-row-style="header-row" default-table-style="basic-table">
         <field name="accountType"><hidden value="${accountType}"/></field>
-        <field name="groupName" title="${uiLabelMap.PartyGroupName}" tooltip="${uiLabelMap.CommonRequired}" widget-style="required">
+        <field name="groupName" title="${uiLabelMap.PartyGroupName}" required-field="true">
             <text size="30" maxlength="60"/>
         </field>
         <field name="numEmployees" title="${uiLabelMap.MarketingNoOfEmployees}"><text size="30"/></field>
@@ -31,14 +31,14 @@ under the License.
         <field name="postalAddressTitle" title="${uiLabelMap.PartyGeneralCorrespondenceAddress}" title-area-style="group-label">
             <display description=" " also-hidden="false"/>
         </field>
-        <field name="address1" title="${uiLabelMap.CommonAddress1}" tooltip="${uiLabelMap.CommonRequired}" widget-style="required">
+        <field name="address1" title="${uiLabelMap.CommonAddress1}" required-field="true">
             <text size="50" maxlength="60"/>
         </field>
         <field name="address2" title="${uiLabelMap.CommonAddress2}"><text size="50" maxlength="60"/></field>
-        <field name="city" tooltip="${uiLabelMap.CommonRequired}" widget-style="required">
+        <field name="city" required-field="true">
             <text size="30" maxlength="60"/>
         </field>
-        <field name="stateProvinceGeoId" title="${uiLabelMap.CommonState}" tooltip="${uiLabelMap.CommonRequired}" widget-style="required">
+        <field name="stateProvinceGeoId" title="${uiLabelMap.CommonState}" required-field="true">
             <drop-down allow-empty="true">
                 <entity-options entity-name="Geo" key-field-name="geoId" description="${geoName} - ${geoId}">
                     <entity-constraint name="geoTypeId" operator="in" value="STATE,PROVINCE"/>
@@ -46,11 +46,11 @@ under the License.
                 </entity-options>
             </drop-down>
         </field>
-        <field name="postalCode" title="${uiLabelMap.CommonZipPostalCode}" tooltip="${uiLabelMap.CommonRequired}" widget-style="required">
+        <field name="postalCode" title="${uiLabelMap.CommonZipPostalCode}" required-field="true">
             <text size="10" maxlength="30"/>
         </field>
-        <field name="stateProvinceGeoId" title="${uiLabelMap.CommonState}" widget-style="required"><drop-down allow-empty="false"/></field>
-        <field name="countryGeoId" title="${uiLabelMap.CommonCountry}" tooltip="${uiLabelMap.CommonRequired}" widget-style="required">
+        <field name="stateProvinceGeoId" title="${uiLabelMap.CommonState}" required-field="true"><drop-down allow-empty="false"/></field>
+        <field name="countryGeoId" title="${uiLabelMap.CommonCountry}" required-field="true">
             <drop-down no-current-selected-key="${defaultCountryGeoId}">
                 <entity-options entity-name="Geo" key-field-name="geoId" description="${geoName} - ${geoId}">
                     <entity-constraint name="geoTypeId" value="COUNTRY"/>
@@ -76,7 +76,7 @@ under the License.
         <field name="contactMechTypeId" event="onchange" action="javascript:ajaxUpdateAreas('contactMechContainer,ContactMechTypeOnly,contactMechTypeId=' + this.value);">
             <drop-down>
                 <option key="" description="${uiLabelMap.CommonNone}"/>
-                <entity-options entity-name="ContactMechType" key-field-name="contactMechTypeId" description="${description}"/>
+                <entity-options entity-name="ContactMechType" key-field-name="contactMechTypeId"/>
             </drop-down>
         </field>
         <field name="contactMechContainer" id-name="contactMechContainer" title=" "><container/></field>
@@ -85,7 +85,7 @@ under the License.
             <submit button-type="button"/>
         </field>
     </form>
-    <form name="listAccounts" paginate-target="${currentUrl}" type="list" list-name="listIt"
+    <form name="ListAccounts" paginate-target="${currentUrl}" type="list" list-name="listIt"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" separate-columns="true">
         <actions>
             <set field="roleTypeIdFrom" value="OWNER"/>
@@ -106,7 +106,7 @@ under the License.
         </actions>
         <row-actions>
             <entity-one entity-name="Party" value-field="party" use-cache="true"/>
-            <set field="partyName" value="${groovy:org.ofbiz.party.party.PartyHelper.getPartyName(party, true)}"/>
+            <set field="partyName" value="${groovy:org.apache.ofbiz.party.party.PartyHelper.getPartyName(party, true)}"/>
             <entity-and entity-name="PartyAndContactMech" list="emailAddresses" filter-by-date="true">
                 <field-map field-name="partyId"/>
                 <field-map field-name="contactMechTypeId" value="EMAIL_ADDRESS"/>
@@ -138,8 +138,9 @@ under the License.
             <set field="existRelationship" from-field="existRelationships[0]"/>
         </row-actions>
         <field name="partyId" title="${uiLabelMap.PartyPartyId}">
-            <hyperlink target="viewprofile" description="${partyName} [${partyId}]">
+            <hyperlink description="${partyName} [${partyId}]" target="viewprofile" >
                 <parameter param-name="partyId"/>
+                <parameter param-name="roleTypeId"/>
             </hyperlink>
         </field>
         <field name="emailAddress"><display description="${emailAddresses[0].infoString}"/></field>
@@ -151,16 +152,16 @@ under the License.
             <display-entity entity-name="Geo" description="${geoName}" key-field-name="geoId"/>
         </field>
         <field name="relatedCompany" use-when="relatedCompanyPartyId!=null" title="${uiLabelMap.PartyRelatedCompany}">
-            <hyperlink target="viewprofile" description="${groovy:org.ofbiz.party.party.PartyHelper.getPartyName(delegator,relatedCompanyPartyId,true);} [${relatedCompanyPartyId}]">
+            <hyperlink description="${groovy:org.apache.ofbiz.party.party.PartyHelper.getPartyName(delegator,relatedCompanyPartyId,true);} [${relatedCompanyPartyId}]" target="viewprofile">
                 <parameter param-name="partyId" from-field="relatedCompanyPartyId"/>
             </hyperlink>
         </field>
         <field name="relatedCompany" use-when="relatedCompanyPartyId==null" title="${uiLabelMap.PartyRelatedCompany}"><display/></field>
     </form>
-    <form name="ListAccounts" extends="listAccounts">
+    <form name="ListAccounts" extends="ListAccounts">
         <field name="assignToMe" use-when="existRelationship==null&amp;&amp;!&quot;false&quot;.equals(parameters.get(&quot;all&quot;))"
                 title="${uiLabelMap.SfaAssignToMe}" widget-style="buttontext">
-            <hyperlink target="createPartyRelationshipAndRole" description="${uiLabelMap.SfaAssignToMe}">
+            <hyperlink description="${uiLabelMap.SfaAssignToMe}" target="createPartyRelationshipAndRole">
                 <parameter param-name="partyIdFrom" from-field="userLogin.partyId"/>
                 <parameter param-name="roleTypeIdFrom"/>
                 <parameter param-name="roleTypeIdTo"/>
@@ -231,7 +232,7 @@ under the License.
         <field name="infoString" title="${contactMechType.description}"><text-find/></field>
     </form>
 
-    <form name="listAccountLeads" extends="listAccounts">
+    <form name="ListAccountLeads" extends="ListAccounts">
         <actions>
             <set field="roleTypeIdTo" value="ACCOUNT_LEAD"/>
             <set field="parameters.statusId" value="PARTY_DISABLED"/>

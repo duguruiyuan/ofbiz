@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
- xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+ xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <!-- DataResource forms -->
     <form name="FindDataResource" target="findDataResource" type="single"
         header-row-style="header-row" default-table-style="basic-table">
@@ -28,7 +28,7 @@ under the License.
         <field name="dataResourceName"><text-find ignore-case="true"/></field>
         <field name="dataResourceTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="DataResourceType" key-field-name="dataResourceTypeId">
+                <entity-options entity-name="DataResourceType" key-field-name="dataResourceTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -41,19 +41,19 @@ under the License.
             </drop-down>
         </field>
         <field name="statusId">
-            <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="StatusItem">
+            <check all-checked="false">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="CONTENT_STATUS"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
-            </drop-down>
+            </check>
         </field>
         <field name="localeString" position="2">
             <lookup target-form-name="LookupLocale"></lookup>
         </field>
         <!--<field name="localeString" position="2">
             <drop-down allow-empty="true">
-                <entity-options entity-name="CountryCode" description="${countryName} [${countryCode}]" key-field-name="countryCode">
+                <entity-options entity-name="CountryCode" key-field-name="countryCode" description="${countryName} [${countryCode}]">
                     <entity-order-by field-name="countryName"/>
                 </entity-options>
             </drop-down>
@@ -88,9 +88,9 @@ under the License.
                 </sub-hyperlink>
             </display-entity>
         </field>
-        <field name="dataResourceTypeId" sort-field="true"><display-entity entity-name="DataResourceType" description="${description}"></display-entity></field>
-        <field name="mimeTypeId" sort-field="true"><display-entity entity-name="MimeType" description="${description}"></display-entity></field>
-        <field name="statusId" sort-field="true"><display-entity entity-name="StatusItem" description="${description}"></display-entity></field>
+        <field name="dataResourceTypeId" sort-field="true"><display-entity entity-name="DataResourceType"></display-entity></field>
+        <field name="mimeTypeId" sort-field="true"><display-entity entity-name="MimeType"></display-entity></field>
+        <field name="statusId" sort-field="true"><display-entity entity-name="StatusItem"></display-entity></field>
         <field name="localeString" sort-field="true"><display-entity entity-name="CountryCode" description="${countryName}[${countryCode}]" key-field-name="countryCode"></display-entity></field>
         <field name="createdByUserLogin" sort-field="true"><display-entity also-hidden="false" entity-name="PartyNameView" key-field-name="partyId" description="${groupName}${firstName} ${lastName}"/></field>
         <field name="dataCategoryId" sort-field="true"><display-entity entity-name="DataCategory" description="${categoryName}[${dataCategoryId}]"></display-entity></field>
@@ -141,14 +141,14 @@ under the License.
             </service>
         </actions>
         <field name="dataResourceId" title="${uiLabelMap.ContentDataResourceId}">
-            <hyperlink also-hidden="false" target-type="plain" description="${dataResourceId}" target="javascript:set_value('${dataResourceId}')"/>
+            <hyperlink description="${dataResourceId}" target="javascript:set_value('${dataResourceId}')" also-hidden="false" target-type="plain"/>
         </field>
         <field name="dataResourceName"><display/></field>
     </form>
-    <form name="mruLookupDataResource" default-entity-name="DataResource" list-name="mruList" target="" title="" type="list" default-widget-style="display"
+    <form name="MruLookupDataResource" default-entity-name="DataResource" list-name="mruList" target="" title="" type="list" default-widget-style="display"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="contentId" widget-style="buttontext">
-            <hyperlink also-hidden="false" target-type="plain" description="${dataResourceId}" target="javascript:set_value('${dataResourceId}')"/>
+            <hyperlink description="${dataResourceId}" target="javascript:set_value('${dataResourceId}')" also-hidden="false" target-type="plain"/>
         </field>
         <field name="dataResourceName" widget-style="buttontext"><display/></field>
         <field name="dataCategoryId" widget-style="buttontext"><display/></field>
@@ -162,19 +162,19 @@ under the License.
         </actions>
         <alt-target use-when="currentValue==null" target="createDataResource"/>
         <auto-fields-entity entity-name="DataResource" default-field-type="edit"/>
-        <field use-when="currentValue!=null" name="dataResourceId" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="currentValue!=null" name="dataResourceId"><display/></field>
         <field use-when="currentValue==null&amp;&amp;dataResourceId==null" name="dataResourceId"><text/></field>
         <field use-when="currentValue==null&amp;&amp;dataResourceId!=null" name="dataResourceId"><display description="${uiLabelMap.CommonCannotBeFound}: [${dataResourceId}]" also-hidden="false"/></field>
         <field name="dataResourceTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="DataResourceType" key-field-name="dataResourceTypeId">
+                <entity-options entity-name="DataResourceType" key-field-name="dataResourceTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="dataTemplateTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="DataTemplateType" key-field-name="dataTemplateTypeId">
+                <entity-options entity-name="DataTemplateType" key-field-name="dataTemplateTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -205,7 +205,7 @@ under the License.
         </field>
         <field name="characterSetId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="CharacterSet" key-field-name="characterSetId"/>
+                <entity-options entity-name="CharacterSet" key-field-name="characterSetId"/>
             </drop-down>
         </field>
 
@@ -227,7 +227,7 @@ under the License.
             </entity-and>
         </actions>
         <field name="contentId" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${contentId}" target="/EditContent">
+            <hyperlink description="${contentId}" target="/EditContent" also-hidden="false">
                 <parameter param-name="contentId"/>
             </hyperlink>
         </field>
@@ -241,17 +241,17 @@ under the License.
         <field name="dataResourceId" title="${uiLabelMap.ContentDataResourceId}"></field>
         <field name="dataResourceTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="DataResourceType" key-field-name="dataResourceTypeId"/>
+                <entity-options entity-name="DataResourceType" key-field-name="dataResourceTypeId"/>
             </drop-down>
         </field>
         <field name="dataTemplateTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="DataTemplateType" key-field-name="dataTemplateTypeId"/>
+                <entity-options entity-name="DataTemplateType" key-field-name="dataTemplateTypeId"/>
             </drop-down>
         </field>
         <field name="statusId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="StatusItem" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" value="CONTENT_STATUS"/>
                     <entity-order-by field-name="sequenceId"/>
                 </entity-options>
@@ -274,7 +274,7 @@ under the License.
         </field>
         <field name="characterSetId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="CharacterSet" key-field-name="characterSetId"/>
+                <entity-options entity-name="CharacterSet" key-field-name="characterSetId"/>
             </drop-down>
         </field>
         <field name="createdDate"><display/></field>
@@ -375,7 +375,7 @@ under the License.
         <field name="attrValue"><text/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeDataResourceAttribute">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeDataResourceAttribute" also-hidden="false">
                 <parameter param-name="dataResourceId"/>
                 <parameter param-name="attrName"/>
             </hyperlink>
@@ -390,9 +390,10 @@ under the License.
         <field name="partyId" title=" "><lookup target-form-name="LookupPerson"/></field>
         <field name="roleTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="RoleType" key-field-name="roleTypeId"/>
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId"/>
             </drop-down>
         </field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
     <form name="ListDataResourceRole" list-name="dataResourceRole" target="updateDataResourceRole" title="" type="list"
@@ -409,7 +410,7 @@ under the License.
         <field name="thruDate" widget-style="buttontext"><date-time/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeDataResourceRole">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeDataResourceRole" also-hidden="false">
                 <parameter param-name="dataResourceId"/>
                 <parameter param-name="roleTypeId"/>
                 <parameter param-name="partyId"/>
@@ -438,42 +439,42 @@ under the License.
         </actions>
         <auto-fields-entity entity-name="ProductFeatureDataResource" default-field-type="display"/>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeDataResourceProductFeature">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeDataResourceProductFeature" also-hidden="false">
                 <parameter param-name="dataResourceId"/>
                 <parameter param-name="productFeatureId"/>
             </hyperlink>
         </field>
     </form>
-    <form name="lookupProductFeature" target="LookupProductFeature" title="" type="single"
+    <form name="LookupProductFeature" target="LookupProductFeature" title="" type="single"
         header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="ProductFeature" default-field-type="find"/>
         <field name="productFeatureTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="ProductFeatureType">
+                <entity-options entity-name="ProductFeatureType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="productFeatureCategoryId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="ProductFeatureCategory">
+                <entity-options entity-name="ProductFeatureCategory">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonFind}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
-    <form name="listLookupProductFeature" list-name="entityList" title="" type="list" paginate-target="LookupProductFeature"
+    <form name="ListLookupProductFeature" list-name="entityList" title="" type="list" paginate-target="LookupProductFeature"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <auto-fields-entity entity-name="ProductFeature" default-field-type="display"/>
         <field name="productFeatureId" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" target-type="plain" description="${productFeatureId}" target="javascript:set_value('${productFeatureId}')"/>
+            <hyperlink description="${productFeatureId}" target="javascript:set_value('${productFeatureId}')" also-hidden="false" target-type="plain"/>
         </field>
     </form>
-    <form name="mruLookupProductFeature" default-entity-name="ProductFeature" list-name="mruList" target="" title="" type="list"
+    <form name="MruLookupProductFeature" default-entity-name="ProductFeature" list-name="mruList" target="" title="" type="list"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="contentId" widget-style="buttontext">
-            <hyperlink also-hidden="false" target-type="plain" description="${productFeatureId}" target="javascript:set_value('${productFeatureId}')"/>
+            <hyperlink description="${productFeatureId}" target="javascript:set_value('${productFeatureId}')" also-hidden="false" target-type="plain"/>
         </field>
         <field name="description" title="${uiLabelMap.FormFieldTitle_contentName}" widget-style="buttontext"><display/></field>
         <field name="productFeatureTypeId" title="${uiLabelMap.CommonType}" widget-style="buttontext"><display/></field>

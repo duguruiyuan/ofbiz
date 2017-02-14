@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="FindBatchPayments" type="single" target="batchPayments">
         <actions>
@@ -28,7 +28,7 @@ under the License.
         </actions>
         <field name="paymentMethodTypeId" title="${uiLabelMap.FormFieldTitle_paymentMethodTypeId}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="PaymentMethodType" description="${description}">
+                <entity-options entity-name="PaymentMethodType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -37,7 +37,7 @@ under the License.
         <field name="noConditionFind"><hidden/></field>
         <field name="cardType" tooltip="Select Credit Card from above list of Payment Method Types.">
             <drop-down allow-empty="true">
-                <entity-options entity-name="Enumeration" description="${enumCode}" key-field-name="enumCode">
+                <entity-options entity-name="Enumeration" key-field-name="enumCode" description="${enumCode}">
                     <entity-constraint name="enumTypeId" operator="equals" value="CREDIT_CARD_TYPE"/>
                     <entity-order-by field-name="enumId"/>
                 </entity-options>
@@ -57,7 +57,7 @@ under the License.
         <field name="parentTypeId"><hidden value="RECEIPT"/></field>
         <field name="paymentTypeId" position="1">
             <drop-down allow-empty="true">
-                <entity-options entity-name="PaymentType" description="${description}">
+                <entity-options entity-name="PaymentType">
                     <entity-constraint name="parentTypeId" value="RECEIPT"/>
                 </entity-options>
             </drop-down>

@@ -110,21 +110,21 @@ under the License.
     <!-- This is meant to be set manually by a company representative to freeze an account so further transactions are not allowed. Was isFrozen -->
     <StatusItem description="Manually Frozen" sequenceId="03" statusCode="MANFROZEN" statusId="FNACT_MANFROZEN" statusTypeId="FINACCT_STATUS"/>
     <StatusItem description="Cancelled" sequenceId="09" statusCode="CANCELLED" statusId="FNACT_CANCELLED" statusTypeId="FINACCT_STATUS"/>
-    <StatusValidChange condition="" statusId="FNACT_ACTIVE" statusIdTo="FNACT_NEGPENDREPL" transitionName="Set Negative Pending Replenishment"/>
-    <StatusValidChange condition="" statusId="FNACT_ACTIVE" statusIdTo="FNACT_MANFROZEN" transitionName="Set Manually Frozen"/>
-    <StatusValidChange condition="" statusId="FNACT_ACTIVE" statusIdTo="FNACT_CANCELLED" transitionName="Cancel"/>
-    <StatusValidChange condition="" statusId="FNACT_NEGPENDREPL" statusIdTo="FNACT_ACTIVE" transitionName="Re-activate"/>
-    <StatusValidChange condition="" statusId="FNACT_NEGPENDREPL" statusIdTo="FNACT_MANFROZEN" transitionName="Manually Freeze"/>
-    <StatusValidChange condition="" statusId="FNACT_NEGPENDREPL" statusIdTo="FNACT_CANCELLED" transitionName="Cancel"/>
-    <StatusValidChange condition="" statusId="FNACT_MANFROZEN" statusIdTo="FNACT_ACTIVE" transitionName="Re-activate"/>
-    <StatusValidChange condition="" statusId="FNACT_MANFROZEN" statusIdTo="FNACT_CANCELLED" transitionName="Cancel"/>
+    <StatusValidChange statusId="FNACT_ACTIVE" statusIdTo="FNACT_NEGPENDREPL" transitionName="Set Negative Pending Replenishment"/>
+    <StatusValidChange statusId="FNACT_ACTIVE" statusIdTo="FNACT_MANFROZEN" transitionName="Set Manually Frozen"/>
+    <StatusValidChange statusId="FNACT_ACTIVE" statusIdTo="FNACT_CANCELLED" transitionName="Cancel"/>
+    <StatusValidChange statusId="FNACT_NEGPENDREPL" statusIdTo="FNACT_ACTIVE" transitionName="Re-activate"/>
+    <StatusValidChange statusId="FNACT_NEGPENDREPL" statusIdTo="FNACT_MANFROZEN" transitionName="Manually Freeze"/>
+    <StatusValidChange statusId="FNACT_NEGPENDREPL" statusIdTo="FNACT_CANCELLED" transitionName="Cancel"/>
+    <StatusValidChange statusId="FNACT_MANFROZEN" statusIdTo="FNACT_ACTIVE" transitionName="Re-activate"/>
+    <StatusValidChange statusId="FNACT_MANFROZEN" statusIdTo="FNACT_CANCELLED" transitionName="Cancel"/>
     <StatusType statusTypeId="FINACT_TRNS_STATUS" description="Financial Account Trans Status" hasTable="N" parentTypeId=""/>
     <StatusItem statusId="FINACT_TRNS_APPROVED" statusTypeId="FINACT_TRNS_STATUS" statusCode="APPROVED" sequenceId="11" description="Approved"/>
     <StatusItem statusId="FINACT_TRNS_CREATED" statusTypeId="FINACT_TRNS_STATUS" statusCode="CREATED" sequenceId="12" description="Created"/>
     <StatusItem statusId="FINACT_TRNS_CANCELED" statusTypeId="FINACT_TRNS_STATUS" statusCode="CANCELED" sequenceId="13" description="Canceled"/>
-    <StatusValidChange condition="" statusId="FINACT_TRNS_CREATED" statusIdTo="FINACT_TRNS_APPROVED" transitionName="Set Created to Approved"/>
-    <StatusValidChange condition="" statusId="FINACT_TRNS_CREATED" statusIdTo="FINACT_TRNS_CANCELED" transitionName="Set Created to Canceled"/>
-    <StatusValidChange condition="" statusId="FINACT_TRNS_APPROVED" statusIdTo="FINACT_TRNS_CANCELED" transitionName="Set Approved to Canceled"/>
+    <StatusValidChange statusId="FINACT_TRNS_CREATED" statusIdTo="FINACT_TRNS_APPROVED" transitionName="Set Created to Approved"/>
+    <StatusValidChange statusId="FINACT_TRNS_CREATED" statusIdTo="FINACT_TRNS_CANCELED" transitionName="Set Created to Canceled"/>
+    <StatusValidChange statusId="FINACT_TRNS_APPROVED" statusIdTo="FINACT_TRNS_CANCELED" transitionName="Set Approved to Canceled"/>
 
     <!-- FinAccount Reasons for Purchase & Replenish -->
     <EnumerationType description="Service Debit Reasons" enumTypeId="FINACCT_TRANS_REASON" parentTypeId="" hasTable="N"/>
@@ -183,12 +183,12 @@ under the License.
     <StatusItem description="In Process" sequenceId="05" statusCode="IN_PROCESS" statusId="FAM_IN_PROCESS" statusTypeId="FIXEDAST_MNT_STATUS"/>
     <StatusItem description="Completed" sequenceId="10" statusCode="COMPLETED" statusId="FAM_COMPLETED" statusTypeId="FIXEDAST_MNT_STATUS"/>
     <StatusItem description="Cancelled" sequenceId="99" statusCode="CANCELLED" statusId="FAM_CANCELLED" statusTypeId="FIXEDAST_MNT_STATUS"/>
-    <StatusValidChange condition="" statusId="FAM_CREATED" statusIdTo="FAM_SCHEDULED" transitionName="Created Maintenance Scheduled"/>
-    <StatusValidChange condition="" statusId="FAM_CREATED" statusIdTo="FAM_IN_PROCESS" transitionName="Created Maintenance In-Process"/>
-    <StatusValidChange condition="" statusId="FAM_CREATED" statusIdTo="FAM_CANCELLED" transitionName="Created Maintenace Cancelled"/>
-    <StatusValidChange condition="" statusId="FAM_SCHEDULED" statusIdTo="FAM_IN_PROCESS" transitionName="Scheduled Maintenace In-Process"/>
-    <StatusValidChange condition="" statusId="FAM_SCHEDULED" statusIdTo="FAM_CANCELLED" transitionName="Scheduled Maintenace Cancelled"/>
-    <StatusValidChange condition="" statusId="FAM_IN_PROCESS" statusIdTo="FAM_COMPLETED" transitionName="In-Process Maintenance Completed"/>
+    <StatusValidChange statusId="FAM_CREATED" statusIdTo="FAM_SCHEDULED" transitionName="Created Maintenance Scheduled"/>
+    <StatusValidChange statusId="FAM_CREATED" statusIdTo="FAM_IN_PROCESS" transitionName="Created Maintenance In-Process"/>
+    <StatusValidChange statusId="FAM_CREATED" statusIdTo="FAM_CANCELLED" transitionName="Created Maintenace Cancelled"/>
+    <StatusValidChange statusId="FAM_SCHEDULED" statusIdTo="FAM_IN_PROCESS" transitionName="Scheduled Maintenace In-Process"/>
+    <StatusValidChange statusId="FAM_SCHEDULED" statusIdTo="FAM_CANCELLED" transitionName="Scheduled Maintenace Cancelled"/>
+    <StatusValidChange statusId="FAM_IN_PROCESS" statusIdTo="FAM_COMPLETED" transitionName="In-Process Maintenance Completed"/>
     
     <!-- Fixed Asset Maintenance party roles -->
     <RoleType description="Fixed Asset Maint Assignee" hasTable="N" roleTypeId="FAM_ASSIGNEE"/>
@@ -425,6 +425,7 @@ under the License.
     <InvoiceItemType description="Invoice Item Surcharge(Sales)" hasTable="N" invoiceItemTypeId="ITM_SURCHARGE_ADJ" parentTypeId="SINVOICE_ITM_ADJ"/>
     <InvoiceItemType description="Invoice Item Additional Feature(Sales)" hasTable="N" invoiceItemTypeId="ITM_ADD_FEATURE" parentTypeId="SINVOICE_ITM_ADJ"/>
     <InvoiceItemType description="Invoice Item Warranty(Sales)" hasTable="N" invoiceItemTypeId="ITM_WARRANTY_ADJ" parentTypeId="SINVOICE_ITM_ADJ"/>
+    <InvoiceItemType description="Invoice Item VAT Tax(Sales)" hasTable="N" invoiceItemTypeId="ITM_VAT_TAX" parentTypeId="SINVOICE_ITM_ADJ"/>
 
     <InvoiceItemType description="Invoice Product Item(Sales)" hasTable="N" invoiceItemTypeId="INV_PROD_ITEM" parentTypeId=""/>
     <InvoiceItemType description="Invoice Finished Good Item(Sales)" hasTable="N" invoiceItemTypeId="INV_FPROD_ITEM" parentTypeId="INV_PROD_ITEM"/>
@@ -463,6 +464,7 @@ under the License.
     <InvoiceItemType description="Invoice Digital Good Item(Purchase)" hasTable="N" invoiceItemTypeId="PINV_DPROD_ITEM" parentTypeId="PINV_PROD_ITEM"/>
     <InvoiceItemType description="Invoice Finished/Digital Good Item(Purchase)" hasTable="N" invoiceItemTypeId="PINV_FDPROD_ITEM" parentTypeId="PINV_PROD_ITEM"/>
     <InvoiceItemType description="Invoice Product-Feature Item(Purchase)" hasTable="N" invoiceItemTypeId="PINV_PROD_FEATR_ITEM" parentTypeId="PINV_PROD_ITEM"/>
+    <InvoiceItemType description="Invoice Raw Material(Purchase)" hasTable="N" invoiceItemTypeId="PINV_RPROD_ITEM" parentTypeId="PINV_PROD_ITEM"/>
     <InvoiceItemType description="Invoice Service Product Item(Purchase)" hasTable="N" invoiceItemTypeId="PINV_SPROD_ITEM" parentTypeId="PINV_PROD_ITEM"/>
 
     <InvoiceItemType description="Invoice Inventory Product Item" hasTable="N" invoiceItemTypeId="PINV_INVPRD_ITEM" parentTypeId="PINV_PROD_ITEM"/>
@@ -530,13 +532,14 @@ under the License.
     <InvoiceItemType description="Commission Invoice Line Item" hasTable="N" invoiceItemTypeId="COMM_INV_ITEM" parentTypeId=""/>
     <InvoiceItemType description="Commission Invoice Adjustment" hasTable="N" invoiceItemTypeId="COMM_INV_ADJ" parentTypeId="INVOICE_ADJ"/>
 
-    <InvoiceType description="Purchase Invoice" hasTable="N" invoiceTypeId="PURCHASE_INVOICE" parentTypeId="PURCHASE_INVOICE"/>
-    <InvoiceType description="Sales Invoice" hasTable="N" invoiceTypeId="SALES_INVOICE" parentTypeId="SALES_INVOICE"/>
+    <InvoiceType description="Invoice" hasTable="N" invoiceTypeId="INVOICE"/>
+    <InvoiceType description="Purchase Invoice" hasTable="N" invoiceTypeId="PURCHASE_INVOICE" parentTypeId="INVOICE"/>
+    <InvoiceType description="Sales Invoice" hasTable="N" invoiceTypeId="SALES_INVOICE" parentTypeId="INVOICE"/>
     <InvoiceType description="Customer Return" hasTable="N" invoiceTypeId="CUST_RTN_INVOICE" parentTypeId="PURCHASE_INVOICE"/>
     <InvoiceType description="Purchase Return" hasTable="N" invoiceTypeId="PURC_RTN_INVOICE" parentTypeId="SALES_INVOICE"/>
     <InvoiceType description="Commission" hasTable="N" invoiceTypeId="COMMISSION_INVOICE" parentTypeId="PURCHASE_INVOICE"/>
     <InvoiceType description="Interest" hasTable="N" invoiceTypeId="INTEREST_INVOICE" parentTypeId="SALES_INVOICE"/>
-    <InvoiceType description="Invoice Template" hasTable="N" invoiceTypeId="TEMPLATE"/>
+    <InvoiceType description="Invoice Template" hasTable="N" invoiceTypeId="TEMPLATE" parentTypeId="INVOICE"/>
     <InvoiceType description="Sales Invoice Template" hasTable="N" invoiceTypeId="SALES_INV_TEMPLATE" parentTypeId="TEMPLATE"/>
     <InvoiceType description="Purchase Invoice Template" hasTable="N" invoiceTypeId="PUR_INV_TEMPLATE" parentTypeId="TEMPLATE"/>
 
@@ -547,6 +550,7 @@ under the License.
     <!-- maps line items such as order items to invoice item types.  separate mapping for sales and purchase invoices -->
     <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="FINISHED_GOOD" invoiceItemTypeId="INV_FPROD_ITEM"/>
     <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="SERVICE_PRODUCT" invoiceItemTypeId="INV_SPROD_ITEM"/>
+    <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="SERVICE" invoiceItemTypeId="INV_SPROD_ITEM"/>
     <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="DIGITAL_GOOD" invoiceItemTypeId="INV_DPROD_ITEM"/>
     <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="FINDIG_GOOD" invoiceItemTypeId="INV_FDPROD_ITEM"/>
     <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="PROMOTION_ADJUSTMENT" invoiceItemTypeId="ITM_PROMOTION_ADJ"/>
@@ -559,7 +563,7 @@ under the License.
     <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="SURCHARGE_ADJUSTMENT" invoiceItemTypeId="ITM_SURCHARGE_ADJ"/>
     <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="ADDITIONAL_FEATURE" invoiceItemTypeId="ITM_ADD_FEATURE"/>
     <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="WARRANTY_ADJUSTMENT" invoiceItemTypeId="ITM_WARRANTY_ADJ"/>
-
+    <InvoiceItemTypeMap invoiceTypeId="SALES_INVOICE" invoiceItemMapKey="VAT_TAX" invoiceItemTypeId="ITM_VAT_TAX"/>
     <!-- orderItemTypeId -->
     <InvoiceItemTypeMap invoiceTypeId="PURCHASE_INVOICE" invoiceItemMapKey="INVENTORY_ORDER_ITEM" invoiceItemTypeId="PINV_INVPRD_ITEM"/>
     <InvoiceItemTypeMap invoiceTypeId="PURCHASE_INVOICE" invoiceItemMapKey="SUPPLIES_ORDER_ITEM" invoiceItemTypeId="PINV_SUPLPRD_ITEM"/>
@@ -570,7 +574,8 @@ under the License.
     <InvoiceItemTypeMap invoiceTypeId="PURCHASE_INVOICE" invoiceItemMapKey="DIGITAL_GOOD" invoiceItemTypeId="PINV_DPROD_ITEM"/>
     <InvoiceItemTypeMap invoiceTypeId="PURCHASE_INVOICE" invoiceItemMapKey="FINDIG_GOOD" invoiceItemTypeId="PINV_FDPROD_ITEM"/>
     <InvoiceItemTypeMap invoiceTypeId="PURCHASE_INVOICE" invoiceItemMapKey="SERVICE" invoiceItemTypeId="PINV_SPROD_ITEM"/>
-
+    <InvoiceItemTypeMap invoiceTypeId="PURCHASE_INVOICE" invoiceItemMapKey="RAW_MATERIAL" invoiceItemTypeId="PINV_RPROD_ITEM"/>
+    
     <!-- orderAdjustmentTypeId -->
     <InvoiceItemTypeMap invoiceTypeId="PURCHASE_INVOICE" invoiceItemMapKey="PROMOTION_ADJUSTMENT" invoiceItemTypeId="PITM_PROMOTION_ADJ"/>
     <InvoiceItemTypeMap invoiceTypeId="PURCHASE_INVOICE" invoiceItemMapKey="REPLACE_ADJUSTMENT" invoiceItemTypeId="PITM_REPLACE_ADJ"/>
@@ -602,6 +607,7 @@ under the License.
     <InvoiceItemTypeMap invoiceTypeId="CUST_RTN_INVOICE" invoiceItemMapKey="RET_WARRANTY_ADJ" invoiceItemTypeId="CRT_WARRANTY_ADJ"/>
     <InvoiceItemTypeMap invoiceTypeId="CUST_RTN_INVOICE" invoiceItemMapKey="RET_MAN_ADJ" invoiceItemTypeId="CRT_MAN_ADJ"/>
     <InvoiceItemTypeMap invoiceTypeId="CUST_RTN_INVOICE" invoiceItemMapKey="RET_MKTG_PKG_ADJ" invoiceItemTypeId="CRT_MKTG_PKG_ADJ"/>
+    <InvoiceItemTypeMap invoiceTypeId="CUST_RTN_INVOICE" invoiceItemMapKey="RET_SPROD_ITEM" invoiceItemTypeId="CRT_SPROD_ITEM"/>
 
     <InvoiceItemTypeMap invoiceTypeId="PURC_RTN_INVOICE" invoiceItemMapKey="RET_FPROD_ITEM" invoiceItemTypeId="SRT_FPROD_ITEM"/>
     <InvoiceItemTypeMap invoiceTypeId="PURC_RTN_INVOICE" invoiceItemMapKey="RET_DPROD_ITEM" invoiceItemTypeId="SRT_DPROD_ITEM"/>
@@ -713,10 +719,6 @@ under the License.
     <PaymentType description="Customer Deposit" hasTable="N" parentTypeId="RECEIPT" paymentTypeId="CUSTOMER_DEPOSIT"/>
     <PaymentType description="Interest Receipt" hasTable="N" parentTypeId="RECEIPT" paymentTypeId="INTEREST_RECEIPT"/>
     <PaymentType description="Gift Certificate Deposit" hasTable="N"  parentTypeId="RECEIPT" paymentTypeId="GC_DEPOSIT"/>
-
-    <!-- payment types for POS PAID IN/OUT -->
-    <PaymentType description="POS Paid Out" hasTable="N" parentTypeId="DISBURSEMENT" paymentTypeId="POS_PAID_OUT"/>
-    <PaymentType description="POS Paid In" hasTable="N" parentTypeId="RECEIPT" paymentTypeId="POS_PAID_IN"/>
 
     <!-- Payment Group Type -->
     <PaymentGroupType paymentGroupTypeId="CHECK_RUN" parentTypeId="" hasTable="N" description="Check Run"/>
@@ -885,32 +887,32 @@ under the License.
     <StatusItem description="Write Off" sequenceId="31" statusCode="WRITE OFF" statusId="INVOICE_WRITEOFF" statusTypeId="INVOICE_STATUS"/>
     <StatusItem description="Cancelled" sequenceId="99" statusCode="CANCELLED" statusId="INVOICE_CANCELLED" statusTypeId="INVOICE_STATUS"/>
     <!-- this is the simplest process: IN_PROCESS -> READY or CANCELLED -->
-    <StatusValidChange condition="" statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_READY" transitionName="Mark Ready"/>
-    <StatusValidChange condition="" statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
+    <StatusValidChange statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_READY" transitionName="Mark Ready"/>
+    <StatusValidChange statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
     <!-- this is a more complicated process: IN_PROCESS -> SENT -> (optionally RECEIVED) -> READY or CANCELLED -->
-    <StatusValidChange condition="" statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_SENT" transitionName="Send"/>
-    <StatusValidChange condition="" statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_RECEIVED" transitionName="Receive"/>
-    <StatusValidChange condition="" statusId="INVOICE_SENT" statusIdTo="INVOICE_APPROVED" transitionName="Mark Approved"/>
-    <StatusValidChange condition="" statusId="INVOICE_SENT" statusIdTo="INVOICE_READY" transitionName="Mark Ready"/>
-    <StatusValidChange condition="" statusId="INVOICE_SENT" statusIdTo="INVOICE_RECEIVED" transitionName="Receive"/>
-    <StatusValidChange condition="" statusId="INVOICE_RECEIVED" statusIdTo="INVOICE_READY" transitionName="Mark Receive"/>
-    <StatusValidChange condition="" statusId="INVOICE_SENT" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
-    <StatusValidChange condition="" statusId="INVOICE_RECEIVED" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
+    <StatusValidChange statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_SENT" transitionName="Send"/>
+    <StatusValidChange statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_RECEIVED" transitionName="Receive"/>
+    <StatusValidChange statusId="INVOICE_SENT" statusIdTo="INVOICE_APPROVED" transitionName="Mark Approved"/>
+    <StatusValidChange statusId="INVOICE_SENT" statusIdTo="INVOICE_READY" transitionName="Mark Ready"/>
+    <StatusValidChange statusId="INVOICE_SENT" statusIdTo="INVOICE_RECEIVED" transitionName="Receive"/>
+    <StatusValidChange statusId="INVOICE_RECEIVED" statusIdTo="INVOICE_READY" transitionName="Mark Receive"/>
+    <StatusValidChange statusId="INVOICE_SENT" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
+    <StatusValidChange statusId="INVOICE_RECEIVED" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
     <!-- this is a process to enable modification via the Status IN_PROCESS when the receiver/sender wants an invoice change or to cancel it -->
-    <StatusValidChange condition="" statusId="INVOICE_SENT" statusIdTo="INVOICE_IN_PROCESS" transitionName="Enable sales invoice update"/>
-    <StatusValidChange condition="" statusId="INVOICE_RECEIVED" statusIdTo="INVOICE_IN_PROCESS" transitionName="Enable purch.invoice update"/>
+    <StatusValidChange statusId="INVOICE_SENT" statusIdTo="INVOICE_IN_PROCESS" transitionName="Enable sales invoice update"/>
+    <StatusValidChange statusId="INVOICE_RECEIVED" statusIdTo="INVOICE_IN_PROCESS" transitionName="Enable purch.invoice update"/>
     <!-- an optional approval state is put in before invoice is sent or after it is received -->
-    <StatusValidChange condition="" statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_APPROVED" transitionName="Approve"/>
-    <StatusValidChange condition="" statusId="INVOICE_APPROVED" statusIdTo="INVOICE_SENT" transitionName="Send"/>
-    <StatusValidChange condition="" statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_RECEIVED" transitionName="Receive"/>
-    <StatusValidChange condition="" statusId="INVOICE_RECEIVED" statusIdTo="INVOICE_APPROVED" transitionName="Approve"/>
-    <StatusValidChange condition="" statusId="INVOICE_APPROVED" statusIdTo="INVOICE_READY" transitionName="Mark Ready"/>
+    <StatusValidChange statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_APPROVED" transitionName="Approve"/>
+    <StatusValidChange statusId="INVOICE_APPROVED" statusIdTo="INVOICE_SENT" transitionName="Send"/>
+    <StatusValidChange statusId="INVOICE_IN_PROCESS" statusIdTo="INVOICE_RECEIVED" transitionName="Receive"/>
+    <StatusValidChange statusId="INVOICE_RECEIVED" statusIdTo="INVOICE_APPROVED" transitionName="Approve"/>
+    <StatusValidChange statusId="INVOICE_APPROVED" statusIdTo="INVOICE_READY" transitionName="Mark Ready"/>
     <!-- finally the invoice can be paid or written off.   -->
-    <StatusValidChange condition="" statusId="INVOICE_READY" statusIdTo="INVOICE_PAID" transitionName="Pay"/>
-    <StatusValidChange condition="" statusId="INVOICE_READY" statusIdTo="INVOICE_WRITEOFF" transitionName="Write Off"/>
-    <StatusValidChange condition="" statusId="INVOICE_PAID" statusIdTo="INVOICE_READY" transitionName="Unpay"/>
-    <StatusValidChange condition="" statusId="INVOICE_READY" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
-    <StatusValidChange condition="" statusId="INVOICE_PAID" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
+    <StatusValidChange statusId="INVOICE_READY" statusIdTo="INVOICE_PAID" transitionName="Pay"/>
+    <StatusValidChange statusId="INVOICE_READY" statusIdTo="INVOICE_WRITEOFF" transitionName="Write Off"/>
+    <StatusValidChange statusId="INVOICE_PAID" statusIdTo="INVOICE_READY" transitionName="Unpay"/>
+    <StatusValidChange statusId="INVOICE_READY" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
+    <StatusValidChange statusId="INVOICE_PAID" statusIdTo="INVOICE_CANCELLED" transitionName="Cancel"/>
 
     <!-- payment status -->
     <StatusType description="Payment Status" hasTable="N" parentTypeId="" statusTypeId="PMNT_STATUS"/>
@@ -920,18 +922,18 @@ under the License.
     <StatusItem description="Confirmed" sequenceId="05" statusCode="CONFIRMED" statusId="PMNT_CONFIRMED" statusTypeId="PMNT_STATUS"/>
     <StatusItem description="Cancelled" sequenceId="10" statusCode="CANCELLED" statusId="PMNT_CANCELLED" statusTypeId="PMNT_STATUS"/>
     <StatusItem description="Voided" sequenceId="11" statusCode="VOID" statusId="PMNT_VOID" statusTypeId="PMNT_STATUS"/>
-    <StatusValidChange condition="" statusId="PMNT_NOT_PAID" statusIdTo="PMNT_SENT" transitionName="Payment Send"/>
-    <StatusValidChange condition="" statusId="PMNT_NOT_PAID" statusIdTo="PMNT_RECEIVED" transitionName="Payment Received"/>
-    <StatusValidChange condition="" statusId="PMNT_NOT_PAID" statusIdTo="PMNT_CANCELLED" transitionName="Payment Cancelled"/>
-    <StatusValidChange condition="" statusId="PMNT_SENT" statusIdTo="PMNT_CONFIRMED" transitionName="Payment Confirmed"/>
-    <StatusValidChange condition="" statusId="PMNT_RECEIVED" statusIdTo="PMNT_CONFIRMED" transitionName="Payment Confirmed"/>
-    <StatusValidChange condition="" statusId="PMNT_SENT" statusIdTo="PMNT_VOID" transitionName="Payment Voided"/>
-    <StatusValidChange condition="" statusId="PMNT_RECEIVED" statusIdTo="PMNT_VOID" transitionName="Payment Voided"/>
-    <StatusValidChange condition="" statusId="PMNT_NOT_PAID" statusIdTo="PMNT_VOID" transitionName="Payment Voided"/>
-    <StatusValidChange condition="" statusId="PMNT_SENT" statusIdTo="PMNT_NOT_PAID" transitionName="Payment Not Paid"/>
-    <StatusValidChange condition="" statusId="PMNT_RECEIVED" statusIdTo="PMNT_NOT_PAID" transitionName="Payment Not Paid"/>
-    <StatusValidChange condition="" statusId="PMNT_CONFIRMED" statusIdTo="PMNT_SENT" transitionName="Payment Confirmed to Sent"/>
-    <StatusValidChange condition="" statusId="PMNT_CONFIRMED" statusIdTo="PMNT_RECEIVED" transitionName="Payment Confirmed to Received"/>
+    <StatusValidChange statusId="PMNT_NOT_PAID" statusIdTo="PMNT_SENT" transitionName="Payment Send"/>
+    <StatusValidChange statusId="PMNT_NOT_PAID" statusIdTo="PMNT_RECEIVED" transitionName="Payment Received"/>
+    <StatusValidChange statusId="PMNT_NOT_PAID" statusIdTo="PMNT_CANCELLED" transitionName="Payment Cancelled"/>
+    <StatusValidChange statusId="PMNT_SENT" statusIdTo="PMNT_CONFIRMED" transitionName="Payment Confirmed"/>
+    <StatusValidChange statusId="PMNT_RECEIVED" statusIdTo="PMNT_CONFIRMED" transitionName="Payment Confirmed"/>
+    <StatusValidChange statusId="PMNT_SENT" statusIdTo="PMNT_VOID" transitionName="Payment Voided"/>
+    <StatusValidChange statusId="PMNT_RECEIVED" statusIdTo="PMNT_VOID" transitionName="Payment Voided"/>
+    <StatusValidChange statusId="PMNT_NOT_PAID" statusIdTo="PMNT_VOID" transitionName="Payment Voided"/>
+    <StatusValidChange statusId="PMNT_SENT" statusIdTo="PMNT_NOT_PAID" transitionName="Payment Not Paid"/>
+    <StatusValidChange statusId="PMNT_RECEIVED" statusIdTo="PMNT_NOT_PAID" transitionName="Payment Not Paid"/>
+    <StatusValidChange statusId="PMNT_CONFIRMED" statusIdTo="PMNT_SENT" transitionName="Payment Confirmed to Sent"/>
+    <StatusValidChange statusId="PMNT_CONFIRMED" statusIdTo="PMNT_RECEIVED" transitionName="Payment Confirmed to Received"/>
 
     <SettlementTerm settlementTermId="COD" termName="Cash Due on Delivery" termValue="0" uomId="TF_day"/>
     <SettlementTerm settlementTermId="NET_15" termName="Net Due in 15 Days" termValue="15" uomId="TF_day"/>
@@ -1087,12 +1089,12 @@ under the License.
     <StatusType statusTypeId="GLREC_STATUS" description="Gl Reconciliation Status" hasTable="N" parentTypeId=""/>
     <StatusItem statusId="GLREC_CREATED" statusTypeId="GLREC_STATUS" statusCode="CREATED" sequenceId="11" description="Created"/>
     <StatusItem statusId="GLREC_RECONCILED" statusTypeId="GLREC_STATUS" statusCode="RECONCILED" sequenceId="12" description="Reconciled"/>
-    <StatusValidChange condition="" statusId="GLREC_CREATED" statusIdTo="GLREC_RECONCILED" transitionName="Set Created to Reconciled"/>
+    <StatusValidChange statusId="GLREC_CREATED" statusIdTo="GLREC_RECONCILED" transitionName="Set Created to Reconciled"/>
 
     <!--Depreciation Formulae-->
     <CustomMethodType customMethodTypeId="DEPRECIATION_FORMULA" description="Formula for calculating depreciation for fixed asset"/>
-    <CustomMethod customMethodId="STR_LINE_DEP_FORMULA" customMethodTypeId="DEPRECIATION_FORMULA" customMethodName="straightLineDepreciation" description="Straight Line depreciatiion algorithm for fixed asset((purchaseCost - salvageCost)/expectedLifeInYears)"/>
-    <CustomMethod customMethodId="DBL_DECL_DEP_FORMULA" customMethodTypeId="DEPRECIATION_FORMULA" customMethodName="doubleDecliningBalanceDepreciation" description="Double decline depreciatiion algorithm for fixed asset((NetBookValue - salvageCost)*2/remainingLifeInYears)"/>
+    <CustomMethod customMethodId="STR_LINE_DEP_FORMULA" customMethodTypeId="DEPRECIATION_FORMULA" customMethodName="straightLineDepreciation" description="Straight Line depreciation algorithm for fixed asset ((purchaseCost - salvageCost)/expectedLifeInYears)"/>
+    <CustomMethod customMethodId="DBL_DECL_DEP_FORMULA" customMethodTypeId="DEPRECIATION_FORMULA" customMethodName="doubleDecliningBalanceDepreciation" description="Double decline depreciation algorithm for fixed asset ((NetBookValue - salvageCost)*2/remainingLifeInYears)"/>
 
     <!-- invoice export replacement Id types -->
     <GoodIdentificationType description="replacement value for partyId in the invoice export function in accounting" goodIdentificationTypeId="INVOICE_EXPORT"/>
@@ -1103,13 +1105,13 @@ under the License.
     <StatusItem description="Reviewed" sequenceId="01" statusCode="REVIEWED" statusId="BG_REVIEWED" statusTypeId="BUDGET_STATUS"/>
     <StatusItem description="Approved" sequenceId="02" statusCode="APPROVED" statusId="BG_APPROVED" statusTypeId="BUDGET_STATUS"/>
     <StatusItem description="Rejected" sequenceId="03" statusCode="REJECTED" statusId="BG_REJECTED" statusTypeId="BUDGET_STATUS"/>
-    <StatusValidChange condition="" statusId="BG_CREATED" statusIdTo="BG_REVIEWED" transitionName="Review Budget"/>
-    <StatusValidChange condition="" statusId="BG_CREATED" statusIdTo="BG_APPROVED" transitionName="Submit Budget"/>
-    <StatusValidChange condition="" statusId="BG_CREATED" statusIdTo="BG_REJECTED" transitionName="Reject Budget"/>
-    <StatusValidChange condition="" statusId="BG_REVIEWED" statusIdTo="BG_APPROVED" transitionName="Approved Budget"/>
-    <StatusValidChange condition="" statusId="BG_REVIEWED" statusIdTo="BG_REJECTED" transitionName="Reject Budget"/>
-    <StatusValidChange condition="" statusId="BG_APPROVED" statusIdTo="BG_CREATED" transitionName="Accept Budget"/>
-    <StatusValidChange condition="" statusId="BG_APPROVED" statusIdTo="BG_REJECTED" transitionName="Reject Budget"/>
+    <StatusValidChange statusId="BG_CREATED" statusIdTo="BG_REVIEWED" transitionName="Review Budget"/>
+    <StatusValidChange statusId="BG_CREATED" statusIdTo="BG_APPROVED" transitionName="Submit Budget"/>
+    <StatusValidChange statusId="BG_CREATED" statusIdTo="BG_REJECTED" transitionName="Reject Budget"/>
+    <StatusValidChange statusId="BG_REVIEWED" statusIdTo="BG_APPROVED" transitionName="Approved Budget"/>
+    <StatusValidChange statusId="BG_REVIEWED" statusIdTo="BG_REJECTED" transitionName="Reject Budget"/>
+    <StatusValidChange statusId="BG_APPROVED" statusIdTo="BG_CREATED" transitionName="Accept Budget"/>
+    <StatusValidChange statusId="BG_APPROVED" statusIdTo="BG_REJECTED" transitionName="Reject Budget"/>
     
     <BudgetReviewResultType description="Accepted" budgetReviewResultTypeId="BGR_ACCEPTED"/>
     <BudgetReviewResultType description="Rejected" budgetReviewResultTypeId="BGR_REJECTED"/>

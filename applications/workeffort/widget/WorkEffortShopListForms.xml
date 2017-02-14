@@ -18,7 +18,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="ListWorkEffortShopLists" target="" title="" type="list" separate-columns="false"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <actions>
@@ -29,7 +29,7 @@ under the License.
         </actions>
         <field name="workEffortId"><hidden/></field>
         <field name="shoppingListId" title="${uiLabelMap.WorkEffortShopListId}" widget-style="buttontext">
-            <hyperlink target="/partymgr/control/editShoppingList" target-type="inter-app" description="${shoppingListId}">
+            <hyperlink description="${shoppingListId}" target="/partymgr/control/editShoppingList" target-type="inter-app">
                 <parameter param-name="shoppingListId"/>
             </hyperlink>
         </field>
@@ -38,7 +38,7 @@ under the License.
         <field name="description"><display/></field>
         <field name="partyId" title="${uiLabelMap.PartyParty}"><display-entity entity-name="PartyNameView" description="${firstName} ${lastName} ${groupName} [${partyId}]"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteShoppingListWorkEffort" also-hidden="false" description="${uiLabelMap.CommonDelete}">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteShoppingListWorkEffort" also-hidden="false">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="shoppingListId"/>
             </hyperlink>

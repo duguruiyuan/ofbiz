@@ -18,7 +18,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+    xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="FindJobRequisitions" type="single" target="FindJobRequisitions">
         <actions>
             <set field="jobRequisitionId" from-field="parameters.jobRequisitionId"/>
@@ -28,14 +28,14 @@ under the License.
         <field name="jobRequisitionId"><lookup target-form-name="LookupJobRequisition"/></field>
         <field name="skillTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="SkillType">
+                <entity-options entity-name="SkillType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="jobPostingTypeEnumId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="Enumeration" key-field-name="enumId" description="${description}">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="JOB_POSTING"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -44,7 +44,7 @@ under the License.
         <field name="jobLocation"><text-find ignore-case="true"/></field>
         <field name="examTypeEnumId">
              <drop-down allow-empty="true">
-                <entity-options entity-name="Enumeration" key-field-name="enumId" description="${description}">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="EXAM_TYPE"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -71,13 +71,13 @@ under the License.
             </service>
         </actions>
         <field name="jobRequisitionId" widget-style="buttontext" use-when="hasAdminPermission">
-            <hyperlink target="EditJobRequisition" description="${jobRequisitionId}">
+            <hyperlink description="${jobRequisitionId}" target="EditJobRequisition">
                 <parameter param-name="jobRequisitionId"/>
             </hyperlink>
         </field>
         <field name="jobRequisitionId" use-when="!hasAdminPermission"><display/></field>
         <field name="skillTypeId">
-            <display-entity entity-name="SkillType" description="${description}"/>
+            <display-entity entity-name="SkillType"/>
         </field>
         <field name="jobPostingTypeEnumId"><display/></field>
         <field name="examTypeEnumId"><display/></field>
@@ -86,12 +86,12 @@ under the License.
         <field name="experienceYears"><display/></field>
         <field name="experienceMonths"><display/></field>
         <field name="applyLink" title="${uiLabelMap.CommonApply}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonApply}" target="EditInternalJobPosting"> 
+            <hyperlink description="${uiLabelMap.CommonApply}" target="EditInternalJobPosting" also-hidden="false"> 
                 <parameter param-name="jobRequisitionId"/> 
             </hyperlink>
         </field>
         <field name="deleteLink" title="${uiLabelMap.CommonDelete}" widget-style="buttontext" use-when="hasAdminPermission">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="deleteJobRequisition"> 
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteJobRequisition" also-hidden="false"> 
                 <parameter param-name="jobRequisitionId"/> 
             </hyperlink>
         </field>
@@ -99,11 +99,11 @@ under the License.
     <form name="EditJobRequisition" type="single" target="updateJobRequisition" default-map-name="jobRequisition">
         <alt-target use-when="jobRequisition==null" target="createJobRequisition"/>
         <field name="jobRequisitionId" use-when="jobRequisition==null"><ignored/></field>
-        <field use-when="jobRequisition!=null" name="jobRequisitionId" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="jobRequisition!=null" name="jobRequisitionId"><display/></field>
         <field name="jobDescription" title="${uiLabelMap.CommonDescription}" title-area-style="group-label"><display description=" " also-hidden="false"/></field>
-        <field name="jobLocation" tooltip="${uiLabelMap.CommonRequired}" widget-style="required"><text/></field>
+        <field name="jobLocation" required-field="true"><text/></field>
         <field name="age"><text/></field>
-        <field name="noOfResources" tooltip="${uiLabelMap.CommonRequired}" widget-style="required"><text/></field>
+        <field name="noOfResources" required-field="true"><text/></field>
         <field name="gender">
             <drop-down allow-empty="true">
                 <option key="M" description="${uiLabelMap.CommonMale}"/>
@@ -111,32 +111,31 @@ under the License.
             </drop-down>
         </field>
         <field name="durationMonths"><text/></field>
-        <field name="qualification" widget-style="required" tooltip="${uiLabelMap.CommonRequired}">
+        <field name="qualification" required-field="true">
             <drop-down allow-empty="true">
-                <entity-options entity-name="PartyQualType" key-field-name="partyQualTypeId" description="${description}">
-                    <entity-constraint name="parentTypeId" operator="equals" value="DEGREE"/>
+                <entity-options entity-name="PartyQualType" key-field-name="partyQualTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="examTypeEnumId">
              <drop-down allow-empty="true">
-                <entity-options entity-name="Enumeration" key-field-name="enumId" description="${description}">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="EXAM_TYPE"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="skillCriteria" title="${uiLabelMap.HumanResSkills} ${uiLabelMap.CommonRequired}" title-area-style="group-label"><display description=" " also-hidden="false"/></field>
-        <field name="skillTypeId" tooltip="${uiLabelMap.CommonRequired}" widget-style="required">
+        <field name="skillTypeId" required-field="true">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="SkillType">
+                <entity-options entity-name="SkillType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
-        <field name="experienceMonths" tooltip="${uiLabelMap.CommonRequired}" widget-style="required"><text/></field>
-        <field name="experienceYears" tooltip="${uiLabelMap.CommonRequired}" widget-style="required"><text/></field>
+        <field name="experienceMonths" required-field="true"><text/></field>
+        <field name="experienceYears" required-field="true"><text/></field>
         <field name="jobPostingTypeEnumId"><hidden value="JOB_POSTING_INTR"/></field>
         <field name="submitButton" use-when="jobRequisition==null" title="Create" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="submitButton" use-when="jobRequisition!=null" title="Update" widget-style="smallSubmit"><submit button-type="button"/></field>
@@ -148,7 +147,7 @@ under the License.
         <field name="applyingPartyId" use-when="!hasAdminPermission"><hidden value="${partyId}"/></field>
         <field name="statusId" title="${uiLabelMap.HumanResInternalJobPosting} ${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" key-field-name="statusId" entity-name="StatusItem">
+                <entity-options key-field-name="statusId" entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="IJP_STATUS"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -175,7 +174,7 @@ under the License.
         </actions>
         <auto-fields-entity entity-name="EmploymentApp" default-field-type="display"/>
         <field name="applicationId" widget-style="buttontext">
-            <hyperlink target="EditInternalJobPosting" description="${applicationId}">
+            <hyperlink description="${applicationId}" target="EditInternalJobPosting">
                 <parameter param-name="applicationId"/>
             </hyperlink>
         </field>        
@@ -198,12 +197,12 @@ under the License.
 
         <field name="statusId" title="${uiLabelMap.HumanResIJPStatus}"><display/></field>
         <field name="jobRequisitionId" widget-style="buttontext">
-            <hyperlink target="EditJobRequisition" description="${jobRequisitionId}">
+            <hyperlink description="${jobRequisitionId}" target="EditJobRequisition">
                 <parameter param-name="jobRequisitionId"/>
             </hyperlink>
         </field>
         <field name="deleteLink" title="${uiLabelMap.CommonDelete}" widget-style="buttontext" use-when="hasAdminPermission">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="deleteInternalJobPosting"> 
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteInternalJobPosting" also-hidden="false"> 
                 <parameter param-name="applicationId"/> 
             </hyperlink>
         </field>
@@ -217,8 +216,8 @@ under the License.
         <field name="applicationId" use-when="employmentApp==null"><hidden/></field>
         <field name="applicationId" use-when="employmentApp!=null"><display/></field>
         <field name="applyingPartyId"><hidden value="${partyId}"/></field>
-        <field name="approverPartyId" tooltip="${uiLabelMap.CommonRequired}"><lookup target-form-name="LookupPartyName"/></field>
-        <field name="jobRequisitionId" tooltip="${uiLabelMap.CommonRequired}"><lookup target-form-name="LookupJobRequisition"/></field>
+        <field name="approverPartyId" required-field="true"><lookup target-form-name="LookupPartyName"/></field>
+        <field name="jobRequisitionId" required-field="true"><lookup target-form-name="LookupJobRequisition"/></field>
         <field name="statusId" title="${uiLabelMap.HumanResIJPStatus}"><hidden value="IJP_APPLIED"/></field>
         <field name="emplPositionId"><hidden/></field>
         <field name="employmentAppSourceTypeId"><hidden/></field>
@@ -247,7 +246,7 @@ under the License.
         </field>
         <field name="gradeSecuredEnumId">
              <drop-down allow-empty="true">
-                <entity-options entity-name="Enumeration" key-field-name="enumId" description="${description}">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="INTR_RATNG"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -267,7 +266,7 @@ under the License.
         </actions>
         <auto-fields-entity entity-name="JobInterview" default-field-type="display"/>
         <field name="jobInterviewId" widget-style="buttontext">
-            <hyperlink target="EditJobInterview" description="${jobInterviewId}">
+            <hyperlink description="${jobInterviewId}" target="EditJobInterview">
                 <parameter param-name="jobInterviewId"/>
             </hyperlink>
         </field>
@@ -286,7 +285,7 @@ under the License.
             </display-entity>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="deleteJobInterview"> 
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteJobInterview" also-hidden="false"> 
                 <parameter param-name="jobInterviewId"/> 
             </hyperlink>
         </field>
@@ -297,14 +296,14 @@ under the License.
         </actions>
         <alt-target use-when="JobInterview==null" target="createJobInterview"/>
         <auto-fields-service service-name="updateJobInterview" map-name="JobInterview"/>
-        <field use-when="JobInterview!=null" name="jobInterviewId" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="JobInterview!=null" name="jobInterviewId"><display/></field>
         <field name="jobInterviewId" use-when="JobInterview==null"><ignored/></field>
-        <field name="jobIntervieweePartyId" tooltip="${uiLabelMap.CommonRequired}"><lookup target-form-name="LookupPartyName"/></field>
-        <field name="jobRequisitionId" tooltip="${uiLabelMap.CommonRequired}"><lookup target-form-name="LookupJobRequisition"/></field>
-        <field name="jobInterviewerPartyId" tooltip="${uiLabelMap.CommonRequired}"><lookup target-form-name="LookupPartyName"/></field>
+        <field name="jobIntervieweePartyId" required-field="true"><lookup target-form-name="LookupPartyName"/></field>
+        <field name="jobRequisitionId" required-field="true"><lookup target-form-name="LookupJobRequisition"/></field>
+        <field name="jobInterviewerPartyId" required-field="true"><lookup target-form-name="LookupPartyName"/></field>
         <field name="gradeSecuredEnumId">
              <drop-down allow-empty="true">
-                <entity-options entity-name="Enumeration" key-field-name="enumId" description="${description}">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="INTR_RATNG"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -337,7 +336,7 @@ under the License.
         <field name="referredByPartyId"><hidden/></field>
         <field name="statusId" title="${uiLabelMap.HumanResInternalJobPosting} ${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" key-field-name="statusId" entity-name="StatusItem">
+                <entity-options key-field-name="statusId" entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="IJP_STATUS"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -372,7 +371,7 @@ under the License.
             </display-entity>
         </field>
         <field name="UpdateStatus" title="${uiLabelMap.CommonUpdate}" widget-style="buttontext">
-            <hyperlink target="EditApprovalStatus" description="${uiLabelMap.CommonUpdate}" > 
+            <hyperlink description="${uiLabelMap.CommonUpdate}" target="EditApprovalStatus" > 
                 <parameter param-name="applicationId"/> 
             </hyperlink>
         </field>
@@ -382,14 +381,14 @@ under the License.
     </form>
     <form name="EditApprovalStatus" type="single" target="updateApprovalStatus" default-map-name="employmentApp">
         <auto-fields-service service-name="updateApprovalStatus" map-name="employmentApp"/>
-        <field name="applicationId" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field name="applicationId"><display/></field>
         <field name="applicationId"><display/></field>
         <field name="applyingPartyId"><display/></field>
         <field name="jobRequisitionId"><display/></field>
         <field name="approverPartyId"><display/></field>
         <field name="statusId" title="${uiLabelMap.HumanResInternalJobPosting} ${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="false">
-                <entity-options description="${description}" key-field-name="statusId" entity-name="StatusItem">
+                <entity-options key-field-name="statusId" entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="IJP_STATUS"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -408,7 +407,7 @@ under the License.
         <field name="emplPositionIdReportingTo"><lookup target-form-name="LookupEmplPosition"/></field>
         <field name="internalOrganisation">
             <drop-down allow-empty="true">
-                <entity-options entity-name="PartyRole" description="${partyId}" key-field-name="partyId">
+                <entity-options entity-name="PartyRole" key-field-name="partyId" description="${partyId}">
                     <entity-constraint name="roleTypeId" operator="equals" value="INTERNAL_ORGANIZATIO"/>
                 </entity-options>
             </drop-down>
@@ -436,22 +435,22 @@ under the License.
             </display-entity>
         </field>
         <field name="emplPositionId" title="${uiLabelMap.HumanResEmployeePositionId}" widget-style="linktext">
-            <hyperlink also-hidden="false" description="${emplPositionId}" target="emplPositionView">
+            <hyperlink description="${emplPositionId}" target="emplPositionView" also-hidden="false">
                 <parameter param-name="emplPositionId"/>
             </hyperlink>
         </field>
         <field name="emplPositionIdReportingTo" widget-style="linktext">
-            <hyperlink also-hidden="false" description="${emplPositionIdReportingTo}" target="emplPositionView">
+            <hyperlink description="${emplPositionIdReportingTo}" target="emplPositionView" also-hidden="false">
                 <parameter param-name="emplPositionId" from-field="emplPositionIdReportingTo"/>
             </hyperlink>
         </field>
         <field name="internalOrganisation"><display/></field>
         <field name="reportingDate"><display/></field>
         <field name="location">
-            <display description="${bsh:
-                import org.ofbiz.entity.GenericValue;
-                import org.ofbiz.base.util.UtilMisc;
-                import org.ofbiz.entity.util.EntityUtil;
+            <display description="${groovy:
+                import org.apache.ofbiz.entity.GenericValue;
+                import org.apache.ofbiz.base.util.UtilMisc;
+                import org.apache.ofbiz.entity.util.EntityUtil;
                 GenericValue partyAndPostalAddress = EntityUtil.getFirst(delegator.findByAnd(&quot;PartyAndPostalAddress&quot;,UtilMisc.toMap(&quot;partyId&quot;,internalOrganisation), null, false));
                 if(partyAndPostalAddress==null) return ;
                 if(partyAndPostalAddress!=null) city = partyAndPostalAddress.getString(&quot;city&quot;);

@@ -18,7 +18,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 <!--
-    *This is the DTD for the Open For Business Generic Entity Model entity definition XML file.
+    *This is the DTD for the Apache OFBiz Generic Entity Model entity definition XML file.
     *This DTD is meant to be as simple as possible, and is modelled from the standard ejb deployment descriptor ejb-jar.xml.
 -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
@@ -435,7 +435,7 @@ under the License.
         </xs:complexType>
     </xs:element>
     <xs:attributeGroup name="attlist.condition-expr">
-        <xs:attribute name="entity-alias" type="xs:string"/>
+        <xs:attribute name="entity-alias" type="xs:string"  use="required"/>
         <xs:attribute name="field-name" type="xs:string" use="required"/>
         <xs:attribute name="operator" default="equals">
             <xs:simpleType>

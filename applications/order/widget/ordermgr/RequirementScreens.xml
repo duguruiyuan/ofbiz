@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonRequirementDecorator">
         <section>
             <widgets>
@@ -90,7 +90,7 @@ under the License.
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
             </actions>
             <widgets>
-                <decorator-screen name="CommonRequirementsDecorator">
+                <decorator-screen name="CommonRequirementsDecorator" location="${parameters.commonRequirementsDecoratorLocation}">
                     <decorator-section name="body">
                         <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
                             <decorator-section name="search-options">
@@ -114,10 +114,10 @@ under the License.
                 <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer"/>
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/requirement/SelectCreatedProposed.groovy"/>
+                <script location="component://order/groovyScripts/requirement/SelectCreatedProposed.groovy"/>
             </actions>
             <widgets>
-                <decorator-screen name="CommonRequirementsDecorator">
+                <decorator-screen name="CommonRequirementsDecorator" location="${parameters.commonRequirementsDecoratorLocation}">
                     <decorator-section name="body">
                         <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
                             <decorator-section name="search-options">
@@ -142,10 +142,10 @@ under the License.
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
                 <set field="_rowSubmit" value="Y"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/requirement/ApprovedProductRequirements.groovy"/>
+                <script location="component://order/groovyScripts/requirement/ApprovedProductRequirements.groovy"/>
         </actions>
             <widgets>
-                <decorator-screen name="CommonRequirementsDecorator">
+                <decorator-screen name="CommonRequirementsDecorator" location="${parameters.commonRequirementsDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleFindApprovedProductRequirements}">
                             <include-form name="FindApprovedProductRequirements" location="component://order/widget/ordermgr/RequirementForms.xml"/>
@@ -215,10 +215,10 @@ under the License.
                 <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer"/>
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/requirement/ApprovedProductRequirementsByVendor.groovy"/>
+                <script location="component://order/groovyScripts/requirement/ApprovedProductRequirementsByVendor.groovy"/>
             </actions>
             <widgets>
-                <decorator-screen name="CommonRequirementsDecorator">
+                <decorator-screen name="CommonRequirementsDecorator" location="${parameters.commonRequirementsDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleFindApprovedRequirementsBySupplier}">
                             <include-form name="ApprovedProductRequirementsByVendor" location="component://order/widget/ordermgr/RequirementForms.xml"/>
@@ -260,7 +260,7 @@ under the License.
 
             </actions>
             <widgets>
-                <decorator-screen name="CommonRequirementDecorator">
+                <decorator-screen name="CommonRequirementDecorator" location="${parameters.commonRequirementsDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleEditRequirement}">
                             <include-form name="EditRequirement" location="component://order/widget/ordermgr/RequirementForms.xml"/>
@@ -281,11 +281,11 @@ under the License.
                 <entity-one entity-name="Requirement" value-field="requirement" auto-field-map="true"/>
 
                 <entity-and entity-name="RequirementCustRequest" list="requirementCustRequests">
-                    <field-map from-field="requirementId" field-name="requirementId"/>
+                    <field-map field-name="requirementId" from-field="requirementId"/>
                 </entity-and>
             </actions>
             <widgets>
-                <decorator-screen name="CommonRequirementDecorator">
+                <decorator-screen name="CommonRequirementDecorator" location="${parameters.commonRequirementsDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleListRequirementCustRequests}">
                             <include-form name="ListRequirementCustRequests" location="component://order/widget/ordermgr/RequirementForms.xml"/>
@@ -307,11 +307,11 @@ under the License.
                 <set field="requirementId" from-field="parameters.requirementId"/>
                 <entity-one entity-name="Requirement" value-field="requirement" auto-field-map="true"/>
                 <entity-and entity-name="OrderRequirementCommitment" list="orderRequirements">
-                    <field-map from-field="requirementId" field-name="requirementId"/>
+                    <field-map field-name="requirementId" from-field="requirementId"/>
                 </entity-and>
             </actions>
             <widgets>
-                <decorator-screen name="CommonRequirementDecorator">
+                <decorator-screen name="CommonRequirementDecorator" location="${parameters.commonRequirementsDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleListRequirementOrders}">
                             <include-form name="ListRequirementOrders" location="component://order/widget/ordermgr/RequirementForms.xml"/>
@@ -333,11 +333,11 @@ under the License.
                 <set field="requirementId" from-field="parameters.requirementId"/>
                 <entity-one entity-name="Requirement" value-field="requirement" auto-field-map="true"/>
                 <entity-and entity-name="RequirementRole" list="requirementRoles">
-                    <field-map from-field="requirementId" field-name="requirementId"/>
+                    <field-map field-name="requirementId" from-field="requirementId"/>
                 </entity-and>
             </actions>
             <widgets>
-                <decorator-screen name="CommonRequirementDecorator">
+                <decorator-screen name="CommonRequirementDecorator" location="${parameters.commonRequirementsDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleListRequirementRoles}">
                             <container>
@@ -366,7 +366,7 @@ under the License.
                 <entity-one entity-name="RequirementRole" value-field="requirementRole" auto-field-map="true"/>
             </actions>
             <widgets>
-                <decorator-screen name="CommonRequirementDecorator">
+                <decorator-screen name="CommonRequirementDecorator" location="${parameters.commonRequirementsDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleEditRequirementRole}">
                             <include-form name="EditRequirementRole" location="component://order/widget/ordermgr/RequirementForms.xml"/>

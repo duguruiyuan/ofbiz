@@ -149,7 +149,7 @@ under the License.
         <xs:complexType>
             <xs:attribute type="xs:string" name="field" use="required" />
             <xs:attribute type="xs:string" name="method" use="required" />
-            <xs:attribute type="xs:string" name="class" default="org.ofbiz.base.util.UtilValidate" />
+            <xs:attribute type="xs:string" name="class" default="org.apache.ofbiz.base.util.UtilValidate" />
         </xs:complexType>
     </xs:element>
     <xs:element name="if-compare" substitutionGroup="AllConditionals">
@@ -579,11 +579,19 @@ under the License.
     </xs:element>
     <xs:complexType name="link">
         <xs:sequence>
+            <xs:element minOccurs="0" ref="auto-parameters-service"/>
+            <xs:element minOccurs="0" ref="auto-parameters-entity"/>
             <xs:element minOccurs="0" maxOccurs="unbounded" ref="parameter" />
             <xs:element minOccurs="0" name="image" type="image" />
         </xs:sequence>
         <xs:attribute type="xs:string" name="text" />
-        <xs:attribute type="xs:string" name="id" />
+        <xs:attribute type="xs:string" name="id">
+            <xs:annotation>
+                <xs:documentation>
+                    If you use id for link present in list form or multi form, you can use ${itemIndex} to generate an unique id by line.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
         <xs:attribute type="xs:string" name="style" />
         <xs:attribute type="xs:string" name="name" />
         <xs:attribute type="xs:string" name="title" />
@@ -601,14 +609,13 @@ under the License.
                             <xs:documentation>
                                 If selected the hidden-form type will be used if the url-mode is intra-app
                                 and the request specified has an event, otherwise the anchor type will be used,
-                                except if the ajax-window mode is specified.
+                                except if the layered-modal mode is specified.
                             </xs:documentation>
                         </xs:annotation>
                     </xs:enumeration>
                     <xs:enumeration value="anchor" />
                     <xs:enumeration value="hidden-form" />
-                        <!-- FIXME: This is not a link type. It indicates the target window should be a popup dialog. -->
-                    <xs:enumeration value="ajax-window" />
+                    <xs:enumeration value="layered-modal" />
                 </xs:restriction>
             </xs:simpleType>
         </xs:attribute>
@@ -645,6 +652,22 @@ under the License.
                     <xs:enumeration value="false" />
                 </xs:restriction>
             </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="request-confirmation" default="false">
+            <xs:annotation>
+                <xs:documentation>If true then the user is presented with a dialog box, if confirmation-message is empty, use default</xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:token">
+                    <xs:enumeration value="true" />
+                    <xs:enumeration value="false" />
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="confirmation-message" type="xs:string">
+            <xs:annotation>
+                <xs:documentation>The message displayed in confirmation box</xs:documentation>
+            </xs:annotation>
         </xs:attribute>
     </xs:complexType>
     <xs:complexType name="image" mixed="true">

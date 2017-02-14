@@ -19,7 +19,7 @@ under the License.
 -->
 
 <site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/site-conf.xsd">
+        xmlns="http://ofbiz.apache.org/Site-Conf" xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
     <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
     <include location="component://commonext/webapp/WEB-INF/controller.xml"/>
     <include location="component://workeffort/webapp/workeffort/WEB-INF/icalendar-controller.xml"/>
@@ -33,7 +33,7 @@ under the License.
     <!-- Events to run on every request after all other processing (chains exempt) -->
     <!--
     <postprocessor>
-        <event name="test" type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/>
+        <event name="test" type="java" path="org.apache.ofbiz.webapp.event.TestEvent" invoke="test"/>
     </postprocessor>
     -->
 
@@ -45,7 +45,7 @@ under the License.
     </request-map>
 
     <request-map uri="chain">
-        <event type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/>
+        <event type="java" path="org.apache.ofbiz.webapp.event.TestEvent" invoke="test"/>
         <response name="success" type="request" value="/view"/>
         <response name="error" type="view" value="error"/>
     </request-map>
@@ -266,6 +266,30 @@ under the License.
         <event type="service" invoke="removeQuoteItem"/>
         <response name="success" type="view" value="ListWorkEffortQuotes"/>
         <response name="error" type="view" value="ListWorkEffortQuotes"/>
+    </request-map>
+
+    <!--  WorkEffort Attribute request mappings -->
+    <request-map uri="ListWorkEffortAttributes">
+        <security https="true" auth="true"/>
+        <response name="success" type="view" value="ListWorkEffortAttributes"/>
+    </request-map>
+    <request-map uri="createWorkEffortAttribute">
+        <security https="true" auth="true"/>
+        <event type="service" path="" invoke="createWorkEffortAttribute"/>
+        <response name="success" type="view" value="ListWorkEffortAttributes"/>
+        <response name="error" type="view" value="ListWorkEffortAttributes"/>
+    </request-map>
+    <request-map uri="updateWorkEffortAttribute">
+        <security https="true" auth="true"/>
+        <event type="service" path="" invoke="updateWorkEffortAttribute"/>
+        <response name="success" type="view" value="ListWorkEffortAttributes"/>
+        <response name="error" type="view" value="ListWorkEffortAttributes"/>
+    </request-map>
+    <request-map uri="deleteWorkEffortAttribute">
+        <security https="true" auth="true"/>
+        <event type="service" path="" invoke="deleteWorkEffortAttribute"/>
+        <response name="success" type="view" value="ListWorkEffortAttributes"/>
+        <response name="error" type="view" value="ListWorkEffortAttributes"/>
     </request-map>
 
     <!--  WorkEffort Requirement request mappings -->
@@ -588,7 +612,7 @@ under the License.
     </request-map>
     <request-map uri="DuplicateWorkEffort">
         <security https="true" auth="true"/>
-        <event type="service" path="" invoke="duplicateWorkEffort"/>
+        <event type="service" invoke="duplicateWorkEffort"/>
         <response name="success" type="view" value="EditWorkEffort"/>
         <response name="error" type="view" value="EditWorkEffort"/>
     </request-map>
@@ -696,6 +720,7 @@ under the License.
     <view-map name="ListWorkEffortFixedAssetAssigns" type="screen" page="component://workeffort/widget/WorkEffortScreens.xml#ListWorkEffortFixedAssetAssigns"/>
     <view-map name="ListWorkEffortPartyAssigns" type="screen" page="component://workeffort/widget/WorkEffortScreens.xml#ListWorkEffortPartyAssigns"/>
     <view-map name="EditWorkEffortRates" type="screen" page="component://workeffort/widget/WorkEffortScreens.xml#EditWorkEffortRates"/>
+    <view-map name="ListWorkEffortAttributes" type="screen" page="component://workeffort/widget/WorkEffortScreens.xml#ListWorkEffortAttributes"/>
     <view-map name="ListWorkEffortCommEvents" type="screen" page="component://workeffort/widget/WorkEffortScreens.xml#ListWorkEffortCommEvents"/>
     <view-map name="ListWorkEffortShopLists" type="screen" page="component://workeffort/widget/WorkEffortScreens.xml#ListWorkEffortShopLists"/>
 

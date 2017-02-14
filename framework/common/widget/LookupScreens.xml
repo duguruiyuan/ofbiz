@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <!-- Geo Lookup Screen -->
     <screen name="LookupGeo">
@@ -44,7 +44,7 @@ under the License.
                 <set field="displayFields" value="[geoId, geoName, geoCode]"/>
                 
                 <!-- optional: additional entity condition (named andCondition) added to search query -->
-                <!-- example : script location="component://party/webapp/partymgr/WEB-INF/actions/party/StatusCondition.groovy" /-->
+                <!-- example : script location="component://party/groovyScripts/party/StatusCondition.groovy" /-->
             </actions>
             <widgets>
                 <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">
@@ -52,7 +52,7 @@ under the License.
                         <include-form name="LookupGeo" location="component://common/widget/LookupForms.xml"/>
                     </decorator-section>
                     <decorator-section name="search-results">
-                        <include-form name="listLookupGeo" location="component://common/widget/LookupForms.xml"/>
+                        <include-form name="ListLookupGeo" location="component://common/widget/LookupForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -81,7 +81,7 @@ under the License.
                 <set field="displayFields" value="[geoId, geoName, geoCode]"/>
 
                 <!-- optional: additional entity condition (named andCondition) added to search query -->
-                <!-- example : script location="component://party/webapp/partymgr/WEB-INF/actions/party/StatusCondition.groovy" /-->
+                <!-- example : script location="component://party/groovyScripts/party/StatusCondition.groovy" /-->
                 
             </actions>
             <widgets>
@@ -90,7 +90,7 @@ under the License.
                         <include-form name="LookupGeoName" location="component://common/widget/LookupForms.xml"/>
                     </decorator-section>
                     <decorator-section name="search-results">
-                        <include-form name="listLookupGeoName" location="component://common/widget/LookupForms.xml"/>
+                        <include-form name="ListLookupGeoName" location="component://common/widget/LookupForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -109,11 +109,36 @@ under the License.
                 <decorator-section name="body">
                     <platform-specific>
                         <html>
-                            <html-template location="component://common/webcommon/includes/listLocales.ftl"/>
+                            <html-template location="component://common/template/includes/ListLocales.ftl"/>
                         </html>
                     </platform-specific>
                 </decorator-section>
               </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <!-- Companies Lookup Screen -->
+    <screen name="ListSetCompanies">
+        <section>
+            <actions>
+                <set field="titleProperty" value="CommonCompany"/>
+                <entity-condition entity-name="PartyAcctgPrefAndGroup" list="companyList" distinct="true">
+                    <condition-list>
+                        <condition-expr field-name="roleTypeId" operator="equals" value="INTERNAL_ORGANIZATIO"/>
+                    </condition-list>
+                    <select-field field-name="partyId"/>
+                    <select-field field-name="groupName"/>
+                </entity-condition>
+            </actions>
+            <widgets>
+                <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">
+                    <decorator-section name="body">
+                        <platform-specific>
+                            <html><html-template location="component://common/template/includes/listCompanies.ftl"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
             </widgets>
         </section>
     </screen>
@@ -130,7 +155,7 @@ under the License.
                 <decorator-section name="body">
                     <platform-specific>
                         <html>
-                            <html-template location="component://common/webcommon/includes/listTimezones.ftl"/>
+                            <html-template location="component://common/template/includes/ListTimezones.ftl"/>
                         </html>
                     </platform-specific>
                 </decorator-section>
@@ -156,7 +181,7 @@ under the License.
                 <decorator-section name="body">
                     <platform-specific>
                         <html>
-                            <html-template location="component://common/webcommon/includes/listVisualThemes.ftl"/>
+                            <html-template location="component://common/template/includes/ListVisualThemes.ftl"/>
                         </html>
                     </platform-specific>
                 </decorator-section>
@@ -177,7 +202,7 @@ under the License.
                 <decorator-section name="body">
                     <platform-specific>
                         <html>
-                            <html-template location="component://common/webcommon/includes/timeDuration.ftl"/>
+                            <html-template location="component://common/template/includes/TimeDuration.ftl"/>
                         </html>
                     </platform-specific>
                 </decorator-section>
@@ -239,7 +264,7 @@ under the License.
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
                 <set field="inputFields" from-field="parameters"/>
-                <script location="component://common/webcommon/WEB-INF/actions/includes/GetLocaleList.groovy"/>
+                <script location="component://common/groovyScripts/GetLocaleList.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">

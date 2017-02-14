@@ -17,7 +17,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonOrderSetupDecorator">
         <section>
             <widgets>
@@ -38,13 +38,13 @@ under the License.
             <actions>
                 <set field="titleProperty" value="OrderOrderEntryPaymentSettings"/>
                 <set field="headerItem" value="setup"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/setup/PaymentSetup.groovy"/>
+                <script location="component://order/groovyScripts/setup/PaymentSetup.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonOrderTaskDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://order/webapp/ordermgr/setup/paymentsetup.ftl"/></html>
+                            <html><html-template location="component://order/template/setup/PaymentSetup.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>

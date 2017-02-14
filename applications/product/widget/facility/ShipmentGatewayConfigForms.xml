@@ -17,7 +17,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     
     <!-- form whose input filters the FindPaymentGatewayConfig -->
     <form name="FindShipmentGatewayConfig" type="single" target="FindShipmentGatewayConfig" header-row-style="header-row" default-table-style="basic-table">
@@ -25,7 +25,7 @@ under the License.
         <field name="description" title="${uiLabelMap.FacilityShipmentGatewayConfigDescription}"><text-find ignore-case="true"/></field>
         <field name="shipmentGatewayConfTypeId" title="${uiLabelMap.FacilityShipmentGatewayConfigTypeId}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="ShipmentGatewayConfigType" description="${description}" key-field-name="shipmentGatewayConfTypeId">
+                <entity-options entity-name="ShipmentGatewayConfigType" key-field-name="shipmentGatewayConfTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -53,7 +53,7 @@ under the License.
             <hyperlink description="${description}" target="EditShipmentGatewayConfig?shipmentGatewayConfigId=${shipmentGatewayConfigId}"/>
         </field>
         <field name="shipmentGatewayConfTypeId" title="${uiLabelMap.FacilityShipmentGatewayConfigTypeId}">
-            <display-entity entity-name="ShipmentGatewayConfigType" key-field-name="shipmentGatewayConfTypeId" description="${description}"/>
+            <display-entity entity-name="ShipmentGatewayConfigType" key-field-name="shipmentGatewayConfTypeId"/>
         </field>
     </form>
     
@@ -61,14 +61,14 @@ under the License.
         <field name="shipmentGatewayConfigId"><hidden/></field>
         <field name="description" title="${uiLabelMap.FacilityShipmentGatewayConfigDescription}"><text size="60" maxlength="60"/></field>
         <field name="shipmentGatewayConfTypeId" title="${uiLabelMap.FacilityShipmentGatewayConfigTypeId}">
-            <display-entity entity-name="ShipmentGatewayConfigType" key-field-name="shipmentGatewayConfTypeId" description="${description}"/>
+            <display-entity entity-name="ShipmentGatewayConfigType" key-field-name="shipmentGatewayConfTypeId"/>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit">
             <submit button-type="button"/>
         </field>
     </form>
     
-    <form name="EditShipmentGatewayConfigDhl" type="single" target="UpdateShipmentGatewayConfigDhl" default-map-name="shipmentGatewayDhl" header-row-style="header-row" default-table-style="basic-table">
+    <form name="EditShipmentGatewayConfigDhl" type="single" target="updateShipmentGatewayDhl" default-map-name="shipmentGatewayDhl" header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="ShipmentGatewayDhl" default-field-type="edit"/>
         <field name="shipmentGatewayConfigId"><hidden/></field>
         <field name="connectUrl" title="${uiLabelMap.FacilityShipmentDhlConnectUrl}">
@@ -112,7 +112,7 @@ under the License.
         </field>
     </form>
     
-    <form name="EditShipmentGatewayConfigFedex" type="single" target="UpdateShipmentGatewayConfigFedex" default-map-name="shipmentGatewayFedex" header-row-style="header-row" default-table-style="basic-table">
+    <form name="EditShipmentGatewayConfigFedex" type="single" target="updateShipmentGatewayFedex" default-map-name="shipmentGatewayFedex" header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="ShipmentGatewayFedex" default-field-type="edit"/>
         <field name="shipmentGatewayConfigId"><hidden/></field>
         <field name="connectUrl" title="${uiLabelMap.FacilityShipmentFedexConnectUrl}">
@@ -180,7 +180,7 @@ under the License.
         </field>
     </form>
     
-    <form name="EditShipmentGatewayConfigUps" type="single" target="UpdateShipmentGatewayConfigUps" default-map-name="shipmentGatewayUps" header-row-style="header-row" default-table-style="basic-table">
+    <form name="EditShipmentGatewayConfigUps" type="single" target="updateShipmentGatewayUps" default-map-name="shipmentGatewayUps" header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="ShipmentGatewayUps" default-field-type="edit"/>
         <field name="shipmentGatewayConfigId"><hidden/></field>
         <field name="connectUrl" title="${uiLabelMap.FacilityShipmentUpsConnectUrl}">
@@ -274,7 +274,7 @@ under the License.
         </field>
     </form>
     
-    <form name="EditShipmentGatewayConfigUsps" type="single" target="UpdateShipmentGatewayConfigUsps" default-map-name="shipmentGatewayUsps" header-row-style="header-row" default-table-style="basic-table">
+    <form name="EditShipmentGatewayConfigUsps" type="single" target="updateShipmentGatewayUsps" default-map-name="shipmentGatewayUsps" header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="ShipmentGatewayUsps" default-field-type="edit"/>
         <field name="shipmentGatewayConfigId"><hidden/></field>
         <field name="connectUrl" title="${uiLabelMap.FacilityShipmentUspsConnectUrl}">
@@ -335,7 +335,7 @@ under the License.
         <field name="description" title="${uiLabelMap.FacilityShipmentGatewayConfigTypeDescription}"><text size="60" maxlength="60"/></field>
         <field name="parentTypeId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="ShipmentGatewayConfigType" description="${description}" key-field-name="shipmentGatewayConfTypeId">
+                <entity-options entity-name="ShipmentGatewayConfigType" key-field-name="shipmentGatewayConfTypeId">
                     <entity-constraint name="shipmentGatewayConfTypeId" operator="not-equals" env-name="shipmentGatewayConfTypeId"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>

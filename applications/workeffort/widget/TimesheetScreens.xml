@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="MyTimesheets">
         <section>
             <actions>
@@ -186,9 +186,6 @@ under the License.
                             </widgets>
                             <fail-widgets>
                                 <screenlet title="${uiLabelMap.PageTitleEditTimesheet}">
-                                    <container style="button-bar">
-                                        <link  text="${uiLabelMap.WorkEffortTimesheetCreate}" target="EditTimesheet" style="buttontext create"/>
-                                    </container>
                                     <include-form name="EditTimesheet" location="component://workeffort/widget/TimesheetForms.xml"/>
                                 </screenlet>
                                 <screenlet title="${uiLabelMap.PageTitleAddTimesheetToInvoice}">
@@ -222,9 +219,6 @@ under the License.
                 <decorator-screen name="CommonTimesheetDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleEditTimesheetRoles}">
-                            <container style="button-bar">
-                                <link  text="${uiLabelMap.WorkEffortTimesheetCreate}" target="EditTimesheet" style="buttontext create"/>
-                            </container>
                             <include-form name="ListTimesheetRoles" location="component://workeffort/widget/TimesheetForms.xml"/>
                         </screenlet>
                         <screenlet title="${uiLabelMap.PageTitleAddTimesheetRoles}">
@@ -249,7 +243,6 @@ under the License.
                 <decorator-screen name="CommonTimesheetDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleEditTimesheetEntries}">
-                            <container><link  text="${uiLabelMap.WorkEffortTimesheetCreate}" target="EditTimesheet" style="buttontext"/></container>
                             <include-form name="ListTimesheetEntries" location="component://workeffort/widget/TimesheetForms.xml"/>
                         </screenlet>
                         <screenlet title="${uiLabelMap.PageTitleAddTimesheetEntries}">

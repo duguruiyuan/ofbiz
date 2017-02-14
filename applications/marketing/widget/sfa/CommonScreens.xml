@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="main-decorator">
         <section>
             <actions>
@@ -31,6 +31,7 @@ under the License.
                 <property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="WorkEffortUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="MarketingUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="ContentUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="layoutSettings.javaScripts[]" value="/partymgr/static/partymgr.js" global="true"/>
                 <set field="layoutSettings.styleSheets[]" value="/partymgr/static/partymgr.css" global="true"/>
                 <set field="layoutSettings.companyName" from-field="uiLabelMap.SfaCompanyName" global="true"/>
@@ -39,7 +40,7 @@ under the License.
                 <set field="applicationMenuLocation" value="component://marketing/widget/sfa/SfaMenus.xml" global="true"/>
                 <set field="applicationTitle" value="${uiLabelMap.SfaManagerApplication}" global="true"/>
                 <set field="parameters.parentPortalPageId" from-field="parameters.parentPortalPageId" default-value="SFA" global="true"/>
-                <script location="component://common/webcommon/WEB-INF/actions/includes/GetParentPortalPageId.groovy"/>
+                <script location="component://common/groovyScripts/GetParentPortalPageId.groovy"/>
             </actions>
             <widgets>
                 <include-screen name="ApplicationDecorator" location="component://commonext/widget/CommonScreens.xml"/>
@@ -59,7 +60,7 @@ under the License.
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="left-column">
                         <include-screen name="leftbar"/>
-                    </decorator-section>                    
+                    </decorator-section>
                     <decorator-section name="body">
                         <include-portal-page id="${parameters.portalPageId}"/>
                     </decorator-section>
@@ -95,7 +96,7 @@ under the License.
                     </decorator-section>
                     <decorator-section name="left-column">
                         <include-screen name="leftbar"/>
-                    </decorator-section>                    
+                    </decorator-section>
                     <decorator-section name="body">
                         <decorator-section-include name="body"/>
                     </decorator-section>
@@ -200,8 +201,8 @@ under the License.
 
                 <set field="layoutSettings.javaScripts[]" value="/partymgr/static/PartyProfileContent.js" global="true"/>
 
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/ViewProfile.groovy"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/SetRoleVars.groovy"/>
+                <script location="component://party/groovyScripts/party/ViewProfile.groovy"/>
+                <script location="component://party/groovyScripts/party/SetRoleVars.groovy"/>
                 <set field="parameters.partyId" from-field="partyId"/>
                 <set field="parameters.partyGroupId" from-field="partyGroupId"/>
             </actions>
@@ -343,6 +344,41 @@ under the License.
             </widgets>
         </section>
     </screen>
+    <screen name="ViewPartiesCreatedByVCard">
+        <section>
+            <widgets>
+                <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <section>
+                            <condition>
+                                <or>
+                                    <not><if-empty field="parameters.partiesCreated"/></not>
+                                    <not><if-empty field="parameters.partiesExist"/></not>
+                                </or>
+                            </condition>
+                            <actions>
+                                <set field="partiesCreated" from-field="parameters.partiesCreated"/>
+                                <set field="partiesExist" from-field="parameters.partiesExist"/>
+                            </actions>
+                            <widgets>
+                                <screenlet title="${uiLabelMap.MarketingPartiesLoaded}">
+                                    <include-grid name="ViewPartiesCreatedByVCard" location="component://marketing/widget/sfa/forms/CommonForms.xml"/>
+                                </screenlet>
+                                <screenlet title="${uiLabelMap.MarketingPartiesNoLoadedAlreadyExist}">
+                                    <include-grid name="ViewPartiesExistInVCard" location="component://marketing/widget/sfa/forms/CommonForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                            <fail-widgets>
+                                <container>
+                                    <label style="h3">${uiLabelMap.MarketingNoPartyLoad}</label>
+                                </container>
+                            </fail-widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
     <screen name="CommonCommunicationEventDecorator">
         <section>
             <actions>
@@ -380,7 +416,7 @@ under the License.
                             </decorator-section>
                             <decorator-section name="left-column">
                                 <include-screen name="leftbar"/>
-                            </decorator-section>                    
+                            </decorator-section>
                             <decorator-section name="body">
                                 <include-menu name="OpportunitySubTabBar" location="component://marketing/widget/sfa/SfaMenus.xml"/>
                                 <decorator-section-include name="body"/>
@@ -400,7 +436,7 @@ under the License.
                     </decorator-section>
                     <decorator-section name="left-column">
                         <include-screen name="leftbar"/>
-                    </decorator-section>                    
+                    </decorator-section>
                     <decorator-section name="body">
                         <include-menu name="AccountSubTabBar" location="component://marketing/widget/sfa/SfaMenus.xml"/>
                         <decorator-section-include name="body"/>
@@ -418,7 +454,7 @@ under the License.
                     </decorator-section>
                     <decorator-section name="left-column">
                         <include-screen name="leftbar"/>
-                    </decorator-section>                    
+                    </decorator-section>
                     <decorator-section name="body">
                         <include-menu name="ContactSubTabBar" location="component://marketing/widget/sfa/SfaMenus.xml"/>
                         <decorator-section-include name="body"/>
@@ -462,7 +498,7 @@ under the License.
                     </decorator-section>
                     <decorator-section name="left-column">
                         <include-screen name="leftbar"/>
-                    </decorator-section>                    
+                    </decorator-section>
                     <decorator-section name="body">
                         <include-menu name="EventSubTabBar" location="component://marketing/widget/sfa/SfaMenus.xml"/>
                         <decorator-section-include name="body"/>

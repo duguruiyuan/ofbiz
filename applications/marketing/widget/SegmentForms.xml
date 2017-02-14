@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="FindSegmentGroup" list-name="listIt" target="" title="" type="list" paginate-target="FindSegmentGroup"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
@@ -33,15 +33,15 @@ under the License.
             </service>
         </actions>
         <field name="segmentGroupId" widget-style="buttontext" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupId}">
-            <hyperlink also-hidden="false" description="${segmentGroupId}" target="viewSegmentGroup">
+            <hyperlink description="${segmentGroupId}" target="viewSegmentGroup" also-hidden="false">
                 <parameter param-name="segmentGroupId"/>
             </hyperlink>
         </field>
-        <field name="segmentGroupTypeId" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupTypeId}"><display-entity entity-name="SegmentGroupType" description="${description}"/></field>
+        <field name="segmentGroupTypeId" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupTypeId}"><display-entity entity-name="SegmentGroupType"/></field>
         <field name="description" title="${uiLabelMap.CommonDescription}"><display/></field>
         <field name="productStoreId" title="${uiLabelMap.MarketingSegmentGroupProductStoreId}"><display/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteSegmentGroup" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteSegmentGroup" also-hidden="false">
                 <parameter param-name="segmentGroupId"/>
             </hyperlink>
         </field>
@@ -51,13 +51,13 @@ under the License.
         header-row-style="header-row" default-table-style="basic-table">
         <alt-target use-when="segmentGroup==null" target="createSegmentGroup"/>
 
-        <field use-when="segmentGroup!=null" name="segmentGroupId" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupId}" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="segmentGroup!=null" name="segmentGroupId" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupId}"><display/></field>
         <field use-when="segmentGroup==null&amp;&amp;segmentGroupId==null" name="segmentGroupId" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupId}"><ignored/></field>
         <field use-when="segmentGroup==null&amp;&amp;segmentGroupId!=null" name="segmentGroupId" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupId}" tooltip="${uiLabelMap.CommonCannotBeFound}: [${segmentGroupId}]"><display/></field>
 
         <field name="segmentGroupTypeId" title="${uiLabelMap.MarketingSegmentGroupSegmentGroupTypeId}">
             <drop-down>
-                <entity-options description="${description}" entity-name="SegmentGroupType" key-field-name="segmentGroupTypeId">
+                <entity-options entity-name="SegmentGroupType" key-field-name="segmentGroupTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -88,7 +88,7 @@ under the License.
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonSave}" widget-style="buttontext"><submit button-type="text-link"/></field>
     </form>
-    <form name="listSegmentGroupClass" list-name="segmentGroupClassList" target="" title="" type="list" paginate-target="listSegmentGroupClass"
+    <form name="ListSegmentGroupClass" list-name="segmentGroupClassList" target="" title="" type="list" paginate-target="listSegmentGroupClass"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <actions>
             <entity-and entity-name="SegmentGroupClassification">
@@ -98,7 +98,7 @@ under the License.
         <field name="segmentGroupId"><hidden/></field>
         <field name="partyClassificationGroupId"><display/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteSegmentGroupClassification" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteSegmentGroupClassification" also-hidden="false">
                 <parameter param-name="segmentGroupId"/>
                 <parameter param-name="partyClassificationGroupId"/>
             </hyperlink>
@@ -114,7 +114,7 @@ under the License.
         <field name="geoId" title="${uiLabelMap.CommonGeoId}"><lookup target-form-name="LookupGeo"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonSave}" widget-style="buttontext"><submit button-type="text-link"/></field>
     </form>
-    <form name="listSegmentGroupGeo" list-name="segmentGroupGeos" target="" title="" type="list" paginate-target="listSegmentGroupGeo"
+    <form name="ListSegmentGroupGeo" list-name="segmentGroupGeos" target="" title="" type="list" paginate-target="listSegmentGroupGeo"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <actions>
             <entity-and entity-name="SegmentGroupGeo">
@@ -124,7 +124,7 @@ under the License.
         <field name="segmentGroupId"><hidden/></field>
         <field name="geoId" title="${uiLabelMap.CommonGeoId}"><display-entity entity-name="Geo" description="${geoName} [Code:${geoCode}][ID:${geoId}]"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteSegmentGroupGeo" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteSegmentGroupGeo" also-hidden="false">
                 <parameter param-name="segmentGroupId"/>
                 <parameter param-name="geoId"/>
             </hyperlink>
@@ -140,14 +140,14 @@ under the License.
         <field name="partyId" title="${uiLabelMap.PartyPartyId}"><lookup target-form-name="LookupPartyName"/></field>
         <field name="roleTypeId">
             <drop-down>
-                <entity-options description="${description}" entity-name="RoleType" key-field-name="roleTypeId">
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonSave}" widget-style="buttontext"><submit button-type="text-link"/></field>
     </form>
-    <form name="listSegmentGroupRole" list-name="listIt" target="" title="" type="list" paginate-target="listSegmentGroupRole"
+    <form name="ListSegmentGroupRole" list-name="listIt" target="" title="" type="list" paginate-target="listSegmentGroupRole"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <actions>
             <service service-name="performFind" result-map="result" result-map-list="listIt">
@@ -168,7 +168,7 @@ under the License.
         </field>
         <field name="roleTypeId" title="${uiLabelMap.PartyRoleTypeId}"><display-entity entity-name="RoleType"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteSegmentGroupRole" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteSegmentGroupRole" also-hidden="false">
                 <parameter param-name="segmentGroupId"/>
                 <parameter param-name="partyId"/>
                 <parameter param-name="roleTypeId"/>

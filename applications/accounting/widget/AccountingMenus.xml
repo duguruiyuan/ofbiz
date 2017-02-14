@@ -19,7 +19,7 @@ under the License.
 -->
 
 <menus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-menu.xsd">
+ xmlns="http://ofbiz.apache.org/Widget-Menu" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Menu http://ofbiz.apache.org/dtds/widget-menu.xsd">
 
     <menu name="AccountingAppBar" title="${uiLabelMap.AccountingManager}" extends="CommonAppBarMenu" extends-resource="component://common/widget/CommonMenus.xml">
         <menu-item name="invoices" title="${uiLabelMap.AccountingInvoicesMenu}"><link target="findInvoices"/></menu-item>
@@ -110,7 +110,7 @@ under the License.
                 <parameter param-name="invoiceId" from-field="invoice.invoiceId"/>
             </link>
         </menu-item>
-
+        
         <menu-item name="invoiceRoles" title="${uiLabelMap.AccountingInvoiceRoles}">
             <condition>
                 <and>
@@ -125,7 +125,22 @@ under the License.
                 <parameter param-name="invoiceId" from-field="invoice.invoiceId"/>
             </link>
         </menu-item>
-
+        
+        <menu-item name="invoiceTerms" title="${uiLabelMap.PartyTerms}">
+            <condition>
+                <and>
+                    <not><if-empty field="invoice.invoiceId"/></not>
+                    <or>
+                        <if-compare field="invoice.statusId" operator="equals" value="INVOICE_IN_PROCESS"/>
+                        <if-compare field="invoice.statusId" operator="equals" value="INVOICE_RECEIVED"/>
+                    </or>
+                </and>
+            </condition>
+            <link target="invoiceTerms">
+                <parameter param-name="invoiceId" from-field="invoice.invoiceId"/>
+            </link>
+        </menu-item>
+        
         <menu-item name="editInvoiceApplications" title="${uiLabelMap.AccountingApplications}">
             <condition>
                 <and>
@@ -404,7 +419,7 @@ under the License.
     <menu name="PaymentSubTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
           menu-container-style="button-bar button-style-2">
         <actions>
-            <set field="isDisbursement" value="${groovy:if(payment!=void)return org.ofbiz.accounting.util.UtilAccounting.isDisbursement(payment)}"/>
+            <set field="isDisbursement" value="${groovy:if(context.payment != null) return org.apache.ofbiz.accounting.util.UtilAccounting.isDisbursement(context.payment)}"/>
         </actions>
         <menu-item name="createNew" title="${uiLabelMap.CommonCreateNew}" widget-style="buttontext create" >
             <condition>
@@ -500,7 +515,7 @@ under the License.
                     </or>
                 </and>
             </condition>
-            <link target="PaymentAcctgTransEntriesPdf">
+            <link target="PaymentAcctgTransEntriesPdf" link-type="anchor">
                 <parameter param-name="paymentId" from-field="payment.paymentId"/>
             </link>
         </menu-item>
@@ -1159,6 +1174,11 @@ under the License.
                 <parameter param-name="agreementId" from-field="agreement.agreementId"/>
             </link>
         </menu-item>
+        <menu-item name="AgreementContents" title="${uiLabelMap.AccountingAgreementContents}">
+            <link target="EditAgreementContents">
+                <parameter param-name="agreementId" from-field="agreement.agreementId"/>
+            </link>
+        </menu-item>
     </menu>
 
     <menu name="AgreementItemTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
@@ -1424,7 +1444,7 @@ under the License.
             </link>
         </menu-item>
     </menu>
-    <menu name="newAccountOrganization">
+    <menu name="NewAccountOrganization">
         <menu-item name="addCompany"  title="${uiLabelMap.AccountingNewCompany}">
             <condition>
                 <if-compare field="hasPrefPermission" operator="equals" value="true" type="Boolean"/>

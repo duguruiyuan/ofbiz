@@ -17,7 +17,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonOrderReturnDecorator">
         <section>
             <widgets>
@@ -27,7 +27,7 @@ under the License.
                             <widgets>
                                 <platform-specific>
                                     <html>
-                                        <html-template location="component://order/webapp/ordermgr/return/returnLinks.ftl"/>
+                                        <html-template location="component://order/template/return/ReturnLinks.ftl"/>
                                     </html>
                                 </platform-specific>
                                 <decorator-section-include name="body"/>
@@ -67,14 +67,14 @@ under the License.
             <actions>
                 <set field="titleProperty" value="PageTitleFindQuickReturn"/>
                 <set field="headerItem" value="return"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/QuickReturn.groovy"/>
+                <script location="component://order/groovyScripts/return/QuickReturn.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonOrderReturnDecorator" location="${parameters.orderReturnDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleFindQuickReturn}">
                             <platform-specific>
-                                <html><html-template location="component://order/webapp/ordermgr/return/quickReturn.ftl"/></html>
+                                <html><html-template location="component://order/template/return/QuickReturn.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>
@@ -90,7 +90,7 @@ under the License.
                 <set field="tabButtonItem" value="OrderReturnHeader"/>
                 <set field="layoutSettings.javaScripts[+0]" value="/ordermgr-js/return.js" global="true"/>
                 <property-to-field field="defaultCurrencyUomId" resource="general" property="currency.uom.id.default" default="USD"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnHeader.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnHeader.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonOrderReturnDecorator" location="${parameters.orderReturnDecoratorLocation}">
@@ -110,14 +110,14 @@ under the License.
             <actions>
                 <set field="titleProperty" value="PageTitleReturnList"/>
                 <set field="headerItem" value="return"/>
-                <entity-condition list="returnList" entity-name="ReturnHeader"/>
+                <entity-condition entity-name="ReturnHeader" list="returnList"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonOrderReturnDecorator" location="${parameters.orderReturnDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleReturnList}">
                             <platform-specific>
-                                <html><html-template location="component://order/webapp/ordermgr/return/returnList.ftl"/></html>
+                                <html><html-template location="component://order/template/return/ReturnList.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>
@@ -131,7 +131,7 @@ under the License.
                 <set field="titleProperty" value="PageTitleReturnItems"/>
                 <set field="headerItem" value="return"/>
                 <set field="tabButtonItem" value="OrderReturnItems"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnItems.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnItems.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonOrderReturnDecorator" location="${parameters.orderReturnDecoratorLocation}">
@@ -140,7 +140,7 @@ under the License.
                             <widgets>
                                 <platform-specific>
                                     <html>
-                                        <html-template location="component://order/webapp/ordermgr/return/returnItems.ftl"/>
+                                        <html-template location="component://order/template/return/ReturnItems.ftl"/>
                                     </html>
                                 </platform-specific>
                             </widgets>
@@ -158,7 +158,7 @@ under the License.
                 <set field="headerItem" value="return"/>
                 <set field="tabButtonItem" value="OrderReturnHistory"/>
                 <set field="returnId" from-field="parameters.returnId"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnItems.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnItems.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonOrderReturnDecorator" location="${parameters.orderReturnDecoratorLocation}">
@@ -191,7 +191,7 @@ under the License.
                     </condition>
                     <widgets>
                         <screenlet id="ReturnStatusHistoryPanel" title="${uiLabelMap.OrderOrderReturn} ${uiLabelMap.CommonStatusHistory}" collapsible="true">
-                            <include-form location="component://order/widget/ordermgr/ReturnForms.xml" name="ReturnStatusHistory"/>
+                            <include-form name="ReturnStatusHistory" location="component://order/widget/ordermgr/ReturnForms.xml"/>
                         </screenlet>
                     </widgets>
                     <fail-widgets>
@@ -208,7 +208,7 @@ under the License.
         <section>
             <actions>
                 <set field="entityField" value="returnTypeId"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnHistory.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnHistory.groovy"/>
             </actions>
             <widgets>
                 <section>
@@ -219,7 +219,7 @@ under the License.
                     </condition>
                     <widgets>
                         <screenlet id="ReturnTypeHistoryPanel" title="${uiLabelMap.OrderReturnTypeHistory}" collapsible="true">
-                            <include-form location="component://order/widget/ordermgr/ReturnForms.xml" name="ReturnTypeHistory"/>
+                            <include-form name="ReturnTypeHistory" location="component://order/widget/ordermgr/ReturnForms.xml"/>
                         </screenlet>
                     </widgets>
                     <fail-widgets>
@@ -236,7 +236,7 @@ under the License.
         <section>
             <actions>
                 <set field="entityField" value="returnReasonId"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnHistory.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnHistory.groovy"/>
             </actions>
             <widgets>
                 <section>
@@ -247,7 +247,7 @@ under the License.
                     </condition>
                     <widgets>
                         <screenlet id="ReturnReasonHistoryPanel" title="${uiLabelMap.OrderReturnReasonHistory}" collapsible="true">
-                            <include-form location="component://order/widget/ordermgr/ReturnForms.xml" name="ReturnReasonHistory"/>
+                            <include-form name="ReturnReasonHistory" location="component://order/widget/ordermgr/ReturnForms.xml"/>
                         </screenlet>
                     </widgets>
                     <fail-widgets>
@@ -264,7 +264,7 @@ under the License.
         <section>
             <actions>
                 <set field="entityField" value="returnQuantity"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnHistory.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnHistory.groovy"/>
             </actions>
             <widgets>
                 <section>
@@ -275,7 +275,7 @@ under the License.
                     </condition>
                     <widgets>
                         <screenlet id="ReturnQuantityHistoryPanel" title="${uiLabelMap.OrderReturnQtyHistory}" collapsible="true">
-                            <include-form location="component://order/widget/ordermgr/ReturnForms.xml" name="ReturnAndReceivedQuantityHistory"/>
+                            <include-form name="ReturnAndReceivedQuantityHistory" location="component://order/widget/ordermgr/ReturnForms.xml"/>
                         </screenlet>
                     </widgets>
                     <fail-widgets>
@@ -292,7 +292,7 @@ under the License.
         <section>
             <actions>
                 <set field="entityField" value="receivedQuantity"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnHistory.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnHistory.groovy"/>
             </actions>
             <widgets>
                 <section>
@@ -303,7 +303,7 @@ under the License.
                     </condition>
                     <widgets>
                         <screenlet id="ReceivedQuantityHistoryPanel" title="${uiLabelMap.OrderReceivedQtyHistory}" collapsible="true">
-                            <include-form location="component://order/widget/ordermgr/ReturnForms.xml" name="ReturnAndReceivedQuantityHistory"/>
+                            <include-form name="ReturnAndReceivedQuantityHistory" location="component://order/widget/ordermgr/ReturnForms.xml"/>
                         </screenlet>
                     </widgets>
                     <fail-widgets>
@@ -320,7 +320,7 @@ under the License.
         <section>
             <actions>
                 <set field="entityField" value="returnPrice"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnHistory.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnHistory.groovy"/>
             </actions>
             <widgets>
                 <section>
@@ -331,7 +331,7 @@ under the License.
                     </condition>
                     <widgets>
                         <screenlet id="ReturnPriceHistoryPanel" title="${uiLabelMap.OrderReturnPriceHistory}" collapsible="true">
-                            <include-form location="component://order/widget/ordermgr/ReturnForms.xml" name="ReturnPriceHistory"/>
+                            <include-form name="ReturnPriceHistory" location="component://order/widget/ordermgr/ReturnForms.xml"/>
                         </screenlet>
                     </widgets>
                     <fail-widgets>

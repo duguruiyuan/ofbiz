@@ -17,7 +17,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns="http://ofbiz.apache.org/Widget-Form" targetNamespace="http://ofbiz.apache.org/Widget-Form">
     <xs:include schemaLocation="http://ofbiz.apache.org/dtds/widget-common.xsd" />
 
   <!-- ================== FORMS ==================== -->
@@ -56,7 +56,7 @@ under the License.
                         </xs:enumeration>
                         <xs:enumeration value="list">
                             <xs:annotation>
-                                <xs:documentation>a list form is a list of individual forms in a table (could be called a tabular form), it has a list of sets of values and creates one form for each list element</xs:documentation>
+                                <xs:documentation>DEPRECATED use grid instead - a list form is a list of individual forms in a table (could be called a tabular form), it has a list of sets of values and creates one form for each list element</xs:documentation>
                             </xs:annotation>
                         </xs:enumeration>
                         <xs:enumeration value="multi">
@@ -167,7 +167,10 @@ under the License.
             </xs:attribute>
             <xs:attribute type="xs:string" name="override-list-size">
                 <xs:annotation>
-                    <xs:documentation>The total number of rows in the original list (used for pagination). If not specified, the size of the list will be used. Accepts ${} notation.</xs:documentation>
+                    <xs:documentation>The total number of rows in the original list (used for pagination). 
+                                      If not specified, the size of the list will be used. Accepts ${} notation.
+                                      You may use any value, true makes sense, when using performFindList, but one value must be passed. 
+                    </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
             <xs:attribute type="xs:string" name="paginate-first-label">
@@ -290,6 +293,11 @@ under the License.
         </xs:complexType>
     </xs:element>
     <xs:element name="grid">
+        <xs:annotation>
+            <xs:documentation>
+                a list of individual forms in a table (could be called a tabular form), it has a list of sets of values and creates one form for each list element
+            </xs:documentation>
+        </xs:annotation>
         <xs:complexType>
             <xs:sequence>
                 <xs:element minOccurs="0" ref="actions" />
@@ -303,33 +311,6 @@ under the License.
                 <xs:element minOccurs="0" ref="sort-order" />
             </xs:sequence>
             <xs:attribute name="name" type="xs:string" use="required" />
-            <xs:attribute name="type">
-                <xs:annotation>
-                    <xs:documentation>The form type is always required unless you are extending another form.</xs:documentation>
-                </xs:annotation>
-                <xs:simpleType>
-                    <xs:restriction base="xs:token">
-                        <xs:enumeration value="single">
-                            <xs:annotation>
-                                <xs:documentation>a single form is a simple single form with values from a single set of values</xs:documentation>
-                            </xs:annotation>
-                        </xs:enumeration>
-                        <xs:enumeration value="list">
-                            <xs:annotation>
-                                <xs:documentation>a list form is a list of individual forms in a table (could be called a tabular form), it has a list of sets of values and creates one form for each list element</xs:documentation>
-                            </xs:annotation>
-                        </xs:enumeration>
-                        <xs:enumeration value="multi">
-                            <xs:annotation>
-                                <xs:documentation>a multi form is like a list/tabular form, but it creates a single form to submit all list item forms at once; the field names in the resulting form have an appendage attached to make them unique according to the pattern used for the multi-service
-                                    event handler that will call one service for each list element</xs:documentation>
-                            </xs:annotation>
-                        </xs:enumeration>
-                        <xs:enumeration value="upload">
-                        </xs:enumeration>
-                    </xs:restriction>
-                </xs:simpleType>
-            </xs:attribute>
             <xs:attribute name="target" type="xs:string" />
             <xs:attribute name="target-window" type="xs:string" />
             <xs:attribute name="target-type" default="intra-app">
@@ -756,7 +737,12 @@ under the License.
             </xs:attribute>
             <xs:attribute type="xs:string" name="title">
                 <xs:annotation>
-                    <xs:documentation>The name of this field that will be shown to the user; can use the ${} and foo.bar (dot) syntax to insert values from the context for parameterization or internationalization.</xs:documentation>
+                    <xs:documentation>
+                        The name of this field that will be shown to the user. 
+                        It can use the ${} and foo.bar (dot) syntax to insert values from the context for parameterization or internationalization.
+                        
+                        Be sure a "FormFieldTitle_" labels does not already exist, else it will be overriden.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
             <xs:attribute type="xs:string" name="header-link">
@@ -825,6 +811,15 @@ under the License.
                         Java syntax and can operate on values in the form context; conditional fields are evaluated in reverse
                         order so the last field defined that evaluates to true is the one that is rendered.
             </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="ignore-when" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>
+                        This attribute is defined to enable ignoring a field on a form of type list or multi,
+                        which is not possible using use-when attribute. Like use-when it should be written using java syntax.
+                        The condition should be evaluated in the form context without looking for data coming from list that feeds the form.
+                        </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
             <xs:attribute name="encode-output" default="true">
@@ -910,6 +905,24 @@ under the License.
                     <xs:documentation>The name of a style (like a CSS class) to apply to the sort field link ordered descending.
                         Will default to form's default-sort-field-desc-style.
                 </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute type="xs:string" name="form-name">
+                <xs:annotation>
+                    <xs:documentation>
+                        The name of the parent form. This is needed for lookups of children forms.
+                        The parent form being the first form with skip-end="true" which precedes the children forms (with skip-start="true").
+                        Must be set also on the related field if description-field-name is used.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute type="xs:string" name="tabindex">
+                <xs:annotation>
+                    <xs:documentation>
+                        The HTML tabindex specifies the tab order of an element (when the "tab" button is used for navigating).
+                        To exclude an element from the tab order, set the value of tabindex to 0
+                        In that case the element is skipped when the user tabs around the form.
+                    </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
         </xs:complexType>
@@ -1106,7 +1119,10 @@ under the License.
     </xs:element>
     <xs:element name="display-entity" substitutionGroup="AllFields">
         <xs:annotation>
-            <xs:documentation>This is just like display but looks up a description using the Entity Engine; note that if also-hidden is true then it uses the key as the value, not the shown description.</xs:documentation>
+            <xs:documentation>
+                This is just like display but looks up a description using the Entity Engine; 
+                note that if also-hidden is true then it uses the key as the value, not the shown description.
+            </xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:sequence>
@@ -1117,7 +1133,10 @@ under the License.
             <xs:attribute type="xs:string" name="description" default="${description}" />
             <xs:attribute type="xs:integer" name="size">
                 <xs:annotation>
-                    <xs:documentation>Specifies the size of the field (as a number of characters), when the text to display exceed the given size it is truncated and add the complete text as a hint</xs:documentation>
+                    <xs:documentation>
+                        Specifies the size of the field (as a number of characters), 
+                        when the text to display exceed the given size it is truncated and add the complete text as a hint
+                     </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
             <xs:attribute name="cache" default="true">
@@ -1236,22 +1255,6 @@ under the License.
                         <xs:documentation>Specifies the string to display, can use the ${} syntax to insert context values; if empty the value of the field will be printed for a default.</xs:documentation>
                     </xs:annotation>
                 </xs:attribute>
-                <xs:attribute name="request-confirmation" default="false">
-                    <xs:annotation>
-                        <xs:documentation>If true then the user is presented with a dialog box, if confirmation-message is empty, use default</xs:documentation>
-                    </xs:annotation>
-                    <xs:simpleType>
-                        <xs:restriction base="xs:token">
-                            <xs:enumeration value="true" />
-                            <xs:enumeration value="false" />
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:attribute>
-                <xs:attribute name="confirmation-message" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation>The message displayed in confirmation box</xs:documentation>
-                    </xs:annotation>
-                </xs:attribute>
                 <xs:attribute name="also-hidden" default="true">
                     <xs:annotation>
                         <xs:documentation>If set to true, an hidden form field is also rendered, with the name of the field and its content.</xs:documentation>
@@ -1317,13 +1320,6 @@ under the License.
                 <xs:element minOccurs="0" ref="sub-hyperlink" />
             </xs:sequence>
             <xs:attribute type="xs:string" name="target-form-name" use="required" />
-            <xs:attribute type="xs:string" name="form-name">
-                <xs:annotation>
-                    <xs:documentation>
-                        The name of the parent form, needed when using skip-start="true" along with correct id-name value on field
-                    </xs:documentation>
-                </xs:annotation>
-            </xs:attribute>
             <xs:attribute type="xs:nonNegativeInteger" name="size" default="25" />
             <xs:attribute type="xs:positiveInteger" name="maxlength" />
             <xs:attribute type="xs:string" name="default-value" />
@@ -1358,6 +1354,9 @@ under the License.
                 </xs:simpleType>
             </xs:attribute>
             <xs:attribute name="read-only" default="false">
+                <xs:annotation>
+                    <xs:documentation>Makes the input field related to this lookup read-only (no edits allowed)</xs:documentation>
+                </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="xs:token">
                         <xs:enumeration value="true" />
@@ -1434,6 +1433,30 @@ under the License.
                     </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="include-menu" substitutionGroup="AllFields">
+        <xs:complexType>
+            <xs:attribute type="xs:string" name="name" use="required" />
+            <xs:attribute type="xs:string" name="location" use="required" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="include-form" substitutionGroup="AllFields">
+        <xs:complexType>
+            <xs:attribute type="xs:string" name="name" use="required" />
+            <xs:attribute type="xs:string" name="location" use="required" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="include-grid" substitutionGroup="AllFields">
+        <xs:complexType>
+            <xs:attribute type="xs:string" name="name" use="required" />
+            <xs:attribute type="xs:string" name="location" use="required" />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="include-screen" substitutionGroup="AllFields">
+        <xs:complexType>
+            <xs:attribute type="xs:string" name="name" use="required" />
+            <xs:attribute type="xs:string" name="location" use="required" />
         </xs:complexType>
     </xs:element>
     <xs:element name="password" substitutionGroup="AllFields">
@@ -1576,12 +1599,29 @@ under the License.
                     <xs:documentation>Defines a customized input mask. Use 9 for numeric, a for alpha and * for alphanumeric character.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
+            <xs:attribute name="read-only" default="false">
+                <xs:annotation>
+                    <xs:documentation>Makes this text field read-only (no edits allowed)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:token">
+                        <xs:enumeration value="true" />
+                        <xs:enumeration value="false" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
+            <xs:attribute name="placeholder" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Specifies a short hint that describes the expected value of an input field.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
         </xs:complexType>
     </xs:element>
     <xs:element name="textarea" substitutionGroup="AllFields">
         <xs:complexType>
             <xs:attribute type="xs:positiveInteger" name="cols" default="60" />
             <xs:attribute type="xs:positiveInteger" name="rows" default="3" />
+            <xs:attribute type="xs:positiveInteger" name="maxlength"/>
             <xs:attribute type="xs:string" name="default-value" />
             <xs:attribute name="read-only" default="false">
                 <xs:annotation>
@@ -1782,7 +1822,7 @@ under the License.
                     <xs:documentation>The name of the field in the looked up entity that will be used for the key value; if empty defaults to the entry-name of the field this is in.</xs:documentation>
                 </xs:annotation>
             </xs:attribute>
-            <xs:attribute type="xs:string" name="description" use="required">
+            <xs:attribute type="xs:string" name="description" default="${description}">
                 <xs:annotation>
                     <xs:documentation>Will be presented to the user with field values substituted using the ${} syntax.</xs:documentation>
                 </xs:annotation>
@@ -1921,7 +1961,7 @@ under the License.
                 </xs:documentation>
                 </xs:annotation>
             </xs:attribute>
-            <xs:attribute type="xs:string" name="description">
+            <xs:attribute type="xs:string" name="description" default="${description}">
                 <xs:annotation>
                     <xs:documentation>Will be presented to the user with field values substituted using the ${} syntax.</xs:documentation>
                 </xs:annotation>

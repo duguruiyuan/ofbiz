@@ -19,9 +19,9 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="FindTaxAuthority" type="list" list-name="taxAuthorityList"
-        odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" default-table-style="basic-table hover-bar" paginate-target="FindTaxAuthority">
         <actions>
             <entity-condition entity-name="TaxAuthority" list="taxAuthorityList">
                 <order-by field-name="taxAuthGeoId"/>
@@ -52,12 +52,12 @@ under the License.
         <alt-target use-when="taxAuthority==null" target="createTaxAuthority"/>
         <auto-fields-service service-name="updateTaxAuthority" map-name="taxAuthority"/>
 
-        <field use-when="taxAuthority!=null" name="taxAuthPartyId" title="${uiLabelMap.PartyParty}" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
-        <field use-when="taxAuthority==null&amp;&amp;taxAuthPartyId==null" name="taxAuthPartyId" title="${uiLabelMap.PartyParty}"><lookup target-form-name="LookupPartyName"/></field>
+        <field use-when="taxAuthority!=null" name="taxAuthPartyId" title="${uiLabelMap.PartyParty}"><display/></field>
+        <field use-when="taxAuthority==null&amp;&amp;taxAuthPartyId==null" name="taxAuthPartyId" title="${uiLabelMap.PartyParty}" required-field="true"><lookup target-form-name="LookupPartyName"/></field>
         <field use-when="taxAuthority==null&amp;&amp;taxAuthPartyId!=null" name="taxAuthPartyId" title="${uiLabelMap.PartyParty}" tooltip="${uiLabelMap.CommonCannotBeFound}:[${taxAuthPartyId}]"><lookup target-form-name="LookupPartyName"/></field>
 
-        <field use-when="taxAuthority!=null" name="taxAuthGeoId" title="${uiLabelMap.CommonGeo}" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
-        <field use-when="taxAuthority==null&amp;&amp;taxAuthGeoId==null" name="taxAuthGeoId" title="${uiLabelMap.CommonGeo}"><lookup target-form-name="LookupGeo"/></field>
+        <field use-when="taxAuthority!=null" name="taxAuthGeoId" title="${uiLabelMap.CommonGeo}"><display/></field>
+        <field use-when="taxAuthority==null&amp;&amp;taxAuthGeoId==null" name="taxAuthGeoId" title="${uiLabelMap.CommonGeo}" required-field="true"><lookup target-form-name="LookupGeo"/></field>
         <field use-when="taxAuthority==null&amp;&amp;taxAuthGeoId!=null" name="taxAuthGeoId" title="${uiLabelMap.CommonGeo}" tooltip="${uiLabelMap.CommonCannotBeFound}:[${taxAuthGeoId}]"><lookup target-form-name="LookupGeo"/></field>
 
         <field name="requireTaxIdForExemption" widget-style="smallSelect">
@@ -72,7 +72,7 @@ under the License.
     </form>
 
     <form name="ListTaxAuthorityCategories" type="list"  list-name="taxAuthorityCategoryList" target="updateTaxAuthorityCategory"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" paginate-target="EditTaxAuthorityCategories">
         <actions>
             <entity-condition entity-name="TaxAuthorityCategory" list="taxAuthorityCategoryList">
                 <condition-list combine="and">
@@ -86,7 +86,7 @@ under the License.
         <field name="taxAuthPartyId"><hidden/></field>
         <field name="taxAuthGeoId"><hidden/></field>
         <field name="productCategoryId" title="${uiLabelMap.ProductCategory}">
-            <display-entity entity-name="ProductCategory" description="${description}">
+            <display-entity entity-name="ProductCategory">
                 <sub-hyperlink description="${productCategoryId}" target="/catalog/control/EditCategory" target-type="inter-app" link-style="buttontext">
                     <parameter param-name="productCategoryId"/>
                 </sub-hyperlink>
@@ -94,7 +94,7 @@ under the License.
         </field>
 
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteTaxAuthorityCategory" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteTaxAuthorityCategory" also-hidden="false">
                 <parameter param-name="taxAuthPartyId"/>
                 <parameter param-name="taxAuthGeoId"/>
                 <parameter param-name="productCategoryId"/>
@@ -111,7 +111,7 @@ under the License.
     </form>
 
     <form name="ListTaxAuthorityAssocs" type="list" list-name="taxAuthorityAssocList" target="updateTaxAuthorityAssoc"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" paginate-target="EditTaxAuthorityAssocs">
         <actions>
             <entity-condition entity-name="TaxAuthorityAssoc" list="taxAuthorityAssocList">
                 <condition-list combine="and">
@@ -138,7 +138,7 @@ under the License.
 
         <field name="taxAuthorityAssocTypeId" title="${uiLabelMap.CommonType}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="TaxAuthorityAssocType" description="${description}">
+                <entity-options entity-name="TaxAuthorityAssocType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -146,7 +146,7 @@ under the License.
 
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteTaxAuthorityAssoc" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteTaxAuthorityAssoc" also-hidden="false">
                 <parameter param-name="taxAuthPartyId"/>
                 <parameter param-name="taxAuthGeoId"/>
                 <parameter param-name="toTaxAuthPartyId"/>
@@ -165,7 +165,7 @@ under the License.
 
         <field name="taxAuthorityAssocTypeId" title="${uiLabelMap.CommonType}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="TaxAuthorityAssocType" description="${description}">
+                <entity-options entity-name="TaxAuthorityAssocType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -175,7 +175,7 @@ under the License.
     </form>
 
     <form name="ListTaxAuthorityGlAccounts" type="list"  list-name="taxAuthorityGlAccountList" target="updateTaxAuthorityGlAccount"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" paginate-target="EditTaxAuthorityGlAccounts">
         <actions>
             <entity-condition entity-name="TaxAuthorityGlAccount" list="taxAuthorityGlAccountList">
                 <condition-list combine="and">
@@ -204,7 +204,7 @@ under the License.
         </field>
 
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteTaxAuthorityGlAccount" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteTaxAuthorityGlAccount" also-hidden="false">
                 <parameter param-name="taxAuthPartyId"/>
                 <parameter param-name="taxAuthGeoId"/>
                 <parameter param-name="glAccountId"/>
@@ -223,7 +223,7 @@ under the License.
     </form>
 
     <form name="ListTaxAuthorityRateProducts" type="list" list-name="taxAuthorityRateProductList" target="updateTaxAuthorityRateProduct" separate-columns="true"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" paginate-target="EditTaxAuthorityRateProducts">
         <actions>
             <entity-condition entity-name="TaxAuthorityRateProduct" list="taxAuthorityRateProductList">
                 <condition-list combine="and">
@@ -241,7 +241,7 @@ under the License.
 
         <field name="taxAuthorityRateTypeId" title="${uiLabelMap.CommonType}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="TaxAuthorityRateType" description="${description}">
+                <entity-options entity-name="TaxAuthorityRateType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -267,7 +267,7 @@ under the License.
 
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteTaxAuthorityRateProduct" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteTaxAuthorityRateProduct" also-hidden="false">
                 <parameter param-name="taxAuthPartyId"/>
                 <parameter param-name="taxAuthGeoId"/>
                 <parameter param-name="taxAuthorityRateSeqId"/>
@@ -283,7 +283,7 @@ under the License.
 
         <field name="taxAuthorityRateTypeId" title="${uiLabelMap.CommonType}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="TaxAuthorityRateType" description="${description}">
+                <entity-options entity-name="TaxAuthorityRateType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -333,7 +333,7 @@ under the License.
         <field name="submitButton" title="${uiLabelMap.CommonFind}" widget-style="buttontext"><submit button-type="text-link"/></field>
     </form>
     <form name="ListTaxAuthorityParties" type="list" title="" list-name="listIt"
-        odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" default-table-style="basic-table hover-bar" paginate-target="ListTaxAuthorityParties">
         <actions>
             <service service-name="performFind" result-map="result" result-map-list="listIt">
                 <field-map field-name="inputFields" from-field="parameters"/>
@@ -362,7 +362,7 @@ under the License.
         <field name="isNexus"><display/></field>
 
         <field name="editLink" title=" " widget-style="buttontext">
-            <hyperlink target="EditTaxAuthorityPartyInfo" description="${uiLabelMap.CommonEdit}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonEdit}" target="EditTaxAuthorityPartyInfo" also-hidden="false">
                 <parameter param-name="taxAuthPartyId"/>
                 <parameter param-name="taxAuthGeoId"/>
                 <parameter param-name="partyId"/>
@@ -370,7 +370,7 @@ under the License.
             </hyperlink>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteTaxAuthorityPartyInfo" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteTaxAuthorityPartyInfo" also-hidden="false">
                 <parameter param-name="taxAuthPartyId"/>
                 <parameter param-name="taxAuthGeoId"/>
                 <parameter param-name="partyId"/>
@@ -404,5 +404,33 @@ under the License.
 
         <field use-when="partyTaxAuthInfo!=null" name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="buttontext"><submit button-type="text-link"/></field>
         <field use-when="partyTaxAuthInfo==null" name="submitButton" title="${uiLabelMap.CommonCreate}" widget-style="buttontext"><submit button-type="text-link"/></field>
+    </form>
+    
+    <!-- Tax Authority Tax Reports forms -->
+    <form name="FindTaxAuthorityReport" type="single" target="FindTaxAuthorityReport"
+        title="Find and list VAT report for a tax authority, my month, quater or other period"
+        header-row-style="header-row" default-table-style="basic-table">
+        <field name="noConditionFind"><hidden value="Y"/><!-- if this isn't there then with all fields empty no query will be done --></field>
+        <field name="hideSearch"><hidden value="Y"/></field>
+        <field name="taxAuthPartyId"><hidden/></field>
+        <field name="taxAuthGeoId"><hidden/></field>
+        <field name="invoiceDate"><date-find type="date" default-option-from="greaterThanFromDayStart" default-option-thru="upThruDay"/></field>
+        <field name="submitButton" title="${uiLabelMap.CommonSearch}" widget-style="buttontext" >
+            <submit button-type="button"/>
+        </field>
+    </form>
+    
+    <form name="ListTaxAuthorityReport" list-name="listIt" title="" type="list" 
+        odd-row-style="alternate-row" header-row-style="header-row-2" 
+        default-table-style="basic-table hover-bar">
+        <actions>
+            <service service-name="performFind" result-map="result" result-map-list="listIt">
+                <field-map field-name="inputFields" from-field="parameters"/>
+                <field-map field-name="entityName" value="InvoiceItem"/>
+                <field-map field-name="viewIndex" from-field="viewIndex"/>
+                <field-map field-name="viewSize" from-field="viewSize"/>
+            </service>
+        </actions>
+        <auto-fields-entity entity-name="InvoiceItem" default-field-type="display"/>
     </form>
 </forms>

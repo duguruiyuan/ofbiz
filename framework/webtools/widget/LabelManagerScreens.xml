@@ -19,9 +19,9 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
-    <screen name="SearchLabels">
+    <screen name="SearchLabels" transaction-timeout="600">
         <section>
             <condition>
                 <if-has-permission permission="LABEL_MANAGER_VIEW"/>
@@ -29,22 +29,22 @@ under the License.
             <actions>
                 <set field="titleProperty" value="WebtoolsLabelManagerFindLabels"/>
                 <set field="tabButtonItem" value="labels"/>
-                <script location="component://webtools/webapp/webtools/WEB-INF/actions/labelmanager/LabelManager.groovy"/>
+                <script location="component://webtools/groovyScripts/labelmanager/LabelManager.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonArtifactDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
                             <decorator-section name="search-options">
-                               <platform-specific><html><html-template location="component://webtools/webapp/webtools/labelmanager/SearchLabels.ftl"/></html></platform-specific>
+                               <platform-specific><html><html-template location="component://webtools/template/labelmanager/SearchLabels.ftl"/></html></platform-specific>
                             </decorator-section>
                             <decorator-section name="search-results">
-                                <platform-specific><html><html-template location="component://webtools/webapp/webtools/labelmanager/ViewLabels.ftl"/></html></platform-specific>
+                                <platform-specific><html><html-template location="component://webtools/template/labelmanager/ViewLabels.ftl"/></html></platform-specific>
                             </decorator-section>
                         </decorator-screen>
                         <!--
                         <screenlet id="ViewHardcodedLabelsPanel" title="${uiLabelMap.WebtoolsLabelManagerHardcoded}" collapsible="false">
-                            <platform-specific><html><html-template location="component://webtools/webapp/webtools/labelmanager/ViewHardcodedLabels.ftl"/></html></platform-specific>
+                            <platform-specific><html><html-template location="component://webtools/template/labelmanager/ViewHardcodedLabels.ftl"/></html></platform-specific>
                         </screenlet>
                         -->
                     </decorator-section>
@@ -63,7 +63,7 @@ under the License.
             </condition>
             <actions>
                 <set field="titleProperty" value="WebtoolsLabelManagerAddNew"/>
-                <script location="component://webtools/webapp/webtools/WEB-INF/actions/labelmanager/UpdateManager.groovy"/>
+                <script location="component://webtools/groovyScripts/labelmanager/UpdateManager.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -71,7 +71,7 @@ under the License.
                         <container style="h1">
                             <label text="${uiLabelMap.WebtoolsLabelManagerAddNew}"/>
                         </container>
-                            <platform-specific><html><html-template location="component://webtools/webapp/webtools/labelmanager/UpdateLabel.ftl"/></html></platform-specific>
+                            <platform-specific><html><html-template location="component://webtools/template/labelmanager/UpdateLabel.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -88,12 +88,12 @@ under the License.
             </condition>
             <actions>
                 <set field="titleProperty" value="WebtoolsLabelManagerViewReferences"/>
-                <script location="component://webtools/webapp/webtools/WEB-INF/actions/labelmanager/ViewReferences.groovy"/>
+                <script location="component://webtools/groovyScripts/labelmanager/ViewReferences.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
-                        <platform-specific><html><html-template location="component://webtools/webapp/webtools/labelmanager/ViewReferences.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://webtools/template/labelmanager/ViewReferences.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -110,13 +110,13 @@ under the License.
             </condition>
             <actions>
                 <set field="titleProperty" value="WebtoolsLabelManagerViewFile"/>
-                <script location="component://webtools/webapp/webtools/WEB-INF/actions/labelmanager/ViewFile.groovy"/>
+                <script location="component://webtools/groovyScripts/labelmanager/ViewFile.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet id="ViewFilePanel" title="${uiLabelMap.WebtoolsLabelManagerViewFile}">
-                            <platform-specific><html><html-template location="component://webtools/webapp/webtools/labelmanager/ViewFile.ftl"/></html></platform-specific>
+                            <platform-specific><html><html-template location="component://webtools/template/labelmanager/ViewFile.ftl"/></html></platform-specific>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>

@@ -17,12 +17,12 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonOrderEntryDecorator">
         <section>
             <actions>
                 <set field="headerItem" value="orderentry"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/entry/SetShoppingCart.groovy"/>
+                <script location="component://order/groovyScripts/entry/SetShoppingCart.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -33,7 +33,7 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <html><html-template location="component://order/webapp/ordermgr/entry/OrderEntryTabBar.ftl"/></html>
+                                    <html><html-template location="component://order/template/entry/OrderEntryTabBar.ftl"/></html>
                                 </platform-specific>
                                 <decorator-section-include name="body"/>
                             </widgets>
@@ -47,7 +47,7 @@ under the License.
         <section>
             <actions>
                 <set field="headerItem" value="orderentry"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/entry/SetShoppingCart.groovy"/>
+                <script location="component://order/groovyScripts/entry/SetShoppingCart.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -59,7 +59,7 @@ under the License.
                             <widgets>
                                 <container style="screenlet">
                                     <platform-specific>
-                                        <html><html-template location="component://order/webapp/ordermgr/entry/OrderEntryCatalogTabBar.ftl"/></html>
+                                        <html><html-template location="component://order/template/entry/OrderEntryCatalogTabBar.ftl"/></html>
                                     </platform-specific>
                                     <container style="screenlet-body">
                                         <decorator-section-include name="body"/>

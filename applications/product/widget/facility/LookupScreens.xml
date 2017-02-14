@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="LookupFacility">
         <section>
             <condition>
@@ -38,10 +38,10 @@ under the License.
             <widgets>
                 <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">
                     <decorator-section name="search-options">
-                        <include-form name="lookupFacility" location="component://product/widget/facility/FieldLookupForms.xml"/>
+                        <include-form name="LookupFacility" location="component://product/widget/facility/FieldLookupForms.xml"/>
                     </decorator-section>
                     <decorator-section name="search-results">
-                        <include-form name="listLookupFacility" location="component://product/widget/facility/FieldLookupForms.xml"/>
+                        <include-form name="ListLookupFacility" location="component://product/widget/facility/FieldLookupForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -55,6 +55,7 @@ under the License.
             <actions>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="title" value="${uiLabelMap.PageTitleLookupFacility}"/>
+                <set field="facilityId" from-field="parameters.facilityId" default-value="${parameters.parm0}"/>
                 <set field="queryString" from-field="result.queryString"/>
                 <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer"/>
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
@@ -65,16 +66,15 @@ under the License.
             <widgets>
                 <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">
                     <decorator-section name="search-options">
-                        <include-form name="lookupFacilityLocation" location="component://product/widget/facility/FieldLookupForms.xml"/>
+                        <include-form name="LookupFacilityLocation" location="component://product/widget/facility/FieldLookupForms.xml"/>
                     </decorator-section>
                     <decorator-section name="search-results">
-                        <include-form name="listLookupFacilityLocation" location="component://product/widget/facility/FieldLookupForms.xml"/>
+                        <include-form name="ListLookupFacilityLocation" location="component://product/widget/facility/FieldLookupForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
         </section>
     </screen>
-
     <screen name="LookupShipment">
         <section>
             <actions>
@@ -91,10 +91,10 @@ under the License.
             <widgets>
                 <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">
                     <decorator-section name="search-options">
-                        <include-form name="lookupShipment" location="component://product/widget/facility/FieldLookupForms.xml"/>
+                        <include-form name="LookupShipment" location="component://product/widget/facility/FieldLookupForms.xml"/>
                     </decorator-section>
                     <decorator-section name="search-results">
-                        <include-form name="listShipment" location="component://product/widget/facility/FieldLookupForms.xml"/>
+                        <include-form name="ListShipment" location="component://product/widget/facility/FieldLookupForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -107,12 +107,17 @@ under the License.
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="title" value="${uiLabelMap.ProductLookupInventory}"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/inventory/LookupInventoryItems.groovy"/>
+                <set field="queryString" from-field="result.queryString"/>
+                <set field="entityName" value="InventoryItem"/>
+                <set field="searchFields" value="[inventoryItemId]"/>
+                <script location="component://product/groovyScripts/catalog/GetSupplierInventories.groovy"/>
+                <set field="andCondition" value="${context.andCondition}"/>
+                <script location="component://product/groovyScripts/facility/inventory/LookupInventoryItems.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">
                     <decorator-section name="search-results">
-                        <platform-specific><html><html-template location="component://product/webapp/facility/lookup/LookupInventoryItems.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://product/template/lookup/LookupInventoryItems.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
             </widgets>

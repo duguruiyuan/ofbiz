@@ -19,24 +19,17 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonCalendarDecorator">
         <section>
             <widgets>
-                <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
+                <decorator-screen name="CommonManufacturingDecorator" location="${parameters.commonManufacturingDecoratorLocation}">
                     <decorator-section name="body">
                         <section>
-                            <!-- do check for MANUFACTURING, _VIEW permission -->
-                            <condition>
-                                <if-has-permission permission="MANUFACTURING" action="_VIEW"/>
-                            </condition>
                             <widgets>
                                 <include-menu name="CalendarTabBar" location="component://manufacturing/widget/manufacturing/ManufacturingMenus.xml"/>
                                 <decorator-section-include name="body"/>
                             </widgets>
-                            <fail-widgets>
-                                <label style="h3">${uiLabelMap.ManufacturingViewPermissionError}</label>
-                            </fail-widgets>
                         </section>
                     </decorator-section>
                 </decorator-screen>
@@ -51,7 +44,7 @@ under the License.
                 <!--<set field="labelTitleProperty" value="ProductProductBom"/>-->
                 <set field="headerItem" value="calendar"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/routing/EditCalendar.groovy"/>
+                <script location="component://manufacturing/groovyScripts/routing/EditCalendar.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonCalendarDecorator">
@@ -59,7 +52,7 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <html><html-template location="component://manufacturing/webapp/manufacturing/routing/EditCalendar.ftl"/></html>
+                                    <html><html-template location="component://manufacturing/template/routing/EditCalendar.ftl"/></html>
                                 </platform-specific>
                             </widgets>
                         </section>
@@ -78,7 +71,7 @@ under the License.
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
 
-                <entity-condition list="techDataCalendars" entity-name="TechDataCalendar"/>
+                <entity-condition entity-name="TechDataCalendar" list="techDataCalendars"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonCalendarDecorator">
@@ -104,7 +97,7 @@ under the License.
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
 
-                <entity-condition list="calendarWeeks" entity-name="TechDataCalendarWeek"/>
+                <entity-condition entity-name="TechDataCalendarWeek" list="calendarWeeks"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonCalendarDecorator">
@@ -151,7 +144,7 @@ under the License.
                 <!--<set field="labelTitleProperty" value="ProductProductBom"/>-->
                 <set field="headerItem" value="calendar"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/routing/EditCalendarExceptionWeek.groovy"/>
+                <script location="component://manufacturing/groovyScripts/routing/EditCalendarExceptionWeek.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonCalendarDecorator">
@@ -159,7 +152,7 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <html><html-template location="component://manufacturing/webapp/manufacturing/routing/EditCalendarExceptionWeek.ftl"/></html>
+                                    <html><html-template location="component://manufacturing/template/routing/EditCalendarExceptionWeek.ftl"/></html>
                                 </platform-specific>
                             </widgets>
                         </section>
@@ -176,7 +169,7 @@ under the License.
                 <!--<set field="labelTitleProperty" value="ProductProductBom"/>-->
                 <set field="headerItem" value="calendar"/>
 
-                <script location="component://manufacturing/webapp/manufacturing/WEB-INF/actions/routing/EditCalendarExceptionDay.groovy"/>
+                <script location="component://manufacturing/groovyScripts/routing/EditCalendarExceptionDay.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonCalendarDecorator">
@@ -184,12 +177,72 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <html><html-template location="component://manufacturing/webapp/manufacturing/routing/EditCalendarExceptionDay.ftl"/></html>
+                                    <html><html-template location="component://manufacturing/template/routing/EditCalendarExceptionDay.ftl"/></html>
                                 </platform-specific>
                             </widgets>
                         </section>
                     </decorator-section>
                 </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="ListCalendarExceptionWeek">
+        <section>
+            <actions>
+                <set field="calendarExceptionWeeksDatas" value="${groovy: request.getAttribute('calendarExceptionWeeksDatas');}"/>
+            </actions>
+            <widgets>
+                <include-form name="ListCalendarExceptionWeek" location="component://manufacturing/widget/manufacturing/CalendarForms.xml"/>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="AddCalendarExceptionWeek">
+        <section>
+            <actions>
+                <set field="techDataCalendar" value="${groovy: request.getAttribute('techDataCalendar');}"/>
+            </actions>
+            <widgets>
+                <include-form name="AddCalendarExceptionWeek" location="component://manufacturing/widget/manufacturing/CalendarForms.xml"/>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="UpdateCalendarExceptionWeek">
+        <section>
+            <actions>
+                <set field="calendarExceptionWeek" value="${groovy: request.getAttribute('calendarExceptionWeek');}"/>
+            </actions>
+            <widgets>
+                <include-form name="UpdateCalendarExceptionWeek" location="component://manufacturing/widget/manufacturing/CalendarForms.xml"/>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="ListCalendarExceptionDay">
+        <section>
+            <actions>
+                <set field="calendarExceptionDays" value="${groovy: request.getAttribute('calendarExceptionDays');}"/>
+            </actions>
+            <widgets>
+                <include-form name="ListCalendarExceptionDay" location="component://manufacturing/widget/manufacturing/CalendarForms.xml"/>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="AddCalendarExceptionDay">
+        <section>
+            <actions>
+                <set field="techDataCalendar" value="${groovy: request.getAttribute('techDataCalendar');}"/>
+            </actions>
+            <widgets>
+                <include-form name="AddCalendarExceptionDay" location="component://manufacturing/widget/manufacturing/CalendarForms.xml"/>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="UpdateCalendarExceptionDay">
+        <section>
+            <actions>
+                <set field="calendarExceptionDay" value="${groovy: request.getAttribute('calendarExceptionDay');}"/>
+            </actions>
+            <widgets>
+                <include-form name="UpdateCalendarExceptionDay" location="component://manufacturing/widget/manufacturing/CalendarForms.xml"/>
             </widgets>
         </section>
     </screen>

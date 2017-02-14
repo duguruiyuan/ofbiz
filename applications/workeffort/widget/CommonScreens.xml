@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="main-decorator">
         <section>
             <actions>
@@ -87,6 +87,11 @@ under the License.
                                 <if-service-permission service-name="workEffortManagerPermission" main-action="VIEW"/>
                             </condition>
                             <widgets>
+                                <container style="button-bar">
+                                    <link text="${uiLabelMap.WorkEffortCreate}" target="EditWorkEffort" style="buttontext">
+                                        <parameter param-name="DONE_PAGE" from-field="donePage"/>
+                                    </link>
+                                </container>
                                 <section>
                                     <condition>
                                         <not>
@@ -130,10 +135,12 @@ under the License.
                                     <condition><not><if-empty field="timesheetId"/></not></condition>
                                     <widgets>
                                         <include-menu name="TimesheetTabBar" location="component://workeffort/widget/TimesheetMenus.xml"/>
+                                        <container style="button-bar">
+                                            <link  text="${uiLabelMap.WorkEffortTimesheetCreate}" target="EditTimesheet" style="buttontext create"/>
+                                        </container>
                                         <container><label style="h1">${uiLabelMap.WorkEffortTimesheetTimesheetId} ${timesheetId}</label></container>
                                     </widgets>
                                 </section>
-
                                 <decorator-section-include name="body"/>
                             </widgets>
                             <fail-widgets>
@@ -159,7 +166,7 @@ under the License.
                                 <if-has-permission permission="WORKEFFORTMGR" action="_VIEW" />
                             </condition>
                             <actions>
-                                <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/Days.groovy" />
+                                <script location="component://workeffort/groovyScripts/workeffort/calendar/Days.groovy" />
                             </actions>
                             <widgets>
                                 <screenlet id="calendarOptions" name="calendarOptionsScreenlet" collapsible="true" title="${uiLabelMap.WorkEffortCalendarFindEntries}">
@@ -186,7 +193,7 @@ under the License.
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://workeffort/webapp/workeffort/main.ftl"/></html>
+                            <html><html-template location="component://workeffort/template/Main.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>

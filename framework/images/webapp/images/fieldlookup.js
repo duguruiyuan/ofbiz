@@ -50,7 +50,7 @@ function lookup_popup1(view_name, form_name, viewWidth, viewheight) {
 
 function lookup_popup2(view_name) {
     var argString = "";
-    if (this.args !== null) {
+    if (this.args != null) {
         if (this.args.length > 2) {
             var i;
             for (i = 2; i < this.args.length; i++) {
@@ -181,9 +181,9 @@ var Lookup = function(options) {
         dialogTarget : options.dialogTarget || "",
         dialogOptionalTarget : options.dialogOptionalTarget || "",
         formName : options.formName || "",
-        width : options.width || "620",
-        height : options.height || "500",
-        position : options.position || "topleft",
+        width : options.width,
+        height : options.height,
+        position : options.position,
         modal : options.modal || "true",
         ajaxUrl : options.ajaxUrl || "",
         showDescription : options.showDescription || "",
@@ -249,7 +249,7 @@ var Lookup = function(options) {
             // write the new input box id in the ajaxUrl Array
             options.ajaxUrl = options.ajaxUrl.replace(options.ajaxUrl.substring(0, options.ajaxUrl.indexOf(",")), _newInputBoxId);
             new ajaxAutoCompleter(options.ajaxUrl, (options.showDescription == "true") ? true : false, options.defaultMinLength, options.defaultDelay,
-                    options.formName);
+                    options.formName, options.args);
         }
     }
 
@@ -702,9 +702,10 @@ catch (err) {
 
 function setSourceColor(src) {
     if (src && src != null) {
-        src.css("background-color", "yellow");
+        src.effect("highlight", {}, 3000);
     }
 }
+
 // function passing selected value to calling window, using only in the
 // TimeDuration case
 function set_duration_value(value) {
@@ -832,15 +833,8 @@ lookupDescriptionLoaded.prototype.update = function() {
             url : this.url,
             type : "POST",
             data : this.allParams,
-            async : false,
             success : function(result) {
-                // This would be far more reliable if we were removing
-                // the widget boundaries in LookupDecorator using
-                // widgetVerbose in context :/
-                if (result.split("ajaxAutocompleteOptions.ftl -->")[1]) {
-                    setLookDescription(_fieldId, result.split("ajaxAutocompleteOptions.ftl -->")[1].trim().split("<!--")[0].trim(),
-                            "", "");
-                }
+                setLookDescription(_fieldId, result.trim(), "", "");
             }
         });
     }

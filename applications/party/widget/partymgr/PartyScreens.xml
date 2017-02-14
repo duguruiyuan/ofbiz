@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <!-- Party Find Screen -->
     <screen name="findparty">
@@ -28,8 +28,8 @@ under the License.
                 <set field="titleProperty" value="PageTitleFindParty"/>
                 <set field="headerItem" value="find"/>
                 <set field="tabButtonItem" value="findparty"/>
-
-                <service service-name="findParty" auto-field-map="parameters"/>
+                <set field="initialyCollapsed" value="${groovy:'Y'.equals(parameters.hideFields)}" type="String"/>
+                <script location="component://party/groovyScripts/party/FindParty.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -40,9 +40,14 @@ under the License.
                                 <if-service-permission service-name="partyBasePermissionCheck" main-action="VIEW"/>
                             </condition>
                             <widgets>
-                                <platform-specific>
-                                    <html><html-template location="component://party/webapp/partymgr/party/findparty.ftl"/></html>
-                                </platform-specific>
+                                <screenlet id="FindPartyPanel" title="${uiLabelMap.PartyFindParty}" navigation-menu-name="CreateNewParty"
+                                           navigation-form-name="LookupParty" save-collapsed="false" collapsible="true" initially-collapsed="${initialyCollapsed}">
+                                    <include-menu location="component://party/widget/partymgr/PartyMenus.xml" name="CreateNewParty"/>
+                                    <include-form name="LookupParty" location="component://party/widget/partymgr/PartyForms.xml"/>
+                                </screenlet>
+                                <screenlet title="${uiLabelMap.CommonSearchResults}" navigation-form-name="ListParty">
+                                    <include-grid name="ListParty${extInfo}" location="component://party/widget/partymgr/PartyForms.xml"/>
+                                </screenlet>
                             </widgets>
                             <fail-widgets>
                                 <label style="h3" text="${uiLabelMap.PartyMgrViewPermissionError}"/>
@@ -53,7 +58,6 @@ under the License.
             </widgets>
         </section>
     </screen>
-
     <!-- Party Profile Screens -->
 
     <screen name="viewprofile">
@@ -64,7 +68,7 @@ under the License.
                 <set field="labelTitleProperty" value="PartyTaxAuthInfos"/>
                 <set field="partyId" from-field="parameters.partyId"/>
                 <set field="layoutSettings.javaScripts[]" value="/partymgr/static/PartyProfileContent.js" global="true"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/ViewProfile.groovy"/>
+                <script location="component://party/groovyScripts/party/ViewProfile.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
@@ -275,12 +279,11 @@ under the License.
                     <order-by field-name="partyRelationshipTypeId"/>
                     <order-by field-name="-fromDate"/>
                 </entity-condition>
-                <entity-condition entity-name="SecurityGroup" list="securityGroups"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
-                        <screenlet title="${uiLabelMap.PartyRelationships}" navigation-form-name="ListPartyRelationships">
+                        <screenlet title="${uiLabelMap.PartyRelationships}">
                             <include-form name="ListPartyRelationships" location="component://party/widget/partymgr/PartyForms.xml"/>
                         </screenlet>
                         <container style="lefthalf">
@@ -397,13 +400,13 @@ under the License.
 
                 <set field="labelTitleProperty" value="PartyShoppingLists"/>
 
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/EditShoppingList.groovy"/>
+                <script location="component://party/groovyScripts/party/EditShoppingList.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://party/webapp/partymgr/party/editShoppingList.ftl"/></html>
+                            <html><html-template location="component://party/template/party/EditShoppingList.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -420,8 +423,8 @@ under the License.
 
                 <set field="labelTitleProperty" value="PageTitleEditContactMech"/>
 
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/HasPartyPermissions.groovy"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/EditContactMech.groovy"/>
+                <script location="component://party/groovyScripts/HasPartyPermissions.groovy"/>
+                <script location="component://party/groovyScripts/party/EditContactMech.groovy"/>
 
                 <set field="dependentForm" value="editcontactmechform"/>
                 <set field="paramKey" value="countryGeoId"/>
@@ -449,8 +452,8 @@ under the License.
                             <widgets>
                                 <platform-specific>
                                     <html>
-                                        <html-template location="component://common/webcommon/includes/setDependentDropdownValuesJs.ftl"/>
-                                        <html-template location="component://party/webapp/partymgr/party/editcontactmech.ftl"/>
+                                        <html-template location="component://common/template/includes/SetDependentDropdownValuesJs.ftl"/>
+                                        <html-template location="component://party/template/party/EditContactMech.ftl"/>
                                     </html>
                                 </platform-specific>
                             </widgets>
@@ -534,9 +537,9 @@ under the License.
                         <container style="page-title">
                             <label text="${uiLabelMap.UserLoginUpdateSecuritySettings} - ${userLoginId}"/>
                         </container>
-                        <include-form name="updateUserLoginSecurity" location="component://common/widget/SecurityForms.xml"/>
+                        <include-form name="UpdateUserLoginSecurity" location="component://common/widget/SecurityForms.xml"/>
                         <screenlet title="${uiLabelMap.UserLoginChangePassword}">
-                            <include-form name="updatePassword" location="component://common/widget/SecurityForms.xml"/>
+                            <include-form name="UpdatePassword" location="component://common/widget/SecurityForms.xml"/>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>
@@ -660,35 +663,6 @@ under the License.
         </section>
     </screen>
 
-    <!-- Create New Party Screen -->
-    <screen name="CreateNewParty">
-        <section>
-            <actions>
-                <set field="titleProperty" value="PageTitleCreateNewPartyDetail"/>
-                <set field="headerItem" value="find"/>
-            </actions>
-            <widgets>
-                <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
-                    <decorator-section name="body">
-                        <section>
-                            <condition>
-                                <if-has-permission permission="PARTYMGR" action="_CREATE"/>
-                            </condition>
-                            <widgets>
-                                <screenlet title="${uiLabelMap.PartyCreateNewParty}">
-                                    <include-menu location="component://party/widget/partymgr/PartyMenus.xml" name="create-new-party"/>
-                                </screenlet>
-                            </widgets>
-                            <fail-widgets>
-                                <label style="h3">${uiLabelMap.PartyMgrCreatePermissionError}</label>
-                            </fail-widgets>
-                        </section>
-                    </decorator-section>
-                </decorator-screen>
-            </widgets>
-        </section>
-    </screen>
-
     <!-- New Customer Party Screen -->
     <screen name="NewCustomer">
         <section>
@@ -696,6 +670,7 @@ under the License.
                 <set field="titleProperty" value="PartyCreateNewCustomer"/>
                 <set field="headerItem" value="find"/>
                 <set field="target" value="createCustomer"/>
+                <set field="displayPassword" value="Y"/>
                 <set field="previousParams" from-field="_PREVIOUS_PARAMS_" from-scope="user"/>
                 <property-to-field field="defaultCountryGeoId" resource="general" property="country.geo.id.default" default="USA"/>
             </actions>
@@ -717,9 +692,10 @@ under the License.
                                 <set field="dependentKeyName" value="geoId"/>
                                 <set field="descName" value="geoName"/>
                                 <set field="selectedDependentOption" value="_none_"/>
+                                <set field="focusFieldName" value="NewUser_USER_PARTY_ID"/>
                             </actions>
                             <widgets>
-                                <platform-specific><html><html-template location="component://common/webcommon/includes/setDependentDropdownValuesJs.ftl"/></html></platform-specific>
+                                <platform-specific><html><html-template location="component://common/template/includes/SetDependentDropdownValuesJs.ftl"/></html></platform-specific>
                                 <screenlet title="${uiLabelMap.PartyCreateNewCustomer}">
                                     <include-form name="NewUser" location="component://party/widget/partymgr/PartyForms.xml"/>
                                 </screenlet>
@@ -764,7 +740,7 @@ under the License.
                                 <set field="selectedDependentOption" value="_none_"/>
                             </actions>
                             <widgets>
-                                <platform-specific><html><html-template location="component://common/webcommon/includes/setDependentDropdownValuesJs.ftl"/></html></platform-specific>
+                                <platform-specific><html><html-template location="component://common/template/includes/SetDependentDropdownValuesJs.ftl"/></html></platform-specific>
                                 <screenlet title="${uiLabelMap.PartyCreateNewProspect}">
                                     <include-form name="NewUser" location="component://party/widget/partymgr/PartyForms.xml"/>
                                 </screenlet>
@@ -809,7 +785,7 @@ under the License.
                                 <set field="selectedDependentOption" value="_none_"/>
                             </actions>
                             <widgets>
-                                <platform-specific><html><html-template location="component://common/webcommon/includes/setDependentDropdownValuesJs.ftl"/></html></platform-specific>
+                                <platform-specific><html><html-template location="component://common/template/includes/SetDependentDropdownValuesJs.ftl"/></html></platform-specific>
                                 <screenlet title="${uiLabelMap.PartyCreateNewEmployee}">
                                     <include-form name="NewUser" location="component://party/widget/partymgr/PartyForms.xml"/>
                                 </screenlet>
@@ -838,7 +814,7 @@ under the License.
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://party/webapp/partymgr/party/addressMatchMap.ftl"/></html>
+                            <html><html-template location="component://party/template/party/AddressMatchMap.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -851,13 +827,13 @@ under the License.
             <actions>
                 <set field="titleProperty" value="PageTitleAddressMatches"/>
                 <set field="headerItem" value="addrmap"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/FindMatches.groovy"/>
+                <script location="component://party/groovyScripts/party/FindMatches.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://party/webapp/partymgr/party/findMatches.ftl"/></html>
+                            <html><html-template location="component://party/template/party/FindMatches.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -875,6 +851,12 @@ under the License.
                 <set field="partyId" from-field="parameters.partyId"/>
                 <set field="contentId" from-field="parameters.contentId"/>
                 <entity-one entity-name="Content" value-field="content"/>
+                <entity-one entity-name="PartyContent" value-field="partyContent">
+                    <field-map field-name="contentId" from-field="parameters.contentId"/>
+                    <field-map field-name="partyId" from-field="parameters.partyId"/>
+                    <field-map field-name="partyContentTypeId" from-field="parameters.partyContentTypeId"/>
+                    <field-map field-name="fromDate" from-field="parameters.fromDate"/>
+                </entity-one>
             </actions>
             <widgets>
                 <decorator-screen name="CommonPartyDecorator"  location="${parameters.mainDecoratorLocation}">
@@ -917,9 +899,9 @@ under the License.
                 <set field="titleProperty" value="HumanResEditPartyResume"/>
                 <set field="headerItem" value="find"/>
                 <set field="tabButtonItem" value="EditPartyResumes"/>
-                <set field="partyId" from-field="parameters.partyId"/>
                 <set field="resumeId" from-field="parameters.resumeId"/>
-                <set field="partyResumeCtx.resumeId" from-field="parameters.resumeId"/>
+                <set field="partyId" from-field="parameters.partyId"/>
+                <entity-one entity-name="PartyResume" value-field="partyResume"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
@@ -1060,8 +1042,8 @@ under the License.
                                 <set field="actualCurrencyUomId" from-field="defaultOrganizationPartyCurrencyUomId"/>
                             </actions>
                             <widgets>
-                                <screenlet title="${uiLabelMap.PartyFinancialSummary}${defaultOrganizationPartyId}" navigation-form-name="partyFinancialSummary">
-                                    <include-form name="partyFinancialSummary" location="component://party/widget/partymgr/PartyForms.xml"/>
+                                <screenlet title="${uiLabelMap.PartyFinancialSummary}${defaultOrganizationPartyId}" navigation-form-name="PartyFinancialSummary">
+                                    <include-form name="PartyFinancialSummary" location="component://party/widget/partymgr/PartyForms.xml"/>
                                     <section>
                                         <condition>
                                             <and>
@@ -1075,7 +1057,7 @@ under the License.
                                         </actions>
                                         <widgets>
                                             <label style="h2" text="${uiLabelMap.PartyCurrency}"></label>
-                                            <include-form name="partyFinancialSummary" location="component://party/widget/partymgr/PartyForms.xml"/>
+                                            <include-form name="PartyFinancialSummary" location="component://party/widget/partymgr/PartyForms.xml"/>
                                         </widgets>
                                     </section>
                                 </screenlet>
@@ -1083,7 +1065,7 @@ under the License.
                         </section>
                         <section>
                             <actions>
-                                <script location="component://accounting/webapp/accounting/WEB-INF/actions/payment/BillingAccounts.groovy"/>
+                                <script location="component://accounting/groovyScripts/payment/BillingAccounts.groovy"/>
                             </actions>
                             <widgets>
                                 <screenlet title="${uiLabelMap.AccountingBillingAccount}">
@@ -1147,7 +1129,7 @@ under the License.
             <actions>
                 <set field="titleProperty" value="PageTitlePartyGeoLocation"/>
                 <set field="tabButtonItem" value="PartyGeoLocation"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/PartyGeoLocation.groovy"/>
+                <script location="component://party/groovyScripts/party/PartyGeoLocation.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
@@ -1181,19 +1163,35 @@ under the License.
             </widgets>
         </section>
     </screen>
+    <screen name="GetPartyGeoLocation">
+        <section>
+            <actions>
+                <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+                <set field="titleProperty" value="PageTitlePartyGeoLocation"/>
+                <set field="tabButtonItem" value="PartyGeoLocation"/>
+                <script location="component://party/groovyScripts/party/PartyGeoLocation.groovy"/>
+            </actions>
+            <widgets>
+                <label>${uiLabelMap.CommonLatitude} ${latestGeoPoint.latitude}</label>
+                <label>${uiLabelMap.CommonLongitude} ${latestGeoPoint.longitude}</label>
+                <label>${uiLabelMap.CommonElevation} ${latestGeoPoint.elevation} ${elevationUomAbbr}</label>
+                <include-screen name="geoChart" location="component://common/widget/CommonScreens.xml"/>
+            </widgets>
+        </section>
+    </screen>
     <screen name="EditGeoLocation">
         <section>
             <actions>
                 <set field="titleProperty" value="PageTitlePartyGeoLocation"/>
                 <set field="tabButtonItem" value="PartyGeoLocation"/>
                 <set field="partyId" from-field="parameters.partyId"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetGeoLocation.groovy"/>
+                <script location="component://party/groovyScripts/party/GetGeoLocation.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://party/webapp/partymgr/party/editGeoLocation.ftl"/></html>
+                            <html><html-template location="component://party/template/party/EditGeoLocation.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -1206,7 +1204,7 @@ under the License.
                 <set field="title" value="${uiLabelMap.MyPortalCustRequestNotificationMailCreation}"/>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://party/templates/email/CreatePartyNotification.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://party/template/email/CreatePartyNotification.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -1229,11 +1227,11 @@ under the License.
                 <decorator-screen name="CommonPartyDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PartyPartyIdentificationList}">
-                             <include-form name="listPartyIdentification" location="component://party/widget/partymgr/PartyForms.xml"/>
+                             <include-form name="ListPartyIdentification" location="component://party/widget/partymgr/PartyForms.xml"/>
                         </screenlet>
-                        <screenlet title="${uiLabelMap.PartyPartyIdentification}" navigation-menu-name="newPartyIdentification" id="PartyIdentificationCreationPanel">
-                             <include-menu name="newPartyIdentification" location="component://party/widget/partymgr/PartyMenus.xml"/>
-                             <include-form name="editPartyIdentification" location="component://party/widget/partymgr/PartyForms.xml"/>
+                        <screenlet title="${uiLabelMap.PartyPartyIdentification}" navigation-menu-name="NewPartyIdentification" id="PartyIdentificationCreationPanel">
+                             <include-menu name="NewPartyIdentification" location="component://party/widget/partymgr/PartyMenus.xml"/>
+                             <include-form name="EditPartyIdentification" location="component://party/widget/partymgr/PartyForms.xml"/>
                          </screenlet>
                     </decorator-section>
                 </decorator-screen>
@@ -1275,13 +1273,13 @@ under the License.
             <actions>
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="postalAddressTemplateSuffix" value=".ftl"/>
-                <set field="addressTemplatePath" value="${sys:getProperty('ofbiz.home')}/applications/party/webapp/partymgr/party/contactmechtemplates/"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetPostalAddressTemplate.groovy"/>
+                <set field="addressTemplatePath" value="${sys:getProperty('ofbiz.home')}/applications/party/template/party/contactmechtemplates/"/>
+                <script location="component://party/groovyScripts/party/GetPostalAddressTemplate.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/contactmechtemplates/${postalAddressTemplate}"/>
+                        <html-template location="component://party/template/party/contactmechtemplates/${postalAddressTemplate}"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -1292,14 +1290,14 @@ under the License.
             <actions>
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="postalAddressTemplateSuffix" value=".fo.ftl"/>
-                <set field="addressTemplatePath" value="${sys:getProperty('ofbiz.home')}/applications/party/webapp/partymgr/party/contactmechtemplates/"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetPostalAddressTemplate.groovy"/>
+                <set field="addressTemplatePath" value="${sys:getProperty('ofbiz.home')}/applications/party/template/party/contactmechtemplates/"/>
+                <script location="component://party/groovyScripts/party/GetPostalAddressTemplate.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <html>
-                        <html-template location="component://party/webapp/partymgr/party/contactmechtemplates/${postalAddressTemplate}"/>
-                    </html>
+                    <xsl-fo>
+                        <html-template location="component://party/template/party/contactmechtemplates/${postalAddressTemplate}"/>
+                    </xsl-fo>
                 </platform-specific>
             </widgets>
         </section>

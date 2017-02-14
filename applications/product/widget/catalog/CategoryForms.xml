@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="CreateProductCategoryAttribute" header-row-style="header-row" default-table-style="basic-table" type="single" target="createProductCategoryAttribute" title="">
         <auto-fields-service service-name="createProductCategoryAttribute" default-field-type="edit"/>
         <field name="productCategoryId"><display/></field>
@@ -31,7 +31,7 @@ under the License.
         <field name="attrValue"><text size="60"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteProductCategoryAttribute" description="${uiLabelMap.CommonDelete}">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteProductCategoryAttribute">
                 <parameter param-name="productCategoryId"/>
                 <parameter param-name="attrName"/>
             </hyperlink>
@@ -48,7 +48,7 @@ under the License.
         </field>
         <field name="prodCatContentTypeId">
             <drop-down>
-                <entity-options entity-name="ProductCategoryContentType" description="${description}">
+                <entity-options entity-name="ProductCategoryContentType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -62,7 +62,7 @@ under the License.
         <field name="productCategoryId" map-name="productCategory"><hidden/></field>
         <field name="prodCatContentTypeId">
             <drop-down>
-                <entity-options entity-name="ProductCategoryContentType" description="${description}">
+                <entity-options entity-name="ProductCategoryContentType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -75,7 +75,7 @@ under the License.
         odd-row-style="alternate-row" default-table-style="basic-table">
         <field name="productCategoryId"><hidden/></field>
         <field name="contentId" title="${uiLabelMap.ProductContent}">
-            <display-entity entity-name="Content" description="${description}" also-hidden="true">
+            <display-entity entity-name="Content" also-hidden="true">
                 <sub-hyperlink target="EditCategoryContentContent" description="${contentId}" link-style="buttontext">
                     <parameter param-name="productCategoryId"/>
                     <parameter param-name="contentId"/>
@@ -85,7 +85,7 @@ under the License.
             </display-entity>
         </field>
         <field name="prodCatContentTypeId" title="${uiLabelMap.ProductType}">
-            <display-entity entity-name="ProductCategoryContentType" also-hidden="false" description="${description}"/>
+            <display-entity entity-name="ProductCategoryContentType" also-hidden="false"/>
         </field>
         <field name="fromDate"><display/></field>
         <field name="thruDate"><display/></field>
@@ -94,7 +94,7 @@ under the License.
         <field name="thruDate"><date-time type="timestamp"/></field>
         <field name="prodCatContentTypeId">
             <drop-down>
-                <entity-options entity-name="ProductCategoryContentType" description="${description}">
+                <entity-options entity-name="ProductCategoryContentType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -102,12 +102,12 @@ under the License.
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         -->
         <field name="editLink" title="${uiLabelMap.ProductEditContent}" widget-style="buttontext">
-            <hyperlink target="/content/control/EditContent" target-type="inter-app" description="${contentId}">
+            <hyperlink description="${contentId}" target="/content/control/EditContent" target-type="inter-app">
                 <parameter param-name="contentId"/>
             </hyperlink>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeContentFromCategory" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeContentFromCategory" also-hidden="false">
                 <parameter param-name="productCategoryId"/>
                 <parameter param-name="contentId"/>
                 <parameter param-name="prodCatContentTypeId"/>
@@ -173,7 +173,7 @@ under the License.
         <field name="imageUrl"><ignored/></field>
         <field name="imageTwoUrl"><ignored/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteProductCategoryLink" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteProductCategoryLink" also-hidden="false">
                 <parameter param-name="productCategoryId"/>
                 <parameter param-name="linkSeqId"/>
                 <parameter param-name="fromDate"/>
@@ -189,7 +189,7 @@ under the License.
         <field name="productCategoryId"><hidden/></field>
         <field name="linkSeqId" use-when="productCategoryLink==null"><ignored/></field>
         <field name="linkSeqId" use-when="productCategoryLink!=null"><display/></field>
-        <field use-when="productCategoryLink != null" name="fromDate" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="productCategoryLink != null" name="fromDate"><display/></field>
         <field use-when="productCategoryLink == null" name="fromDate" title="${uiLabelMap.CommonFromDate}"><date-time/></field>
         <field name="thruDate" title="${uiLabelMap.CommonThruDate}"><date-time/></field>
         <field name="sequenceNum" title="${uiLabelMap.CommonSequence}"><text maxlength="5" size="5"/></field>
@@ -206,7 +206,7 @@ under the License.
         <field name="submitButton" use-when="productCategoryLink==null" title="${uiLabelMap.CommonAdd}"><submit button-type="button"/></field>
         <field name="submitButton" use-when="productCategoryLink!=null" title="${uiLabelMap.CommonUpdate}"><submit button-type="button"/></field>
         <field name="clearFormButton" title=" " use-when="productCategoryLink!=null">
-            <hyperlink target="EditProductCategoryLinks" target-type="intra-app" description="${uiLabelMap.CommonClear}">
+            <hyperlink description="${uiLabelMap.CommonClear}" target="EditProductCategoryLinks" target-type="intra-app">
                 <parameter param-name="productCategoryId"/>
             </hyperlink>
         </field>
@@ -214,7 +214,7 @@ under the License.
 
     <form name="ListTopCategory" type="list" list-name="noParentCategories" odd-row-style="alternate-row" default-table-style="basic-table">
         <field name="productCategoryId"  widget-style="buttontext">
-            <hyperlink target="EditCategory" description="${productCategoryId}" also-hidden="false">
+            <hyperlink description="${productCategoryId}" target="EditCategory" also-hidden="false">
                 <parameter param-name="CATALOG_TOP_CATEGORY" value="${productCategoryId}"/>
                 <parameter param-name="productCategoryId" value="${productCategoryId}"/>
             </hyperlink>
@@ -245,12 +245,12 @@ under the License.
             </service>
         </actions>
         <field name="productCategoryId" sort-field="true">
-            <hyperlink also-hidden="false" description="${productCategoryId}" target="EditCategory">
+            <hyperlink description="${productCategoryId}" target="EditCategory" also-hidden="false">
                 <parameter param-name="productCategoryId"/>
             </hyperlink>
         </field>
         
-        <field name="productCategoryTypeId" sort-field="true"><display-entity entity-name="ProductCategoryType" description="${description}"/></field>
+        <field name="productCategoryTypeId" sort-field="true"><display-entity entity-name="ProductCategoryType"/></field>
         <field name="primaryParentCategoryId" sort-field="true"><display/></field>
         <field name="categoryName" sort-field="true"><display/></field>
         <field name="description" sort-field="true"><display/></field>

@@ -1,49 +1,7 @@
 #!/bin/sh
 
-# check trunk for updates finally no longer done, restart all demos each morning at 3
+# Restart each morning at 3
+# crontab -e
+# add : 0 3 * * * nice -n 19 ionice -c2 -n7 /home/ofbizDemo/check-svn-update.sh > /home/ofbizDemo/cronlog-svn-update.log 2>&1
 
-cd /home/ofbizDemo/trunk
-#svn st -u | grep '*'
-
-#if [ $? = 0 ]; then
-    svn up
-    ./ant stop
-    ./ant clean-all
-    ./ant load-demo
-    ./ant svninfo
-    #./ant start  > console.log
-    ./ant start-batch
-#fi
-
-# check branch for updates
-
-cd /home/ofbizDemo/branch13.7
-#svn st -u | grep '*'
-
-#if [ $? = 0 ]; then
-    svn up
-    ./ant stop -Dportoffset=10000
-    ./ant clean-all
-    ./ant load-demo
-    ./ant svninfo
-    #./ant start -Dportoffset=10000 > console.log
-    ./ant start-batch -Dportoffset=10000
-#fi
-
-cd /home/ofbizDemo/branch12.4
-#svn st -u | grep '*'
-
-#if [ $? = 0 ]; then
-    svn up
-    tools/stopofbiz.sh
-    sleep 10
-    tools/stopofbiz.sh
-    sleep 10
-    tools/stopofbiz.sh
-    sleep 10
-    ./ant clean-all
-    ./ant load-demo
-    ./ant svninfo
-    sleep 10
-    nohup tools/startofbiz.sh &
-#fi
+./all-manual.sh

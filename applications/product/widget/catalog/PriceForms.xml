@@ -19,7 +19,7 @@
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+    xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="FindProductPriceRules" list-name="listIt" title="" type="list"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar" paginate-target="FindProductPriceRules">
         <actions>
@@ -34,7 +34,7 @@
             </service>
         </actions>
         <field name="productPriceRuleId" title="${uiLabelMap.ProductPriceRuleNameId}" widget-style="buttontext">
-            <hyperlink target="EditProductPriceRules" description="${ruleName}[${productPriceRuleId}]" >
+            <hyperlink description="${ruleName}[${productPriceRuleId}]" target="EditProductPriceRules" >
                 <parameter param-name="productPriceRuleId"/>
             </hyperlink>
         </field>
@@ -42,16 +42,15 @@
         <field name="fromDate" title="${uiLabelMap.CommonFromDate}"><display/></field>
         <field name="thruDate" title="${uiLabelMap.CommonThruDate}"><display/></field>
         <field name="editLink" title=" " widget-style="buttontext">
-            <hyperlink target="EditProductPriceRules" description="${uiLabelMap.CommonEdit}">
+            <hyperlink description="${uiLabelMap.CommonEdit}" target="EditProductPriceRules">
                 <parameter param-name="productPriceRuleId"/>
             </hyperlink>
         </field>
     </form>
     <form name="AddPriceRules" type="single" target="createProductPriceRule">
-        <field name="ruleName" title="${uiLabelMap.ProductName}"><text size="30"/></field>
+        <field name="ruleName" title="${uiLabelMap.ProductName}" required-field="true"><text size="30"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}"><submit button-type="button"/></field>
     </form>
-    
     <!-- Below, I tried also single forms but lists are better as long as we have not introduced a better way to handle positions -->   
     <form name="EditProductPriceRule" type="list" target="updateProductPriceRule" title="" list-name="productPriceRules" 
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar" separate-columns="true">
@@ -67,9 +66,9 @@
         <field name="fromDate" title="${uiLabelMap.CommonFromDate}"><date-time type="timestamp"/></field>
         <field name="thruDate" title="${uiLabelMap.CommonThruDate}"><date-time type="timestamp"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit/></field>        
-        <field use-when="org.ofbiz.base.util.UtilValidate.isEmpty(productPriceConds) &amp;&amp; org.ofbiz.base.util.UtilValidate.isEmpty(productPriceActions)"
+        <field use-when="org.apache.ofbiz.base.util.UtilValidate.isEmpty(productPriceConds) &amp;&amp; org.apache.ofbiz.base.util.UtilValidate.isEmpty(productPriceActions)"
             name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteProductPriceRule" description="${uiLabelMap.CommonRemove}">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="deleteProductPriceRule">
                 <parameter param-name="productPriceRuleId"/>
             </hyperlink>
         </field>        
@@ -80,14 +79,14 @@
         <field name="productPriceCondSeqId"><hidden/></field><!-- Users don't need this information there, the screen is already sufficiently complex! -->
         <field name="inputParamEnumId" title="${uiLabelMap.ProductInput}">
             <drop-down allow-empty="false" current="selected">
-                <entity-options entity-name="Enumeration" description="${description}" key-field-name="enumId">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="PROD_PRICE_IN_PARAM"/>
                 </entity-options>
             </drop-down>
         </field>        
         <field name="operatorEnumId" title="${uiLabelMap.ProductOperator}">
             <drop-down allow-empty="false" current="selected">
-                <entity-options entity-name="Enumeration" description="${description}" key-field-name="enumId">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="PROD_PRICE_COND"/>
                 </entity-options>
             </drop-down>
@@ -100,7 +99,7 @@
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit/></field>
         <field name="deleteLink" title=" " widget-style="buttontext" widget-area-style="align-text">
-            <hyperlink target="deleteProductPriceCond" description="${uiLabelMap.CommonRemove}">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="deleteProductPriceCond">
                 <parameter param-name="productPriceRuleId" from-field="productPriceCond.productPriceRuleId"/>
                 <parameter param-name="productPriceCondSeqId" from-field="productPriceCond.productPriceCondSeqId"/>
             </hyperlink>
@@ -112,14 +111,14 @@
         <field name="new" title="${uiLabelMap.CommonNew}"><display default-value="${uiLabelMap.ProductPriceRulesNewCond}"/></field>
         <field name="inputParamEnumId" title="${uiLabelMap.ProductInput}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="Enumeration" description="${description}" key-field-name="enumId">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="PROD_PRICE_IN_PARAM"/>
                 </entity-options>
             </drop-down>
         </field>        
         <field name="operatorEnumId" title="${uiLabelMap.ProductOperator}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="Enumeration" description="${description}" key-field-name="enumId">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="PROD_PRICE_COND"/>
                 </entity-options>
             </drop-down>
@@ -138,13 +137,13 @@
         <field name="productPriceActionSeqId"><hidden/></field><!-- Users don't need this information there, the screen is already sufficiently complex! -->
         <field name="productPriceActionTypeId" title="${uiLabelMap.ProductActionType}">
             <drop-down allow-empty="false" current="selected">
-                <entity-options entity-name="ProductPriceActionType" description="${description}" key-field-name="productPriceActionTypeId"/>
+                <entity-options entity-name="ProductPriceActionType" key-field-name="productPriceActionTypeId"/>
             </drop-down>
         </field>        
         <field name="amount" title="${uiLabelMap.ProductValue}"><text/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit/></field>        
         <field name="deleteLink" title=" " widget-style="buttontext" widget-area-style="align-text">
-            <hyperlink target="deleteProductPriceAction" description="${uiLabelMap.CommonRemove}">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="deleteProductPriceAction">
                 <parameter param-name="productPriceRuleId" from-field="productPriceAction.productPriceRuleId"/>
                 <parameter param-name="productPriceActionSeqId" from-field="productPriceAction.productPriceActionSeqId"/>
             </hyperlink>
@@ -156,7 +155,7 @@
         <field name="new" title="${uiLabelMap.CommonNew}"><display default-value="${uiLabelMap.ProductPriceRulesNewAction}"/></field>
         <field name="productPriceActionTypeId" title="${uiLabelMap.ProductActionType}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="ProductPriceActionType" description="${description}" key-field-name="productPriceActionTypeId"/>
+                <entity-options entity-name="ProductPriceActionType" key-field-name="productPriceActionTypeId"/>
             </drop-down>
         </field>        
         <field name="amount" title="${uiLabelMap.ProductValue}"><text/></field>

@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="main-decorator">
         <section>
             <actions>
@@ -139,6 +139,9 @@ under the License.
                                         <section>
                                             <widgets>
                                                 <include-menu name="ProductStoreSubTabBar" location="component://product/widget/catalog/CatalogMenus.xml"/>
+                                                <container style="button-bar button-style-2">
+                                                    <link target="EditProductStore"  text="${uiLabelMap.ProductNewProductStore}" style="buttontext create" url-mode="plain"/>
+                                                </container>
                                             </widgets>
                                         </section>
                                     </widgets>
@@ -169,6 +172,9 @@ under the License.
 
     <screen name="CommonProductStoreGroupDecorator">
         <section>
+            <actions>
+                <set field="headerItem" value="storeGroup"/>
+            </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="left-column">
@@ -242,8 +248,6 @@ under the License.
         <section>
             <widgets>
                 <include-screen name="keywordsearchbox"/>
-<!--                <include-screen name="sidecatalogs"/>-->
-<!--                <include-screen name="sidedeepcategory"/>-->
                 <include-screen name="categorytree"/>
                 <include-screen name="miniproductlist"/>
             </widgets>
@@ -252,35 +256,11 @@ under the License.
     <screen name="keywordsearchbox">
         <section>
             <actions>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/find/keywordsearchbox.groovy"/>
+                <script location="component://product/groovyScripts/catalog/find/KeywordSearchBox.groovy"/>
             </actions>
             <widgets>
                 <screenlet id="ProductKeywordsPanel" title="${uiLabelMap.ProductSearchProducts}" collapsible="true">
-                    <platform-specific><html><html-template location="component://product/webapp/catalog/find/keywordsearchbox.ftl"/></html></platform-specific>
-                </screenlet>
-            </widgets>
-        </section>
-    </screen>
-    <screen name="sidecatalogs">
-        <section>
-            <actions>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/find/sidecatalogs.groovy"/>
-            </actions>
-            <widgets>
-                <screenlet id="ProductBrowseCatalogsPanel" title="${uiLabelMap.ProductBrowseCatalogs}" collapsible="true">
-                    <platform-specific><html><html-template location="component://product/webapp/catalog/find/sidecatalogs.ftl"/></html></platform-specific>
-                </screenlet>
-            </widgets>
-        </section>
-    </screen>
-    <screen name="sidedeepcategory">
-        <section>
-            <actions>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/find/sidedeepcategory.groovy"/>
-            </actions>
-            <widgets>
-                <screenlet id="ProductBrowseCategoriesPanel" title="${uiLabelMap.ProductBrowseCategories}" collapsible="true">
-                    <platform-specific><html><html-template location="component://product/webapp/catalog/find/sidedeepcategory.ftl"/></html></platform-specific>
+                    <platform-specific><html><html-template location="component://product/template/find/KeywordSearchBox.ftl"/></html></platform-specific>
                 </screenlet>
             </widgets>
         </section>
@@ -288,12 +268,12 @@ under the License.
     <screen name="miniproductlist">
         <section>
             <actions>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/find/miniproductlist.groovy"/>
+                <script location="component://product/groovyScripts/catalog/find/MiniProductList.groovy"/>
             </actions>
             <widgets>
                 <screenlet id="ProductCategoryProductsPanel" title="${uiLabelMap.ProductCategoryProducts}" collapsible="true">
                     <container id="miniproductlist">
-                        <platform-specific><html><html-template location="component://product/webapp/catalog/find/miniproductlist.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://product/template/find/MiniProductList.ftl"/></html></platform-specific>
                     </container>
                 </screenlet>
             </widgets>
@@ -303,7 +283,7 @@ under the License.
         <section>
             <actions>
                 <set field="titleProperty" value="PageTitleChooseTopCategory"/>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/ChooseTopCategory.groovy"/>
+                <script location="component://product/groovyScripts/catalog/ChooseTopCategory.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -326,7 +306,7 @@ under the License.
         <section>
             <actions>
                 <set field="titleProperty" value="ProductFastLoadCatalogIntoCache"/>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/FastLoadCache.groovy"/>
+                <script location="component://product/groovyScripts/catalog/FastLoadCache.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -334,7 +314,7 @@ under the License.
                         <include-screen name="leftbar"/>
                     </decorator-section>                    
                     <decorator-section name="body">
-                        <platform-specific><html><html-template location="component://product/webapp/catalog/FastLoadCache.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://product/template/FastLoadCache.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -344,12 +324,12 @@ under the License.
     <screen name="categorytree">
         <section>
             <actions>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/category/CategoryTree.groovy"/>
+                <script location="component://product/groovyScripts/catalog/category/CategoryTree.groovy"/>
             </actions>
             <widgets>
                 <screenlet id="ProductBrowseCategoriesPanel" title="${uiLabelMap.ProductBrowseCatalogeAndCategories}" collapsible="true">
                     <container id="EditDocumentTree"/>
-                    <platform-specific><html><html-template location="component://product/webapp/catalog/category/CategoryTree.ftl"/></html></platform-specific>
+                    <platform-specific><html><html-template location="component://product/template/category/CategoryTree.ftl"/></html></platform-specific>
                 </screenlet>
             </widgets>
         </section>
@@ -358,7 +338,7 @@ under the License.
     <screen name="ProductStoreGroupTree">
         <section>
             <actions>
-                <entity-one value-field="parentProductStoreGroup" entity-name="ProductStoreGroup"/>
+                <entity-one entity-name="ProductStoreGroup" value-field="parentProductStoreGroup"/>
                 <entity-condition entity-name="ProductStoreGroup" list="parentProductStoreGroups">
                     <condition-expr field-name="primaryParentGroupId" from-field="nullField"/>
                 </entity-condition>
@@ -366,7 +346,7 @@ under the License.
             <widgets>
                 <screenlet id="ProductStoreGroupPanel" title="${uiLabelMap.ProductParentProductStoreGroups}" collapsible="true">
                     <container id="EditDocumentTree"/>
-                    <platform-specific><html><html-template location="component://product/webapp/catalog/store/ProductStoreGroupTree.ftl"/></html></platform-specific>
+                    <platform-specific><html><html-template location="component://product/template/store/ProductStoreGroupTree.ftl"/></html></platform-specific>
                 </screenlet>
             </widgets>
         </section>
@@ -387,7 +367,7 @@ under the License.
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.ProductCatalogAdministrationMainPage}">
                             <platform-specific>
-                                <html><html-template location="component://product/webapp/catalog/main.ftl"/></html>
+                                <html><html-template location="component://product/template/Main.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>
@@ -433,10 +413,10 @@ under the License.
                 <property-map resource="WorkEffortUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="AccountingUiLabels" map-name="uiLabelMap" global="true"/>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/find/miniproductlist.groovy"/>
+                <script location="component://product/groovyScripts/catalog/find/MiniProductList.groovy"/>
             </actions>
             <widgets>
-                    <platform-specific><html><html-template location="component://product/webapp/catalog/find/miniproductlist.ftl"/></html></platform-specific>
+                    <platform-specific><html><html-template location="component://product/template/find/MiniProductList.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>

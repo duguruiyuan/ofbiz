@@ -20,7 +20,7 @@ under the License.
 
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="EditContentType">
         <section>
@@ -149,14 +149,14 @@ under the License.
                 <set field="headerItem" value="ContentSetupMenu"/>
                 <set field="currentMenuItemName" to-scope="user" value="userpermission"/>
                 <set field="webSitePublishPoint" from-field="parameters.webSitePublishPoint" default-value="OFBIZDOCROOT"/>
-                <script location="component://content/webapp/content/WEB-INF/actions/contentsetup/UserPermPrep.groovy"/>
+                <script location="component://content/groovyScripts/contentsetup/UserPermPrep.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="commonContentSetupDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
                             <html>
-                                <html-template location="component://content/webapp/content/contentsetup/UserPermissions.ftl"/>
+                                <html-template location="component://content/template/contentsetup/UserPermissions.ftl"/>
                             </html>
                         </platform-specific>
                     </decorator-section>

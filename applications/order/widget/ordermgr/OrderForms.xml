@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="EditOrderHeader" type="single" target="updateOrderHeader" title=""
         header-row-style="header-row" default-table-style="basic-table">
         <actions>
@@ -34,14 +34,14 @@ under the License.
         <field name="orderId" use-when="orderHeader==null" ><ignored/></field>
         <field name="orderTypeId">
             <drop-down>
-                <entity-options description="${description}" entity-name="OrderType" key-field-name="orderTypeId">
+                <entity-options entity-name="OrderType" key-field-name="orderTypeId">
                 </entity-options>
             </drop-down>
         </field>
 
         <field name="statusId" use-when="orderHeader==null" title="${uiLabelMap.CommonStatus}">
             <drop-down>
-                <entity-options description="${description}" entity-name="StatusItem" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="ORDER_STATUS"/>
                 </entity-options>
             </drop-down>
@@ -57,7 +57,7 @@ under the License.
 
         <field name="salesChannelEnumId">
             <drop-down>
-                <entity-options description="${description}" entity-name="Enumeration" key-field-name="enumId">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" operator="equals" value="ORDER_SALES_CHANNEL"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -88,7 +88,7 @@ under the License.
         </actions>
         <auto-fields-entity entity-name="OrderHeader" default-field-type="display"/>
         <field name="orderId" widget-style="buttontext">
-            <hyperlink target="EditOrderHeader" description="[${orderId}]">
+            <hyperlink description="[${orderId}]" target="EditOrderHeader">
                 <parameter param-name="orderId"/>
             </hyperlink>
         </field>
@@ -103,20 +103,30 @@ under the License.
         <field name="orderItemSeqId"><display/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeOrderTerm" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="removeOrderTerm" also-hidden="false">
                 <parameter param-name="orderId"/>
                 <parameter param-name="termTypeId"/>
                 <parameter param-name="orderItemSeqId"/>
             </hyperlink>
         </field>
     </form>
+    <grid name="ListOrderRoles" target="" title=""
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="OrderRole">
+                <condition-expr field-name="orderId" from-field="orderId"/>
+            </entity-condition>
+        </actions>
+        <field name="roleTypeId"><display-entity entity-name="RoleType" description="[${roleTypeId}] ${description}"/></field>
+        <field name="partyId"><display-entity entity-name="PartyNameView" description="[${partyId}] ${firstName} ${lastName} ${groupName}"/></field>
+    </grid>
     <form name="AddOrderTerm" type="single" target="createOrderTerm" title=""
         header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="OrderTerm" default-field-type="edit"/>
         <field name="orderId"><hidden value="${parameters.orderId}"/></field>
         <field name="termTypeId">
             <drop-down allow-empty="false">
-                <entity-options entity-name="TermType" description="${description}">
+                <entity-options entity-name="TermType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -227,23 +237,23 @@ under the License.
             </entity-and>
         </actions>
         <field name="orderTypeId" title="${uiLabelMap.FormFieldTitle_orderTypeId}">
-            <display-entity entity-name="OrderType" description="${description}"/>
+            <display-entity entity-name="OrderType"/>
         </field>
         <field name="orderId" title="${uiLabelMap.OrderOrderId}">
-            <hyperlink target="orderview" description="${orderId}">
+            <hyperlink description="${orderId}" target="orderview">
                 <parameter param-name="orderId"/>
             </hyperlink>
         </field>
         <field name="orderName" title="${uiLabelMap.OrderOrderName}"><display/></field>
         <field name="remainingSubTotal" title="${uiLabelMap.FormFieldTitle_remainingSubTotal}"><display/></field>
         <field name="grandTotal" title="${uiLabelMap.OrderGrandTotal}"><display/></field>
-        <field name="statusId"><display-entity entity-name="StatusItem" key-field-name="statusId" description="${description}"/></field>
+        <field name="statusId"><display-entity entity-name="StatusItem" key-field-name="statusId"/></field>
         <field name="orderDate" title="${uiLabelMap.OrderOrderDate}"><display/></field>
         <field name="partyId" title="${uiLabelMap.PartyPartyId}">
             <display-entity entity-name="PartyNameView" description="${groupName}"/>
         </field>
         <field name="roleTypeId" title="${uiLabelMap.FormFieldTitle_roleTypeId}">
-            <display-entity entity-name="RoleType" description="${description}"/>
+            <display-entity entity-name="RoleType"/>
         </field>
     </form>
 

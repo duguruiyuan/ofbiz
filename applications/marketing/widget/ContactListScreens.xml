@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
    <screen name="FindContactLists">
        <section>
@@ -261,7 +261,7 @@ under the License.
                 <entity-one entity-name="StatusItem" value-field="status"/>                
 
                 <!-- get the contact list owner's marketing email -->
-                <script location="component://marketing/webapp/marketing/WEB-INF/actions/contact/GetContactListMarketingEmail.groovy"/>
+                <script location="component://marketing/groovyScripts/marketing/contact/GetContactListMarketingEmail.groovy"/>
                 <set field="contactMechIdFrom" value="${marketingEmail.contactMechId}"/>
                 <set field="partyIdFrom" value="${contactList.ownerPartyId}"/>               
             </actions>
@@ -434,12 +434,12 @@ under the License.
                     <field-map field-name="contactMechId" from-field="communicationEvent.contactMechIdFrom"/>
                 </entity-one>
 
-                <set field="content" value="${groovy:org.ofbiz.base.util.StringUtil.wrapString(communicationEvent.content)}"/>
+                <set field="content" value="${groovy:org.apache.ofbiz.base.util.StringUtil.wrapString(communicationEvent.content)}"/>
             </actions>
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://marketing/webapp/marketing/contact/ContactCommunicationPreview.ftl"/>
+                        <html-template location="component://marketing/template/contact/ContactCommunicationPreview.ftl"/>
                     </html>
                 </platform-specific>                
             </widgets>
@@ -467,7 +467,7 @@ under the License.
             <actions>
                 <service service-name="optOutOfListFromCommEvent" result-map="optOutResult"/>                
                 <entity-one value-field="contactList" entity-name="ContactList">
-                    <field-map from-field="optOutResult.contactListId" field-name="contactListId"/>                    
+                    <field-map field-name="contactListId" from-field="optOutResult.contactListId"/>                    
                 </entity-one>
                 <set field="contactListId" from-field="contactList.contactListId"/>
                 <set field="screenName" from-field="contactList.optOutScreen" default-value="component://marketing/widget/ContactListScreens.xml#DefaultOptOutScreen"/>
@@ -483,7 +483,7 @@ under the License.
                 <set field="titleProperty" value="MarketingWebSiteContactList"/>
                 <set field="contactListTabButtonItem" value="WebSiteContactList"/>
                 <entity-one value-field="contactList" entity-name="ContactList"/>
-                <entity-and list="webSiteContactLists" entity-name="WebSiteContactList">
+                <entity-and entity-name="WebSiteContactList" list="webSiteContactLists">
                     <field-map field-name="contactListId" from-field="contactList.contactListId"/>
                     <order-by field-name="-fromDate"/>
                 </entity-and>
@@ -492,10 +492,10 @@ under the License.
                 <decorator-screen name="CommonContactListDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.MarketingWebSiteContactListCreate}">
-                            <include-form location="component://marketing/widget/ContactListForms.xml" name="CreateWebSiteContactList"/>
+                            <include-form name="CreateWebSiteContactList" location="component://marketing/widget/ContactListForms.xml"/>
                         </screenlet>
                         <screenlet title="${uiLabelMap.MarketingWebSiteContactListView} of contactListId[${parameters.contactListId}]">
-                            <include-form location="component://marketing/widget/ContactListForms.xml" name="ViewWebSiteContactList"/>
+                            <include-form name="ViewWebSiteContactList" location="component://marketing/widget/ContactListForms.xml"/>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>

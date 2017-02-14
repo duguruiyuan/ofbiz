@@ -17,7 +17,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" xmlns="http://ofbiz.apache.org/Widget-Screen" targetNamespace="http://ofbiz.apache.org/Widget-Screen">
     <xs:include schemaLocation="http://ofbiz.apache.org/dtds/widget-common.xsd" />
     <xs:element name="screens">
         <xs:complexType>
@@ -571,6 +571,9 @@ under the License.
                 <xs:element minOccurs="0" ref="swing" />
                 <xs:element minOccurs="0" ref="xsl-fo" />
                 <xs:element minOccurs="0" ref="xml" />
+                <xs:element minOccurs="0" ref="text" />
+                <xs:element minOccurs="0" ref="csv" />
+                <xs:element minOccurs="0" ref="xls" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -591,6 +594,27 @@ under the License.
         </xs:complexType>
     </xs:element>
     <xs:element name="xml">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="HtmlWidgets" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="xls">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="HtmlWidgets" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="text">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="HtmlWidgets" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="csv">
         <xs:complexType>
             <xs:sequence>
                 <xs:element minOccurs="0" maxOccurs="unbounded" ref="HtmlWidgets" />

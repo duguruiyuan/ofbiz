@@ -19,7 +19,7 @@ under the License.
 -->
 
 <site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/site-conf.xsd">
+        xmlns="http://ofbiz.apache.org/Site-Conf" xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
     <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
     <include location="component://commonext/webapp/WEB-INF/controller.xml"/>
     <description>Marketing Manager Module Site Configuration File</description>
@@ -32,7 +32,7 @@ under the License.
     <!-- Events to run on every request after all other processing (chains exempt) -->
     <!--
     <postprocessor>
-        <event name="test" type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/>
+        <event name="test" type="java" path="org.apache.ofbiz.webapp.event.TestEvent" invoke="test"/>
     </postprocessor>
     -->
 
@@ -300,7 +300,7 @@ under the License.
     </request-map>
     <request-map uri="importContactListParties">
         <security https="true" auth="true"/>
-        <event type="simple" path="component://marketing/script/org/ofbiz/marketing/contact/ContactListEvents.xml" invoke="importContactListParties"/>
+        <event type="simple" path="component://marketing/minilang/marketing/contact/ContactListEvents.xml" invoke="importContactListParties"/>
         <response name="success" type="request-redirect" value="FindImportContactListParties"/>
         <response name="error" type="request-redirect" value="FindImportContactListParties"/>
     </request-map>

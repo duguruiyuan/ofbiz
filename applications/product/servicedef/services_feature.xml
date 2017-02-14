@@ -78,7 +78,7 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
     <service name="applyFeatureToProductFromTypeAndCode" engine="simple"
-                location="component://product/script/org/ofbiz/product/feature/ProductFeatureServices.xml" invoke="applyFeatureToProductFromTypeAndCode" auth="true">
+                location="component://product/minilang/product/feature/ProductFeatureServices.xml" invoke="applyFeatureToProductFromTypeAndCode" auth="true">
         <description>Apply a ProductFeature to a Product</description>
         <attribute name="productId" type="String" mode="IN" optional="false"/>
         <attribute name="productFeatureTypeId" type="String" mode="IN" optional="false"/>
@@ -177,11 +177,11 @@ under the License.
     </service>
     <!-- ProductFeatureType Services -->
     <service name="createProductFeatureType" default-entity-name="ProductFeatureType" engine="simple"
-                location="component://product/script/org/ofbiz/product/feature/ProductFeatureServices.xml" invoke="createProductFeatureType" auth="true">
+                location="component://product/minilang/product/feature/ProductFeatureServices.xml" invoke="createProductFeatureType" auth="true">
         <description>Create a ProductFeatureType</description>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
-        <override name="productFeatureTypeId" mode="IN" optional="true" />
+        <override name="productFeatureTypeId" mode="INOUT" optional="true" />
     </service>
     <service name="updateProductFeatureType" default-entity-name="ProductFeatureType" engine="entity-auto" invoke="update" auth="true">
         <description>Update a ProductFeatureType</description>
@@ -196,7 +196,7 @@ under the License.
     </service>
     <!-- ProductFeatureApplAttr  -->
     <service name="createProductFeatureApplAttr" default-entity-name="ProductFeatureApplAttr" engine="simple"
-                location="component://product/script/org/ofbiz/product/feature/ProductFeatureServices.xml" invoke="createProductFeatureApplAttr" auth="true">
+                location="component://product/minilang/product/feature/ProductFeatureServices.xml" invoke="createProductFeatureApplAttr" auth="true">
         <description>Create a ProductFeatureApplAttr</description>
         <permission-service service-name="productGenericPermission" main-action="CREATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
@@ -244,6 +244,38 @@ under the License.
     <service name="deleteFeaturePrice" default-entity-name="ProductFeaturePrice" engine="entity-auto" invoke="delete" auth="true">
         <description>Delete a Feature Price</description>
         <permission-service service-name="productGenericPermission" main-action="DELETE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
+    <!-- ProductFeatureApplType services -->
+    <service name="createProductFeatureApplType" default-entity-name="ProductFeatureApplType" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a ProductFeatureApplType</description>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+    </service>
+    <service name="updateProductFeatureApplType" default-entity-name="ProductFeatureApplType" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a ProductFeatureApplType</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteProductFeatureApplType" default-entity-name="ProductFeatureApplType" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a ProductFeatureApplType</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
+    <!-- ProductFeatureIactnType services -->
+    <service name="createProductFeatureIactnType" default-entity-name="ProductFeatureIactnType" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a ProductFeatureIactnType</description>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+    </service>
+    <service name="updateProductFeatureIactnType" default-entity-name="ProductFeatureIactnType" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a ProductFeatureIactnType</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteProductFeatureIactnType" default-entity-name="ProductFeatureIactnType" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a ProductFeatureIactnType</description>
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 </services>

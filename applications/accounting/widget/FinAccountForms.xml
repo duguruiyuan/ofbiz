@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+    xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="FindFinAccounts" type="single" target="FindFinAccount"
         header-row-style="header-row" default-table-style="basic-table">
@@ -27,7 +27,7 @@ under the License.
         <field name="finAccountId"><text-find ignore-case="true"/></field>
         <field name="finAccountTypeId" title="${uiLabelMap.FormFieldTitle_finAccountType}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="FinAccountType">
+                <entity-options entity-name="FinAccountType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -64,17 +64,17 @@ under the License.
             </hyperlink>
         </field>
         <field name="organizationPartyId">
-            <hyperlink target="/partymgr/control/viewprofile" description="${organizationPartyId}" target-type="inter-app">
+            <hyperlink description="${organizationPartyId}" target="/partymgr/control/viewprofile" target-type="inter-app">
                 <parameter param-name="partyId" from-field="organizationPartyId"/>
             </hyperlink>
         </field>
         <field name="ownerPartyId">
-            <hyperlink target="/partymgr/control/viewprofile" description="${ownerPartyId}" target-type="inter-app">
+            <hyperlink description="${ownerPartyId}" target="/partymgr/control/viewprofile" target-type="inter-app">
                 <parameter param-name="partyId" from-field="ownerPartyId"/>
             </hyperlink>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteFinAccount" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteFinAccount" also-hidden="false">
                 <parameter param-name="finAccountId"/>
             </hyperlink>
         </field>
@@ -90,7 +90,7 @@ under the License.
         <alt-target use-when="finAccount==null" target="createFinAccount"/>
         <auto-fields-service service-name="updateFinAccount"/>
 
-        <field name="finAccountId" use-when="finAccountId!=null" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field name="finAccountId" use-when="finAccountId!=null"><display/></field>
         <field name="finAccountId" use-when="finAccount==null&amp;&amp;finAccountId==null"><ignored/></field>
         <field name="finAccountId" use-when="finAccount==null&amp;&amp;finAccountId!=null" tooltip="${uiLabelMap.CommonCannotBeFound}: [${finAccountId}]"><display also-hidden="false"/></field>
 
@@ -98,7 +98,7 @@ under the License.
         <field name="finAccountPin"><text size="10"/></field>
         <field name="finAccountTypeId" title="${uiLabelMap.FormFieldTitle_finAccountType}">
             <drop-down no-current-selected-key="DEPOSIT_ACCOUNT">
-                <entity-options description="${description}" entity-name="FinAccountType">
+                <entity-options entity-name="FinAccountType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -116,7 +116,7 @@ under the License.
         <field name="postToGlAccountId"><lookup target-form-name="LookupGlAccount"/></field>
         <field name="statusId" use-when="finAccount==null" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="StatusItem" description="${description}">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" value="FINACCT_STATUS"/>
 
                 </entity-options>
@@ -133,6 +133,7 @@ under the License.
         <field name="isRefundable">
             <drop-down no-current-selected-key="Y"><option key="Y" description="${uiLabelMap.CommonY}"/><option key="N" description="${uiLabelMap.CommonN}"/></drop-down>
         </field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
         <field name="submitButton" use-when="finAccountId==null" title="${uiLabelMap.CommonCreate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="submitButton" use-when="finAccountId!=null" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="actualBalance"><display/></field>
@@ -140,7 +141,7 @@ under the License.
     </form>
 
     <form name="ListFinAccountRoles" type="list"  list-name="finAccountRoles"  target="updateFinAccountRole" separate-columns="true"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" paginate-target="EditFinAccountRoles">
         <actions>
             <entity-condition entity-name="FinAccountRole">
                 <condition-expr field-name="finAccountId" from-field="finAccountId"/>
@@ -154,7 +155,7 @@ under the License.
         <field name="thruDate"><date-time/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteFinAccountRole" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteFinAccountRole" also-hidden="false">
                 <parameter param-name="finAccountId"/>
                 <parameter param-name="partyId"/>
                 <parameter param-name="roleTypeId"/>
@@ -169,12 +170,12 @@ under the License.
         <field name="partyId"> <lookup target-form-name="LookupPartyName"/></field>
         <field name="roleTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="RoleType">
+                <entity-options entity-name="RoleType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
-        <field name="fromDate"><date-time/></field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
         <field name="thruDate"><date-time/></field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
@@ -189,7 +190,7 @@ under the License.
         <field name="finAccountTransId"><hidden/></field>
         <field name="finAccountTransTypeId">
             <drop-down no-current-selected-key="ADJUSTMENT">
-                <entity-options description="${description}" entity-name="FinAccountTransType">
+                <entity-options entity-name="FinAccountTransType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -201,14 +202,14 @@ under the License.
         <field name="orderId"><lookup target-form-name="LookupOrderHeader"/></field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down>
-                <entity-options entity-name="StatusItem" description="${description}">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" value="FINACT_TRNS_STATUS"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="glAccountId" title="${uiLabelMap.AccountingGlAccount}">
             <drop-down>
-                <entity-options entity-name="GlAccountOrganizationAndClass" description="${accountCode} - ${accountName} [${glAccountId}]" key-field-name="glAccountId">
+                <entity-options entity-name="GlAccountOrganizationAndClass" key-field-name="glAccountId" description="${accountCode} - ${accountName} [${glAccountId}]">
                     <entity-constraint name="organizationPartyId" operator="equals" env-name="defaultOrganizationPartyId"/>
                     <entity-order-by field-name="glAccountId"/>
                 </entity-options>
@@ -218,7 +219,7 @@ under the License.
     </form>
 
     <form name="ListFinAccountAuths" type="list"  list-name="finAccountauths"  target="expireFinAccountAuth" separate-columns="true"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" paginate-target="EditFinAccountAuths">
         <actions>
             <entity-condition entity-name="FinAccountAuth">
                 <condition-expr field-name="finAccountId" from-field="finAccountId"/>
@@ -229,7 +230,7 @@ under the License.
         <field name="finAccountAuthId"><display/></field>
         <field name="finAccountId"><hidden/></field>
         <field name="expireLink" title=" " widget-style="buttontext">
-            <hyperlink target="expireFinAccountAuth" description="${uiLabelMap.CommonExpire}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonExpire}" target="expireFinAccountAuth" also-hidden="false">
                 <parameter param-name="finAccountId"/>
                 <parameter param-name="finAccountAuthId"/>
             </hyperlink>
@@ -242,7 +243,7 @@ under the License.
         <field name="finAccountAuthId"><hidden/></field>
         <field name="amount"><text/></field>
         <field name="authorizationDate"><date-time/></field>
-        <field name="fromDate"><date-time/></field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
         <field name="thruDate"><date-time/></field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
@@ -256,15 +257,15 @@ under the License.
         <field name="paymentGroupTypeId"><hidden value="BATCH_PAYMENT"/></field>
     </form>
     <form name="ListDepositSlips" type="list" target="FindDepositSlips" extends="ListPaymentGroup" extends-resource="component://accounting/widget/PaymentGroupForms.xml" list-name="paymentGroupList"
-            odd-row-style="alternate-row" default-table-style="basic-table hover-bar" header-row-style="header-row-2">
+            odd-row-style="alternate-row" default-table-style="basic-table hover-bar" header-row-style="header-row-2" paginate-target="FindDepositSlips">
         <field name="paymentGroupId" widget-style="buttontext">
             <hyperlink description="${paymentGroupId}" target="EditDepositSlipAndMembers">
                 <parameter param-name="paymentGroupId"/>
                 <parameter param-name="finAccountId"/>
             </hyperlink>
         </field>
-        <field name="deleteLink" title=" " widget-style="buttontext" use-when="${paymentGroupTypeId == 'BATCH_PAYMENT'} @and ${paymentGroupMemberAndTransList[0].finAccountTransStatusId != 'FINACT_TRNS_APPROVED'} @and ${groovy:org.ofbiz.base.util.UtilValidate.isNotEmpty(paymentGroupMembers)}">
-            <hyperlink target="deleteDepositSlip" description="${uiLabelMap.CommonCancel}" also-hidden="false">
+        <field name="deleteLink" title=" " widget-style="buttontext" use-when="${paymentGroupTypeId == 'BATCH_PAYMENT'} @and ${paymentGroupMemberAndTransList[0].finAccountTransStatusId != 'FINACT_TRNS_APPROVED'} @and ${groovy:org.apache.ofbiz.base.util.UtilValidate.isNotEmpty(paymentGroupMembers)}">
+            <hyperlink description="${uiLabelMap.CommonCancel}" target="deleteDepositSlip" also-hidden="false">
                 <parameter param-name="paymentGroupId"/>
                 <parameter param-name="finAccountId"/>
                 <parameter param-name="glReconciliationId"/>
@@ -279,14 +280,14 @@ under the License.
         <field name="finAccountId"><hidden value="${finAccountId}"/></field>
     </form>
     <form name="ListDepositSlipMember" type="list" target="updateDepositSlipMember" extends="ListPaymentGroupMember" extends-resource="component://accounting/widget/PaymentGroupForms.xml"
-            odd-row-style="alternate-row" default-table-style="basic-table hover-bar" header-row-style="header-row-2">
+            odd-row-style="alternate-row" default-table-style="basic-table hover-bar" header-row-style="header-row-2" paginate-target="EditDepositSlipAndMembers">
         <actions>
             <entity-and entity-name="PaymentGroupMember" list="paymentGroupMembers">
                 <field-map field-name="paymentGroupId"/>
             </entity-and>
         </actions>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="expireDepositSlipMember" description="${uiLabelMap.CommonCancel}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonCancel}" target="expireDepositSlipMember" also-hidden="false">
                 <parameter param-name="paymentGroupId"/>
                 <parameter param-name="paymentId"/>
                 <parameter param-name="fromDate"/>
@@ -300,7 +301,7 @@ under the License.
         <field name="finAccountId"><text-find ignore-case="true"/></field>
         <field name="finAccountTypeId" title="${uiLabelMap.FormFieldTitle_finAccountType}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="FinAccountType">
+                <entity-options entity-name="FinAccountType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -320,14 +321,14 @@ under the License.
         <field name="finAccountId"><hidden value="${finAccountId}"/></field>
         <field name="finAccountTransTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="FinAccountTransType">
+                <entity-options entity-name="FinAccountTransType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="StatusItem" description="${description}">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" value="FINACT_TRNS_STATUS"/>
                 </entity-options>
             </drop-down>
@@ -363,7 +364,7 @@ under the License.
         </actions>
         <field name="paymentTypeId" title="${uiLabelMap.AccountingPaymentType}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="PaymentType" description="${description}">
+                <entity-options entity-name="PaymentType">
                     <entity-constraint name="parentTypeId" operator="equals" env-name="parentTypeId"/>
                 </entity-options>
             </drop-down>
@@ -414,7 +415,7 @@ under the License.
         </field>
     </form>
     <form name="ListFinAccountReconciliations" type="list" list-name="glReconciliations" list-entry-name="glReconciliation" separate-columns="true"
-            odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+            odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" paginate-target="FindFinAccountReconciliations">
         <row-actions>
             <entity-one entity-name="PartyNameView" value-field="partyName">
                 <field-map field-name="partyId" from-field="glReconciliation.organizationPartyId"/>
@@ -423,19 +424,19 @@ under the License.
         </row-actions>
         <auto-fields-service service-name="updateGlReconciliation" default-field-type="display" map-name="glReconciliation"/>
         <field name="glReconciliationId">
-            <hyperlink target="ViewGlReconciliationWithTransaction" description="${glReconciliation.glReconciliationId}">
+            <hyperlink description="${glReconciliation.glReconciliationId}" target="ViewGlReconciliationWithTransaction">
                 <parameter param-name="glReconciliationId" from-field="glReconciliation.glReconciliationId"/>
                 <parameter param-name="finAccountId"/>
             </hyperlink>
         </field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}"><display-entity entity-name="StatusItem"/></field>
         <field name="organizationPartyId" title="${uiLabelMap.PartyParty}">
-            <hyperlink target="/partymgr/control/viewprofile" target-type="inter-app" description="${partyName.firstName} ${partyName.lastName}${partyName.groupName} [${partyName.partyId}]">
+            <hyperlink description="${partyName.firstName} ${partyName.lastName}${partyName.groupName} [${partyName.partyId}]" target="/partymgr/control/viewprofile" target-type="inter-app">
                 <parameter param-name="partyId" from-field="partyName.partyId"/>
             </hyperlink>
         </field>
         <field name="cancelButton" title="${uiLabelMap.AccountingCancelBankReconciliation}" use-when="${glReconciliation.statusId == 'GLREC_CREATED'}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonCancel}" target="cancelReconciliation">
+            <hyperlink description="${uiLabelMap.CommonCancel}" target="cancelReconciliation" also-hidden="false">
                 <parameter param-name="glReconciliationId" from-field="glReconciliation.glReconciliationId"/>
                 <parameter param-name="finAccountId"/>
             </hyperlink>
@@ -449,7 +450,7 @@ under the License.
         <field name="glReconciliationName"><text/></field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="StatusItem">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="GLREC_STATUS"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>

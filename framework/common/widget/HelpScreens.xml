@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="LookupDecorator">
         <section>
@@ -30,17 +30,17 @@ under the License.
                     <field-map field-name="userPrefGroupTypeId" value="GLOBAL_PREFERENCES"/>
                 </service>
                 <set field="userPreferences" from-field="prefResult.userPrefMap" global="true"/>
-                <set field="lookupType" value="HELP"/>          
+                <set field="lookupType" value="HELP"/>
                 <set field="visualThemeId" from-field="userPreferences.VISUAL_THEME" global="true"/>
                 <service service-name="getVisualThemeResources">
                     <field-map field-name="visualThemeId"/>
                     <field-map field-name="themeResources" from-field="layoutSettings"/>
                 </service>
                 <set field="layoutSettings" from-field="themeResources" default-value="${layoutSettings}" global="true"/>
-                <set field="messagesTemplateLocation" from-field="layoutSettings.VT_MSG_TMPLT_LOC[0]" default-value="component://common/webcommon/includes/messages.ftl"/>
+                <set field="messagesTemplateLocation" from-field="layoutSettings.VT_MSG_TMPLT_LOC[0]" default-value="component://common/template/includes/Messages.ftl"/>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://common/webcommon/includes/lookup.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/Lookup.ftl"/></html></platform-specific>
                 <platform-specific><html><html-template location="${messagesTemplateLocation}"/></html></platform-specific>
                 <container style="contentarea">
                     <container id="column-container">
@@ -53,7 +53,7 @@ under the License.
                 </container>
                 <container style="clear"></container>
                 
-                <platform-specific><html><html-template location="component://common/webcommon/includes/lookupFooter.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/LookupFooter.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -123,9 +123,9 @@ under the License.
                         <actions>
                           <!-- Read portalPage to retrieve helpContentId,
                                if portalPage.originalPortalPageId is not null retrieve originalPortalPage-->
-                          <entity-one value-field="portalPageTmp" entity-name="PortalPage" use-cache="true"/>
+                          <entity-one entity-name="PortalPage" value-field="portalPageTmp" use-cache="true"/>
                           <set field="originalPortalPageId" from-field="portalPageTmp.originalPortalPageId" default-value="${parameters.portalPageId}"/>
-                          <entity-one value-field="portalPage" entity-name="PortalPage" use-cache="true">
+                          <entity-one entity-name="PortalPage" value-field="portalPage" use-cache="true">
                             <field-map field-name="portalPageId" from-field="originalPortalPageId"/>
                           </entity-one>
                         </actions>
@@ -196,7 +196,7 @@ under the License.
                                 <screenlet title="${uiLabelMap.PageTitleNavigateContent}" >
                                     <container style="left-border">
                                         <container id="EditDocumentTree"/>
-                                        <platform-specific><html><html-template location="component://content/webapp/content/content/DisplayContentNav.ftl"/></html></platform-specific>
+                                        <platform-specific><html><html-template location="component://content/template/content/DisplayContentNav.ftl"/></html></platform-specific>
                                     </container>
                                     <container style="leftonly">
                                         <include-screen name="showDocument"/>

@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="FindProductConfigItems" type="list" list-name="listIt"
         default-table-style="basic-table" odd-row-style="alternate-row" paginate-target="FindProductConfigItems"
         target="" header-row-style="header-row-2" paginate="true">
@@ -32,10 +32,10 @@ under the License.
             </service>
         </actions>
         <row-actions>
-            <set field="typeDescription" value="${bsh: return &quot;SINGLE&quot;.equals(configItemTypeId) ? uiLabelMap.get(&quot;ProductSingleChoice&quot;) : uiLabelMap.get(&quot;ProductMultiChoice&quot;)}"/>
+            <set field="typeDescription" value="${groovy: return &quot;SINGLE&quot;.equals(configItemTypeId) ? uiLabelMap.get(&quot;ProductSingleChoice&quot;) : uiLabelMap.get(&quot;ProductMultiChoice&quot;)}"/>
         </row-actions>
         <field name="configItemId" title="${uiLabelMap.ProductConfigItem}" widget-style="buttontext">
-            <hyperlink target="EditProductConfigItem" description="${configItemId}">
+            <hyperlink description="${configItemId}" target="EditProductConfigItem">
                 <parameter param-name="configItemId"/>
             </hyperlink>
         </field>
@@ -116,10 +116,10 @@ under the License.
         header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="ProdConfItemContent"/>
         <field name="configItemId" title="${uiLabelMap.ProductConfigItemId}" map-name="productConfigItem"><hidden/></field>
-        <field name="contentId" title="${uiLabelMap.ProductContentId}" ></field>
+        <field name="contentId" title="${uiLabelMap.ProductContentId}" ><lookup target-form-name="LookupContent"></lookup></field>
         <field name="confItemContentTypeId" title="${uiLabelMap.ProductProductConfigItemContentTypeId}">
             <drop-down>
-                <entity-options entity-name="ProdConfItemContentType" description="${description}">
+                <entity-options entity-name="ProdConfItemContentType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -137,7 +137,7 @@ under the License.
         <field name="configItemId" map-name="productConfigItem"><hidden/></field>
         <field name="confItemContentTypeId" title="${uiLabelMap.ProductProductConfigItemContentTypeId}">
             <drop-down>
-                <entity-options entity-name="ProdConfItemContentType" description="${description}">
+                <entity-options entity-name="ProdConfItemContentType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -151,21 +151,21 @@ under the License.
         <auto-fields-service service-name="updateProductConfigItemContent" map-name="productContent"/>
         <field name="configItemId"><hidden/></field>
         <field name="contentId" title="${uiLabelMap.ProductContent_Id}" widget-style="buttontext">
-            <hyperlink target="EditProductConfigItemContentContent" description="${content.description} [${productContent.contentId}]">
+            <hyperlink description="${content.description} [${productContent.contentId}]" target="EditProductConfigItemContentContent">
                 <parameter param-name="configItemId" from-field="productContent.configItemId"/>
                 <parameter param-name="contentId" from-field="productContent.contentId"/>
             </hyperlink>
         </field>
         <field name="confItemContentTypeId" title="${uiLabelMap.ProductProductContentTypeId}">
             <drop-down>
-                <entity-options entity-name="ProdConfItemContentType" description="${description}">
+                <entity-options entity-name="ProdConfItemContentType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeContentFromProductConfigItem" description="[${uiLabelMap.CommonDelete}]" also-hidden="false">
+            <hyperlink description="[${uiLabelMap.CommonDelete}]" target="removeContentFromProductConfigItem" also-hidden="false">
                 <parameter param-name="configItemId" from-field="productContent.configItemId"/>
                 <parameter param-name="contentId" from-field="productContent.contentId"/>
                 <parameter param-name="confItemContentTypeId" from-field="productContent.confItemContentTypeId"/>
@@ -207,7 +207,7 @@ under the License.
         </actions>
         <auto-fields-entity entity-name="ProductConfigAndProduct" default-field-type="hidden"/>
         <field name="productId" widget-style="buttontext"  >
-            <hyperlink target="EditProductConfigs" description="${productId}">
+            <hyperlink description="${productId}" target="EditProductConfigs">
                 <parameter param-name="productId"/>
             </hyperlink>
         </field>
@@ -220,7 +220,7 @@ under the License.
         target="" header-row-style="header-row-2" paginate="true">
         <auto-fields-entity entity-name="ProductConfigOption" default-field-type="display"/>
         <field name="configItemId" widget-style="buttontext" title="${uiLabelMap.ProductConfigItem}">
-            <hyperlink target="EditProductConfigOptions" description="${configOptionId} - ${configOptionName}">
+            <hyperlink description="${configOptionId} - ${configOptionName}" target="EditProductConfigOptions">
                 <parameter param-name="configItemId"/>
                 <parameter param-name="configOptionId"/>
             </hyperlink>
@@ -228,7 +228,7 @@ under the License.
         <field name="configOptionId" ><hidden/></field>
         <field name="configOptionName" ><hidden/></field>
         <field name="remove" title="${uiLabelMap.CommonRemove}" widget-style="buttontext" >
-            <hyperlink target="deleteProductConfigOption" description="${uiLabelMap.CommonRemove}">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="deleteProductConfigOption">
                 <parameter param-name="configItemId"/>
                 <parameter param-name="configOptionId"/>
             </hyperlink>
@@ -247,12 +247,12 @@ under the License.
         <field name="configItemId" ><hidden/></field>
         <field name="configOptionId" ><hidden/></field>
         <field name="productId" widget-style="buttontext">
-            <hyperlink target="EditProduct" description="${product.productId} - ${product.productName}">
+            <hyperlink description="${product.productId} - ${product.productName}" target="EditProduct">
                 <parameter param-name="productId" from-field="product.productId"/>
             </hyperlink>
         </field>
         <field name="remove" widget-style="buttontext" >
-            <hyperlink target="deleteProductConfigProduct" description="${uiLabelMap.CommonRemove}">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="deleteProductConfigProduct">
                 <parameter param-name="configItemId"/>
                 <parameter param-name="configOptionId"/>
                 <parameter param-name="productId" from-field="product.productId"/>

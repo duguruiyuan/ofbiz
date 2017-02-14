@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="ListWebAnalyticsConfig" type="list" list-name="listIt" paginate-target="FindWebAnalyticsConfigs" default-entity-name="WebAnalyticsConfig" separate-columns="true"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
@@ -37,7 +37,7 @@ under the License.
             <display-entity entity-name="WebAnalyticsType" description="${description} [${webAnalyticsTypeId}]"/>
         </field>
         <field name="webAnalyticsCode">
-            <hyperlink target="EditWebAnalyticsConfig" description="${webAnalyticsCode}">
+            <hyperlink description="${webAnalyticsCode}" target="EditWebAnalyticsConfig">
                 <parameter param-name="productStoreId"/>
                 <parameter param-name="webAnalyticsTypeId"/>
                 <parameter param-name="webSiteId"/>
@@ -45,7 +45,7 @@ under the License.
         </field>
         <field name="webSiteId"><hidden value="${webSiteId}"/></field>
         <field name="removeButton" title="${uiLabelMap.CommonRemove}" widget-style="buttontext">
-            <hyperlink target="deleteWebAnalyticsConfig" description="${uiLabelMap.CommonRemove}">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="deleteWebAnalyticsConfig">
                 <parameter param-name="webSiteId"/>
                 <parameter param-name="webAnalyticsTypeId"/>
             </hyperlink>
@@ -56,12 +56,12 @@ under the License.
         header-row-style="header-row" default-table-style="basic-table">
         <alt-target use-when="webAnalyticsConfig==null" target="createWebAnalyticsConfig"/>
         <auto-fields-service service-name="updateWebAnalyticsConfig" map-name="webAnalyticsConfig"/>
-        <field use-when="webAnalyticsConfig!=null" name="webAnalyticsTypeId" tooltip="${uiLabelMap.CommonNotModifRecreat}" title="${uiLabelMap.CatalogWebAnalyticsType}">
+        <field use-when="webAnalyticsConfig!=null" name="webAnalyticsTypeId" title="${uiLabelMap.CatalogWebAnalyticsType}">
             <display-entity entity-name="WebAnalyticsType"/>
         </field>
         <field use-when="webAnalyticsConfig==null&amp;&amp;webAnalyticsTypeId==null" name="webAnalyticsTypeId" title="${uiLabelMap.CatalogWebAnalyticsType}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="WebAnalyticsType" description="${description}">
+                <entity-options entity-name="WebAnalyticsType">
                     <entity-order-by field-name="webAnalyticsTypeId"/>
                 </entity-options>
             </drop-down>

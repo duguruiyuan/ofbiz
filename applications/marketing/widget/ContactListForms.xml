@@ -19,19 +19,19 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="EditContactList" type="single" target="updateContactList" title="" default-map-name="contactList"
         header-row-style="header-row" default-table-style="basic-table">
         <alt-target use-when="contactList==null" target="createContactList"/>
 
-        <field use-when="contactList!=null" name="contactListId" title="${uiLabelMap.MarketingContactListContactListId}" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="contactList!=null" name="contactListId" title="${uiLabelMap.MarketingContactListContactListId}"><display/></field>
         <field use-when="contactList==null&amp;&amp;contactListId==null" name="contactListId" title="${uiLabelMap.MarketingContactListContactListId}"><ignored/></field>
         <field use-when="contactList==null&amp;&amp;contactListId!=null" name="contactListId" title="${uiLabelMap.MarketingContactListContactListId}" tooltip="${uiLabelMap.CommonCannotBeFound}: [${contactListId}]"><display/></field>
 
         <field name="contactListName" title="${uiLabelMap.MarketingContactListContactListName}"><text/></field>
         <field name="contactListTypeId" title="${uiLabelMap.MarketingContactListContactListTypeId}">
             <drop-down>
-                <entity-options description="${description}" entity-name="ContactListType" key-field-name="contactListTypeId">
+                <entity-options entity-name="ContactListType" key-field-name="contactListTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -49,7 +49,7 @@ under the License.
 
         <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}">
             <drop-down no-current-selected-key="EMAIL_ADDRESS">
-                <entity-options description="${description}" entity-name="ContactMechType" key-field-name="contactMechTypeId">
+                <entity-options entity-name="ContactMechType" key-field-name="contactMechTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -78,7 +78,7 @@ under the License.
         
         <field name="submitButton" title="${uiLabelMap.CommonSave}" widget-style="buttontext"><submit button-type="text-link"/></field>
         <!-- <field name="DONE_PAGE"><hidden value="${donePage}"/></field> -->
-        <!-- <field name="cancelLink" title=" " widget-style="buttontext"><hyperlink target="${donePage}" also-hidden="false" description="${uiLabelMap.CommonCancelDone}" target-type="inter-app"/></field> -->
+        <!-- <field name="cancelLink" title=" " widget-style="buttontext"><hyperlink description="${uiLabelMap.CommonCancelDone}" target="${donePage}" also-hidden="false" target-type="inter-app"/></field> -->
     </form>
 
     <form name="FindContactLists" target="FindContactLists" title="" type="single"
@@ -88,14 +88,14 @@ under the License.
         <field name="contactListName" title="${uiLabelMap.MarketingContactListContactListName}"><text-find/></field>
         <field name="contactListTypeId" title="${uiLabelMap.MarketingContactListContactListTypeId}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="ContactListType" key-field-name="contactListTypeId">
+                <entity-options entity-name="ContactListType" key-field-name="contactListTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="ContactMechType" key-field-name="contactMechTypeId">
+                <entity-options entity-name="ContactMechType" key-field-name="contactMechTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -122,7 +122,7 @@ under the License.
             </service>
         </actions>
         <field name="contactListId"  widget-style="buttontext" title="${uiLabelMap.MarketingContactListContactListId}">
-            <hyperlink target="EditContactList" description="${contactListId}" also-hidden="false">
+            <hyperlink description="${contactListId}" target="EditContactList" also-hidden="false">
                 <parameter param-name="contactListId"/>
             </hyperlink>
         </field>
@@ -135,7 +135,7 @@ under the License.
         <field name="marketingCampaignId" title="${uiLabelMap.MarketingCampaignId}"><display-entity entity-name="MarketingCampaign" description="${campaignName}"/></field>
         <!-- deleting contact lists is a bit more complicated than this... don't like have a link like this for top level entities
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeContactList" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeContactList" also-hidden="false">
                 <parameter param-name="contactListId"/>
             </hyperlink>
         </field>
@@ -148,15 +148,15 @@ under the License.
 
         <field name="contactListId"><hidden/></field>
         <field name="partyId" title="${uiLabelMap.MarketingContactListPartyId}"><lookup target-form-name="LookupPartyName"/></field>
-        <field name="fromDate" title="${uiLabelMap.CommonFromDate}"><date-time default-value="${groovy: org.ofbiz.base.util.UtilDateTime.nowTimestamp()}"/></field>
+        <field name="fromDate" title="${uiLabelMap.CommonFromDate}"><date-time default-value="${groovy: org.apache.ofbiz.base.util.UtilDateTime.nowTimestamp()}"/></field>
         <field name="thruDate" title="${uiLabelMap.CommonThruDate}"><date-time/></field>
-        <field use-when="partyId!=null" name="partyId" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
-        <field use-when="fromDate!=null" name="fromDate" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="partyId!=null" name="partyId"><display/></field>
+        <field use-when="fromDate!=null" name="fromDate"><display/></field>
 
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down no-current-selected-key="CLPT_ACCEPTED">
-                <entity-options entity-name="StatusItem" description="${description}">
-                    <entity-constraint name="statusTypeId" value="CONTACTLST_PARTY" operator="equals"/>
+                <entity-options entity-name="StatusItem">
+                    <entity-constraint name="statusTypeId" operator="equals"  value="CONTACTLST_PARTY"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -169,7 +169,7 @@ under the License.
 
         <field name="submitButton" title="${uiLabelMap.CommonSave}" widget-style="buttontext"><submit button-type="text-link"/></field>
         <field use-when="partyId!=null" name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="buttontext"><submit button-type="text-link"/></field>
-        <field name="cancelLink" title=" " widget-style="buttontext"><hyperlink target="${donePage}" also-hidden="false" description="${uiLabelMap.CommonCancelDone}"/></field>
+        <field name="cancelLink" title=" " widget-style="buttontext"><hyperlink description="${uiLabelMap.CommonCancelDone}" target="${donePage}" also-hidden="false"/></field>
      </form>
     
 
@@ -182,7 +182,7 @@ under the License.
 
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="StatusItem" description="${description}">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="CONTACTLST_PARTY"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -208,7 +208,7 @@ under the License.
         </actions>
         <row-actions>
             <set field="thruDate" from-field="thruDate" type="Timestamp"/>
-            <set field="isDateAfterNow" value="${groovy:org.ofbiz.base.util.UtilValidate.isDateAfterNow(thruDate)}" type="Boolean"/>
+            <set field="isDateAfterNow" value="${groovy:org.apache.ofbiz.base.util.UtilValidate.isDateAfterNow(thruDate)}" type="Boolean"/>
         </row-actions>
 
         <field name="contactListId"><hidden/></field>
@@ -226,14 +226,14 @@ under the License.
             <display-entity entity-name="ContactMechDetail" key-field-name="contactMechId" description="[${contactMechId}]: [${infoString}] [${tnCountryCode}-${tnAreaCode}-${tnContactNumber}] [${paAddress1}, ${paAddress1}, ${paCity}, ${paStateProvinceGeoId}, ${paPostalCode}, ${paPostalCodeExt} ${paCountryGeoId}]"/>
         </field>
         <field name="editLink" use-when="${groovy:thruDate == null || isDateAfterNow == true}" widget-style="buttontext">
-            <hyperlink target="EditContactListParty" description="${uiLabelMap.CommonEdit}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonEdit}" target="EditContactListParty" also-hidden="false">
                 <parameter param-name="contactListId"/>
                 <parameter param-name="partyId"/>
                 <parameter param-name="fromDate"/>
             </hyperlink>
         </field>
         <field name="expireLink" use-when="${groovy:thruDate == null || isDateAfterNow == true}" widget-style="buttontext"> 
-            <hyperlink target="expireContactListParty" description="${uiLabelMap.CommonExpire}"  link-type="hidden-form" also-hidden="false">                
+            <hyperlink description="${uiLabelMap.CommonExpire}" target="expireContactListParty"  link-type="hidden-form" also-hidden="false">                
                 <parameter param-name="contactListId"/>                
                 <parameter param-name="partyId"/>
                 <parameter param-name="fromDate"/>
@@ -252,7 +252,7 @@ under the License.
         <field name="partyId" title="${uiLabelMap.MarketingContactListPartyId}"><lookup target-form-name="LookupPartyName"/></field>
         <field name="partyTypeId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="PartyType" description="${description}">
+                <entity-options entity-name="PartyType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -260,7 +260,7 @@ under the License.
         <field name="roleTypeId" title="${uiLabelMap.PartyRoleType}">
             <drop-down>
                 <option key="" description="${uiLabelMap.CommonAnyRoleType}"/>
-                <entity-options entity-name="RoleType" description="${description}">
+                <entity-options entity-name="RoleType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -336,7 +336,7 @@ under the License.
         <field name="partyIdFrom" title="${uiLabelMap.PartyPartyFrom}"><lookup target-form-name="LookupPartyName"/></field>
         <field name="statusId" use-when="communicationEvent==null" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="false" no-current-selected-key="COM_PENDING">
-                 <entity-options description="${description}" entity-name="StatusItem" key-field-name="statusId">
+                 <entity-options entity-name="StatusItem" key-field-name="statusId">
                      <entity-constraint name="statusTypeId" operator="equals" value="COM_EVENT_STATUS"/>
                      <entity-order-by field-name="sequenceId"/>
                  </entity-options>
@@ -353,30 +353,30 @@ under the License.
 
         <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}" use-when="commEventContactMechType!=null&amp;&amp;parentCommEventContactMechType==null">
             <drop-down>
-                <entity-options description="${description}" entity-name="ContactMechType" key-field-name="contactMechTypeId"/>
+                <entity-options entity-name="ContactMechType" key-field-name="contactMechTypeId"/>
             </drop-down>
         </field>
         <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}" use-when="commEventContactMechType==null&amp;&amp;parentCommEventContactMechType!=null">
             <drop-down>
-                <entity-options description="${description}" entity-name="ContactMechType" key-field-name="contactMechTypeId"/>
+                <entity-options entity-name="ContactMechType" key-field-name="contactMechTypeId"/>
             </drop-down>
         </field>
         <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}" use-when="commEventContactMechType==null&amp;&amp;parentCommEventContactMechType==null">
             <drop-down>
-                <entity-options description="${description}" entity-name="ContactMechType" key-field-name="contactMechTypeId"/>
+                <entity-options entity-name="ContactMechType" key-field-name="contactMechTypeId"/>
             </drop-down>
         </field>
 
         <field name="roleTypeIdFrom" title="${uiLabelMap.PartyRoleTypeIdFrom}" use-when="commEventRoleTypeIdFrom!=null">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="RoleType" key-field-name="roleTypeId">
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="roleTypeIdTo" title="${uiLabelMap.PartyRoleTypeIdTo}" use-when="commEventRoleTypeIdTo!=null">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="RoleType" key-field-name="roleTypeId">
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -409,7 +409,7 @@ under the License.
         <field name="content" title="${uiLabelMap.CommonContent} -- ${communicationEventType.description}"><textarea cols="60" rows="10" visual-editor-enable="true"/></field>
         <field name="note" title="${uiLabelMap.CommonNote}"><textarea cols="60" rows="3"/></field>
         <field name="submitButton" title=" ${uiLabelMap.CommonSave} "><submit button-type="button"/></field>
-        <field name="cancelLink" title=" " widget-style="buttontext"><hyperlink target="${donePage}" also-hidden="false" description="${uiLabelMap.CommonCancelDone}"/></field>
+        <field name="cancelLink" title=" " widget-style="buttontext"><hyperlink description="${uiLabelMap.CommonCancelDone}" target="${donePage}" also-hidden="false"/></field>
 
         <sort-order>
             <field-group title="${uiLabelMap.CommonAdvancedFeatures}" collapsible="true" initially-collapsed="true">
@@ -441,7 +441,7 @@ under the License.
         <field name="commEventId" title="${uiLabelMap.MarketingContactListCommEventId}"><lookup target-form-name="LookupCommEvent"/></field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="StatusItem">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="COM_EVENT_STATUS"/>
                 </entity-options>
             </drop-down>
@@ -473,10 +473,10 @@ under the License.
         <field name="partyIdTo" title="${uiLabelMap.PartyPartyTo}">
             <display-entity description="${firstName} ${lastName} [${partyId}]" entity-name="Person" key-field-name="partyId"/>
         </field>
-        <field name="statusId" title="${uiLabelMap.CommonStatus}"><display-entity description="${description}" entity-name="StatusItem" key-field-name="statusId"/></field>
-        <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}"><display-entity description="${description}" entity-name="ContactMechType" key-field-name="contactMechTypeId"/></field>
-        <field name="roleTypeIdFrom" title="${uiLabelMap.PartyRoleTypeIdFrom}"><display-entity description="${description}" entity-name="RoleType" key-field-name="roleTypeId"/></field>
-        <field name="roleTypeIdTo" title="${uiLabelMap.PartyRoleTypeIdTo}"><display-entity description="${description}" entity-name="RoleType" key-field-name="roleTypeId"/></field>
+        <field name="statusId" title="${uiLabelMap.CommonStatus}"><display-entity entity-name="StatusItem" key-field-name="statusId"/></field>
+        <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}"><display-entity entity-name="ContactMechType" key-field-name="contactMechTypeId"/></field>
+        <field name="roleTypeIdFrom" title="${uiLabelMap.PartyRoleTypeIdFrom}"><display-entity entity-name="RoleType" key-field-name="roleTypeId"/></field>
+        <field name="roleTypeIdTo" title="${uiLabelMap.PartyRoleTypeIdTo}"><display-entity entity-name="RoleType" key-field-name="roleTypeId"/></field>
         <field name="custReqestId" position="1"><display/></field>
         <field name="datetimeStarted" title="${uiLabelMap.CommonStartDate}"><display/></field>
         <field name="datetimeEnded" title="${uiLabelMap.CommonFinishDate}"><display/></field>
@@ -489,14 +489,14 @@ under the License.
         <field name="contactListName" title="${uiLabelMap.MarketingContactListContactListName}"><text-find/></field>
         <field name="contactListTypeId" title="${uiLabelMap.MarketingContactListContactListTypeId}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="ContactListType" key-field-name="contactListTypeId">
+                <entity-options entity-name="ContactListType" key-field-name="contactListTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="ContactMechType" key-field-name="contactMechTypeId">
+                <entity-options entity-name="ContactMechType" key-field-name="contactMechTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -515,14 +515,14 @@ under the License.
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <actions>
             <service result-map-list="listIt" result-map="result" service-name="performFind">
-                <field-map from-field="parameters" field-name="inputFields"/>
+                <field-map field-name="inputFields" from-field="parameters"/>
                 <field-map value="ContactList" field-name="entityName"/>
                 <field-map field-name="viewIndex" from-field="viewIndex"/>
                 <field-map field-name="viewSize" from-field="viewSize"/>
             </service>
         </actions>
         <field name="contactListId" title="${uiLabelMap.MarketingContactListContactListId}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${contactListId}" target="javascript:set_value('${contactListId}')" target-type="plain"/>
+            <hyperlink description="${contactListId}" target="javascript:set_value('${contactListId}')" also-hidden="false" target-type="plain"/>
         </field>
         <field name="contactListName" title="${uiLabelMap.MarketingContactListContactListName}"><display/></field>
         <field name="contactListTypeId" title="${uiLabelMap.MarketingContactListContactListTypeId}"><display-entity entity-name="ContactListType"/></field>
@@ -537,19 +537,19 @@ under the License.
         <field name="partyIdTo" title="${uiLabelMap.PartyPartyTo}"><lookup target-form-name="LookupPartyName"/></field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="StatusItem">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="COM_EVENT_STATUS"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="ContactMechType" key-field-name="contactMechTypeId"/>
+                <entity-options entity-name="ContactMechType" key-field-name="contactMechTypeId"/>
             </drop-down>
         </field>
         <field name="roleTypeIdFrom" title="${uiLabelMap.PartyRoleTypeIdFrom}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="RoleType" key-field-name="roleTypeId"/>
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId"/>
             </drop-down>
         </field>
         <field name="custRequestId"><lookup size="20" target-form-name="LookupCustRequest"/></field>
@@ -562,14 +562,14 @@ under the License.
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <actions>
             <service result-map-list="listIt" result-map="result" service-name="performFind">
-                <field-map from-field="parameters" field-name="inputFields"/>
-                <field-map from-field="entityName" field-name="entityName"/>
+                <field-map field-name="inputFields" from-field="parameters"/>
+                <field-map field-name="entityName" from-field="entityName"/>
                 <field-map field-name="viewIndex" from-field="viewIndex"/>
                 <field-map field-name="viewSize" from-field="viewSize"/>
             </service>
         </actions>
         <field name="communicationEventId" title="${uiLabelMap.MarketingContactListCommEventId}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${communicationEventId}" target="javascript:set_value('${communicationEventId}')" target-type="plain"/>
+            <hyperlink description="${communicationEventId}" target="javascript:set_value('${communicationEventId}')" also-hidden="false" target-type="plain"/>
         </field>
         <field name="partyIdFrom" title="${uiLabelMap.PartyPartyFrom}">
             <display-entity description="${firstName} ${lastName} [${partyId}]" entity-name="Person" key-field-name="partyId"/>
@@ -577,10 +577,10 @@ under the License.
         <field name="partyIdTo" title="${uiLabelMap.PartyPartyTo}">
             <display-entity description="${firstName} ${lastName} [${partyId}]" entity-name="Person" key-field-name="partyId"/>
         </field>
-        <field name="statusId" title="${uiLabelMap.CommonStatus}"><display-entity description="${description}" entity-name="StatusItem" key-field-name="statusId"/></field>
-        <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}"><display-entity description="${description}" entity-name="ContactMechType" key-field-name="contactMechTypeId"/></field>
-        <field name="roleTypeIdFrom" title="${uiLabelMap.PartyRoleTypeIdFrom}"><display-entity description="${description}" entity-name="RoleType" key-field-name="roleTypeId"/></field>
-        <field name="roleTypeIdTo" title="${uiLabelMap.PartyRoleTypeIdTo}"><display-entity description="${description}" entity-name="RoleType" key-field-name="roleTypeId"/></field>
+        <field name="statusId" title="${uiLabelMap.CommonStatus}"><display-entity entity-name="StatusItem" key-field-name="statusId"/></field>
+        <field name="contactMechTypeId" title="${uiLabelMap.MarketingContactListContactMechTypeId}"><display-entity entity-name="ContactMechType" key-field-name="contactMechTypeId"/></field>
+        <field name="roleTypeIdFrom" title="${uiLabelMap.PartyRoleTypeIdFrom}"><display-entity entity-name="RoleType" key-field-name="roleTypeId"/></field>
+        <field name="roleTypeIdTo" title="${uiLabelMap.PartyRoleTypeIdTo}"><display-entity entity-name="RoleType" key-field-name="roleTypeId"/></field>
         <field name="custReqestId" position="1"><text size="20"/></field>
         <field name="datetimeStarted" title="${uiLabelMap.CommonStartDate}"><display/></field>
         <field name="datetimeEnded" title="${uiLabelMap.CommonFinishDate}"><display/></field>
@@ -618,12 +618,12 @@ under the License.
         </field>
         <field name="contactMechId" title="${uiLabelMap.CommonEmailTo}"><display-entity entity-name="ContactMech" description="${infoString}"/></field>
         <field name="lastUpdatedStamp" title="${uiLabelMap.FormFieldTitle_lastModifiedDate}"><display/></field>
-        <field name="statusId"><display-entity entity-name="StatusItem" description="${description}"/></field>
+        <field name="statusId"><display-entity entity-name="StatusItem"/></field>
     </form>    
     <form name="CreateWebSiteContactList" type="single" target="createWebSiteContactList" 
             default-map-name="contactList" title="" header-row-style="header-row" default-table-style="basic-table">
         <actions>
-            <set field="fromDate" value="${groovy: import org.ofbiz.base.util.UtilDateTime; return UtilDateTime.nowTimestamp();}" type="Timestamp"/>
+            <set field="fromDate" value="${groovy: import org.apache.ofbiz.base.util.UtilDateTime; return UtilDateTime.nowTimestamp();}" type="Timestamp"/>
         </actions>
         <field name="contactListId"><display/></field>
         <field name="contactListName"><display/></field>
@@ -658,7 +658,7 @@ under the License.
         <field name="thruDate"><date-time/></field>
         <field name="updateButton" title="${uiLabelMap.CommonUpdate}" widget-style="buttontext"><submit/></field>
         <field name="deleteButton" title="${uiLabelMap.CommonDelete}" widget-style="buttontext">
-            <hyperlink target="deleteWebSiteContactList" description="${uiLabelMap.CommonDelete}">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteWebSiteContactList">
                 <parameter param-name="webSiteId"/>
                 <parameter param-name="contactListId"/>
                 <parameter param-name="fromDate"/>

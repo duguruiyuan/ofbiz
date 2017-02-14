@@ -21,9 +21,9 @@ under the License.
 <!-- These screens are for generating printed documents, such as invoices, bills, statements, etc. -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
-    <!-- generate a PDF for the invoice.  sharing the same BSH file as the HTML page for viewing invoice -->
+    <!-- generate a PDF for the invoice. Sharing the same script file as the HTML page for viewing invoice -->
     <screen name="InvoicePDF">
         <section>
             <actions>
@@ -32,8 +32,8 @@ under the License.
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="titleProperty" value="AccountingInvoice"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/invoice/EditInvoice.groovy"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetMyCompany.groovy"/>
+                <script location="component://accounting/groovyScripts/invoice/EditInvoice.groovy"/>
+                <script location="component://party/groovyScripts/party/GetMyCompany.groovy"/>
             </actions>
             <widgets>
                 <section>
@@ -55,15 +55,15 @@ under the License.
                             </decorator-section>
                             <decorator-section name="topRight">
                                <platform-specific>
-                                    <xsl-fo><html-template location="component://accounting/webapp/accounting/invoice/invoiceReportHeaderInfo.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://accounting/template/invoice/InvoiceReportHeaderInfo.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </decorator-section>
                             <decorator-section name="body">
                                <platform-specific>
-                                   <xsl-fo><html-template location="component://accounting/webapp/accounting/invoice/invoiceReportContactMechs.fo.ftl"/></xsl-fo>
+                                   <xsl-fo><html-template location="component://accounting/template/invoice/InvoiceReportContactMechs.fo.ftl"/></xsl-fo>
                               </platform-specific>
                                <platform-specific>
-                                   <xsl-fo><html-template location="component://accounting/webapp/accounting/invoice/invoiceReportItems.fo.ftl"/></xsl-fo>
+                                   <xsl-fo><html-template location="component://accounting/template/invoice/InvoiceReportItems.fo.ftl"/></xsl-fo>
                                </platform-specific>
                             </decorator-section>
                         </decorator-screen>
@@ -72,7 +72,7 @@ under the License.
                         <decorator-screen name="FoReportDecorator" location="component://common/widget/CommonScreens.xml">
                             <decorator-section name="body">
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://accounting/webapp/accounting/invoice/NoAccountingView.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://accounting/template/invoice/NoAccountingView.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </decorator-section>
                         </decorator-screen>
@@ -92,7 +92,7 @@ under the License.
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://accounting/webapp/accounting/payment/printCheck.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://accounting/template/payment/printCheck.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
             <fail-widgets>
@@ -108,11 +108,11 @@ under the License.
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="invoiceIds" from-field="parameters.invoiceIds" type="List"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/invoice/PrintInvoices.groovy"/>
+                <script location="component://accounting/groovyScripts/invoice/PrintInvoices.groovy"/>
             </actions>
             <widgets>
                <platform-specific>
-                    <xsl-fo><html-template location="component://accounting/webapp/accounting/invoice/PrintInvoices.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://accounting/template/invoice/PrintInvoices.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>

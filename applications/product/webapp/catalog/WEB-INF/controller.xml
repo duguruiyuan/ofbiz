@@ -19,14 +19,12 @@ under the License.
 -->
 
 <site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/site-conf.xsd">
+        xmlns="http://ofbiz.apache.org/Site-Conf" xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
     <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
     <include location="component://common/webcommon/WEB-INF/portal-controller.xml"/>
     <include location="component://commonext/webapp/WEB-INF/controller.xml"/>
     <description>Catalog Module Site Configuration File</description>
     
-    <handler name="service-multi" type="request" class="org.ofbiz.webapp.event.ServiceMultiEventHandler"/>
-    <handler name="groovy" type="request" class="org.ofbiz.webapp.event.GroovyEventHandler"/>
 
     <firstvisit></firstvisit>
     <!-- Events to run on every request before security (chains exempt) -->
@@ -37,7 +35,7 @@ under the License.
     <!-- Events to run on every request after all other processing (chains exempt) -->
     <!--
     <postprocessor>
-        <event name="test" type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/>
+        <event name="test" type="java" path="org.apache.ofbiz.webapp.event.TestEvent" invoke="test"/>
     </postprocessor>
     -->
 
@@ -47,7 +45,7 @@ under the License.
         <response name="success" type="request" value="main"/>
     </request-map>
     <request-map uri="chain">
-        <event type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/>
+        <event type="java" path="org.apache.ofbiz.webapp.event.TestEvent" invoke="test"/>
         <response name="success" type="request" value="/view"/>
         <response name="error" type="view" value="error"/>
     </request-map>
@@ -74,37 +72,37 @@ under the License.
 
     <request-map uri="searchRemoveFromCategory">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductSearchEvents" invoke="searchRemoveFromCategory"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductSearchEvents" invoke="searchRemoveFromCategory"/>
         <response name="success" type="view" value="keywordsearch"/>
         <response name="error" type="view" value="keywordsearch"/>
     </request-map>
     <request-map uri="searchExpireFromCategory">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductSearchEvents" invoke="searchExpireFromCategory"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductSearchEvents" invoke="searchExpireFromCategory"/>
         <response name="success" type="view" value="keywordsearch"/>
         <response name="error" type="view" value="keywordsearch"/>
     </request-map>
     <request-map uri="searchAddToCategory">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductSearchEvents" invoke="searchAddToCategory"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductSearchEvents" invoke="searchAddToCategory"/>
         <response name="success" type="view" value="keywordsearch"/>
         <response name="error" type="view" value="keywordsearch"/>
     </request-map>
     <request-map uri="searchAddFeature">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductSearchEvents" invoke="searchAddFeature"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductSearchEvents" invoke="searchAddFeature"/>
         <response name="success" type="view" value="keywordsearch"/>
         <response name="error" type="view" value="keywordsearch"/>
     </request-map>
     <request-map uri="searchRemoveFeature">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductSearchEvents" invoke="searchRemoveFeature"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductSearchEvents" invoke="searchRemoveFeature"/>
         <response name="success" type="view" value="keywordsearch"/>
         <response name="error" type="view" value="keywordsearch"/>
     </request-map>
     <request-map uri="searchExportProductList">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductSearchEvents" invoke="searchExportProductList"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductSearchEvents" invoke="searchExportProductList"/>
         <response name="success" type="view" value="exportproducts"/>
         <response name="error" type="view" value="exportproducts"/>
     </request-map>
@@ -170,7 +168,7 @@ under the License.
     <request-map uri="updateProductCategoryToCategory">
         <security https="true" auth="true"/>
         <event type="service-multi" path="" invoke="updateProductCategoryToCategory"/>
-        <response name="success" type="request-redirect" value="EditCategoryRollup"/>
+        <response name="success" type="view" value="EditCategoryRollup"/>
         <response name="error" type="view" value="EditCategoryRollup"/>
     </request-map>
     <request-map uri="removeProductCategoryFromCategory">
@@ -473,19 +471,19 @@ under the License.
 
     <request-map uri="addFixedAssetProduct">
         <security https="true" auth="true"/>
-        <event type="service" path="org.ofbiz.accounting.fixedasset.FixedAssetServices.xml" invoke="addFixedAssetProduct"/>
+        <event type="service" path="org.apache.ofbiz.accounting.fixedasset.FixedAssetServices.xml" invoke="addFixedAssetProduct"/>
         <response name="success" type="view" value="EditProductAssetUsage"/>
         <response name="error" type="view" value="newFixedAssetProduct"/>
     </request-map>
     <request-map uri="updFixedAssetProduct">
         <security https="true" auth="true"/>
-        <event type="service" path="org.ofbiz.accounting.fixedasset.FixedAssetServices.xml" invoke="updateFixedAssetProduct"/>
+        <event type="service" path="org.apache.ofbiz.accounting.fixedasset.FixedAssetServices.xml" invoke="updateFixedAssetProduct"/>
         <response name="success" type="view" value="showFixedAssetProduct"/>
         <response name="error" type="view" value="showFixedAssetProduct"/>
     </request-map>
     <request-map uri="removeFixedAssetProduct">
         <security https="true" auth="true"/>
-        <event type="service" path="org.ofbiz.accounting.fixedasset.FixedAssetServices.xml" invoke="removeFixedAssetProduct"/>
+        <event type="service" path="org.apache.ofbiz.accounting.fixedasset.FixedAssetServices.xml" invoke="removeFixedAssetProduct"/>
         <response name="success" type="view" value="EditProductAssetUsage"/>
         <response name="error" type="view" value="EditProductAssetUsage"/>
     </request-map>
@@ -777,7 +775,7 @@ under the License.
     </request-map>
     <request-map uri="UpdateAllKeywords">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="updateAllKeywords"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductEvents" invoke="updateAllKeywords"/>
         <response name="success" type="view" value="main"/>
         <response name="error" type="view" value="main"/>
     </request-map>
@@ -822,12 +820,22 @@ under the License.
         <security https="true" auth="true"/>
         <response name="success" type="view" value="EditProductAssoc"/>
     </request-map>
-    <request-map uri="UpdateProductAssoc">
+    <request-map uri="createProductAssoc">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="updateProductAssoc"/>
-        <response name="success" type="request-redirect" value="EditProductAssoc">
-            <redirect-parameter name="productId"/>
-        </response>
+        <event type="service" invoke="createProductAssoc"/>
+        <response name="success" type="view" value="EditProductAssoc"/>
+        <response name="error" type="view" value="EditProductAssoc"/>
+    </request-map>
+    <request-map uri="updateProductAssoc">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="updateProductAssoc"/>
+        <response name="success" type="view" value="EditProductAssoc"/>
+        <response name="error" type="view" value="EditProductAssoc"/>
+    </request-map>
+    <request-map uri="deleteProductAssoc">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="deleteProductAssoc"/>
+        <response name="success" type="view" value="EditProductAssoc"/>
         <response name="error" type="view" value="EditProductAssoc"/>
     </request-map>
 
@@ -840,6 +848,15 @@ under the License.
     <!-- ================ Product Agreements Requests ================= -->
     <request-map uri="ViewProductAgreements">
         <security https="true" auth="true"/>
+        <response name="success" type="view" value="ViewProductAgreements"/>
+    </request-map>
+    <request-map uri="CreateSalesAgreement">
+        <security https="true" auth="true"/>
+        <response name="success" type="view" value="CreateSalesAgreement"/>
+    </request-map>
+    <request-map uri="createSalesAgreement">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="createSalesAgreement"/>
         <response name="success" type="view" value="ViewProductAgreements"/>
     </request-map>
 
@@ -976,37 +993,37 @@ under the License.
     </request-map>
     <request-map uri="updateProductQuickAdminShipping">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="updateProductQuickAdminShipping"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductEvents" invoke="updateProductQuickAdminShipping"/>
         <response name="success" type="view" value="EditProductQuickAdmin"/>
         <response name="error" type="view" value="EditProductQuickAdmin"/>
     </request-map>
     <request-map uri="updateProductQuickAdminSelFeat">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="updateProductQuickAdminSelFeat"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductEvents" invoke="updateProductQuickAdminSelFeat"/>
         <response name="success" type="view" value="EditProductQuickAdmin"/>
         <response name="error" type="view" value="EditProductQuickAdmin"/>
     </request-map>
     <request-map uri="updateProductQuickAdminDelFeatureTypes">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="removeFeatureApplsByFeatureTypeId"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductEvents" invoke="removeFeatureApplsByFeatureTypeId"/>
         <response name="success" type="view" value="EditProductQuickAdmin"/>
         <response name="error" type="view" value="EditProductQuickAdmin"/>
     </request-map>
     <request-map uri="quickAdminUpdateProductAssoc">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="updateProductAssoc"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductEvents" invoke="updateProductAssoc"/>
         <response name="success" type="view" value="EditProductQuickAdmin"/>
         <response name="error" type="view" value="EditProductQuickAdmin"/>
     </request-map>
     <request-map uri="quickAdminRemoveProductFeature">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="removeProductFeatureAppl"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductEvents" invoke="removeProductFeatureAppl"/>
         <response name="success" type="view" value="EditProductQuickAdmin"/>
         <response name="error" type="view" value="EditProductQuickAdmin"/>
     </request-map>
     <request-map uri="quickAdminAddCategories">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="addProductToCategories"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductEvents" invoke="addProductToCategories"/>
         <response name="success" type="view" value="EditProductQuickAdmin"/>
         <response name="error" type="view" value="EditProductQuickAdmin"/>
     </request-map>
@@ -1018,13 +1035,13 @@ under the License.
     </request-map>
     <request-map uri="quickAdminUnPublish">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="updateProductCategoryMember"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductEvents" invoke="updateProductCategoryMember"/>
         <response name="success" type="view" value="EditProductQuickAdmin"/>
         <response name="error" type="view" value="EditProductQuickAdmin"/>
     </request-map>
     <request-map uri="quickAdminApplyFeatureToProduct">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.ProductEvents" invoke="addProductFeatures"/>
+        <event type="java" path="org.apache.ofbiz.product.product.ProductEvents" invoke="addProductFeatures"/>
         <response name="success" type="view" value="EditProductQuickAdmin"/>
         <response name="error" type="view" value="EditProductQuickAdmin"/>
     </request-map>
@@ -1211,7 +1228,7 @@ under the License.
     <request-map uri="createProductFeatureIactn">
         <security https="true" auth="true"/>
         <event type="service" path="" invoke="createProductFeatureIactn"/>
-        <response name="success" type="view" value="EditFeatureInterAction"/>
+        <response name="success" type="view" value="EditFeatureInterActions"/>
         <response name="error" type="view" value="EditFeatureInterAction"/>
     </request-map>
     <request-map uri="removeProductFeatureIactn">
@@ -1348,7 +1365,7 @@ under the License.
     </request-map>
     <request-map uri="QuickAddChosenVariant">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.product.VariantEvents" invoke="quickAddChosenVariant"/>
+        <event type="java" path="org.apache.ofbiz.product.product.VariantEvents" invoke="quickAddChosenVariant"/>
         <response name="success" type="view" value="QuickAddVariants"/>
         <response name="error" type="view" value="QuickAddVariants"/>
     </request-map>
@@ -1456,7 +1473,7 @@ under the License.
     </request-map>
     <request-map uri="getProductStoreGroupRollupHierarchy">
         <security auth="false" https="true"/>
-        <event type="java" path="org.ofbiz.product.store.ProductStoreEvents" invoke="getChildProductStoreGroupTree"/>
+        <event type="java" path="org.apache.ofbiz.product.store.ProductStoreEvents" invoke="getChildProductStoreGroupTree"/>
         <response name="success" type="request" value="json"/>
         <response name="error" type="request" value="json"/>
     </request-map>
@@ -1771,6 +1788,12 @@ under the License.
         <response name="success" type="view" value="EditProductPromoRules"/>
         <response name="error" type="view" value="EditProductPromoRules"/>
     </request-map>
+    
+    <request-map uri="LookupUserLoginAndPartyDetails">
+        <security https="true" auth="true"/>
+        <response name="success" type="view" value="LookupUserLoginAndPartyDetails"/>
+    </request-map>
+    
     <request-map uri="deleteProductPromoCond">
         <security https="true" auth="true"/>
         <event type="service" path="" invoke="deleteProductPromoCond"/>
@@ -2089,7 +2112,7 @@ under the License.
     </request-map>
     <request-map uri="prepareCreateShipMeth">
         <security https="true" auth="true"/>
-        <event type="groovy" path="component://product/webapp/catalog/store/prepareCreateShipMeth.groovy"/>
+        <event type="groovy" path="component://product/groovyScripts/catalog/PrepareCreateShipMeth.groovy"/>
         <response name="success" type="view" value="EditProductStoreShipSetup"/>
         <response name="error" type="view" value="EditProductStoreShipSetup"/>
     </request-map>
@@ -2698,11 +2721,6 @@ under the License.
         <response name="success" type="view" value="ImageFrames"/>
         <response name="error" type="view" value="ImageFrames"/>
     </request-map>
-    <request-map uri="ImageWatermarking">
-        <security https="true" auth="true"/>
-        <response name="success" type="view" value="ImageWatermarking"/>
-        <response name="error" type="view" value="ImageWatermarking"/>
-    </request-map>
     <request-map uri="ImageCropping">
         <security https="true" auth="true"/>
         <response name="success" type="view" value="ImageCropping"/>
@@ -2731,7 +2749,7 @@ under the License.
     </request-map>
     <request-map uri="setDefaultImage">
         <security https="true" auth="true"/>
-        <event type="simple" path="component://product/script/org/ofbiz/product/imagemanagement/ImageManagementEvents.xml" invoke="setDefaultImage"/>
+        <event type="simple" path="component://product/minilang/product/imagemanagement/ImageManagementEvents.xml" invoke="setDefaultImage"/>
         <response name="success" type="view" value="ListImageManage"/>
         <response name="error" type="view" value="ListImageManage"/>
     </request-map>
@@ -2749,7 +2767,7 @@ under the License.
     </request-map>
     <request-map uri="uploadFrame">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.imagemanagement.FrameImage" invoke="uploadFrame"/>
+        <event type="java" path="org.apache.ofbiz.product.imagemanagement.FrameImage" invoke="uploadFrame"/>
         <response name="success" type="request-redirect" value="ImageFrames">
             <redirect-parameter name="productId"/>
             <redirect-parameter name="contentId"/>
@@ -2785,21 +2803,9 @@ under the License.
         <response name="success" type="view" value="ListImageManage"/>
         <response name="error" type="view" value="ListImageManage"/>
     </request-map>
-    <request-map uri="createWatermarkImage">
-        <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.imagemanagement.WatermarkImage" invoke="createWatermarkImage"/>
-        <response name="success" type="view" value="ListImageManage"/>
-        <response name="error" type="view" value="ImageWatermarking"/>
-    </request-map>
-    <request-map uri="previewWatermarkImage">
-        <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.imagemanagement.WatermarkImage" invoke="previewWatermarkImage"/>
-        <response name="success" type="view" value="viewPreviewImage"/>
-        <response name="error" type="view" value="viewPreviewImage"/>
-    </request-map>
     <request-map uri="previewFrameImage">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.imagemanagement.FrameImage" invoke="previewFrameImage"/>
+        <event type="java" path="org.apache.ofbiz.product.imagemanagement.FrameImage" invoke="previewFrameImage"/>
         <response name="success" type="view" value="viewPreviewImage"/>
         <response name="error" type="request-redirect" value="ImageFrames">
             <redirect-parameter name="productId"/>
@@ -2857,16 +2863,15 @@ under the License.
     </request-map>
     <request-map uri="checkAction">
         <security https="true" auth="true"/>
-        <event type="groovy" path="component://product/webapp/catalog/WEB-INF/actions/imagemanagement/checkAction.groovy"/>
+        <event type="groovy" path="component://product/groovyScripts/catalog/imagemanagement/CheckAction.groovy"/>
         <response name="frame" type="request" value="ImageFrames"/>
-        <response name="watermark" type="request" value="ImageWatermarking"/>
         <response name="crop" type="request" value="ImageCropping"/>
         <response name="rotate" type="request" value="ImageRotating"/>
         <response name="noAction" type="request-redirect" value="ListImageManage"/>
     </request-map>
     <request-map uri="checkRejected">
         <security https="true" auth="true"/>
-        <event type="groovy" path="component://product/webapp/catalog/WEB-INF/actions/imagemanagement/checkRejected.groovy"/>
+        <event type="groovy" path="component://product/groovyScripts/catalog/imagemanagement/CheckRejected.groovy"/>
         <response name="approved" type="view" value="ImageApprove"/>
         <response name="rejected" type="view" value="ListPeopleRejected"/>
     </request-map>
@@ -2895,15 +2900,9 @@ under the License.
         <response name="success" type="view" value="ListPeopleRejected"/>
         <response name="error" type="view" value="ListPeopleRejected"/>
     </request-map>
-    <request-map uri="setPreviewWaterMark">
-        <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.imagemanagement.WatermarkImage" invoke="setPreviewWaterMark"/>
-        <response name="success" type="view" value="viewPreviewImage"/>
-        <response name="error" type="view" value="viewPreviewImage"/>
-    </request-map>
     <request-map uri="chooseFrameImage">
         <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.imagemanagement.FrameImage" invoke="chooseFrameImage"/>
+        <event type="java" path="org.apache.ofbiz.product.imagemanagement.FrameImage" invoke="chooseFrameImage"/>
         <response name="success" type="request-redirect" value="ImageFrames">
             <redirect-parameter name="productId"/>
             <redirect-parameter name="contentId"/>
@@ -2918,12 +2917,6 @@ under the License.
     <request-map uri="LookupImageFrame">
         <security https="true" auth="true"/>
         <response name="success" type="view" value="LookupImageFrame"/>
-    </request-map>
-    <request-map uri="deletePreviewWatermarkImage">
-        <security https="true" auth="true"/>
-        <event type="java" path="org.ofbiz.product.imagemanagement.WatermarkImage" invoke="deletePreviewWatermarkImage"/>
-        <response name="success" type="view" value="ListImageManage"/>
-        <response name="error" type="view" value="ImageWatermarking"/>
     </request-map>
     <request-map uri="ImageResize">
         <security https="true" auth="true"/>
@@ -3011,7 +3004,7 @@ under the License.
 
     <request-map uri="getChild">
         <security auth="false" https="true"/>
-        <event type="java" path="org.ofbiz.product.category.CategoryServices" invoke="getChildCategoryTree"/>
+        <event type="java" path="org.apache.ofbiz.product.category.CategoryServices" invoke="getChildCategoryTree"/>
         <response name="success" type="request" value="json"/>
         <response name="error" type="request" value="json"/>
     </request-map>
@@ -3119,6 +3112,7 @@ under the License.
     <view-map name="EditProductAssoc" type="screen" page="component://product/widget/catalog/ProductScreens.xml#EditProductAssoc"/>
     <view-map name="ViewProductManufacturing" type="screen" page="component://product/widget/catalog/ProductScreens.xml#ViewProductManufacturing"/>
     <view-map name="ViewProductAgreements" type="screen" page="component://product/widget/catalog/ProductScreens.xml#ViewProductAgreements"/>
+    <view-map name="CreateSalesAgreement" type="screen" page="component://product/widget/catalog/ProductScreens.xml#CreateSalesAgreement"/>
     <view-map name="EditProductCosts" type="screen" page="component://product/widget/catalog/ProductScreens.xml#EditProductCosts"/>
 
     <view-map name="EditProductAttributes" type="screen" page="component://product/widget/catalog/ProductScreens.xml#EditProductAttributes"/>
@@ -3231,6 +3225,7 @@ under the License.
     <view-map name="EditProductTag" type="screen" page="component://product/widget/catalog/ProductScreens.xml#EditProductTag"/>
 
     <!-- Lookup request mappings -->
+    <view-map name="LookupUserLoginAndPartyDetails" type="screen" page="component://party/widget/partymgr/LookupScreens.xml#LookupUserLoginAndPartyDetails"/>
     <view-map name="LookupContent" page="component://content/widget/content/ContentScreens.xml#LookupContent" type="screen"/>
     <view-map name="LookupFixedAsset" type="screen" page="component://accounting/widget/LookupScreens.xml#LookupFixedAsset"/>
     <view-map name="LookupPartyName" type="screen" page="component://party/widget/partymgr/LookupScreens.xml#LookupPartyName"/>
@@ -3259,7 +3254,6 @@ under the License.
     <view-map name="ImageApprove" page="component://product/widget/catalog/ImageManagementScreens.xml#ImageApprove" type="screen"/>
     <view-map name="ImageRejected" page="component://product/widget/catalog/ImageManagementScreens.xml#ImageRejected" type="screen"/>
     <view-map name="ImageFrames" page="component://product/widget/catalog/ImageManagementScreens.xml#ImageFrames" type="screen"/>
-    <view-map name="ImageWatermarking" page="component://product/widget/catalog/ImageManagementScreens.xml#ImageWatermarking" type="screen"/>
     <view-map name="ImageCropping" page="component://product/widget/catalog/ImageManagementScreens.xml#ImageCropping" type="screen"/>
     <view-map name="ImageRotating" page="component://product/widget/catalog/ImageManagementScreens.xml#ImageRotating" type="screen"/>
     <view-map name="ImageShare" page="component://product/widget/catalog/ImageManagementScreens.xml#ImageShare" type="screen"/>

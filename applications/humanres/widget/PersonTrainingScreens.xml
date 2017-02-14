@@ -19,7 +19,7 @@
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="TrainingCalendar">
         <section>
             <actions>
@@ -33,14 +33,14 @@
                     <actions>
                         <set field="titleProperty" value="PageTitleCalendarDay"/>
                         <set field="tabButtonItem" value="day"/>
-                        <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/Days.groovy"/>
+                        <script location="component://workeffort/groovyScripts/workeffort/calendar/Days.groovy"/>
                     </actions>
                     <widgets>
-                        <screenlet title="${uiLabelMap.WorkEffortDayView}: ${bsh:org.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;EEEE MMMM d, yyyy&quot;, timeZone, locale)}" navigation-menu-name="Day">
+                        <screenlet title="${uiLabelMap.WorkEffortDayView}: ${groovy:org.apache.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;EEEE MMMM d, yyyy&quot;, timeZone, locale)}" navigation-menu-name="Day">
                             <include-menu name="Day" location="component://workeffort/widget/WorkEffortMenus.xml"/>
                             <include-screen name="trainingCalendarDetail"/>
                             <platform-specific>
-                                <html><html-template location="component://workeffort/webapp/workeffort/calendar/day.ftl"/></html>
+                                <html><html-template location="component://workeffort/template/calendar/Day.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </widgets>
@@ -53,14 +53,14 @@
                         </or>
                     </condition>
                     <actions>
-                        <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/Week.groovy"/>
+                        <script location="component://workeffort/groovyScripts/workeffort/calendar/Week.groovy"/>
                     </actions>
                     <widgets>
-                        <screenlet title="${uiLabelMap.WorkEffortWeekView}: ${uiLabelMap.CommonWeek} ${bsh:org.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;w&quot;, timeZone, locale)}" navigation-menu-name="Week">
+                        <screenlet title="${uiLabelMap.WorkEffortWeekView}: ${uiLabelMap.CommonWeek} ${groovy:org.apache.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;w&quot;, timeZone, locale)}" navigation-menu-name="Week">
                             <include-menu name="Week" location="component://workeffort/widget/WorkEffortMenus.xml"/>
                             <include-screen name="trainingCalendarDetail"/>
                             <platform-specific>
-                                <html><html-template location="component://workeffort/webapp/workeffort/calendar/week.ftl"/></html>
+                                <html><html-template location="component://workeffort/template/calendar/Week.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </widgets>
@@ -70,14 +70,14 @@
                         <if-compare field="parameters.period" operator="equals" value="month"/>
                     </condition>
                     <actions>
-                        <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/Month.groovy"/>
+                        <script location="component://workeffort/groovyScripts/workeffort/calendar/Month.groovy"/>
                     </actions>
                     <widgets>
-                        <screenlet title="${uiLabelMap.WorkEffortMonthView}: ${bsh:org.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;MMMM yyyy&quot;, timeZone, locale)}" navigation-menu-name="Month">
+                        <screenlet title="${uiLabelMap.WorkEffortMonthView}: ${groovy:org.apache.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;MMMM yyyy&quot;, timeZone, locale)}" navigation-menu-name="Month">
                             <include-menu name="Month" location="component://workeffort/widget/WorkEffortMenus.xml"/>
                             <include-screen name="trainingCalendarDetail"/>
                             <platform-specific>
-                                <html><html-template location="component://workeffort/webapp/workeffort/calendar/month.ftl"/></html>
+                                <html><html-template location="component://workeffort/template/calendar/Month.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </widgets>
@@ -87,13 +87,13 @@
                         <if-compare field="parameters.period" operator="equals" value="upcoming"/>
                     </condition>
                     <actions>
-                        <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/Upcoming.groovy"/>
+                        <script location="component://workeffort/groovyScripts/workeffort/calendar/Upcoming.groovy"/>
                     </actions>
                     <widgets>
                         <screenlet title="${uiLabelMap.WorkEffortCalendarUpComingEventsView}" navigation-menu-name="Upcoming">
                             <include-menu name="Upcoming" location="component://workeffort/widget/WorkEffortMenus.xml"/>
                             <platform-specific>
-                                <html><html-template location="component://workeffort/webapp/workeffort/calendar/upcoming.ftl"/></html>
+                                <html><html-template location="component://workeffort/template/calendar/Upcoming.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </widgets>
@@ -120,7 +120,7 @@
         <section>
             <actions>
                 <entity-one entity-name="WorkEffort" value-field="workEffort"/>
-                <script location="component://workeffort/script/isCalOwner.groovy"/>
+                <script location="component:///workeffort/groovyScripts/ical/IsCalOwner.groovy"/>
                 <set field="workEffortId" from-field="parameters.workEffortId"/>
                 <set field="trainingClassTypeId" from-field="workEffort.workEffortName"/>
                 <set field="workEffortTypeId" from-field="workEffort.workEffortTypeId"/>
@@ -155,7 +155,7 @@
                             <widgets><!-- edit section -->
                                 <container style="lefthalf">
                                     <label style="h1" text="${uiLabelMap.WorkEffortAddCalendarEvent}"/>
-                                    <include-form name="editTrainingCalendar" location="component://humanres/widget/forms/PersonTrainingForms.xml"/>
+                                    <include-form name="EditTrainingCalendar" location="component://humanres/widget/forms/PersonTrainingForms.xml"/>
                                 </container>
                                 <container style="righthalf">
                                     <label style="h1" text="${uiLabelMap.WorkEffortParticipants}"/>
@@ -179,7 +179,7 @@
                             <fail-widgets><!-- view section -->
                                 <container style="lefthalf">
                                     <label style="h1" text="${uiLabelMap.WorkEffortSummary}"/>
-                                    <include-form name="showTrainingCalendar" location="component://humanres/widget/forms/PersonTrainingForms.xml"/>
+                                    <include-form name="ShowTrainingCalendar" location="component://humanres/widget/forms/PersonTrainingForms.xml"/>
                                 </container>
                             </fail-widgets>
                         </section>                

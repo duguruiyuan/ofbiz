@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="main-decorator">
         <section>
             <actions>
@@ -72,13 +72,13 @@ under the License.
         <section>
             <actions>
                 <set field="partyId" from-field="defaultOrganizationPartyId"/>
-                <script location="component://humanres/webapp/humanres/WEB-INF/actions/category/CategoryTree.groovy"></script>
+                <script location="component://humanres/groovyScripts/category/CategoryTree.groovy"></script>
             </actions>
             <widgets>
                 <screenlet title="${uiLabelMap.FormFieldTitle_company}">
                     <section>
                         <widgets>
-                            <platform-specific><html><html-template location="component://humanres/webapp/humanres/humanres/category/CategoryTree.ftl"/></html></platform-specific>
+                            <platform-specific><html><html-template location="component://humanres/template/category/CategoryTree.ftl"/></html></platform-specific>
                         </widgets>
                     </section>
                 </screenlet>
@@ -217,7 +217,7 @@ under the License.
                                         <not><if-empty field="perfReview"/></not>
                                     </condition>
                                     <actions>
-                                        <entity-one value-field="partyNameView" entity-name="PartyNameView">
+                                        <entity-one entity-name="PartyNameView" value-field="partyNameView">
                                             <field-map field-name="partyId" from-field="perfReview.employeePartyId"/>
                                         </entity-one>
                                     </actions>
@@ -413,7 +413,7 @@ under the License.
     <screen name="CommonMyCommunicationEventDecorator">
         <section>
             <actions>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/communication/GetMyCommunicationEventRole.groovy"/>
+                <script location="component://party/groovyScripts/communication/GetMyCommunicationEventRole.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -423,7 +423,7 @@ under the License.
                     <decorator-section name="body">
                         <section>
                             <condition>
-                                <if-has-permission action="_VIEW" permission="HUMANRES"/>
+                                <if-has-permission permission="HUMANRES" action="_VIEW"/>
                             </condition>
                             <widgets>
                                 <decorator-section-include name="body"/>

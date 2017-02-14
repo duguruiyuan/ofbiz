@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="ListReports">
         <section>
@@ -28,7 +28,7 @@ under the License.
                 <set field="tabButtonItem" value="viewReports"/>
                 <set field="invoiceTypeId" value="PURCHASE_INVOICE"/>
                 <set field="organizationPartyId" from-field="userPreferences.ORGANIZATION_PARTY" default-value="${defaultOrganizationPartyId}"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/invoice/InvoiceReport.groovy"/>
+                <script location="component://accounting/groovyScripts/invoice/InvoiceReport.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonApReportDecorator" location="${parameters.mainDecoratorLocation}">
@@ -96,6 +96,7 @@ under the License.
             <actions>
                 <set field="titleProperty" value="AccountingFindPurchaseInvoices"/>
                 <set field="tabButtonItem" value="purchaseInvoices"/>
+                <set field="statusIds" from-field="parameters.statusId" type="List"/>
                 <entity-condition entity-name="Invoice" list="invoices">
                     <condition-list combine="and">
                         <condition-expr field-name="invoiceTypeId" operator="equals" from-field="parameters.invoiceTypeId" ignore-if-empty="false"/>
@@ -104,13 +105,14 @@ under the License.
                         <condition-expr field-name="invoiceDate" operator="less-equals" from-field="parameters.thruInvoiceDate" ignore-if-empty="true"/>
                         <condition-expr field-name="dueDate" operator="greater-equals" from-field="parameters.fromDueDate" ignore-if-empty="true"/>
                         <condition-expr field-name="dueDate" operator="less-equals" from-field="parameters.thruDueDate" ignore-if-empty="true"/>
-                        <condition-expr field-name="statusId" operator="equals" from-field="parameters.statusId" ignore-if-empty="true"/>
+                        <condition-expr field-name="statusId" operator="in" from-field="statusIds" ignore-if-empty="true"/>
                     </condition-list>
                     <order-by field-name="partyIdFrom"/>
                 </entity-condition>
                 <set field="paymentPartyId" from-field="parameters.partyIdFrom" default-value="${parameters.organizationPartyId}"/>
                 <entity-and entity-name="PaymentMethod" list="paymentMethods">
                     <field-map field-name="partyId" from-field="paymentPartyId"/>
+                    <field-map field-name="paymentMethodTypeId" value="COMPANY_CHECK"/>
                 </entity-and>
                 <set field="organizationPartyId" from-field="parameters.organizationPartyId"/>
             </actions>
@@ -125,7 +127,7 @@ under the License.
                                     </decorator-section>
                                     <decorator-section name="search-results">
                                         <platform-specific>
-                                            <html><html-template location="component://accounting/webapp/ap/invoices/PurchaseInvoices.ftl"/></html>
+                                            <html><html-template location="component://accounting/template/ap/invoices/PurchaseInvoices.ftl"/></html>
                                         </platform-specific>
                                     </decorator-section>
                                 </decorator-screen>
@@ -166,11 +168,11 @@ under the License.
                 <set field="titleProperty" value="AccountingFindSalesInvoicesForCommissionRun"/>
                 <set field="tabButtonItem" value="commissionRun"/>
                 <set field="salesRepPartyList" type="List" from-field="parameters.partyIds"/>
-                <script location="component://accounting/webapp/ap/WEB-INF/actions/invoices/CommissionRun.groovy"/>
+                <script location="component://accounting/groovyScripts/ap/invoices/CommissionRun.groovy"/>
                 
-                <!-- asmslect parameters, must be prefixed by asm_ for setMultipleSelectJs.ftl -->
-                <set field="asm_multipleSelectForm"  value="CommissionRun"/>
-                <set field="asm_multipleSelect"  value="CommissionRun_partyId"/>
+                <!-- asmselect parameters, must be prefixed by asm_ for SetMultipleSelectJs.ftl -->
+                <set field="asm_multipleSelectForm" value="CommissionRun"/>
+                <set field="asm_multipleSelect" value="CommissionRun_partyId"/>
                 <set field="asm_formSize" value="700"/>
                 <set field="asm_listItemPercentOfForm" value="95"/>
                 <set field="asm_sortable" value="false"/>
@@ -179,8 +181,8 @@ under the License.
             </actions>
             <widgets>
                 <decorator-screen name="CommonInvoiceDecorator" location="${parameters.mainDecoratorLocation}">
-                    <decorator-section name="body">                        
-                        <platform-specific><html><html-template location="component://common/webcommon/includes/setMultipleSelectJs.ftl"/></html></platform-specific>
+                    <decorator-section name="body">
+                        <platform-specific><html><html-template location="component://common/template/includes/SetMultipleSelectJs.ftl"/></html></platform-specific>
                         <section>
                             <widgets>
                                 <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
@@ -189,7 +191,7 @@ under the License.
                                     </decorator-section>
                                     <decorator-section name="search-results">
                                         <platform-specific>
-                                            <html><html-template location="component://accounting/webapp/ap/invoices/CommissionRun.ftl"/></html>
+                                            <html><html-template location="component://accounting/template/ap/invoices/CommissionRun.ftl"/></html>
                                         </platform-specific>
                                     </decorator-section>
                                 </decorator-screen>
@@ -206,7 +208,7 @@ under the License.
             <actions>
                 <set field="titleProperty" value="AccountingCommissionReport"/>
                 <set field="tabButtonItem" value="commissionReport"/>
-                <script location="component://accounting/webapp/ap/WEB-INF/actions/invoices/CommissionReport.groovy"/>
+                <script location="component://accounting/groovyScripts/ap/invoices/CommissionReport.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonApReportDecorator" location="${parameters.mainDecoratorLocation}">
@@ -219,7 +221,7 @@ under the License.
                                     </decorator-section>
                                     <decorator-section name="search-results">
                                         <platform-specific>
-                                            <html><html-template location="component://accounting/webapp/ap/invoices/CommissionReport.ftl"/></html>
+                                            <html><html-template location="component://accounting/template/ap/invoices/CommissionReport.ftl"/></html>
                                         </platform-specific>
                                     </decorator-section>
                                 </decorator-screen>

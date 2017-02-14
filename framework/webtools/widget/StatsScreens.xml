@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="StatsDecorator">
         <section>
@@ -52,7 +52,7 @@ under the License.
             <actions>
                 <set field="titleProperty" value="WebtoolsStatsMainPageTitle"/>
                 <set field="tabButtonItem" value="stats"/>
-                <script location="component://webtools/webapp/webtools/WEB-INF/actions/stats/StatsSinceStart.groovy"/>
+                <script location="component://webtools/groovyScripts/stats/StatsSinceStart.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="StatsDecorator" location="${parameters.statsDecoratorLocation}">
@@ -65,13 +65,13 @@ under the License.
                                 <include-menu name="StatsSinceStart" location="component://webtools/widget/Menus.xml"/>
                                 <label>${uiLabelMap.WebtoolsStatsCurrentTime} ${nowTimestamp}</label>
                                 <screenlet title="${uiLabelMap.WebtoolsStatsRequestStats}" padded="false">
-                                    <include-form name="ListRequestStats" location="component://webtools/widget/StatsForms.xml"/>
+                                    <include-grid name="ListRequestStats" location="component://webtools/widget/StatsForms.xml"/>
                                 </screenlet>
                                 <screenlet title="${uiLabelMap.WebtoolsStatsEventStats}" padded="false">
-                                    <include-form name="ListEventStats" location="component://webtools/widget/StatsForms.xml"/>
+                                    <include-grid name="ListEventStats" location="component://webtools/widget/StatsForms.xml"/>
                                 </screenlet>
                                 <screenlet title="${uiLabelMap.WebtoolsStatsViewStats}" padded="false">
-                                    <include-form name="ListViewStats" location="component://webtools/widget/StatsForms.xml"/>
+                                    <include-grid name="ListViewStats" location="component://webtools/widget/StatsForms.xml"/>
                                 </screenlet>
                             </widgets>
                         </section>
@@ -86,7 +86,7 @@ under the License.
             <actions>
                 <set field="titleProperty" value="WebtoolsStatsBinsPageTitle"/>
                 <set field="tabButtonItem" value="stats"/>
-                <script location="component://webtools/webapp/webtools/WEB-INF/actions/stats/StatBinsHistory.groovy"/>
+                <script location="component://webtools/groovyScripts/stats/StatBinsHistory.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="StatsDecorator" location="${parameters.statsDecoratorLocation}">
@@ -98,7 +98,7 @@ under the License.
                                 </container>
                                 <include-menu name="StatsBinHistory" location="component://webtools/widget/Menus.xml"/>
                                 <label>${uiLabelMap.WebtoolsStatsCurrentTime} ${nowTimestamp}</label>
-                                <include-form name="ListRequestBins" location="component://webtools/widget/StatsForms.xml"/>
+                                <include-grid name="ListRequestBins" location="component://webtools/widget/StatsForms.xml"/>
                             </widgets>
                         </section>
                     </decorator-section>
@@ -121,7 +121,7 @@ under the License.
                                 <container style="page-title">
                                     <label text="${uiLabelMap[titleProperty]}"/>
                                 </container>
-                                <include-form name="ListMetrics" location="component://webtools/widget/StatsForms.xml" />
+                                <include-grid name="ListMetrics" location="component://webtools/widget/StatsForms.xml" />
                             </widgets>
                         </section>
                     </decorator-section>

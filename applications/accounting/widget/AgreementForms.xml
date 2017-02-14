@@ -18,7 +18,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="FindAgreements" target="FindAgreement" title="" type="single"
         header-row-style="header-row" default-table-style="basic-table">
@@ -28,7 +28,7 @@ under the License.
         </field>
         <field name="agreementTypeId" title="${uiLabelMap.AccountingAgreementTypeId}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="AgreementType"/>
+                <entity-options entity-name="AgreementType"/>
             </drop-down>
         </field>
         <field name="partyIdFrom" title="${uiLabelMap.AccountingPartyIdFrom}">
@@ -49,7 +49,7 @@ under the License.
         </field>
     </form>
 
-    <form name="ListAgreements" list-name="listIt" target="" title="" type="list" paginate-target="FindAgreement"
+    <grid name="ListAgreements" list-name="listIt" target="" title="" paginate-target="FindAgreement"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar" header-row-style="header-row-2">
         <actions>
             <set field="entityName" value="Agreement"/>
@@ -62,31 +62,22 @@ under the License.
             </service>
         </actions>
         <row-actions>
-            <service service-name="getPartyNameForDate" result-map="partyNameResultFrom">
-                <field-map field-name="partyId" from-field="partyIdFrom"/>
-                <field-map field-name="compareDate" from-field="agreementDate"/>
-                <field-map field-name="lastNameFirst" value="Y"/>
-            </service>
-            <service service-name="getPartyNameForDate" result-map="partyNameResultTo">
-                <field-map field-name="partyId" from-field="partyIdTo"/>
-                <field-map field-name="compareDate" from-field="agreementDate"/>
-                <field-map field-name="lastNameFirst" value="Y"/>
-            </service>
+            <script location="component://accounting/webapp/accounting/WEB-INF/actions/agreement/GetPartyNameForDate.groovy"/>
         </row-actions>         
         <auto-fields-entity entity-name="Agreement" default-field-type="display"/>
         <field name="agreementId" title="${uiLabelMap.CommonEdit}" widget-style="buttontext" sort-field="true">
-            <hyperlink also-hidden="false" description="${agreementId}" target="EditAgreement">
+            <hyperlink description="${agreementId}" target="EditAgreement" also-hidden="false">
                 <parameter param-name="agreementId"/>
             </hyperlink>
         </field>
         <field name="productId" sort-field="true"></field>
         <field name="partyIdFrom" sort-field="true">
-            <hyperlink target="/partymgr/control/viewprofile" description="${partyNameResultFrom.fullName} [${partyIdFrom}]" target-type="inter-app">
+            <hyperlink description="${partyNameResultFrom.fullName} [${partyIdFrom}]" target="/partymgr/control/viewprofile" target-type="inter-app">
                 <parameter param-name="partyId" from-field="partyIdFrom"/>
             </hyperlink> 
         </field>
         <field name="partyIdTo" sort-field="true">
-            <hyperlink target="/partymgr/control/viewprofile" description="${partyNameResultTo.fullName} [${partyIdTo}]" target-type="inter-app">
+            <hyperlink description="${partyNameResultTo.fullName} [${partyIdTo}]" target="/partymgr/control/viewprofile" target-type="inter-app">
                 <parameter param-name="partyId" from-field="partyIdTo"/>
             </hyperlink>
         </field>
@@ -103,24 +94,24 @@ under the License.
         <field name="textData" title="${uiLabelMap.AccountingTextData}"><hidden/></field>
         <field name="description" sort-field="true"></field>
         <field name="cancelLink" title=" " widget-style="buttontext">
-            <hyperlink target="cancelAgreement" description="${uiLabelMap.CommonCancel}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonCancel}" target="cancelAgreement" also-hidden="false">
                 <parameter param-name="agreementId"/>
             </hyperlink>
         </field>
-    </form>
+    </grid>
 
     <form name="EditAgreement" type="single" target="updateAgreement" title="" default-map-name="agreement"
         header-row-style="header-row" default-table-style="basic-table">
         <alt-target use-when="agreement==null" target="createAgreement"/>
         <auto-fields-service service-name="updateAgreement" default-field-type="edit" map-name="agreement"/>
-        <field name="agreementId" use-when="agreementId!=null" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field name="agreementId" use-when="agreementId!=null"><display/></field>
         <field name="agreementId" use-when="agreement==null&amp;&amp;agreementId==null"><ignored/></field>
         <field name="productId" title="${uiLabelMap.AccountingProductId}">
             <lookup target-form-name="LookupProduct"/>
         </field>
         <field name="agreementTypeId" title="${uiLabelMap.AccountingAgreementTypeId}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="AgreementType" key-field-name="agreementTypeId"/>
+                <entity-options entity-name="AgreementType" key-field-name="agreementTypeId"/>
             </drop-down>
         </field>
         <field name="partyIdFrom" title="${uiLabelMap.AccountingPartyIdFrom}">
@@ -128,29 +119,30 @@ under the License.
         </field>
         <field name="roleTypeIdFrom" title="${uiLabelMap.AccountingRoleTypeIdFrom}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="RoleType" key-field-name="roleTypeId"/>
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId"/>
             </drop-down>
         </field>
         <field name="roleTypeIdTo" title="${uiLabelMap.AccountingRoleTypeIdTo}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="RoleType" key-field-name="roleTypeId"/>
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId"/>
             </drop-down>
         </field>
         <field name="partyIdTo" title="${uiLabelMap.AccountingPartyIdTo}">
             <lookup target-form-name="LookupPartyName"/>
         </field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
 
         <field name="submitButton" title="${uiLabelMap.CommonSubmit}" widget-style="smallSubmit">
             <submit button-type="button"/>
         </field>
     </form>
 
-    <form name="ListAgreementItems" list-name="agreementItems" target=""  title="" type="list" paginate-target="ListAgreementItems"
+    <grid name="ListAgreementItems" list-name="agreementItems" target=""  title="" paginate-target="ListAgreementItems"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <auto-fields-entity entity-name="AgreementItem" default-field-type="display"/>
         <field name="agreementId" title="${uiLabelMap.AccountingAgreementId}"><hidden/></field>
         <field name="agreementItemSeqId" title="${uiLabelMap.CommonEdit}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${agreementItemSeqId}" target="EditAgreementItem">
+            <hyperlink description="${agreementItemSeqId}" target="EditAgreementItem" also-hidden="false">
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
             </hyperlink>
@@ -159,12 +151,12 @@ under the License.
             <display-entity entity-name="AgreementItemType"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeAgreementItem" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="removeAgreementItem" also-hidden="false">
                 <parameter param-name="agreementItemSeqId"/>
                 <parameter param-name="agreementId"/>
             </hyperlink>
         </field>
-    </form>
+    </grid>
 
     <form name="EditAgreementItem" type="single" target="updateAgreementItem" title="" default-map-name="agreementItem"
         header-row-style="header-row" default-table-style="basic-table">
@@ -175,7 +167,7 @@ under the License.
         <field name="agreementItemSeqId" use-when="agreementItem==null" ><ignored/></field>
         <field name="agreementItemTypeId" title="${uiLabelMap.AccountingAgreementItemTypeId}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="AgreementItemType" key-field-name="agreementItemTypeId"/>
+                <entity-options entity-name="AgreementItemType" key-field-name="agreementItemTypeId"/>
             </drop-down>
         </field>
         <field name="currencyUomId" title="${uiLabelMap.CommonCurrency}">
@@ -191,13 +183,13 @@ under the License.
         </field>
     </form>
 
-    <form name="ListAgreementItemTerms" target="" title="" type="list" list-name="agreementTerms" paginate-target="ListAgreementItemTerms"
+    <grid name="ListAgreementItemTerms" target="" title="" list-name="agreementTerms" paginate-target="ListAgreementItemTerms"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <auto-fields-entity entity-name="AgreementTerm" default-field-type="display"/>
         <field name="agreementId" title="${uiLabelMap.AccountingAgreementId}"><hidden/></field>
         <field name="agreementItemSeqId" title="${uiLabelMap.AccountingAgreementItemSeqId}"><hidden/></field>
         <field name="agreementTermId" title="${uiLabelMap.CommonEdit}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${agreementTermId}" target="EditAgreementItemTerm">
+            <hyperlink description="${agreementTermId}" target="EditAgreementItemTerm" also-hidden="false">
                 <parameter param-name="agreementTermId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
@@ -210,14 +202,15 @@ under the License.
             <display-entity entity-name="InvoiceItemType"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeAgreementItemTerm" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="removeAgreementItemTerm" also-hidden="false">
                 <parameter param-name="agreementTermId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
             </hyperlink>
         </field>
-    </form>
-    <form name="ListAgreementTerms" target="updateAgreementTerm" list-name="agreementTerms" paginate-target="EditAgreementTerms" title="" type="list"
+    </grid>
+    
+    <grid name="ListAgreementTerms" target="updateAgreementTerm" list-name="agreementTerms" paginate-target="EditAgreementTerms" title=""
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <actions>
             <entity-and entity-name="AgreementTerm" list="agreementTerms">
@@ -235,26 +228,27 @@ under the License.
         </field>
         <field name="invoiceItemTypeId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="InvoiceItemType" description="${description}">
+                <entity-options entity-name="InvoiceItemType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteAgreementTerm" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="deleteAgreementTerm" also-hidden="false">
                 <parameter param-name="agreementTermId"/>
                 <parameter param-name="agreementId"/>
             </hyperlink>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
-    </form>
+    </grid>
+    
     <form name="AddAgreementTerm" type="single" target="createAgreementTerm" title="" default-map-name="agreementTerm"
         header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="AgreementTerm" default-field-type="edit"/>
-        <field name="agreementTermId" title="${uiLabelMap.AccountingAgreementTermId}"><hidden/></field>
+        <field name="agreementTermId" title="${uiLabelMap.AccountingAgreementTermId}"><ignored/></field>
         <field name="termTypeId" title="${uiLabelMap.AccountingTermTypeId}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="TermType" description="${description}">
+                <entity-options entity-name="TermType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -263,7 +257,7 @@ under the License.
         <field name="agreementItemSeqId" title="${uiLabelMap.AccountingAgreementItemSeqId}"><hidden/></field>
         <field name="invoiceItemTypeId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="InvoiceItemType" description="${description}">
+                <entity-options entity-name="InvoiceItemType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -271,6 +265,63 @@ under the License.
         <field name="submitButton" title="${uiLabelMap.CommonSubmit}" widget-style="smallSubmit">
             <submit button-type="button"/>
         </field>
+    </form>
+    
+    <grid name="ListAgreementContent" target="removeAgreementContent" list-name="contentDataResourceList" paginate-target="ListAgreementContents" title=""
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        <field name="agreementId"><hidden/></field>
+        <field name="agreementItemSeqId"><display/></field>
+        <field name="contentId"><hidden/></field>
+        <field name="contentName">
+            <display-entity entity-name="Content" description="${contentName}" key-field-name="contentId">
+                <sub-hyperlink target="stream" description="${contentId}" link-style="smallSubmit" link-type="anchor">
+                    <parameter param-name="contentId"/>
+                </sub-hyperlink>
+            </display-entity>
+        </field>
+        <field name="agreementContentTypeId"><display-entity entity-name="AgreementContentType"/></field>
+        <field name="statusId"><display-entity entity-name="StatusItem"></display-entity></field>
+        <field name="contentTypeId"><display-entity entity-name="ContentType"></display-entity></field>
+        <field name="fromDate"><display type="date-time"/></field>
+        <field name="thruDate"><display type="date-time"/></field>
+        <field name="remove" title="${uiLabelMap.CommonRemove}"><submit/></field>
+    </grid>
+    
+    <form name="AddAgreementContent" type="upload" target="uploadAgreementContent">
+        <field name="agreementId"><hidden value="${agreement.agreementId}"/></field>
+        <field name="agreementItemSeqId">
+            <drop-down allow-empty="false">
+                <option key="_NA_" description=" "/>
+                <entity-options entity-name="AgreementItem" description="${agreementItemSeqId}">
+                    <entity-constraint name="agreementId" env-name="agreement.agreementId"/>
+                    <entity-order-by field-name="agreementItemSeqId"/>
+                </entity-options>
+            </drop-down>
+        </field>
+        <field name="agreementContentTypeId" >
+            <drop-down allow-empty="false">
+                <entity-options entity-name="AgreementContentType">
+                    <entity-order-by field-name="description"/>
+                </entity-options>
+            </drop-down>
+        </field>
+        <field name="contentTypeId">
+            <drop-down allow-empty="false" no-current-selected-key="DOCUMENT">
+                <entity-options entity-name="ContentType"/>
+            </drop-down>
+        </field>
+        <field name="statusId">
+            <drop-down allow-empty="false" no-current-selected-key="CTNT_AVAILABLE">
+                <entity-options entity-name="StatusItem">
+                    <entity-constraint name="statusTypeId" value="CONTENT_STATUS"/>
+                    <entity-order-by field-name="sequenceId"/>
+                </entity-options>
+            </drop-down>
+        </field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
+        <field name="thruDate"><date-time/></field>
+        <field name="uploadedFile" title="${uiLabelMap.ContentFile}"><file/></field>
+        <field name="submitButton" title="${uiLabelMap.CommonUpload}"><submit/></field>
     </form>
     <form name="EditAgreementItemTerm" type="single" target="updateAgreementItemTerm" title="" default-map-name="agreementTerm"
         header-row-style="header-row" default-table-style="basic-table">
@@ -279,14 +330,14 @@ under the License.
         <field name="agreementTermId" title="${uiLabelMap.AccountingAgreementTermId}"><display/></field>
         <field name="termTypeId" title="${uiLabelMap.AccountingTermTypeId}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="TermType" description="${description}"/>
+                <entity-options entity-name="TermType"/>
             </drop-down>
         </field>
         <field name="agreementId" title="${uiLabelMap.AccountingAgreementId}"><hidden/></field>
         <field name="agreementItemSeqId" title="${uiLabelMap.AccountingAgreementItemSeqId}"><hidden/></field>
         <field name="invoiceItemTypeId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="InvoiceItemType" description="${description}">
+                <entity-options entity-name="InvoiceItemType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -295,13 +346,13 @@ under the License.
             <submit button-type="button"/>
         </field>
     </form>
-    <form name="ListAgreementItemProducts" list-name="agreementProducts" target="" title="" type="list" paginate-target="ListAgreementItemProducts"
+    <grid name="ListAgreementItemProducts" list-name="agreementProducts" target="" title="" paginate-target="ListAgreementItemProducts"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <auto-fields-entity entity-name="AgreementProductAppl" default-field-type="display"/>
         <field name="agreementId" title="${uiLabelMap.AccountingAgreementId}"><hidden/></field>
         <field name="agreementItemSeqId" title="${uiLabelMap.AccountingAgreementItemSeqId}"><hidden/></field>
         <field name="productId" title="${uiLabelMap.CommonEdit}" widget-style="buttontext">
-           <hyperlink also-hidden="false" description="${productId}" target="EditAgreementItemProduct">
+           <hyperlink description="${productId}" target="EditAgreementItemProduct" also-hidden="false">
                 <parameter param-name="productId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
@@ -312,20 +363,21 @@ under the License.
         </field>
         <field name="price"><display type="currency" currency="${agreementItem.currencyUomId}"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeAgreementItemProduct" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="removeAgreementItemProduct" also-hidden="false">
                 <parameter param-name="productId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
             </hyperlink>
         </field>
-    </form>
-    <form name="ListAgreementItemFacilities" list-name="agreementFacilities" target="" title="" type="list" paginate-target="ListAgreementItemFacilities"
+    </grid>
+    
+    <grid name="ListAgreementItemFacilities" list-name="agreementFacilities" target="" title="" paginate-target="ListAgreementItemFacilities"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <auto-fields-entity entity-name="AgreementFacilityAppl" default-field-type="display"/>
         <field name="agreementId" title="${uiLabelMap.AccountingAgreementId}"><hidden/></field>
         <field name="agreementItemSeqId" title="${uiLabelMap.AccountingAgreementItemSeqId}"><hidden/></field>
         <field name="facilityId" title="${uiLabelMap.CommonEdit}" widget-style="buttontext">
-           <hyperlink also-hidden="false" description="${facilityId}" target="EditAgreementItemFacility">
+           <hyperlink description="${facilityId}" target="EditAgreementItemFacility" also-hidden="false">
                 <parameter param-name="facilityId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
@@ -335,14 +387,15 @@ under the License.
             <display-entity entity-name="Facility" key-field-name="facilityId" description="${internalName}"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeAgreementItemFacility" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="removeAgreementItemFacility" also-hidden="false">
                 <parameter param-name="facilityId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
             </hyperlink>
         </field>
-    </form>
-    <form name="ListAgreementItemSupplierProducts" list-name="agreementProducts" target="" title="" type="list" paginate-target="ListAgreementItemSupplierProducts"
+    </grid>
+    
+    <grid name="ListAgreementItemSupplierProducts" list-name="agreementProducts" target="" title="" paginate-target="ListAgreementItemSupplierProducts"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <auto-fields-entity entity-name="SupplierProduct" default-field-type="display"/>
         <field name="agreementId"><hidden/></field>
@@ -350,7 +403,7 @@ under the License.
         <field name="partyId"><hidden/></field>
         <field name="currencyUomId"><hidden/></field>
         <field name="productId" title="${uiLabelMap.CommonEdit}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${productId}" target="EditAgreementItemSupplierProduct">
+            <hyperlink description="${productId}" target="EditAgreementItemSupplierProduct" also-hidden="false">
                 <parameter param-name="minimumOrderQuantity"/>
                 <parameter param-name="currencyUomId"/>
                 <parameter param-name="availableFromDate"/>
@@ -365,7 +418,7 @@ under the License.
         </field>
         <field name="lastPrice"><display type="currency" currency="${agreementItem.currencyUomId}"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeAgreementItemSupplierProduct" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="removeAgreementItemSupplierProduct" also-hidden="false">
                 <parameter param-name="minimumOrderQuantity"/>
                 <parameter param-name="currencyUomId"/>
                 <parameter param-name="availableFromDate"/>
@@ -375,7 +428,7 @@ under the License.
                 <parameter param-name="agreementItemSeqId"/>
             </hyperlink>
         </field>
-    </form>
+    </grid>
 
     <form name="ViewAgreementInfoForReport" type="single" title="" default-map-name="agreement"
         header-row-style="header-row" default-table-style="basic-table">
@@ -393,15 +446,17 @@ under the License.
         <field name="agreementItemSeqId"><display/></field>
         <field name="currencyUomId"><display/></field>
     </form>
-    <form name="ListAgreementItemProductsForReport" list-name="agreementProducts" target="" title="" type="list"
+    
+    <grid name="ListAgreementItemProductsForReport" list-name="agreementProducts" target="" title=""
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="productId" title-area-style="tableheadmedium"><display/></field>
         <field name="internalName" entry-name="productId">
             <display-entity entity-name="Product" key-field-name="productId" description="${internalName}"/>
         </field>
         <field name="price" title-area-style="tableheadmedium"><display type="currency" currency="${agreementItem.currencyUomId}"/></field>
-    </form>
-    <form name="ListAgreementItemSupplierProductsForReport" list-name="agreementProducts" target="" title="" type="list"
+    </grid>
+    
+    <grid name="ListAgreementItemSupplierProductsForReport" list-name="agreementProducts" target="" title=""
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="productId" title-area-style="tableheadmedium"><display/></field>
         <field name="supplierProductId" title-area-style="tableheadmedium"><display/></field>
@@ -409,14 +464,15 @@ under the License.
             <display-entity entity-name="Product" key-field-name="productId" description="${internalName}"/>
         </field>
         <field name="lastPrice" title-area-style="tableheadmedium"><display type="currency" currency="${agreementItem.currencyUomId}"/></field>
-    </form>
+    </grid>
+    
     <form name="EditAgreementItemProduct" type="single" target="updateAgreementItemProduct" title="" default-map-name="agreementProductAppl"
         header-row-style="header-row" default-table-style="basic-table">
         <alt-target use-when="agreementProductAppl==null" target="createAgreementItemProduct"/>
         <auto-fields-entity entity-name="AgreementProductAppl" default-field-type="edit"/>
         <field name="agreementId"><hidden/></field>
         <field name="agreementItemSeqId"><hidden/></field>
-        <field name="productId" use-when="agreementProductAppl==null">
+        <field name="productId" use-when="agreementProductAppl==null" required-field="true">
             <lookup target-form-name="LookupProduct"/>
         </field>
         <field name="productId" use-when="agreementProductAppl!=null"><display/></field>
@@ -430,7 +486,7 @@ under the License.
         <auto-fields-entity entity-name="AgreementFacilityAppl" default-field-type="edit"/>
         <field name="agreementId"><hidden/></field>
         <field name="agreementItemSeqId"><hidden/></field>
-        <field name="facilityId" use-when="agreementFacilityAppl==null">
+        <field name="facilityId" use-when="agreementFacilityAppl==null" required-field="true">
             <lookup target-form-name="LookupFacility"/>
         </field>
         <field name="facilityId" use-when="agreementFacilityAppl!=null"><display/></field>
@@ -447,7 +503,7 @@ under the License.
         <field name="partyId"><hidden value="${agreement.partyIdTo}"/></field>
         <field name="currencyUomId"><hidden value="${agreementItem.currencyUomId}"/></field>
         <field name="availableFromDate" use-when="agreementProductAppl==null">
-            <!--<date-time default-value="${groovy: org.ofbiz.base.util.UtilDateTime.nowTimestamp()}"/>-->
+            <!--<date-time default-value="${groovy: org.apache.ofbiz.base.util.UtilDateTime.nowTimestamp()}"/>-->
             <date-time default-value="${agreement.fromDate}"/>
         </field>
         <field name="availableFromDate" use-when="agreementProductAppl!=null">
@@ -465,14 +521,14 @@ under the License.
         <field name="productId" use-when="agreementProductAppl!=null"><display/></field>
         <field name="supplierPrefOrderId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="SupplierPrefOrder" key-field-name="supplierPrefOrderId" description="${description}">
+                <entity-options entity-name="SupplierPrefOrder" key-field-name="supplierPrefOrderId">
                     <entity-order-by field-name="supplierPrefOrderId"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="supplierRatingTypeId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="SupplierRatingType" key-field-name="supplierRatingTypeId" description="${description}">
+                <entity-options entity-name="SupplierRatingType" key-field-name="supplierRatingTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -491,13 +547,13 @@ under the License.
         </field>
     </form>
 
-    <form name="ListAgreementPromoAppls" list-name="agreementPromoAppls" target="" title="" type="list" paginate-target="ListAgreementPromoAppls"
+    <grid name="ListAgreementPromoAppls" list-name="agreementPromoAppls" target="" title="" paginate-target="ListAgreementPromoAppls"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <auto-fields-entity entity-name="AgreementPromoAppl" default-field-type="display"/>
         <field name="agreementId" title="${uiLabelMap.AccountingAgreementId}"><hidden/></field>
         <field name="agreementItemSeqId" title="${uiLabelMap.AccountingAgreementItemSeqId}"><hidden/></field>
         <field name="productPromoId" title="${uiLabelMap.CommonEdit}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${productPromoId}" target="EditAgreementPromoAppl">
+            <hyperlink description="${productPromoId}" target="EditAgreementPromoAppl" also-hidden="false">
                 <parameter param-name="productPromoId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
@@ -508,14 +564,15 @@ under the License.
             <display-entity entity-name="ProductPromo" key-field-name="productPromoId" description="${promoName}"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeAgreementPromoAppl" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="removeAgreementPromoAppl" also-hidden="false">
                 <parameter param-name="productPromoId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
                 <parameter param-name="fromDate"/>
             </hyperlink>
         </field>
-    </form>
+    </grid>
+    
     <form name="EditAgreementPromoAppl" type="single" target="updateAgreementPromoAppl" title="" default-map-name="agreementPromoAppl"
         header-row-style="header-row" default-table-style="basic-table">
         <alt-target use-when="agreementPromoAppl==null" target="createAgreementPromoAppl"/>
@@ -532,18 +589,19 @@ under the License.
         </field>
 
         <field use-when="agreementPromoAppl!=null" name="fromDate"><display/></field>
-        <field use-when="agreementPromoAppl==null" name="fromDate"><date-time/></field>
+        <field use-when="agreementPromoAppl==null" name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonSubmit}" widget-style="smallSubmit">
             <submit button-type="button"/>
         </field>
     </form>
-    <form name="ListAgreementItemParties" list-name="agreementParties" target="" title="" type="list" paginate-target="ListAgreementItemParties"
+    
+    <grid name="ListAgreementItemParties" list-name="agreementParties" target="" title="" paginate-target="ListAgreementItemParties"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <auto-fields-entity entity-name="AgreementPartyApplic" default-field-type="display"/>
         <field name="agreementId" title="${uiLabelMap.AccountingAgreementId}"><hidden/></field>
         <field name="agreementItemSeqId" title="${uiLabelMap.AccountingAgreementItemSeqId}"><hidden/></field>
         <field name="partyId" title="${uiLabelMap.CommonEdit}" widget-style="buttontext">
-           <hyperlink also-hidden="false" description="${partyId}" target="EditAgreementItemParty">
+           <hyperlink description="${partyId}" target="EditAgreementItemParty" also-hidden="false">
                 <parameter param-name="partyId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
@@ -553,20 +611,21 @@ under the License.
             <display-entity entity-name="PartyNameView" key-field-name="partyId" description="${groupName} ${firstName} ${lastName}"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeAgreementItemParty" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeAgreementItemParty" also-hidden="false">
                 <parameter param-name="partyId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
             </hyperlink>
         </field>
-    </form>
+    </grid>
+    
     <form name="EditAgreementItemParty" type="single" target="updateAgreementItemParty" title="" default-map-name="agreementPartyApplic"
         header-row-style="header-row" default-table-style="basic-table">
         <alt-target use-when="agreementPartyApplic==null" target="createAgreementItemParty"/>
         <auto-fields-entity entity-name="AgreementPartyApplic" default-field-type="edit"/>
         <field name="agreementId"><hidden/></field>
         <field name="agreementItemSeqId"><hidden/></field>
-        <field name="partyId" use-when="agreementPartyApplic==null">
+        <field name="partyId" use-when="agreementPartyApplic==null" required-field="true">
             <lookup target-form-name="LookupPartyName"/>
         </field>
         <field name="partyId" use-when="agreementPartyApplic!=null"><display/></field>
@@ -574,7 +633,8 @@ under the License.
             <submit button-type="button"/>
         </field>
     </form>
-    <form name="ListAgreementGeographicalApplic" target="" title="" type="list" list-name="agreementGeographicalApplics" paginate-target="ListAgreementGeographicalApplic"
+    
+    <grid name="ListAgreementGeographicalApplic" target="" title="" list-name="agreementGeographicalApplics" paginate-target="ListAgreementGeographicalApplic"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <auto-fields-entity entity-name="AgreementGeographicalApplic" default-field-type="display"/>
         <field name="agreementId"><hidden/></field>
@@ -583,13 +643,14 @@ under the License.
             <display-entity entity-name="Geo" key-field-name="geoId" description="${geoName} [${geoId}]"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeAgreementGeographicalApplic" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeAgreementGeographicalApplic" also-hidden="false">
                 <parameter param-name="geoId"/>
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
             </hyperlink>
         </field>
-    </form>
+    </grid>
+    
     <form name="EditAgreementGeographicalApplic" type="single" target="updateAgreementGeographicalApplic" title="" default-map-name="agreementGeographicalApplic"
         header-row-style="header-row" default-table-style="basic-table">
         <alt-target use-when="agreementGeographicalApplic==null" target="createAgreementGeographicalApplic"/>
@@ -626,24 +687,25 @@ under the License.
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
-    <form name="ListAgreementWorkEffortApplics" type="list" target="updateAgreementWorkEffortApplic" list-name="agreementWorkEffortApplics"
+    <grid name="ListAgreementWorkEffortApplics" target="updateAgreementWorkEffortApplic" list-name="agreementWorkEffortApplics"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <actions>
             <entity-and entity-name="AgreementWorkEffortApplic" use-cache="true" list="agreementWorkEffortApplics">
-                <field-map from-field="agreementId" field-name="agreementId"/>
+                <field-map field-name="agreementId" from-field="agreementId"/>
             </entity-and>
         </actions>
         <field name="agreementItemSeqId"><display/></field>
         <field name="workEffortId"><display/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-           <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="deleteAgreementWorkEffortApplic">
+           <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteAgreementWorkEffortApplic" also-hidden="false">
                 <parameter param-name="agreementId"/>
                 <parameter param-name="agreementItemSeqId"/>
                 <parameter param-name="workEffortId"/>
             </hyperlink>
         </field>
-    </form>
-    <form name="ListAgreementRoles" list-name="agreementRoles" type="list" paginate-target="EditAgreementRoles"
+    </grid>
+    
+    <grid name="ListAgreementRoles" list-name="agreementRoles" paginate-target="EditAgreementRoles"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <actions>
             <entity-and entity-name="AgreementRole" use-cache="true" list="agreementRoles">
@@ -655,21 +717,21 @@ under the License.
         <field name="partyId" title="${uiLabelMap.PartyPartyId}"><display/></field>
         <field name="roleTypeId" title="${uiLabelMap.PartyRoleTypeId}"><display/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteAgreementRole" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="deleteAgreementRole" also-hidden="false">
                 <parameter param-name="agreementId"/>
                 <parameter param-name="partyId"/>
                 <parameter param-name="roleTypeId"/>
             </hyperlink>
         </field>
-    </form>
+    </grid>
     <form name="AddAgreementRole" type="single" target="createAgreementRole"
         header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="AgreementRole" default-field-type="edit"/>
         <field name="agreementId"><hidden/></field>
-        <field name="partyId" title="${uiLabelMap.PartyPartyId}"><lookup target-form-name="LookupPartyName"/></field>
-        <field name="roleTypeId" title="${uiLabelMap.PartyRoleTypeId}">
+        <field name="partyId" title="${uiLabelMap.PartyPartyId}" required-field="true"><lookup target-form-name="LookupPartyName"/></field>
+        <field name="roleTypeId" title="${uiLabelMap.PartyRoleTypeId}" required-field="true">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="RoleType" key-field-name="roleTypeId"/>
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId"/>
             </drop-down>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}" widget-style="smallSubmit"><submit button-type="button"/></field>

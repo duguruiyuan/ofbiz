@@ -19,7 +19,7 @@
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+    xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     
     <screen name="InitialSetup">
         <section>
@@ -45,7 +45,7 @@
                     <widgets>
                         <section>
                             <actions>
-                                <!-- fields for setDependentDropdownValuesJs.ftl, it's a try on generalization, if you need an example with more than one dropdown in a form have a look at EditProductPriceRules screen -->
+                                <!-- fields for SetDependentDropdownValuesJs.ftl, it's a try on generalization, if you need an example with more than one dropdown in a form have a look at EditProductPriceRules screen -->
                                 <set field="dependentForm" value="NewOrganization"/>
                                 <set field="paramKey" value="countryGeoId"/>                                        
                                 <set field="mainId" value="USER_COUNTRY"/>
@@ -57,7 +57,7 @@
                                 <set field="selectedDependentOption" value="_none_"/>
                             </actions>
                             <widgets>
-                                <platform-specific><html><html-template location="component://common/webcommon/includes/setDependentDropdownValuesJs.ftl"/></html></platform-specific>
+                                <platform-specific><html><html-template location="component://common/template/includes/SetDependentDropdownValuesJs.ftl"/></html></platform-specific>
                                 <screenlet title="${uiLabelMap.SetupCreateNewOrganization}">
                                     <include-form name="NewOrganization" location="component://commonext/widget/ofbizsetup/SetupForms.xml"/>
                                 </screenlet>
@@ -80,7 +80,7 @@
                 <set field="titleProperty" value="ProductNewFacility"/>
                 <set field="tabButtonItemTop" value="facility"/>
                 <set field="partyId" from-field="parameters.partyId"/>
-                <script location="component://commonext/webapp/ofbizsetup/WEB-INF/actions/FindFacility.groovy"/>
+                <script location="component://commonext/groovyScripts/ofbizsetup/FindFacility.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonSetupDecorator" location="${parameters.mainDecoratorLocation}">
@@ -127,8 +127,8 @@
                 <set field="partyId" from-field="parameters.partyId"/>
                 <entity-one entity-name="PartyGroup" value-field="partyGroup"/>
                 <property-to-field field="defaultCurrencyUomId" resource="general" property="currency.uom.id.default" default="USD"/>
-                <script location="component://commonext/webapp/ofbizsetup/WEB-INF/actions/GetProductStoreAndWebSite.groovy"/>
-                <script location="component://commonext/webapp/ofbizsetup/WEB-INF/actions/FindFacility.groovy"/>
+                <script location="component://commonext/groovyScripts/ofbizsetup/GetProductStoreAndWebSite.groovy"/>
+                <script location="component://commonext/groovyScripts/ofbizsetup/FindFacility.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonSetupDecorator" location="${parameters.mainDecoratorLocation}">
@@ -175,7 +175,7 @@
                 <set field="tabButtonItemTop" value="website"/>
                 <set field="labelTitleProperty" value="PageTitleEditWebSite"/>
                 <set field="partyId" from-field="parameters.partyId"/>
-                <script location="component://commonext/webapp/ofbizsetup/WEB-INF/actions/GetProductStoreAndWebSite.groovy"/>
+                <script location="component://commonext/groovyScripts/ofbizsetup/GetProductStoreAndWebSite.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonSetupDecorator" location="${parameters.mainDecoratorLocation}">
@@ -225,7 +225,7 @@
                 <set field="titleProperty" value="PageTitleEditProductCatalog"/>
                 <set field="tabButtonItem" value="productcatalog"/>
                 <set field="partyId" from-field="parameters.partyId"/>
-                <script location="component://commonext/webapp/ofbizsetup/WEB-INF/actions/GetProdCatalog.groovy"/>
+                <script location="component://commonext/groovyScripts/ofbizsetup/GetProdCatalog.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFirstProductDecorator">
@@ -259,7 +259,7 @@
                 <set field="labelTitleProperty" value="ProductCategory"/>
 
                 <set field="partyId" from-field="parameters.partyId"/>
-                <script location="component://commonext/webapp/ofbizsetup/WEB-INF/actions/GetProdCatalog.groovy"/>
+                <script location="component://commonext/groovyScripts/ofbizsetup/GetProdCatalog.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFirstProductDecorator">
@@ -294,7 +294,7 @@
                 <set field="labelTitleProperty" value="ProductProduct"/>
                 
                 <set field="partyId" from-field="parameters.partyId"/>           
-                <script location="component://commonext/webapp/ofbizsetup/WEB-INF/actions/GetProdCatalog.groovy"/>
+                <script location="component://commonext/groovyScripts/ofbizsetup/GetProdCatalog.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFirstProductDecorator">

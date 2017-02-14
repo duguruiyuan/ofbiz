@@ -19,14 +19,14 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     
     <form name="FindReviews" type="single" target="FindReviews" title="" header-row-style="header-row" default-table-style="basic-table" default-map-name="productReview">
         <field name="noConditionFind"><hidden value="Y"/><!-- if this isn't there then with all fields empty no query will be done --></field>
         <field name="productId" title="${uiLabelMap.ProductId}"><text-find/></field>
         <field name="statusId" title="${uiLabelMap.CommonStatus}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="StatusItem" description="${description}">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="PRODUCT_REVIEW_STTS"/>
                 </entity-options>
             </drop-down>
@@ -38,7 +38,7 @@ under the License.
     </form>
     
     <form name="ListReviews" type="list" list-name="listIt" target="updateProductReview" title="" paginate-target="FindReviews"
-        odd-row-style="alternate-row" default-table-style="basic-table hover-bar" header-row-style="header-row-2">
+        odd-row-style="alternate-row" default-table-style="basic-table hover-bar" header-row-style="header-row-2" separate-columns="true">
         <actions>
             <set field="entityName" value="ProductReview"/>
             <service service-name="performFind" result-map="result" result-map-list="listIt">
@@ -57,7 +57,7 @@ under the License.
         </row-actions>
         <field name="productReviewId"><hidden/></field>
         <field name="productId">
-            <hyperlink also-hidden="false" description="${productId}" target="EditProduct">
+            <hyperlink description="${productId}" target="EditProduct" also-hidden="false">
                 <parameter param-name="productId"/>
             </hyperlink>
         </field>
@@ -69,13 +69,13 @@ under the License.
         <field name="productReview" use-when="${statusId == 'PRR_DELETED'}"><textarea read-only="true"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" use-when="${statusId != 'PRR_DELETED'}"><submit button-type="button"/></field>
         <field name="approve" widget-style="buttontext" use-when="${statusId == 'PRR_PENDING'}">
-            <hyperlink target="updateProductReviewStatus" description="${uiLabelMap.FormFieldTitle_approve}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.FormFieldTitle_approve}" target="updateProductReviewStatus" also-hidden="false">
                 <parameter param-name="statusId" value="PRR_APPROVED"/>
                 <parameter param-name="productReviewId" from-field="productReviewId"/>
             </hyperlink>
         </field>
         <field name="rejectButton" widget-style="buttontext" use-when="${statusId != 'PRR_DELETED'}">
-            <hyperlink target="updateProductReviewStatus" description="${uiLabelMap.FormFieldTitle_rejectButton}" also-hidden="false" confirmation-message="Do you want to reject this review?">
+            <hyperlink description="${uiLabelMap.FormFieldTitle_rejectButton}" target="updateProductReviewStatus" also-hidden="false" confirmation-message="Do you want to reject this review?">
                 <parameter param-name="statusId" value="PRR_DELETED"/>
                 <parameter param-name="productReviewId" from-field="productReviewId"/>
             </hyperlink>

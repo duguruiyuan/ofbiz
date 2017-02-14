@@ -39,14 +39,14 @@ under the License.
         <override name="textData" allow-html="any"/>
     </service>
     <service name="cancelAgreement" default-entity-name="Agreement" engine="simple"
-                location="component://accounting/script/org/ofbiz/accounting/agreement/AgreementServices.xml" invoke="cancelAgreement" auth="true">
+                location="component://accounting/minilang/agreement/AgreementServices.xml" invoke="cancelAgreement" auth="true">
         <description>Cancel an Agreement</description>
         <permission-service service-name="acctgAgreementPermissionCheck" main-action="UPDATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
     <service name="copyAgreement" default-entity-name="Agreement" engine="simple"
-                location="component://accounting/script/org/ofbiz/accounting/agreement/AgreementServices.xml" invoke="copyAgreement" auth="true">
+                location="component://accounting/minilang/agreement/AgreementServices.xml" invoke="copyAgreement" auth="true">
         <description>Copy an Agreement</description>
         <permission-service service-name="acctgAgreementPermissionCheck" main-action="CREATE"/>
         <auto-attributes include="pk" mode="INOUT" optional="false"/>
@@ -60,22 +60,42 @@ under the License.
     <service name="createAgreementItem" default-entity-name="AgreementItem" engine="entity-auto" invoke="create" auth="true">
         <description>Create an AgreementItem</description>
         <permission-service service-name="acctgAgreementPermissionCheck" main-action="CREATE"/>
-        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="pk" mode="INOUT" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <override name="agreementText" allow-html="any"/>
+        <override name="agreementItemSeqId" optional="true"></override>
     </service>
     <service name="updateAgreementItem" default-entity-name="AgreementItem" engine="entity-auto" invoke="update" auth="true">
         <description>Update an AgreementItem</description>
         <permission-service service-name="acctgAgreementPermissionCheck" main-action="UPDATE"/>
-        <auto-attributes include="pk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <override name="agreementText" allow-html="any"/>
     </service>
     <service name="removeAgreementItem" default-entity-name="AgreementItem" engine="entity-auto" invoke="delete" auth="true">
         <description>Remove an AgreementItem</description>
         <permission-service service-name="acctgAgreementPermissionCheck" main-action="DELETE"/>
-        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="pk" mode="INOUT" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+
+    <!-- AgreementItemAttribute -->
+    <service name="createAgreementItemAttribute" default-entity-name="AgreementItemAttribute" engine="entity-auto" invoke="create" auth="true">
+        <description>Create an AgreementItemAttribute</description>
+        <permission-service service-name="acctgAgreementPermissionCheck" main-action="CREATE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="updateAgreementItemAttribute" default-entity-name="AgreementItemAttribute" engine="entity-auto" invoke="update" auth="true">
+        <description>Update an AgreementItemAttribute</description>
+        <permission-service service-name="acctgAgreementPermissionCheck" main-action="UPDATE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteAgreementItemAttribute" default-entity-name="AgreementItemAttribute" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete an AgreementItemAttribute</description>
+        <permission-service service-name="acctgAgreementPermissionCheck" main-action="DELETE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 
     <!-- AgreementTerm  -->
@@ -89,14 +109,14 @@ under the License.
     <service name="updateAgreementTerm" default-entity-name="AgreementTerm" engine="entity-auto" invoke="update" auth="true">
         <description>Update an AgreementTerm</description>
         <permission-service service-name="acctgAgreementPermissionCheck" main-action="UPDATE"/>
-        <auto-attributes include="pk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <override name="textValue" allow-html="any"/>
     </service>
     <service name="deleteAgreementTerm" default-entity-name="AgreementTerm" engine="entity-auto" invoke="delete" auth="true">
         <description>Delete an AgreementTerm</description>
         <permission-service service-name="acctgAgreementPermissionCheck" main-action="DELETE"/>
-        <auto-attributes include="pk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
 
@@ -201,7 +221,7 @@ under the License.
     </service>
 
     <!-- AgreementRole -->
-   <service name="createAgreementRole" default-entity-name="AgreementRole" engine="entity-auto" invoke="create" auth="true">
+    <service name="createAgreementRole" default-entity-name="AgreementRole" engine="entity-auto" invoke="create" auth="true">
         <description>Create an Agreement Role</description>
         <auto-attributes mode="IN" include="pk" optional="false"/>
         <auto-attributes mode="IN" include="nonpk" optional="true"/>
@@ -216,8 +236,49 @@ under the License.
         <auto-attributes mode="IN" include="pk" optional="false"/>
     </service>
 
+    <!-- AgreementType -->
+    <service name="createAgreementType" default-entity-name="AgreementType" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a AgreementType record</description>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="updateAgreementType" default-entity-name="AgreementType" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a AgreementType record</description>
+        <auto-attributes include="pk" mode="IN"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="removeAgreementType" default-entity-name="AgreementType" engine="entity-auto" invoke="delete" auth="true">
+        <description>Remove a AgreementType record</description>
+        <auto-attributes include="pk" mode="IN"/>
+    </service>
+
+    <!-- Agreement content services -->
+    <service name="createAgreementContent" default-entity-name="AgreementContent" engine="entity-auto" invoke="create" auth="true">
+        <description>Create Agreement Content</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <override name="fromDate" optional="true"/>
+    </service>
+    <service name="updateAgreementContent" default-entity-name="AgreementContent" engine="entity-auto" invoke="update" auth="true">
+        <description>Update Agreement Content</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="removeAgreementContent" default-entity-name="AgreementContent" engine="entity-auto" invoke="delete" auth="true">
+        <description>Remove Content From Agreement</description>
+        <auto-attributes mode="IN" include="pk" optional="false"/>
+    </service>
+
+    <service name="uploadAgreementContentFile" engine="group" transaction-timeout="300">
+        <description>Upload and attach a file to an agreement</description>
+        <group>
+            <invoke name="createContentFromUploadedFile" result-to-context="true"/>
+            <invoke name="createAgreementContent"/>
+        </group>
+    </service>
+
     <service name="getCommissionForProduct" engine="java"
-                location="org.ofbiz.accounting.agreement.AgreementServices" invoke="getCommissionForProduct" auth="true">
+                location="org.apache.ofbiz.accounting.agreement.AgreementServices" invoke="getCommissionForProduct" auth="true">
         <description>Get commission receiving parties and amounts for a product. &lt;br/&gt;
             amount input is for the entire quantity. &lt;br/&gt;&lt;br/&gt;
             Returns a List of Maps each containing &lt;br/&gt;
@@ -248,5 +309,22 @@ under the License.
     <service name="deleteAgreementWorkEffortApplic" default-entity-name="AgreementWorkEffortApplic" engine="entity-auto" invoke="delete" auth="true">
         <description>Delete AgreementWorkEffortApplic</description>
         <auto-attributes mode="IN" include="pk" optional="false"/>
+    </service>
+    
+    
+    <!-- AgreementTypeAttr services -->
+    <service name="createAgreementTypeAttr" default-entity-name="AgreementTypeAttr" engine="entity-auto" invoke="create" auth="true">
+        <description>Create an AgreementTypeAttr</description>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+    <service name="updateAgreementTypeAttr" default-entity-name="AgreementTypeAttr" engine="entity-auto" invoke="update" auth="true">
+        <description>Update an AgreementTypeAttr</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="removeAgreementTypeAttr" default-entity-name="AgreementTypeAttr" engine="entity-auto" invoke="delete" auth="true">
+        <description>Remove an AgreementTypeAttr</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 </services>

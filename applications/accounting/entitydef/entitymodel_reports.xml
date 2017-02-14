@@ -23,22 +23,22 @@ under the License.
     <!-- ========================================================= -->
     <!-- ======================== Defaults ======================= -->
     <!-- ========================================================= -->
-    <title>Entity of an Open For Business Project Component</title>
+    <title>Entity of an Apache OFBiz Component</title>
     <description>None</description>
     <version>1.0</version>
 
     <!-- ========================================================= -->
     <!-- ======================== Data Model ===================== -->
     <!-- The modules in this file are as follows:                  -->
-    <!--  - org.ofbiz.accounting.reports -->
+    <!--  - org.apache.ofbiz.accounting.reports -->
     <!-- ========================================================= -->
 
 
     <!-- ========================================================= -->
-    <!-- org.ofbiz.accounting.reports -->
+    <!-- org.apache.ofbiz.accounting.reports -->
     <!-- ========================================================= -->
 
-    <view-entity entity-name="InvoiceItemProductSummary" package-name="org.ofbiz.accounting.reports">
+    <view-entity entity-name="InvoiceItemProductSummary" package-name="org.apache.ofbiz.accounting.reports">
         <member-entity entity-alias="INV" entity-name="Invoice"/>
         <member-entity entity-alias="INITM" entity-name="InvoiceItem"/>
         <alias entity-alias="INV" name="statusId"/>
@@ -55,7 +55,7 @@ under the License.
             <key-map field-name="invoiceId"/>
         </view-link>
     </view-entity>
-    <view-entity entity-name="InvoiceItemCategorySummary" package-name="org.ofbiz.accounting.reports">
+    <view-entity entity-name="InvoiceItemCategorySummary" package-name="org.apache.ofbiz.accounting.reports">
         <member-entity entity-alias="INV" entity-name="Invoice"/>
         <member-entity entity-alias="INITM" entity-name="InvoiceItem"/>
         <member-entity entity-alias="PCM" entity-name="ProductCategoryMember"/>
@@ -78,7 +78,7 @@ under the License.
         </view-link>
     </view-entity>
     
-    <view-entity entity-name="InvoiceExport" package-name="org.ofbiz.accounting.reports">
+    <view-entity entity-name="InvoiceExport" package-name="org.apache.ofbiz.accounting.reports">
         <member-entity entity-alias="INV" entity-name="Invoice"/>
         <member-entity entity-alias="ITM" entity-name="InvoiceItem"/>
         <member-entity entity-alias="PFR" entity-name="PartyIdentification"/>
@@ -107,7 +107,7 @@ under the License.
         <view-link entity-alias="INV" rel-entity-alias="PFR" rel-optional="true">
             <key-map field-name="partyIdFrom" rel-field-name="partyId"/>
             <entity-condition>
-                <condition-expr entity-alias="PFR" field-name="partyIdentificationTypeId" value="INVOICE_EXPORT"/>
+                <condition-expr field-name="partyIdentificationTypeId" value="INVOICE_EXPORT"/>
             </entity-condition>
         </view-link>
         <view-link entity-alias="INV" rel-entity-alias="PTO" rel-optional="true">

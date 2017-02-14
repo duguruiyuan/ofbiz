@@ -17,7 +17,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     
     <!-- form whose input filters the FindPaymentGatewayConfig -->
     <form name="FindPaymentGatewayConfig" type="single" target="FindPaymentGatewayConfig" header-row-style="header-row" default-table-style="basic-table">
@@ -25,7 +25,7 @@ under the License.
         <field name="description" title="${uiLabelMap.AccountingPaymentGatewayConfigDescription}"><text-find ignore-case="true"/></field>
         <field name="paymentGatewayConfigTypeId" title="${uiLabelMap.AccountingPaymentGatewayConfigTypeId}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="PaymentGatewayConfigType" description="${description}" key-field-name="paymentGatewayConfigTypeId">
+                <entity-options entity-name="PaymentGatewayConfigType" key-field-name="paymentGatewayConfigTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -37,7 +37,7 @@ under the License.
         </field>
     </form>
     
-    <form name="ListPaymentGatewayConfig" type="list" list-name="listIt" odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
+    <form name="ListPaymentGatewayConfig" type="list" list-name="listIt" odd-row-style="alternate-row" default-table-style="basic-table hover-bar" paginate-target="FindPaymentGatewayConfig">
         <actions>
             <service service-name="performFind" result-map="result" result-map-list="listIt">
                 <field-map field-name="inputFields" from-field="parameters"/>
@@ -53,7 +53,7 @@ under the License.
             <hyperlink description="${description}" target="EditPaymentGatewayConfig?paymentGatewayConfigId=${paymentGatewayConfigId}"/>
         </field>
         <field name="paymentGatewayConfigTypeId" title="${uiLabelMap.AccountingPaymentGatewayConfigTypeId}">
-            <display-entity entity-name="PaymentGatewayConfigType" key-field-name="paymentGatewayConfigTypeId" description="${description}"/>
+            <display-entity entity-name="PaymentGatewayConfigType" key-field-name="paymentGatewayConfigTypeId"/>
         </field>
     </form>
     
@@ -61,7 +61,7 @@ under the License.
         <field name="paymentGatewayConfigId"><hidden/></field>
         <field name="description" title="${uiLabelMap.AccountingPaymentGatewayConfigDescription}"><text size="60" maxlength="60"/></field>
         <field name="paymentGatewayConfigTypeId" title="${uiLabelMap.AccountingPaymentGatewayConfigTypeId}">
-            <display-entity entity-name="PaymentGatewayConfigType" key-field-name="paymentGatewayConfigTypeId" description="${description}"/>
+            <display-entity entity-name="PaymentGatewayConfigType" key-field-name="paymentGatewayConfigTypeId"/>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit">
             <submit button-type="button"/>
@@ -417,7 +417,7 @@ under the License.
         </field>
     </form>
     
-    <form name="ListPaymentGatewayConfigTypes" type="list" list-name="listIt" odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
+    <form name="ListPaymentGatewayConfigTypes" type="list" list-name="listIt" odd-row-style="alternate-row" default-table-style="basic-table hover-bar" paginate-target="FindPaymentGatewayConfigTypes">
         <actions>
             <service service-name="performFind" result-map="result" result-map-list="listIt">
                 <field-map field-name="inputFields" from-field="parameters"/>
@@ -439,7 +439,7 @@ under the License.
         <field name="description" title="${uiLabelMap.AccountingPaymentGatewayConfigTypeDescription}"><text size="60" maxlength="60"/></field>
         <field name="parentTypeId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="PaymentGatewayConfigType" description="${description}" key-field-name="paymentGatewayConfigTypeId">
+                <entity-options entity-name="PaymentGatewayConfigType" key-field-name="paymentGatewayConfigTypeId">
                     <entity-constraint name="paymentGatewayConfigTypeId" operator="not-equals" env-name="paymentGatewayConfigTypeId"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>

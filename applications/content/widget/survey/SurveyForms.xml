@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="FindSurvey" default-map-name="survey" target="FindSurvey" title="" type="single"
         header-row-style="header-row" default-table-style="basic-table">
@@ -60,7 +60,7 @@ under the License.
 
         <auto-fields-service service-name="updateSurvey"/>
 
-        <field use-when="survey!=null" name="surveyId" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="survey!=null" name="surveyId"><display/></field>
         <field use-when="survey==null&amp;&amp;surveyId!=null" name="surveyId" tooltip="${uiLabelMap.CommonCannotBeFound}: [${surveyId}]"><display description="" also-hidden="false"/></field>
         <field use-when="survey==null&amp;&amp;surveyId==null" name="surveyId"><ignored/></field>
 
@@ -108,7 +108,7 @@ under the License.
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
     <form name="ListSurveyMultiRespColumns" type="list" target="updateSurveyMultiRespColumn" title="" list-name="surveyMultiRespColumnList"
-        odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" default-table-style="basic-table hover-bar" separate-columns="true">
         <actions>
             <entity-condition entity-name="SurveyMultiRespColumn">
                 <condition-list combine="and">
@@ -178,7 +178,7 @@ under the License.
         <field name="surveyQuestionSeqId" title="${uiLabelMap.ContentSurveyQuestionNumber}"><display/></field>
         <field name="surveyQuestionTypeId">
             <drop-down allow-empty="false">
-               <entity-options entity-name="SurveyQuestionType" description="${description}"/>
+               <entity-options entity-name="SurveyQuestionType"/>
             </drop-down>
         </field>
 
@@ -196,17 +196,17 @@ under the License.
         <field name="surveyQuestionSeqId"><ignored/></field>
         <field name="surveyQuestionCategoryId">
             <drop-down allow-empty="false">
-               <entity-options entity-name="SurveyQuestionCategory" description="${description}"/>
+               <entity-options entity-name="SurveyQuestionCategory"/>
             </drop-down>
         </field>
         <field name="surveyQuestionTypeId">
             <drop-down allow-empty="false">
-               <entity-options entity-name="SurveyQuestionType" description="${description}"/>
+               <entity-options entity-name="SurveyQuestionType"/>
             </drop-down>
         </field>
 
-        <field use-when="surveyQuestion!=null" name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonCreate}" widget-style="smallSubmit"><submit button-type="button"/></field>
+        <field use-when="surveyQuestion!=null" name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
     <form name="CreateSurveyQuestionCategory" type="single" target="createSurveyQuestionCategory" title=""
         header-row-style="header-row" default-table-style="basic-table">
@@ -214,7 +214,7 @@ under the License.
         <field name="surveyId"><hidden value="${surveyId}"/></field>
         <field name="parentCategoryId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="SurveyQuestionCategory" description="${description} [${surveyQuestionCategoryId}]" key-field-name="surveyQuestionCategoryId">
+                <entity-options entity-name="SurveyQuestionCategory" key-field-name="surveyQuestionCategoryId" description="${description} [${surveyQuestionCategoryId}]">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -270,13 +270,13 @@ under the License.
         </actions>
         <auto-fields-entity entity-name="SurveyResponse" default-field-type="display"/>
         <field name="surveyResponseId" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${surveyResponseId}" target="EditSurveyResponse">
+            <hyperlink description="${surveyResponseId}" target="EditSurveyResponse" also-hidden="false">
                 <parameter param-name="surveyResponseId"/>
             </hyperlink>
         </field>
     </form>
 
-    <form name="lookupSurvey" target="LookupSurvey" title="" type="single"
+    <form name="LookupSurvey" target="LookupSurvey" title="" type="single"
         header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="Survey" default-field-type="find"/>
         <field name="surveyId" title="${uiLabelMap.ContentSurveySurveyId}"><text-find/></field>
@@ -287,7 +287,7 @@ under the License.
         <field name="noConditionFind"><hidden value="Y"/><!-- if this isn't there then with all fields empty no query will be done --></field>
         <field name="submitButton" title="${uiLabelMap.CommonFind}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
-    <form name="listLookupSurvey" list-name="listIt" title="" type="list" paginate-target="LookupSurvey"
+    <form name="ListLookupSurvey" list-name="listIt" title="" type="list" paginate-target="LookupSurvey"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <actions>
             <service service-name="performFind" result-map="result" result-map-list="listIt">
@@ -299,18 +299,18 @@ under the License.
         </actions>
         <auto-fields-entity entity-name="Survey" default-field-type="display"/>
         <field name="surveyId" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" target-type="plain" description="${surveyId}" target="javascript:set_value('${surveyId}')"/>
+            <hyperlink description="${surveyId}" target="javascript:set_value('${surveyId}')" also-hidden="false" target-type="plain"/>
         </field>
     </form>
 
-    <form name="lookupSurveyResponse" target="LookupSurveyResponse" title="" type="single"
+    <form name="LookupSurveyResponse" target="LookupSurveyResponse" title="" type="single"
         header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="SurveyResponse" default-field-type="find"/>
 
         <field name="noConditionFind"><hidden value="Y"/><!-- if this isn't there then with all fields empty no query will be done --></field>
         <field name="submitButton" title="${uiLabelMap.CommonFind}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
-    <form name="listLookupSurveyResponse" list-name="listIt" title="" type="list" paginate-target="LookupSurveyResponse"
+    <form name="ListLookupSurveyResponse" list-name="listIt" title="" type="list" paginate-target="LookupSurveyResponse"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <actions>
             <service service-name="performFind" result-map="result" result-map-list="listIt">
@@ -322,7 +322,7 @@ under the License.
         </actions>
         <auto-fields-entity entity-name="SurveyResponse" default-field-type="display"/>
         <field name="surveyResponseId" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" target-type="plain" description="${surveyResponseId}" target="javascript:set_value('${surveyResponseId}')"/>
+            <hyperlink description="${surveyResponseId}" target="javascript:set_value('${surveyResponseId}')" also-hidden="false" target-type="plain"/>
         </field>
     </form>
 </forms>

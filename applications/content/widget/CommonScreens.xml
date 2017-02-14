@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="main-decorator">
         <section>
@@ -32,8 +32,8 @@ under the License.
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="layoutSettings.companyName" from-field="uiLabelMap.ContentCompanyName" global="true"/>
                 <set field="layoutSettings.companySubtitle" from-field="uiLabelMap.ContentCompanySubtitle" global="true"/>
-                <set field="layoutSettings.styleSheets[]" value="/contentimages/contentForum.css" global="true"/>
-                <set field="layoutSettings.javaScripts[]" value="/images/selectall.js" global="true"/>
+                <set field="layoutSettings.styleSheets[]" value="/content/contentForum.css" global="true"/>
+                <set field="layoutSettings.javaScripts[]" value="/images/OfbizUtil.js" global="true"/>
                 <set field="activeApp" value="contentmgr" global="true"/>
                 <set field="applicationMenuName" value="ContentAppBar" global="true"/>
                 <set field="applicationMenuLocation" value="component://content/widget/content/ContentMenus.xml" global="true"/>
@@ -200,6 +200,7 @@ under the License.
                                     </condition>
                                     <widgets>
                                         <include-menu name="dataresource" location="component://content/widget/content/DataResourceMenus.xml"/>
+                                        <container style="button-bar"><link target="EditDataResource" text="${uiLabelMap.CommonCreateNew}" style="buttontext create"/></container>
                                         <label style="h1" text="${uiLabelMap[labelTitleProperty]} ${uiLabelMap.CommonFor}: ${currentValue.dataResourceName} [${currentValue.dataResourceId}]  ${${extraFunctionName}}"/>
                                     </widgets>
                                 </section>
@@ -351,6 +352,51 @@ under the License.
         </section>
     </screen>
 
+    <screen name="CommonWebSitePathAliasDecorator">
+        <section>
+            <actions>
+                <set field="headerItem" value="websites"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="main-decorator" location="component://content/widget/CommonScreens.xml">
+                    <decorator-section name="pre-body">
+                        <section>
+                            <condition>
+                                <and>
+                                    <if-has-permission permission="CONTENTMGR" action="_VIEW"/>
+                                    <not><if-empty field="parameters.webSiteId"/></not>
+                                </and>
+                            </condition>
+                            <widgets>
+                                <include-menu name="website" location="component://content/widget/content/ContentMenus.xml"/>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                    <decorator-section name="body">
+                        <section>
+                            <condition>
+                                <if-has-permission permission="CONTENTMGR" action="_VIEW"/>
+                            </condition>
+                            <widgets>
+                                <!--<container style="button-bar">
+                                    <link  text="${uiLabelMap.ContentCreateNewWebSite}" target="EditWebSite" style="buttontext create"/>
+                                </container>-->
+                                <container>
+                                    <include-menu name="websitePathAliasMenu" location="component://content/widget/content/ContentMenus.xml"/>
+                                </container>
+                                <label style="h1" text="${uiLabelMap[labelTitleProperty]} ${uiLabelMap.CommonFor}: ${webSite.siteName} [${webSite.webSiteId}]  ${${extraFunctionName}}"/>
+                                <decorator-section-include name="body"/>
+                            </widgets>
+                            <fail-widgets>
+                                <label style="h3">${uiLabelMap.ContentViewPermissionError}</label>
+                            </fail-widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
     <screen name="commonLayoutDecorator">
         <section>
             <actions>
@@ -367,6 +413,12 @@ under the License.
                                 <include-menu name="layout" location="component://content/widget/layout/LayoutMenus.xml"/>
                             </widgets>
                         </section>
+                        <container>
+                            <link target="EditLayoutSubContent" text="${uiLabelMap.CommonCreateNew}" style="buttontext">
+                                <parameter param-name="mode" value="add"/>
+                                <parameter param-name="contentIdTo" value="TEMPLATE_MASTER"/>
+                            </link>
+                        </container>
                     </decorator-section>
                     <decorator-section name="body">
                         <section>
@@ -446,9 +498,12 @@ under the License.
     </screen>
     <screen name="fonts.fo">
         <section>
+            <actions>
+                <property-to-field resource="fop.properties" field="defaultFontFamily" property="fop.font.family" default="NotoSans" />
+            </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://content/webapp/content/fonts.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://content/template/Fonts.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>

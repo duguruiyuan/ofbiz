@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="CreateSecurityGroup">
         <section>
@@ -179,9 +179,9 @@ under the License.
                         <container style="page-title">
                             <label text="${uiLabelMap.UserLoginUpdateSecuritySettings} - ${userLoginId}"/>
                         </container>
-                        <include-form name="updateUserLoginSecurity" location="component://common/widget/SecurityForms.xml"/>
+                        <include-form name="UpdateUserLoginSecurity" location="component://common/widget/SecurityForms.xml"/>
                         <screenlet title="${uiLabelMap.UserLoginChangePassword}">
-                            <include-form name="updatePassword" location="component://common/widget/SecurityForms.xml"/>
+                            <include-form name="UpdatePassword" location="component://common/widget/SecurityForms.xml"/>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>
@@ -232,7 +232,7 @@ under the License.
                             <label text="${uiLabelMap.PageTitleEditIssuerProvisions}"/>
                         </container>
                         <screenlet title="${uiLabelMap.PageTitleAddIssuerProvisions}">
-                            <include-form name="ViewCertificate" location="component://common/widget/SecurityForms.xml"/>
+                            <include-form name="EditCertificate" location="component://common/widget/SecurityForms.xml"/>
                         </screenlet>
                         <screenlet title="${uiLabelMap.CertIssuers}">
                             <include-form name="CertIssuerList" location="component://common/widget/SecurityForms.xml"/>
@@ -333,19 +333,21 @@ under the License.
             <actions>
                 <set field="titleProperty" value="PageTitleImportCertificate"/>
                 <set field="tabButtonItem" value="EditCertIssuerProvisions"/>
+                <set field="certString" from-field="requestParameters.certString"/>
+                <script location="component://common/groovyScripts/CertKeystore.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="SecurityDecorator" location="${parameters.securityDecoratorLocation}">
                     <decorator-section name="body">
                         <container style="page-title">
                             <label text="${uiLabelMap.PageTitleImportCertificate}"/>
-                        </container>
-                        <container style="widget-container">
-                            <platform-specific>
-                                <html>
-                                    <html-template location="component://common/webcommon/includes/ViewCertificate.ftl"/>
-                                </html>
-                            </platform-specific>
+                        <screenlet title="${uiLabelMap.PageTitleAddIssuerProvisions}">
+                            <include-form name="EditCertificate" location="component://common/widget/SecurityForms.xml"/>
+                        </screenlet>
+                        <screenlet title="${uiLabelMap.CertSaveToKeyStore}">
+                            <include-form name="ViewCertificate" location="component://common/widget/SecurityForms.xml"/>
+                            <include-form name="CertToKeystore" location="component://common/widget/SecurityForms.xml"/>
+                        </screenlet>
                         </container>
                     </decorator-section>
                 </decorator-screen>

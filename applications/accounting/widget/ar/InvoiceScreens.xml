@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="ListReports">
         <section>
@@ -28,7 +28,7 @@ under the License.
                 <set field="titleProperty" value="AccountingArPageTitleListReports"/>
                 <set field="invoiceTypeId" value="SALES_INVOICE"/>
                 <set field="organizationPartyId" from-field="userPreferences.ORGANIZATION_PARTY" default-value="${defaultOrganizationPartyId}"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/invoice/InvoiceReport.groovy"/>
+                <script location="component://accounting/groovyScripts/invoice/InvoiceReport.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -86,7 +86,7 @@ under the License.
                                     </decorator-section>
                                     <decorator-section name="search-results">
                                         <platform-specific>
-                                            <html><html-template location="component://accounting/webapp/ar/invoice/ListInvoices.ftl"/></html>
+                                            <html><html-template location="component://accounting/template/ar/invoice/ListInvoices.ftl"/></html>
                                         </platform-specific>
                                     </decorator-section>
                                 </decorator-screen>

@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="MyTasks" list-name="myTasks"  extends="ListWorkEfforts" extends-resource="component://workeffort/widget/WorkEffortForms.xml">
         <row-actions>
             <entity-one entity-name="UserLogin" value-field="assignedByUserLogin">
@@ -33,17 +33,17 @@ under the License.
         <field name="deleteLink"><hidden/></field>
         <field name="currentStatusId"><hidden/></field>
         <field name="workEffortId" title="${uiLabelMap.WorkEffortWorkEffortId}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${workEffortName} [${workEffortId}]" target="/workeffort/control/WorkEffortSummary" target-type="inter-app">
+            <hyperlink description="${workEffortName} [${workEffortId}]" target="/workeffort/control/WorkEffortSummary" also-hidden="false" target-type="inter-app">
                 <parameter param-name="workEffortId"/>
             </hyperlink>
         </field>
         <field name="assignedByUserLoginId" title="${uiLabelMap.SfaAssignedBy}">
-            <hyperlink target="/partymgr/control/viewprofile" description="${assignByPartyName.firstName} ${assignByPartyName.middleName} ${assignByPartyName.lastName} ${assignByPartyName.groupName} [${assignByPartyName.partyId}]" target-type="inter-app">
+            <hyperlink description="${assignByPartyName.firstName} ${assignByPartyName.middleName} ${assignByPartyName.lastName} ${assignByPartyName.groupName} [${assignByPartyName.partyId}]" target="/partymgr/control/viewprofile" target-type="inter-app">
                 <parameter param-name="partyId" from-field="assignByPartyName.partyId"/>
             </hyperlink>
         </field>
         <field name="complete" title="${uiLabelMap.SfaComplete}" widget-style="buttontext">
-            <hyperlink target="updateWorkEffort" description="${uiLabelMap.SfaComplete}">
+            <hyperlink description="${uiLabelMap.SfaComplete}" target="updateWorkEffort">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="currentStatusId" value="CAL_COMPLETED"/>
             </hyperlink>
@@ -71,7 +71,7 @@ under the License.
             <sort-field name="complete"/>
         </sort-order>
     </form>
-    <form name="EditEvent" extends="editCalEvent" extends-resource="component://workeffort/widget/CalendarForms.xml">
+    <form name="EditEvent" extends="EditCalEvent" extends-resource="component://workeffort/widget/CalendarForms.xml">
         <field name="workEffortTypeId"><hidden value="TASK"/></field>
         <field name="statusId"><hidden value="PRTYASGN_ASSIGNED"/></field>
         <field name="currentStatusId"><hidden value="CAL_ACCEPTED"/></field>

@@ -19,15 +19,17 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="PasswordEmail">
         <section>
             <actions>
-                <property-map resource="SecurityExtUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="EmailPasswordUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="SecurityUiLabels" map-name="uiLabelMap" global="true"/>
+                <set field="baseEcommerceSecureUrl" value="${baseSecureUrl}"/>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://securityext/email/default/passwordemail.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://securityext/template/email/PasswordEmail.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>

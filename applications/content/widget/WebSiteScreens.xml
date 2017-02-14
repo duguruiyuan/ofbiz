@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="FindWebSite">
         <section>
             <actions>
@@ -120,7 +120,7 @@ under the License.
                 <set field="webSiteId" from-field="parameters.webSiteId"/>
                 <property-map map-name="uiLabelMap" resource="PartyUiLabels"/>
                 <entity-one entity-name="WebSite" value-field="webSite"/>
-                <script location="component://content/webapp/content/WEB-INF/actions/website/EditWebSiteParties.groovy"/>
+                <script location="component://content/groovyScripts/website/EditWebSiteParties.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonWebSiteDecorator" location="${parameters.mainDecoratorLocation}">
@@ -148,7 +148,7 @@ under the License.
                 <set field="webSiteId" from-field="parameters.webSiteId"/>
                 <entity-one entity-name="WebSite" value-field="webSite"/>
 
-                <script location="component://content/webapp/content/WEB-INF/actions/website/WebSitePublishPoint.groovy"/>
+                <script location="component://content/groovyScripts/website/WebSitePublishPoint.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonWebSiteDecorator" location="${parameters.mainDecoratorLocation}">
@@ -181,16 +181,9 @@ under the License.
 
     <screen name="WebSiteCMSNav">
         <section>
-            <actions>
-                <set field="webSiteId" from-field="parameters.webSiteId"/>
-                <entity-one entity-name="WebSite" value-field="webSite"/>
-
-                <script location="component://content/webapp/content/WEB-INF/actions/website/WebSitePublishPoint.groovy"/>
-                <set field="language" from-field="userLogin.lastLocale" default-value="en"/>
-            </actions>
             <widgets>
                 <screenlet title="${uiLabelMap.PageTitleWebSiteCMSNav}">
-                    <platform-specific><html><html-template location="component://content/webapp/content/website/WebSiteCMSNav.ftl"/></html></platform-specific>
+                    <platform-specific><html><html-template location="component://content/template/website/WebSiteCMSNav.ftl"/></html></platform-specific>
                 </screenlet>
             </widgets>
         </section>
@@ -203,8 +196,8 @@ under the License.
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="WorkEffortUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <set field="contentAssocTypeId" from-field="parameters.contentAssocTypeId"/>
                 <set field="dataResourceTypeId" from-field="parameters.dataResourceTypeId"/>
+                <set field="newContentId" from-field="contentId" />
                 <set field="contentIdFrom" from-field="parameters.contentIdFrom"/>
                 <set field="webSiteId" from-field="parameters.webSiteId"/>
                 <set field="contentId" from-field="parameters.contentId"/>
@@ -217,11 +210,10 @@ under the License.
                 <entity-one entity-name="ElectronicText" value-field="dataText">
                     <field-map field-name="dataResourceId" from-field="content.dataResourceId"/>
                 </entity-one>
-                
                 <set field="parameters.fromDate" type="Timestamp" from-field="parameters.fromDate"/>
-                <entity-condition list="assocs" entity-name="ContentAssoc">
+                <entity-condition entity-name="ContentAssoc" list="assocs">
                     <condition-list>
-                        <condition-expr field-name="contentId" from-field="parameters.contentIdFrom"/>
+                        <condition-expr field-name="contentId" from-field="parameters.contentIdFrom" ignore-if-empty="true"/>
                         <condition-expr field-name="contentIdTo" from-field="parameters.contentId"/>
                         <condition-expr field-name="fromDate" from-field="parameters.fromDate" ignore-if-empty="true"/>
                         <condition-expr field-name="contentAssocTypeId" from-field="parameters.contentAssocTypeId" ignore-if-empty="true"/>
@@ -253,7 +245,7 @@ under the License.
                     <screenlet title="${uiLabelMap.PageTitleWebSiteCMSContent}">
                         <platform-specific>
                             <html>
-                                <html-template location="component://content/webapp/content/website/WebSiteCMSContent.ftl"/>
+                                <html-template location="component://content/template/website/WebSiteCMSContent.ftl"/>
                             </html>
                         </platform-specific>
                     </screenlet>
@@ -280,7 +272,7 @@ under the License.
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://content/webapp/content/website/WebSiteCMSEditor.ftl"/>
+                        <html-template location="component://content/template/website/WebSiteCMSEditor.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -295,14 +287,14 @@ under the License.
                 <entity-one entity-name="Content" value-field="content"/>
                 <property-map resource="ContentUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap"/>
-                <script location="component://content/webapp/content/WEB-INF/actions/website/WebSiteCMSMetaInfo.groovy"/>
+                <script location="component://content/groovyScripts/website/WebSiteCMSMetaInfo.groovy"/>
             </actions>
             <widgets>
                 <container id="cmscontent" style="no-clear">
                     <screenlet title="${uiLabelMap.PageTitleWebSiteCMSContent}">
                         <platform-specific>
                             <html>
-                                <html-template location="component://content/webapp/content/website/WebSiteCMSMeta.ftl"/>
+                                <html-template location="component://content/template/website/WebSiteCMSMeta.ftl"/>
                             </html>
                         </platform-specific>
                     </screenlet>
@@ -310,7 +302,7 @@ under the License.
             </widgets>
         </section>
     </screen>
-
+    
     <screen name="WebSiteCMSPathAlias">
         <section>
             <actions>
@@ -329,7 +321,7 @@ under the License.
                     <screenlet title="${uiLabelMap.PageTitleWebSiteCMSContent}">
                         <platform-specific>
                             <html>
-                                <html-template location="component://content/webapp/content/website/WebSiteCMSPathAlias.ftl"/>
+                                <html-template location="component://content/template/website/WebSiteCMSPathAlias.ftl"/>
                             </html>
                         </platform-specific>
                     </screenlet>
@@ -337,17 +329,45 @@ under the License.
             </widgets>
         </section>
     </screen>
+    <screen name="EditWebSitePathAlias">
+        <section>
+            <actions>
+                <set field="titleProperty" value="PageTitleEditWebSitePathAlias"/>
+                <set field="tabButtonItem" value="PathAlias"/>
+                <set field="labelTitleProperty" value="PageTitleEditWebSitePathAlias"/>
+                <set field="webSiteId" from-field="parameters.webSiteId"/>
+                <entity-one entity-name="WebSitePathAlias" value-field="webSitePathAlias"/>
+                 <entity-one entity-name="WebSite" value-field="webSite"/>
+            </actions>
+            <widgets>
+                <decorator-screen name="CommonWebSitePathAliasDecorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <section>
+                            <widgets>
+                                <screenlet title="${uiLabelMap.PageTitleEditWebSitePathAlias}">
+                                    <include-form name="EditWebSitePathAlias" location="component://content/widget/website/WebSiteForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                        </section>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen> 
+      
     <screen name="WebSiteAliases">
         <section>
             <actions>
-                <set field="titleProperty" value="ContentPathAlias"/>
+                <set field="titleProperty" value="PageTitleEditWebSitePathAlias"/>
+                <set field="labelTitleProperty" value="PageTitleEditWebSitePathAlias"/>
                 <set field="webSiteId" from-field="parameters.webSiteId"/>
                 <set field="tabButtonItem" value="PathAlias"/>
                 <set field="viewIndex" from-field="requestParameters.VIEW_INDEX" type="Integer"/>
                 <set field="viewSize" from-field="requestParameters.VIEW_SIZE" type="Integer" default-value="30"/>
+                <entity-one entity-name="WebSite" value-field="webSite"/>
             </actions>
             <widgets>
-                <decorator-screen name="CommonWebSiteDecorator" location="${parameters.mainDecoratorLocation}">
+                <decorator-screen name="CommonWebSitePathAliasDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
                             <decorator-section name="search-options">
@@ -362,6 +382,7 @@ under the License.
             </widgets>
         </section>
     </screen>
+    
     <screen name="WebSiteAliasesSearchResults">
         <section>
             <actions>
@@ -405,7 +426,7 @@ under the License.
                 <set field="labelTitleProperty" value="ContentWebSiteContactList"/>
                 <set field="webSiteId" from-field="parameters.webSiteId"/>
                 <entity-one entity-name="WebSite" value-field="webSite"/>
-                <entity-and list="webSiteContactLists" entity-name="WebSiteContactList">
+                <entity-and entity-name="WebSiteContactList" list="webSiteContactLists">
                     <field-map field-name="webSiteId" from-field="webSiteId"/>
                     <order-by field-name="-fromDate"/>
                 </entity-and>
@@ -414,10 +435,10 @@ under the License.
                 <decorator-screen name="CommonWebSiteDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.ContentWebSiteContactListCreate}">
-                            <include-form location="component://content/widget/website/WebSiteForms.xml" name="CreateWebSiteContactList"/>
+                            <include-form name="CreateWebSiteContactList" location="component://content/widget/website/WebSiteForms.xml"/>
                         </screenlet>
                         <screenlet title="${uiLabelMap.ContentWebSiteContactListView} of webSiteId[${webSiteId}]">
-                            <include-form location="component://content/widget/website/WebSiteForms.xml" name="ViewWebSiteContactList"/>
+                            <include-form name="ViewWebSiteContactList" location="component://content/widget/website/WebSiteForms.xml"/>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>

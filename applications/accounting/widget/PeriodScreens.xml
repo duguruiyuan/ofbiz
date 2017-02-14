@@ -18,7 +18,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+    xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="EditCustomTimePeriod">
         <section>
@@ -26,12 +26,12 @@ under the License.
                 <set field="headerItem" value="main"/>
                 <set field="titleProperty" value="AccountingEditCustomTimePeriods"/>
                 <set field="tabButtonItem" value="EditCustomTimePeriod"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/period/EditCustomTimePeriod.groovy"/>
+                <script location="component://accounting/groovyScripts/period/EditCustomTimePeriod.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="GlobalGLSettingsDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
-                        <platform-specific><html><html-template location="component://accounting/webapp/accounting/period/EditCustomTimePeriod.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://accounting/template/period/EditCustomTimePeriod.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
             </widgets>

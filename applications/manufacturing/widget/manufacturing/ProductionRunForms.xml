@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     
     <form name="AssocProductionRunParty" target="createProductionRunPartyAssign" type="single"
         header-row-style="header-row" default-table-style="basic-table">
@@ -27,26 +27,28 @@ under the License.
         <field name="partyId" required-field="true"><lookup target-form-name="LookupPartyName"/></field>
         <field name="roleTypeId" required-field="true">
             <drop-down allow-empty="false">
-                <entity-options description="${description}" entity-name="RoleType">
+                <entity-options entity-name="RoleType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="workEffortId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="WorkEffort" key-field-name="workEffortId">
+                <entity-options entity-name="WorkEffort" key-field-name="workEffortId">
                     <entity-constraint name="workEffortParentId" operator="equals" value="${productionRunId}"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
+        <field name="fromDate" title="${uiLabelMap.CommonFromDate}"><date-time/></field>
+        <field name="thruDate" title="${uiLabelMap.CommonThruDate}"><date-time/></field>
         <field name="submitButton" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
     <form name="CreateProductionRun" target="createProductionRun" title="" type="single"
         header-row-style="header-row" default-table-style="basic-table">
         <field name="productId" title="${uiLabelMap.ProductProductId}" required-field="true"><lookup target-form-name="LookupProduct" size="16"/></field>
         <field name="quantity" title="${uiLabelMap.ManufacturingQuantity}" required-field="true"><text size="6"/></field>
-        <field name="startDate" title="${uiLabelMap.ManufacturingStartDate}" required-field="true"><date-time/></field>
+        <field name="startDate" title="${uiLabelMap.ManufacturingStartDate}" required-field="true"><date-time default-value="${nowTimestamp}"/></field>
         <field name="facilityId">
             <drop-down allow-empty="false">
                 <entity-options entity-name="Facility" description="${facilityName} [${facilityId}]">
@@ -65,20 +67,20 @@ under the License.
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonSubmit}"><submit/></field>
     </form>
-    <form name="findProductionRun" target="FindProductionRun" title="" type="single"
+    <form name="FindProductionRun" target="FindProductionRun" title="" type="single"
         header-row-style="header-row" default-table-style="basic-table">
         <field name="workEffortTypeId"><hidden value="PROD_ORDER_HEADER"/></field>
         <field name="workEffortId" title="${uiLabelMap.ManufacturingProductionRunId}"><text-find/></field>
         <field name="currentStatusId" title="${uiLabelMap.CommonStatus}">
-            <drop-down allow-empty="true">
-                <entity-options entity-name="StatusItem" key-field-name="statusId" description="${description}">
+            <check all-checked="false">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" value="PRODUCTION_RUN"/>
                 </entity-options>
-             </drop-down>
+             </check>
         </field>
         <field name="productId" title="${uiLabelMap.ProductProductId}"><lookup target-form-name="LookupProduct"/></field>
         <field name="workEffortName" title="${uiLabelMap.ManufacturingProductionRunName}"><text-find/></field>
-        <field name="estimatedStartDate" title="${uiLabelMap.ManufacturingStartDate}"><date-find/></field>
+        <field name="estimatedStartDate" title="${uiLabelMap.ManufacturingStartDate}"><date-find default-value="${nowTimestamp}"/></field>
         <field name="facilityId" title="${uiLabelMap.ProductFacilityId}">
             <drop-down allow-empty="true">
                 <entity-options entity-name="Facility" key-field-name="facilityId" description="${facilityName} [${facilityId}]">
@@ -89,7 +91,7 @@ under the License.
         <field name="submitButton" title="${uiLabelMap.CommonFind}"><submit/></field>
     </form>
 
-    <form name="listFindProductionRun" list-name="listIt" title="" type="list" paginate-target="FindProductionRun"
+    <form name="ListFindProductionRun" list-name="listIt" title="" type="list" paginate-target="FindProductionRun"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <actions>
             <service service-name="performFind" result-map="result" result-map-list="listIt">
@@ -100,14 +102,21 @@ under the License.
                 <field-map field-name="orderBy" value="estimatedStartDate"/>
             </service>
         </actions>
+        <row-actions>
+            <entity-one entity-name="Product" value-field="product"/>
+            <entity-one entity-name="Uom" value-field="uom">
+                <field-map field-name="uomId" from-field="product.quantityUomId"/>
+            </entity-one>
+        </row-actions>
         <field name="workEffortId" title=" " widget-style="buttontext">
-            <hyperlink target="ShowProductionRun" description="${workEffortId}" also-hidden="false">
+            <hyperlink description="${workEffortId}" target="ShowProductionRun" also-hidden="false">
                 <parameter param-name="productionRunId" from-field="workEffortId"/>
             </hyperlink>
         </field>
         <field name="workEffortName" title="${uiLabelMap.ManufacturingProductionRunName}"><display/></field>
         <field name="productId" title="${uiLabelMap.ProductProductId}"><display/></field>
         <field name="estimatedQuantity" title="${uiLabelMap.ManufacturingQuantity}"><display/></field>
+        <field name="QuantityUom" title="${uiLabelMap.ProductQuantityUom}"><display description="${uom.abbreviation}"></display></field>
         <field name="currentStatusId" title="${uiLabelMap.CommonStatus}">
             <display-entity entity-name="StatusItem" key-field-name="statusId"/>
         </field>
@@ -123,7 +132,7 @@ under the License.
             <display-entity entity-name="Product" description="${internalName} [${productId}]"/>
         </field>
         <field name="currentStatusId">
-            <display-entity entity-name="StatusItem" key-field-name="statusId" description="${description}"/>
+            <display-entity entity-name="StatusItem" key-field-name="statusId"/>
         </field>
         <field name="manufacturerId">
             <display-entity entity-name="PartyNameView" key-field-name="partyId" description="${groupName} ${firstName} ${lastName} [${partyId}]"/>
@@ -136,7 +145,7 @@ under the License.
              </drop-down>
         </field>
         <field name="quantity"  title="${uiLabelMap.ManufacturingQuantity}"><text size="10"/></field>
-        <field name="estimatedStartDate"  title="${uiLabelMap.ManufacturingStartDate}"><date-time/></field>
+        <field name="estimatedStartDate"  title="${uiLabelMap.ManufacturingStartDate}"><date-time default-value="${nowTimestamp}"/></field>
         <field name="estimatedCompletionDate" title="${uiLabelMap.ManufacturingEstimatedCompletionDate}"><display/></field>
         <field name="workEffortName"  title="${uiLabelMap.ManufacturingProductionRunName}"><text/></field>
         <field name="description"><text/></field>
@@ -145,7 +154,7 @@ under the License.
     <form name="ListProductionRunOrderItems" type="list" target="EditProductionRun" title="" list-name="orderItems"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="orderId" widget-style="buttontext">
-            <hyperlink target="/ordermgr/control/orderview" description="${orderId}/${orderItemSeqId}" also-hidden="false" target-type="inter-app">
+            <hyperlink description="${orderId}/${orderItemSeqId}" target="/ordermgr/control/orderview" also-hidden="false" target-type="inter-app">
                 <parameter param-name="orderId"/>
             </hyperlink>
         </field>
@@ -176,7 +185,7 @@ under the License.
             </hyperlink>
         </field>
         <field name="lotId" map-name="inventoryItem"><display/></field>
-        <field name="statusId" map-name="inventoryItem"><display-entity entity-name="StatusItem" key-field-name="statusId" description="${description}"/></field>
+        <field name="statusId" map-name="inventoryItem"><display-entity entity-name="StatusItem" key-field-name="statusId"/></field>
         <field name="unitCost" map-name="inventoryItem"><display/></field>
         <field name="quantity" entry-name="quantityOnHandDiff"><display/></field>
         <field name="datetimeReceived" map-name="inventoryItem"><display/></field>
@@ -212,7 +221,7 @@ under the License.
         <!--<field name="estimatedMilliSeconds" title="${uiLabelMap.ManufacturingTaskEstimatedMilliSeconds}" ><display/></field>-->
         <field name="estimatedTotalMilliSeconds" title="${uiLabelMap.ManufacturingTaskEstimatedTotalMilliSeconds}" ><display/></field>
         <field name="editLink" title=" " widget-style="smallSubmit">
-            <hyperlink target="ProductionRunTasks" description="${uiLabelMap.CommonEdit}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonEdit}" target="ProductionRunTasks" also-hidden="false">
                 <parameter param-name="routingTaskId" from-field="workEffortId"/>
                 <parameter param-name="productionRunId" from-field="workEffortParentId"/>
             </hyperlink>
@@ -224,7 +233,7 @@ under the License.
                 <parameter param-name="fromDate"/>
                 <parameter param-name="workEffortAssocTypeId" value="ROUTING_COMPONENT"/>
             </hyperlink>-->
-            <hyperlink target="deleteProductionRunRoutingTask" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteProductionRunRoutingTask" also-hidden="false">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="productionRunId" from-field="workEffortParentId"/>
             </hyperlink>
@@ -234,7 +243,7 @@ under the License.
     <form name="ListProductionRunComponents" type="list" target="EditProductionRun" title="" list-name="productionRunComponents"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <row-actions>
-            <entity-one value-field="product" entity-name="Product" use-cache="true"/>
+            <entity-one entity-name="Product" value-field="product" use-cache="true"/>
         </row-actions>
         <field name="workEffortId" title="${uiLabelMap.ManufacturingRoutingTaskId}">
             <display-entity entity-name="WorkEffort" description="${workEffortName} [${workEffortId}]"/>
@@ -256,7 +265,7 @@ under the License.
         <field name="workEffortName" title="${uiLabelMap.ManufacturingTaskName}"><text/></field>
         <field name="description"><text/></field>
         <field name="reservPersons"><text/></field>
-        <field name="estimatedStartDate" title="${uiLabelMap.ManufacturingStartDate}"><date-time/></field>
+        <field name="estimatedStartDate" title="${uiLabelMap.ManufacturingStartDate}"><date-time default-value="${nowTimestamp}"/></field>
         <field name="estimatedCompletionDate" title="${uiLabelMap.ManufacturingEstimatedCompletionDate}"><display/></field>
         <field name="estimatedSetupMillis" title="${uiLabelMap.ManufacturingTaskEstimatedSetupMillis}"><text/></field>
         <field name="estimatedMilliSeconds" title="${uiLabelMap.ManufacturingTaskEstimatedMilliSeconds}"><text/></field>
@@ -274,7 +283,7 @@ under the License.
             <display-entity entity-name="Product" description="${internalName} [${productId}]"/>
         </field>
         <field name="currentStatusId">
-            <display-entity entity-name="StatusItem" key-field-name="statusId" description="${description}"/>
+            <display-entity entity-name="StatusItem" key-field-name="statusId"/>
         </field>
         <field name="quantityToProduce" title="${uiLabelMap.ManufacturingQuantityToProduce}">
             <display/>
@@ -301,10 +310,12 @@ under the License.
         <field name="quantity" title="${uiLabelMap.ManufacturingProduceQuantity}"><text/></field>
         <field name="inventoryItemTypeId">
             <drop-down allow-empty="false" no-current-selected-key="NON_SERIAL_INV_ITEM">
-                <entity-options entity-name="InventoryItemType" description="${description}"/>
+                <entity-options entity-name="InventoryItemType"/>
             </drop-down>
         </field>
         <field name="lotId"><text default-value="${lastLotId}"/></field>
+        <field name="facilityId"><hidden/></field>
+        <field name="locationSeqId"> <lookup target-form-name="LookupFacilityLocation" target-parameter="facilityId" ></lookup></field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}"><submit/></field>
     </form>
     <form name="ProductionRunDeclareAndProduceTop" type="single" skip-end="true" target="productionRunDeclareAndProduce" title="" default-map-name="productionRunData"
@@ -313,7 +324,7 @@ under the License.
         <field name="quantity" title="${uiLabelMap.ManufacturingProduceQuantity}" tooltip="${uiLabelMap.ManufacturingProduceQuantityMessage}"><text/></field>
         <field name="inventoryItemTypeId">
             <drop-down allow-empty="false" no-current-selected-key="NON_SERIAL_INV_ITEM">
-                <entity-options entity-name="InventoryItemType" description="${description}"/>
+                <entity-options entity-name="InventoryItemType"/>
             </drop-down>
         </field>
         <field name="lotId"><text default-value="${lastLotId}"/></field>
@@ -323,12 +334,6 @@ under the License.
         <field name="productionRunTaskId" entry-name="workEffortId"><hidden/></field>
         <field name="productId"><hidden/></field>
         <field name="fromDate"><hidden/></field>
-        <field name="failIfItemsAreNotAvailable">
-            <drop-down allow-empty="false">
-                <option key="Y" description="${uiLabelMap.CommonYes}"/>
-                <option key="N" description="${uiLabelMap.CommonNo}"/>
-            </drop-down>
-        </field>
         <field name="task" entry-name="workEffortId" title="${uiLabelMap.ManufacturingRoutingTaskId}">
             <display description="${workEffortName} [${workEffortId}]" also-hidden="false"/>
         </field>
@@ -337,7 +342,7 @@ under the License.
         </field>
         <field name="estimatedQuantity" title="${uiLabelMap.ManufacturingQuantity}"><display also-hidden="false"/></field>
         <field name="issuedQuantity" title="${uiLabelMap.ManufacturingIssuedQuantity}"><display also-hidden="false"/></field>
-        <field name="locationSeqId">
+        <field name="locationSeqId" use-when="estimatedQuantity != issuedQuantity">
             <drop-down allow-empty="true">
                 <entity-options entity-name="ProductFacilityLocation" description="${locationSeqId}">
                     <entity-constraint name="productId" env-name="productId"/>
@@ -345,12 +350,18 @@ under the License.
                 </entity-options>
             </drop-down>
         </field>
-        <field name="secondaryLocationSeqId">
+        <field name="secondaryLocationSeqId" use-when="estimatedQuantity != issuedQuantity">
             <drop-down allow-empty="true">
-                <entity-options entity-name="ProductFacilityLocation" description="${locationSeqId}" key-field-name="locationSeqId">
+                <entity-options entity-name="ProductFacilityLocation" key-field-name="locationSeqId" description="${locationSeqId}">
                     <entity-constraint name="productId" env-name="productId"/>
                     <entity-constraint name="facilityId" env-name="facilityId"/>
                 </entity-options>
+            </drop-down>
+        </field>
+        <field name="failIfItemsAreNotAvailable" use-when="estimatedQuantity != issuedQuantity">
+            <drop-down allow-empty="false">
+                <option key="Y" description="${uiLabelMap.CommonYes}"/>
+                <option key="N" description="${uiLabelMap.CommonNo}"/>
             </drop-down>
         </field>
         <field name="_rowSubmit"><hidden value="Y"/></field>
@@ -365,7 +376,7 @@ under the License.
         <field name="priority" title="${uiLabelMap.CommonSequenceNum}"><display/></field>
         <field name="workEffortId" title="${uiLabelMap.ManufacturingTaskName}"><display description="${workEffortName} [${workEffortId}]"/></field>
         <field name="currentStatusId" title="${uiLabelMap.CommonStatus}">
-            <display-entity entity-name="StatusItem" key-field-name="statusId" description="${description}"/>
+            <display-entity entity-name="StatusItem" key-field-name="statusId"/>
         </field>
         <field name="fixedAssetId"  title="${uiLabelMap.ManufacturingMachine}"><display/></field>
         <field name="reservPersons"><display/></field>
@@ -374,34 +385,34 @@ under the License.
         <field name="actualMilliSeconds" title="${uiLabelMap.ManufacturingTaskActualMilliSeconds}" ><display/></field>
         <field name="quantityProduced" title="${uiLabelMap.ManufacturingQuantityProduced}" ><display/></field>
         <field name="startLink" title=" " widget-style="smallSubmit" use-when="&quot;${startTaskId}&quot;.equals(&quot;${workEffortId}&quot;)">
-            <hyperlink target="changeProductionRunTaskStatus" description="${uiLabelMap.ManufacturingStartProductionRunTask}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.ManufacturingStartProductionRunTask}" target="changeProductionRunTaskStatus" also-hidden="false">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="productionRunId" from-field="workEffortParentId"/>
             </hyperlink>
         </field>
         <field name="issueLinkAtp" title=" " widget-style="smallSubmit" use-when="&quot;${issueTaskId}&quot;.equals(&quot;${workEffortId}&quot;)">
-            <hyperlink target="issueProductionRunRoutingTask" description="${uiLabelMap.ManufacturingIssueAvailableProductionRunTask}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.ManufacturingIssueAvailableProductionRunTask}" target="issueProductionRunRoutingTask" also-hidden="false">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="productionRunId" from-field="workEffortParentId"/>
                 <parameter param-name="failIfItemsAreNotAvailable" value="Y"/>
             </hyperlink>
         </field>
         <field name="issueLinkQoh" title=" " widget-style="smallSubmit" use-when="&quot;${issueTaskId}&quot;.equals(&quot;${workEffortId}&quot;)">
-            <hyperlink target="issueProductionRunRoutingTask" description="${uiLabelMap.ManufacturingIssueProductionRunTask}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.ManufacturingIssueProductionRunTask}" target="issueProductionRunRoutingTask" also-hidden="false">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="productionRunId" from-field="workEffortParentId"/>
                 <parameter param-name="failIfItemsAreNotAvailable" value="N"/>
             </hyperlink>
         </field>
         <field name="declareLink" title=" " widget-style="smallSubmit" use-when="&quot;PRUN_RUNNING&quot;.equals(&quot;${currentStatusId}&quot;)">
-            <hyperlink target="ProductionRunDeclaration" description="${uiLabelMap.ManufacturingDeclareProductionRunTask}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.ManufacturingDeclareProductionRunTask}" target="ProductionRunDeclaration" also-hidden="false">
                 <parameter param-name="actionForm" value="EditRoutingTask"/>
                 <parameter param-name="routingTaskId" from-field="workEffortId"/>
                 <parameter param-name="productionRunId" from-field="workEffortParentId"/>
             </hyperlink>
         </field>
         <field name="completeLink" title=" " widget-style="smallSubmit" use-when="&quot;${completeTaskId}&quot;.equals(&quot;${workEffortId}&quot;)">
-            <hyperlink target="changeProductionRunTaskStatus" description="${uiLabelMap.ManufacturingCompleteProductionRunTask}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.ManufacturingCompleteProductionRunTask}" target="changeProductionRunTaskStatus" also-hidden="false">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="productionRunId" from-field="workEffortParentId"/>
             </hyperlink>
@@ -438,7 +449,7 @@ under the License.
         </field>
         <field name="secondaryLocationSeqId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="ProductFacilityLocation" description="${locationSeqId}" key-field-name="locationSeqId">
+                <entity-options entity-name="ProductFacilityLocation" key-field-name="locationSeqId" description="${locationSeqId}">
                     <entity-constraint name="productId" env-name="productId"/>
                     <entity-constraint name="facilityId" env-name="facilityId"/>
                 </entity-options>
@@ -480,7 +491,7 @@ under the License.
         <field name="workEffortName" title="${uiLabelMap.ManufacturingTaskName}"><display/></field>
         <field name="description"><display/></field>
         <field name="estimatedCompletionDate" title="${uiLabelMap.ManufacturingEstimatedCompletionDate}"><display/></field>
-        <field name="fromDate" title="${uiLabelMap.ManufacturingFromDate}"><date-time/></field>
+        <field name="fromDate" title="${uiLabelMap.ManufacturingFromDate}"><date-time default-value="${nowTimestamp}"/></field>
         <field name="toDate" title="${uiLabelMap.ManufacturingToDate}"><date-time/></field>
         <field name="estimatedSetupMillis" title="${uiLabelMap.ManufacturingTaskEstimatedSetupMillis}"><display/></field>
         <field name="actualSetupMillis" title="${uiLabelMap.ManufacturingTaskActualSetupMillis}"><display/></field>
@@ -536,8 +547,8 @@ under the License.
         <field name="workEffortId"><hidden/></field>
         <field name="contentId"><display/></field>
         <field name="drDataResourceId"><display/></field>
-        <field name="workEffortContentTypeId"><display-entity entity-name="WorkEffortContentType" description="${description}"/></field>
-        <field name="contentTypeId"><display-entity entity-name="ContentType" description="${description}"/></field>
+        <field name="workEffortContentTypeId"><display-entity entity-name="WorkEffortContentType"/></field>
+        <field name="contentTypeId"><display-entity entity-name="ContentType"/></field>
         <field name="contentName"><display/></field>
         <field name="description"><display/></field>
         <field name="localeString"><display/></field>
@@ -547,7 +558,7 @@ under the License.
             <display description="default ${drObjectInfo}"/>
         </field>
         <field name="drObjectInfo" title="${uiLabelMap.CommonContent}" use-when="${groovy: drDataResourceTypeId != null &amp;&amp; (drDataResourceTypeId.contains(&quot;FILE&quot;) || drDataResourceTypeId.equals(&quot;IMAGE_OBJECT&quot;))}">
-            <hyperlink target="/content/control/ViewBinaryDataResource" target-type="content" target-window="productionRunContentWindow" description="${drObjectInfo}">
+            <hyperlink description="${drObjectInfo}" target="/content/control/ViewBinaryDataResource" target-type="content" target-window="productionRunContentWindow">
                 <parameter param-name="dataResourceId" from-field="drDataResourceId"/>
             </hyperlink>
         </field>
@@ -555,7 +566,7 @@ under the License.
             <display-entity entity-name="ElectronicText" key-field-name="dataResourceId" description="${textData}"></display-entity>
         </field>
         <field name="deleteLink" title=" " widget-style="smallSubmit">
-            <hyperlink description="${uiLabelMap.CommonDelete}" also-hidden="false" target="deleteProductionRunContent">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteProductionRunContent" also-hidden="false">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="workEffortContentTypeId"/>
                 <parameter param-name="contentId"/>
@@ -569,7 +580,7 @@ under the License.
         <field name="workEffortId" entry-name="productionRunId"><hidden/></field>
         <field name="contentId"><display/></field>
         <field name="drDataResourceId"><display/></field>
-        <field name="contentTypeId"><display-entity entity-name="ContentType" description="${description}"/></field>
+        <field name="contentTypeId"><display-entity entity-name="ContentType"/></field>
         <field name="contentName"><display/></field>
         <field name="description"><display/></field>
         <field name="localeString"><display/></field>
@@ -579,19 +590,19 @@ under the License.
             <display description="default ${drObjectInfo}"/>
         </field>
         <field name="drObjectInfo" title="${uiLabelMap.CommonContent}" use-when="${groovy: drDataResourceTypeId != null &amp;&amp; (drDataResourceTypeId.contains(&quot;FILE&quot;) || drDataResourceTypeId.equals(&quot;IMAGE_OBJECT&quot;))}">
-            <hyperlink target="/content/control/ViewBinaryDataResource" target-type="content" target-window="productionRunContentWindow" description="${drObjectInfo}">
+            <hyperlink description="${drObjectInfo}" target="/content/control/ViewBinaryDataResource" target-type="content" target-window="productionRunContentWindow">
                 <parameter param-name="dataResourceId" from-field="drDataResourceId"/>
             </hyperlink>
         </field>
         <field name="drObjectInfo" title="${uiLabelMap.CommonContent}" entry-name="drDataResourceId" encode-output="true" use-when="${groovy: drDataResourceTypeId != null &amp;&amp; drDataResourceTypeId.equals(&quot;ELECTRONIC_TEXT&quot;)}">
             <display-entity entity-name="ElectronicText" key-field-name="dataResourceId" description="${textData}"></display-entity>
         </field>
-        <field name="workEffortContentTypeId"><drop-down><entity-options description="${description}" entity-name="WorkEffortContentType"></entity-options></drop-down></field>
+        <field name="workEffortContentTypeId"><drop-down><entity-options entity-name="WorkEffortContentType"></entity-options></drop-down></field>
         <field name="_rowSubmit" title="${uiLabelMap.CommonSelected}"><check/></field>
         <field name="submitButton" title="${uiLabelMap.CommonSubmit}"><submit/></field>
     </form>
     <form name="ProductionRunTaskFixedAssets" type="list" target="updateWorkEffortFixedAssetAssign" paginate-target="" title="" list-name="records"
-        odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" default-table-style="basic-table hover-bar" separate-columns="true">
         <auto-fields-entity entity-name="WorkEffortFixedAssetAssign" default-field-type="edit"/>
         <field name="productionRunId"><hidden/></field>
         <field name="workEffortId"><hidden/></field>
@@ -600,10 +611,10 @@ under the License.
         <field name="fixedAssetId">
             <display-entity entity-name="FixedAsset" description="${fixedAssetName} [${fixedAssetId}]"/>
         </field>
-        <field name="availabilityStatusId">
-            <drop-down no-current-selected-key="WEFA_IN_USE">
-                <entity-options description="${description}" entity-name="StatusItem" key-field-name="statusId">
-                    <entity-constraint name="statusTypeId" operator="equals" value="WEFA_AVAILABLE"/>
+        <field name="availabilityStatusId" title="">
+            <drop-down allow-empty="true">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
+                    <entity-constraint name="statusTypeId" operator="equals" value="WEFA_AVAILABILITY"/>
                     <entity-order-by field-name="sequenceId"/>
                 </entity-options>
             </drop-down>
@@ -611,7 +622,7 @@ under the License.
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="smallSubmit"
                     use-when="!&quot;${declarationScreen}&quot;.equals(&quot;Y&quot;)">
-            <hyperlink description="${uiLabelMap.CommonDelete}" also-hidden="false" target="removeWorkEffortFixedAssetAssign">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeWorkEffortFixedAssetAssign" also-hidden="false">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="fixedAssetId"/>
                 <parameter param-name="fromDate"/>
@@ -670,7 +681,7 @@ under the License.
             <!-- Statuses are not yet defined for the WorkEffortFixedAssetAssign entity
                 so this field will be hidden meanwhile
             <drop-down>
-                <entity-options entity-name="StatusItem" description="${description}">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" value="WORK_EFF_ASSET_STTS"/>
                 </entity-options>
             </drop-down> -->
@@ -694,11 +705,19 @@ under the License.
                 <entity-options entity-name="FixedAsset" description="${fixedAssetName} [${fixedAssetId}]"/>
             </drop-down>
         </field>
+        <field name="availabilityStatusId">
+            <drop-down allow-empty="true">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
+                    <entity-constraint name="statusTypeId" operator="equals" value="WEFA_AVAILABILITY"/>
+                    <entity-order-by field-name="sequenceId"/>
+                </entity-options>
+            </drop-down>
+        </field>
         <field name="statusId">
             <!-- Statuses are not yet defined for the WorkEffortFixedAssetAssign entity
                 so this field will be hidden meanwhile
             <drop-down>
-                <entity-options entity-name="StatusItem" description="${description}">
+                <entity-options entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" value="WORK_EFF_ASSET_STTS"/>
                 </entity-options>
             </drop-down> -->
@@ -711,10 +730,10 @@ under the License.
     <!-- Shipment Plan Forms -->
     <!-- ******************* -->
     <!-- List for Shipment Plan -->
-    <form name="listShipmentPlan" type="list" target="" title="" list-name="shipmentPlan"
+    <form name="ListShipmentPlan" type="list" target="" title="" list-name="shipmentPlan"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="orderId" widget-style="buttontext">
-            <hyperlink target="/ordermgr/control/orderview" target-type="inter-app" description="${orderId}">
+            <hyperlink description="${orderId}" target="/ordermgr/control/orderview" target-type="inter-app">
                 <parameter param-name="orderId" from-field="orderId"/>
             </hyperlink>
         </field>
@@ -733,7 +752,7 @@ under the License.
         <!-- total issued quantity -->
         <field name="totIssuedQuantity"><display/></field>
         <field name="productionRunId" widget-style="buttontext">
-            <hyperlink target="ShowProductionRun" description="${productionRunId}" also-hidden="false">
+            <hyperlink description="${productionRunId}" target="ShowProductionRun" also-hidden="false">
                 <parameter param-name="productionRunId" from-field="productionRunId"/>
             </hyperlink>
         </field>
@@ -742,19 +761,19 @@ under the License.
         <field name="productionRunQuantityProduced"><display/></field>
     </form>
 
-    <form name="listShipmentPlans" type="list" target="" title="" list-name="shipmentPlans"
+    <form name="ListShipmentPlans" type="list" target="" title="" list-name="shipmentPlans"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar" header-row-style="header-row-2">
         <field name="shipmentId" widget-style="buttontext" sort-field="true">
-            <hyperlink target="/facility/control/ViewShipment" target-type="inter-app" description="${shipmentId}">
+            <hyperlink description="${shipmentId}" target="/facility/control/ViewShipment" target-type="inter-app">
                 <parameter param-name="shipmentId" from-field="shipmentId"/>
             </hyperlink>
         </field>
         <field name="statusId">
-            <display-entity entity-name="StatusItem" key-field-name="statusId" description="${description}"/>
+            <display-entity entity-name="StatusItem" key-field-name="statusId"/>
         </field>
         <field name="estimatedShipDate" sort-field="true"><display/></field>
         <field name="viewShipmentPlanLink" title=" " widget-style="buttontext">
-            <hyperlink target="WorkWithShipmentPlans" description="${uiLabelMap.CommonView}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonView}" target="WorkWithShipmentPlans" also-hidden="false">
                 <parameter param-name="shipmentId"/>
             </hyperlink>
         </field>
@@ -764,7 +783,7 @@ under the License.
         <field name="mrpName" title="${uiLabelMap.ManufacturingMrpName}"><text size="20"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonSubmit}"><submit/></field>
     </form>
-    <form name="linkProductionRun" type="single" target="createProductionRunAssoc" title=""
+    <form name="LinkProductionRun" type="single" target="createProductionRunAssoc" title=""
         header-row-style="header-row" default-table-style="basic-table">
         <field name="productionRunId"><hidden/></field>
         <field name="workEffortAssocTypeId"><hidden value="WORK_EFF_PRECEDENCY"/></field>
@@ -778,7 +797,7 @@ under the License.
         </field>
         <field name="workFlowSequenceTypeId"  title="${uiLabelMap.CommonType}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="Enumeration" key-field-name="enumId" description="${description}">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" value="WORKFLOW"/>
                     <entity-order-by field-name="sequenceId"/>
                 </entity-options>
@@ -786,10 +805,10 @@ under the License.
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonSubmit}"><submit/></field>
     </form>
-    <form name="mandatoryWorkEfforts" type="list" target="" title="" list-name="mandatoryWorkEfforts"
+    <form name="MandatoryWorkEfforts" type="list" target="" title="" list-name="mandatoryWorkEfforts"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="workEffortIdFrom" title=" " widget-style="buttontext">
-            <hyperlink target="ShowProductionRun" description="${workEffortIdFrom}" also-hidden="false" link-type="anchor">
+            <hyperlink description="${workEffortIdFrom}" target="ShowProductionRun" also-hidden="false" link-type="anchor">
                 <parameter param-name="productionRunId" from-field="workEffortIdFrom"/>
             </hyperlink>
         </field>
@@ -815,7 +834,7 @@ under the License.
             <display-entity entity-name="WorkEffort" key-field-name="workEffortId" description="${actualCompletionDate} " cache="true"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeProductionRunAssoc" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="removeProductionRunAssoc" also-hidden="false">
                 <parameter param-name="workEffortIdFrom"/>
                 <parameter param-name="workEffortIdTo" from-field="productionRunId"/>
                 <parameter param-name="fromDate" from-field="estimatedStartDate"/>
@@ -824,10 +843,10 @@ under the License.
             </hyperlink>
         </field>
     </form>
-    <form name="dependentWorkEfforts" type="list" target="" title="" list-name="dependentWorkEfforts"
+    <form name="DependentWorkEfforts" type="list" target="" title="" list-name="dependentWorkEfforts"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="workEffortIdTo" title=" " widget-style="buttontext">
-            <hyperlink target="ShowProductionRun" description="${workEffortIdTo}" also-hidden="false" link-type="anchor">
+            <hyperlink description="${workEffortIdTo}" target="ShowProductionRun" also-hidden="false" link-type="anchor">
                 <parameter param-name="productionRunId" from-field="workEffortIdTo"/>
             </hyperlink>
         </field>
@@ -853,7 +872,7 @@ under the License.
             <display-entity entity-name="WorkEffort" key-field-name="workEffortId" description="${actualCompletionDate} " cache="true"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeProductionRunAssoc" description="${uiLabelMap.CommonRemove}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="removeProductionRunAssoc" also-hidden="false">
                 <parameter param-name="workEffortIdFrom" from-field="productionRunId"/>
                 <parameter param-name="workEffortIdTo"/>
                 <parameter param-name="fromDate" from-field="estimatedStartDate"/>
@@ -937,7 +956,7 @@ under the License.
     <form name="ProductionRunTaskComponents" type="list" target="updateProductionRunComponent" paginate-target="ProductionRunComponents" title="" list-name="records"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <row-actions>
-            <entity-one value-field="product" entity-name="Product" use-cache="true"/>
+            <entity-one entity-name="Product" value-field="product" use-cache="true"/>
         </row-actions>
         <field name="productId"><display/></field>
         <field name="internalName" map-name="product" title="${uiLabelMap.ProductInternalName}"><display/></field>
@@ -947,7 +966,7 @@ under the License.
         <field name="quantityUomId" map-name="product" title="${uiLabelMap.CommonUom}"><display-entity entity-name="Uom" key-field-name="uomId" description="${abbreviation}"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="smallSubmit">
-            <hyperlink target="deleteProductionRunComponent" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteProductionRunComponent" also-hidden="false">
                 <parameter param-name="workEffortId"/>
                 <parameter param-name="fromDate"/>
                 <parameter param-name="productId"/>
@@ -962,7 +981,7 @@ under the License.
             <set field="quantityOnHandDiff" value="${groovy:-1*quantityOnHandDiff}" type="BigDecimal"/>
         </row-actions>
         <field name="inventoryItemId" widget-style="buttontext">
-            <hyperlink target="/facility/control/EditInventoryItem" description="${inventoryItemId}" also-hidden="false" target-type="inter-app">
+            <hyperlink description="${inventoryItemId}" target="/facility/control/EditInventoryItem" also-hidden="false" target-type="inter-app">
                 <parameter param-name="inventoryItemId"/>
             </hyperlink>
         </field>
@@ -976,7 +995,7 @@ under the License.
             <display-entity entity-name="InventoryItem" key-field-name="inventoryItemId" description="${unitCost}"/>
         </field>
         <field name="reasonEnumId">
-            <display-entity entity-name="Enumeration" key-field-name="enumId" description="${description}"/>
+            <display-entity entity-name="Enumeration" key-field-name="enumId"/>
         </field>
         <field name="description"><display/></field>
     </form>
@@ -984,7 +1003,7 @@ under the License.
         header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-service service-name="issueProductionRunTaskComponent"/>
         <field name="productionRunId"><hidden/></field>
-        <field name="fromDate"><ignored/></field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
         <field name="reserveOrderEnumId"><ignored/></field>
         <field name="workEffortId" title="${uiLabelMap.ManufacturingTaskId}">
             <drop-down allow-empty="false">
@@ -1000,7 +1019,7 @@ under the License.
         <field name="lotId" title="${uiLabelMap.ProductLotId}"><text /></field>
         <field name="reasonEnumId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="Enumeration" key-field-name="enumId" description="${description}">
+                <entity-options entity-name="Enumeration" key-field-name="enumId">
                     <entity-constraint name="enumTypeId" value="IID_REASON"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>

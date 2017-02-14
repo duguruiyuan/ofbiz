@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="FindSurvey">
         <section>
             <actions>
@@ -177,21 +177,100 @@ under the License.
                 <set field="tabButtonItem" value="SurveyQuestions"/>
                 <set field="labelTitleProperty" value="PageTitleEditSurveyQuestions"/>
 
+                <set field="newCategory" from-field="parameters.newCategory" default-value="N"/>
                 <set field="surveyId" from-field="parameters.surveyId"/>
                 <entity-one entity-name="Survey" value-field="survey"/>
 
-                <script location="component://content/webapp/content/WEB-INF/actions/survey/EditSurveyQuestions.groovy"/>
+                <script location="component://content/groovyScripts/survey/EditSurveyQuestions.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonSurveyDecorator">
                     <decorator-section name="body">
-                        <platform-specific><html><html-template location="component://content/webapp/content/survey/EditSurveyQuestions.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://content/template/survey/EditSurveyQuestions.ftl"/></html></platform-specific>
 
                         <!-- This page is a bit of a mess, so will cleanup/modernize later...
                         <include-form name="ListSurveyQuestions" location="component://content/widget/survey/SurveyForms.xml"/>
                         <include-form name="CreateSurveyQuestion" location="component://content/widget/survey/SurveyForms.xml"/>
                         -->
-
+                        <section>
+                            <condition>
+                                <if-compare operator="equals" value="Y" field="newCategory"/>
+                            </condition>
+                            <widgets>
+                                <screenlet title="${uiLabelMap.ContentSurveyCreateQuestionCategory}">
+                                    <container style="button-bar">
+                                        <link target="EditSurveyQuestions" text="${uiLabelMap.CommonNew} ${uiLabelMap.ContentSurveyQuestion}" style="buttontext">
+                                            <parameter param-name="surveyId" from-field="parameters.surveyId"/>
+                                        </link>
+                                    </container>
+                                    <include-form name="CreateSurveyQuestionCategory" location="component://content/widget/survey/SurveyForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                            <fail-widgets>
+                                <section>
+                                    <condition>
+                                        <not><if-empty field="surveyQuestionId"/></not>
+                                    </condition>
+                                    <widgets>
+                                        <screenlet title="${uiLabelMap.CommonEdit} ${uiLabelMap.ContentSurveyQuestion}">
+                                            <container style="button-bar">
+                                                <link target="EditSurveyQuestions" text="${uiLabelMap.CommonNew} ${uiLabelMap.ContentSurveyQuestion}" style="buttontext">
+                                                    <parameter param-name="surveyId" from-field="parameters.surveyId"/>
+                                                </link>
+                                                <link target="EditSurveyQuestions" text="${uiLabelMap.CommonNew} ${uiLabelMap.ContentSurveyQuestion} ${uiLabelMap.ContentSurveryCategory}" style="buttontext">
+                                                    <parameter param-name="surveyId" from-field="parameters.surveyId"/>
+                                                    <parameter param-name="newCategory" value="Y"/>
+                                                </link>
+                                            </container>
+                                            <include-form name="CreateSurveyQuestion" location="component://content/widget/survey/SurveyForms.xml"/>
+                                        </screenlet>
+                                    </widgets>
+                                    <fail-widgets>
+                                        <screenlet title="${uiLabelMap.ContentSurveyCreateQuestion}">
+                                            <container style="button-bar">
+                                                <link target="EditSurveyQuestions" text="${uiLabelMap.CommonNew} ${uiLabelMap.ContentSurveyQuestion} ${uiLabelMap.ContentSurveryCategory}" style="buttontext">
+                                                    <parameter param-name="surveyId" from-field="parameters.surveyId"/>
+                                                    <parameter param-name="newCategory" value="Y"/>
+                                                </link>
+                                            </container>
+                                            <include-form name="CreateSurveyQuestion" location="component://content/widget/survey/SurveyForms.xml"/>
+                                        </screenlet>
+                                    </fail-widgets>
+                                </section>
+                            </fail-widgets>
+                        </section>
+                        <section>
+                            <condition>
+                                <and>
+                                    <not><if-empty field="surveyQuestion"/></not>
+                                    <if-compare operator="equals" value="OPTION" field="surveyQuestion.surveyQuestionTypeId"/>
+                                </and>
+                            </condition>
+                            <widgets>
+                                <platform-specific><html><html-template location="component://content/template/survey/SurveyOptions.ftl"/></html></platform-specific>
+                                <section>
+                                    <condition>
+                                        <if-empty field="surveyQuestionOption"/>
+                                    </condition>
+                                    <widgets>
+                                        <screenlet title="${uiLabelMap.ContentSurveyCreateQuestionOption}">
+                                            <include-form name="CreateSurveyQuestionOption" location="component://content/widget/survey/SurveyForms.xml"/>
+                                        </screenlet>
+                                    </widgets>
+                                    <fail-widgets>
+                                        <screenlet title="${uiLabelMap.ContentSurveyEditQuestionOption}">
+                                            <container style="button-bar">
+                                                <link target="EditSurveyQuestions" text="${uiLabelMap.CommonNew} ${uiLabelMap.ContentSurveyOption}" style="buttontext">
+                                                    <parameter param-name="surveyId" from-field="parameters.surveyId"/>
+                                                    <parameter param-name="surveyQuestionId" from-field="surveyQuestionOption.surveyQuestionId"/>
+                                                </link>
+                                            </container>
+                                            <include-form name="CreateSurveyQuestionOption" location="component://content/widget/survey/SurveyForms.xml"/>
+                                        </screenlet>
+                                    </fail-widgets>
+                                </section>
+                            </widgets>
+                        </section>
                         <screenlet id="SurveyPagePanel" title="${uiLabelMap.PageTitleEditSurveyPages} ${uiLabelMap.ContentSurveySurveyId} ${surveyId}" collapsible="true">
                             <include-form name="AddSurveyPage" location="component://content/widget/survey/SurveyForms.xml"/>
                         </screenlet>
@@ -249,7 +328,7 @@ under the License.
                 <set field="surveyId" from-field="parameters.surveyId"/>
                 <entity-one entity-name="Survey" value-field="survey"/>
 
-                <script location="component://content/webapp/content/WEB-INF/actions/survey/ViewSurveyResponses.groovy"/>
+                <script location="component://content/groovyScripts/survey/ViewSurveyResponses.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonSurveyDecorator">
@@ -270,7 +349,7 @@ under the License.
                                     </container>
                                 </widgets>
                             </section>
-                            <platform-specific><html><html-template location="component://content/webapp/content/survey/ViewSurveyResponses.ftl"/></html></platform-specific>
+                            <platform-specific><html><html-template location="component://content/template/survey/ViewSurveyResponses.ftl"/></html></platform-specific>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>
@@ -289,13 +368,13 @@ under the License.
 
                 <set field="surveyResponseId" from-field="parameters.surveyResponseId"/>
                 <entity-one entity-name="SurveyResponse" value-field="surveyResponse"/>
-                <script location="component://content/webapp/content/WEB-INF/actions/survey/EditSurveyResponse.groovy"/>
+                <script location="component://content/groovyScripts/survey/EditSurveyResponse.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonSurveyDecorator">
                     <decorator-section name="body">
                         <container><label style="h1">${uiLabelMap.PageTitleEditSurveyResponse}, ${uiLabelMap.ContentSurveyResponse}: ${parameters.surveyResponseId}, ${uiLabelMap.ContentSurveySurveyId}: ${surveyId}</label></container>
-                        <platform-specific><html><html-template location="component://content/webapp/content/survey/EditSurveyResponse.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://content/template/survey/EditSurveyResponse.ftl"/></html></platform-specific>
                         <include-form name="BuildSurveyResponseFromPdf" location="component://content/widget/survey/SurveyForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
@@ -319,10 +398,10 @@ under the License.
             <widgets>
                 <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">
                     <decorator-section name="search-options">
-                        <include-form name="lookupSurvey" location="component://content/widget/survey/SurveyForms.xml"/>
+                        <include-form name="LookupSurvey" location="component://content/widget/survey/SurveyForms.xml"/>
                     </decorator-section>
                     <decorator-section name="search-results">
-                        <include-form name="listLookupSurvey" location="component://content/widget/survey/SurveyForms.xml"/>
+                        <include-form name="ListLookupSurvey" location="component://content/widget/survey/SurveyForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -344,10 +423,10 @@ under the License.
             <widgets>
                 <decorator-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml">
                     <decorator-section name="search-options">
-                        <include-form name="lookupSurveyResponse" location="component://content/widget/survey/SurveyForms.xml"/>
+                        <include-form name="LookupSurveyResponse" location="component://content/widget/survey/SurveyForms.xml"/>
                     </decorator-section>
                     <decorator-section name="search-results">
-                        <include-form name="listLookupSurveyResponse" location="component://content/widget/survey/SurveyForms.xml"/>
+                        <include-form name="ListLookupSurveyResponse" location="component://content/widget/survey/SurveyForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>

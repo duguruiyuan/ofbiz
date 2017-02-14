@@ -19,14 +19,14 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="FindFacility">
         <section>
             <actions>
                 <set field="titleProperty" value="ProductFindFacilities"/>
                 <set field="headerItem" value="facility"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/FindFacility.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/FindFacility.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -41,7 +41,7 @@ under the License.
                                         <if-compare field="showScreen" value="one" operator="equals"/>
                                     </condition>
                                     <actions>
-                                        <script location="component://product/webapp/facility/WEB-INF/actions/facility/EditFacility.groovy"/>
+                                        <script location="component://product/groovyScripts/facility/facility/EditFacility.groovy"/>
                                     </actions>
                                     <widgets>
                                         <section>
@@ -56,18 +56,17 @@ under the License.
                                                     </condition>
                                                     <widgets>
                                                         <container style="button-bar">
-                                                            <link target="EditFacility" text="${uiLabelMap.ProductNewFacility}" style="buttontext create"/>
                                                             <link target="/workeffort/control/calendar" text="${uiLabelMap.CommonViewCalendar}" style="buttontext" url-mode="inter-app">
                                                                 <parameter param-name="facilityId"/>
                                                                 <parameter param-name="externalLoginKey" from-field="parameters.externalLoginKey"/>
                                                             </link>
                                                         </container>
                                                         <label style="h1">${uiLabelMap.ProductEditFacility} ${facility.facilityName} [${facilityId}]</label>
-                                                        <platform-specific><html><html-template location="component://product/webapp/facility/facility/EditFacility.ftl"/></html></platform-specific>
+                                                        <platform-specific><html><html-template location="component://product/template/facility/EditFacility.ftl"/></html></platform-specific>
                                                     </widgets>
                                                     <fail-widgets>
                                                         <label style="h1">${uiLabelMap.ProductNewFacility}"</label>
-                                                        <platform-specific><html><html-template location="component://product/webapp/facility/facility/EditFacility.ftl"/></html></platform-specific>
+                                                        <platform-specific><html><html-template location="component://product/template/facility/EditFacility.ftl"/></html></platform-specific>
                                                     </fail-widgets>
                                                 </section>
                                             </widgets>
@@ -83,14 +82,6 @@ under the License.
                                     </condition>
                                     <widgets>
                                         <label text="${uiLabelMap.FacilitySelection}" style="h1"/>
-                                        <section>
-                                            <condition>
-                                                <if-service-permission service-name="facilityGenericPermission" main-action="CREATE"/>
-                                            </condition>
-                                            <widgets>
-                                                <container style="button-bar"><link target="EditFacility" text="${uiLabelMap.ProductCreateNewFacility}" style="buttontext create"/></container>
-                                            </widgets>
-                                        </section>
                                         <screenlet>
                                             <include-form name="FindFacility10" location="component://product/widget/facility/FacilityForms.xml"/>
                                         </screenlet>
@@ -102,16 +93,6 @@ under the License.
                                     </condition>
                                     <widgets>
                                         <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
-                                            <decorator-section name="menu-bar">
-                                                <section>
-                                                    <condition>
-                                                        <if-service-permission service-name="facilityGenericPermission" main-action="CREATE"/>
-                                                    </condition>
-                                                    <widgets>
-                                                        <container style="button-bar"><link target="EditFacility" text="${uiLabelMap.ProductCreateNewFacility}" style="buttontext"/></container>
-                                                    </widgets>
-                                                </section>
-                                            </decorator-section>
                                             <decorator-section name="search-options">
                                                 <include-form name="FindFacilityOptions" location="component://product/widget/facility/FacilityForms.xml"/>
                                             </decorator-section>
@@ -153,7 +134,7 @@ under the License.
                 <set field="titleProperty" value="ProductNewFacility"/>
                 <set field="headerItem" value="facility"/>
                 <set field="tabButtonItem" value="EditFacility"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/EditFacility.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/EditFacility.groovy"/>
             </actions>
             <widgets>
                 <section>
@@ -180,13 +161,12 @@ under the License.
                                                     <label>${uiLabelMap.ProductEditFacility} ${facility.facilityName} [${facilityId}]</label>
                                                 </container>
                                                 <container style="button-bar button-style-1">
-                                                    <link target="EditFacility" text="${uiLabelMap.ProductNewFacility}" style="create"/>
                                                     <link target="/workeffort/control/calendar" text="${uiLabelMap.CommonViewCalendar}" url-mode="inter-app">
                                                         <parameter param-name="facilityId"/>
                                                         <parameter param-name="externalLoginKey" from-field="parameters.externalLoginKey"/>
                                                     </link>
                                                 </container>
-                                                <platform-specific><html><html-template location="component://product/webapp/facility/facility/EditFacility.ftl"/></html></platform-specific>
+                                                <platform-specific><html><html-template location="component://product/template/facility/EditFacility.ftl"/></html></platform-specific>
                                             </widgets>
                                         </section>
                                     </widgets>
@@ -206,7 +186,7 @@ under the License.
                                     </condition>
                                     <widgets>
                                         <label style="h1">${uiLabelMap.ProductNewFacility}</label>
-                                        <platform-specific><html><html-template location="component://product/webapp/facility/facility/EditFacility.ftl"/></html></platform-specific>
+                                        <platform-specific><html><html-template location="component://product/template/facility/EditFacility.ftl"/></html></platform-specific>
                                     </widgets>
                                     <fail-widgets>
                                         <label style="h3">${uiLabelMap.ProductFacilityViewPermissionError}</label>
@@ -249,7 +229,7 @@ under the License.
                 <set field="tabButtonItem" value="FindFacilityTransfers"/>
                 <set field="facilityId" from-field="parameters.facilityId"/>
                 <entity-one entity-name="Facility" value-field="facility"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/FindFacilityTransfers.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/FindFacilityTransfers.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
@@ -300,7 +280,7 @@ under the License.
         <section>
             <actions>
                 <set field="tabButtonItem" value="FindFacilityLocation"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/FindFacilityLocation.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/FindFacilityLocation.groovy"/>
                 <entity-one entity-name="Facility" value-field="facility"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
                 <set field="title" value="${uiLabelMap.PageTitleFindFacilityLocation}"/>
@@ -310,7 +290,7 @@ under the License.
                     <decorator-section name="body">
                         <screenlet title="${title}">
                             <platform-specific>
-                                <html><html-template location="component://product/webapp/facility/facility/FindFacilityLocation.ftl"/></html>
+                                <html><html-template location="component://product/template/facility/FindFacilityLocation.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>
@@ -323,7 +303,7 @@ under the License.
         <section>
             <actions>
                 <set field="tabButtonItem" value="FindFacilityLocation"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/EditFacilityLocation.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/EditFacilityLocation.groovy"/>
                 <entity-one entity-name="Facility" value-field="facility"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
                 <set field="title" value="${uiLabelMap.PageTitleNewFacilityLocation}"/>
@@ -341,7 +321,7 @@ under the License.
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/facility/facility/EditFacilityLocation.ftl"/></html>
+                            <html><html-template location="component://product/template/facility/EditFacilityLocation.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -365,7 +345,6 @@ under the License.
                         <decorator-screen name="FindScreenDecorator" location="component://common/widget/CommonScreens.xml">
                             <decorator-section name="menu-bar">
                                 <container style="button-bar">
-                                    <link target="EditFacility" text="${uiLabelMap.ProductNewFacility}" style="buttontext create"/>
                                     <link target="EditInventoryItem" text="${uiLabelMap.ProductNewInventoryItem}" style="buttontext create">
                                         <parameter param-name="facilityId" from-field="parameters.facilityId"/>
                                     </link>
@@ -400,7 +379,7 @@ under the License.
 
                 <entity-one entity-name="Facility" value-field="facility"/>
                 <entity-condition entity-name="InventoryItemLabelType" list="labelTypes"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/FindInventoryItemsByLabels.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/FindInventoryItemsByLabels.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
@@ -409,7 +388,6 @@ under the License.
                             <label style="h1">${uiLabelMap.ProductInventoryItemsFor} ${facility.facilityName} [${uiLabelMap.CommonId}:${facility.facilityId}]</label>
                         </container>
                         <container>
-                            <link target="EditFacility" text="${uiLabelMap.ProductNewFacility}" style="buttontext"/>
                             <link target="EditInventoryItem" text="${uiLabelMap.ProductCreateNewInventoryItemFacility}" style="buttontext">
                                 <parameter param-name="facilityId" from-field="parameters.facilityId"/>
                             </link>
@@ -419,7 +397,7 @@ under the License.
                         </container>
                         <screenlet title="${uiLabelMap.ProductSearchInventoryItemsByLabels}">
                             <platform-specific>
-                                <html><html-template location="component://product/webapp/facility/facility/searchInventoryItemsByLabelsForm.ftl"/></html>
+                                <html><html-template location="component://product/template/facility/SearchInventoryItemsByLabelsForm.ftl"/></html>
                             </platform-specific>
                             <include-form name="ListFacilityInventoryItemsNoLocations" location="component://product/widget/facility/FacilityForms.xml"/>
                         </screenlet>
@@ -433,7 +411,8 @@ under the License.
         <section>
             <actions>
                 <set field="tabButtonItem" value="ViewFacilityInventoryByProduct"/>
-                <set field="viewSize" from-field="parameters.VIEW_SIZE"/>
+                <set field="viewSize" from-field="parameters.VIEW_SIZE_1" type="Integer" default-value="20"/>
+                <set field="viewIndex" from-field="parameters.VIEW_INDEX_1" type="Integer" default-value="0"/>
                 <!-- This is the target of the search form-->
                 <set field="facilityInventoryByProductScreen" value="ViewFacilityInventoryByProduct"/>
                 <set field="facilityId" from-field="parameters.facilityId"/>
@@ -446,7 +425,7 @@ under the License.
                 <set field="internalName" from-field="parameters.internalName"/>
                 <set field="productId" from-field="parameters.productId"/>
                 <set field="statusId" from-field="parameters.statusId"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/ViewFacilityInventoryByProduct.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/ViewFacilityInventoryByProduct.groovy"/>
                 <entity-one entity-name="Facility" value-field="facility"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
                 <set field="title" value="${uiLabelMap.PageTitleFindFacilityInventoryItems}"/>
@@ -496,7 +475,7 @@ under the License.
                 <set field="internalName" from-field="parameters.internalName"/>
                 <set field="productId" from-field="parameters.productId"/>
 
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/CountFacilityInventoryByProduct.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/CountFacilityInventoryByProduct.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="SimpleDecorator" location="component://common/widget/CommonScreens.xml">
@@ -540,7 +519,7 @@ under the License.
                 <set field="internalName" from-field="parameters.internalName"/>
                 <set field="productId" from-field="parameters.productId"/>
 
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/CountFacilityInventoryByProduct.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/CountFacilityInventoryByProduct.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="SimpleDecorator" location="component://common/widget/CommonScreens.xml">
@@ -572,9 +551,6 @@ under the License.
                     <decorator-section name="body">
                         <container style="page-title">
                             <label>${uiLabelMap.ProductInventoryItemsDetailsFor} ${facility.facilityName} [${uiLabelMap.CommonId}:${facility.facilityId}]</label>
-                        </container>
-                        <container style="button-bar button-style-1">
-                            <link target="EditFacility" text="${uiLabelMap.ProductNewFacility}" style="create"/>
                         </container>
                         <screenlet title="${uiLabelMap.PageTitleViewFacilityInventoryItemsDetails}">
                             <include-form name="SearchInventoryItemsDetailsParams" location="component://product/widget/facility/FacilityForms.xml"/>
@@ -628,7 +604,7 @@ under the License.
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
 
                 <entity-one entity-name="Facility" value-field="facility" use-cache="true"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/inventory/InventoryItemTotals.groovy"/>
+                <script location="component://product/groovyScripts/facility/inventory/InventoryItemTotals.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
@@ -651,7 +627,7 @@ under the License.
                 <set field="tabButtonItem2" value="InventoryItemGrandTotalsTab"/>
                 <set field="facilityId" from-field="parameters.facilityId"/>
                 <entity-one entity-name="Facility" value-field="facility" use-cache="true"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/inventory/InventoryItemTotals.groovy"/>
+                <script location="component://product/groovyScripts/facility/inventory/InventoryItemTotals.groovy"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
                 <set field="title" value="${uiLabelMap.PageTitleInventoryItemGrandTotals}"/>
             </actions>
@@ -680,7 +656,7 @@ under the License.
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
 
                 <entity-one entity-name="Facility" value-field="facility" use-cache="true"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/inventory/InventoryItemTotals.groovy"/>
+                <script location="component://product/groovyScripts/facility/inventory/InventoryItemTotals.groovy"/>
             </actions>
             <widgets>
                 <container>
@@ -705,7 +681,7 @@ under the License.
                 <set field="facilityId" from-field="parameters.facilityId"/>
 
                 <entity-one entity-name="Facility" value-field="facility" use-cache="true"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/inventory/InventoryAverageCosts.groovy"/>
+                <script location="component://product/groovyScripts/facility/inventory/InventoryAverageCosts.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
@@ -738,11 +714,8 @@ under the License.
                         <container style="page-title">
                             <label>${title}</label>
                         </container>
-                        <container style="button-bar button-style-1">
-                            <link target="EditFacility" text="${uiLabelMap.ProductNewFacility}" style="create"/>
-                        </container>
                         <screenlet id="add-facility-group-member" title="${uiLabelMap.ProductAddFacilityGroupMember}" collapsible="true">
-                            <include-form name="addGroupToFacility" location="component://product/widget/facility/FacilityForms.xml"/>
+                            <include-form name="AddGroupToFacility" location="component://product/widget/facility/FacilityForms.xml"/>
                         </screenlet>
                         <include-form name="EditFacilityGroups" location="component://product/widget/facility/FacilityForms.xml"/>
                     </decorator-section>
@@ -772,9 +745,6 @@ under the License.
                         <container style="page-title">
                             <label>${title}</label>
                         </container>
-                        <container style="button-bar button-style-1">
-                            <link target="EditFacility" text="${uiLabelMap.ProductNewFacility}" style="create"/>
-                        </container>
                         <screenlet id="add-facility-party-role" title="${uiLabelMap.ProductAddFacilityPartyRole}" collapsible="true">
                             <include-form name="AddPartyToFacility" location="component://product/widget/facility/FacilityForms.xml"/>
                         </screenlet>
@@ -789,7 +759,7 @@ under the License.
         <section>
             <actions>
                 <set field="tabButtonItem" value="ViewContactMechs"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/ViewContactMechs.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/ViewContactMechs.groovy"/>
                 <set field="facilityId" from-field="parameters.facilityId"/>
                 <entity-one entity-name="Facility" value-field="facility"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
@@ -802,7 +772,6 @@ under the License.
                             <label>${title}</label>
                         </container>
                         <container style="button-bar button-style-1">
-                            <link target="EditFacility" text="${uiLabelMap.ProductNewFacility}" style="create"/>
                             <section>
                                 <condition>
                                     <not><if-empty field="facilityId"/></not>
@@ -827,7 +796,7 @@ under the License.
                             </section>
                         </container>
                         <screenlet title="${uiLabelMap.PartyContactInformation}">
-                            <platform-specific><html><html-template location="component://product/webapp/facility/facility/ViewContactMechs.ftl"/></html></platform-specific>
+                            <platform-specific><html><html-template location="component://product/template/facility/ViewContactMechs.ftl"/></html></platform-specific>
                         </screenlet>
                     </decorator-section>
                 </decorator-screen>
@@ -839,7 +808,7 @@ under the License.
         <section>
             <actions>
                 <set field="tabButtonItem" value="ViewContactMechs"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/EditContactMech.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/EditContactMech.groovy"/>
                 
                 <set field="dependentForm" value="editcontactmechform"/>
                 <set field="paramKey" value="countryGeoId"/>
@@ -870,8 +839,8 @@ under the License.
                     <decorator-section name="body">
                         <platform-specific>
                             <html>
-                                <html-template location="component://common/webcommon/includes/setDependentDropdownValuesJs.ftl"/>
-                                <html-template location="component://product/webapp/facility/facility/EditContactMech.ftl"/>
+                                <html-template location="component://common/template/includes/SetDependentDropdownValuesJs.ftl"/>
+                                <html-template location="component://product/template/facility/EditContactMech.ftl"/>
                             </html>
                         </platform-specific>
                     </decorator-section>
@@ -959,7 +928,7 @@ under the License.
                                 <if-compare field="inventoryItem.inventoryItemTypeId" operator="equals" value="NON_SERIAL_INV_ITEM"/>
                             </condition>
                             <actions>
-                                <script location="component://product/webapp/facility/WEB-INF/actions/inventory/PhysicalInventoryVariance.groovy"/>
+                                <script location="component://product/groovyScripts/facility/inventory/PhysicalInventoryVariance.groovy"/>
                             </actions>
                             <widgets>
                                 <screenlet id="physical-inventory-variances" title="${uiLabelMap.ProductPhysicalInventoryVariances}" initially-collapsed="true">
@@ -1044,7 +1013,7 @@ under the License.
                 <set field="titleProperty" value="PageTitleFindFacilityPhysicalInventory"/>
                 <set field="headerItem" value="facility"/>
                 <set field="tabButtonItem" value="PhysicalInventory"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/inventory/FindFacilityPhysicalInventory.groovy"/>
+                <script location="component://product/groovyScripts/facility/inventory/FindFacilityPhysicalInventory.groovy"/>
 
             </actions>
             <widgets>
@@ -1066,18 +1035,51 @@ under the License.
         <section>
             <actions>
                 <set field="tabButtonItem" value="FindFacilityTransfers"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/inventory/TransferInventoryItem.groovy"/>
+                <script location="component://product/groovyScripts/facility/inventory/TransferInventoryItem.groovy"/>
                 <set field="facilityId" from-field="parameters.facilityId"/>
                 <entity-one entity-name="Facility" value-field="facility"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
                 <set field="title" value="${uiLabelMap.PageTitleTransferInventoryItem}"/>
+                
+                <entity-one entity-name="InventoryItem" value-field="inventoryItem"/>
+                <entity-one entity-name="InventoryItemType" value-field="inventoryItemType">
+                    <field-map field-name="inventoryItemTypeId" value="${inventoryItem.inventoryItemTypeId}"/>
+                </entity-one>
+                <entity-one entity-name="StatusItem" value-field="statusItem">
+                    <field-map field-name="statusId" value="${inventoryItem.statusId}"/>
+                </entity-one>
+                <entity-one entity-name="InventoryTransfer" value-field="inventoryTransfer"/>
+                <entity-one entity-name="Product" value-field="product"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
                     <decorator-section name="body">
-                        <platform-specific>
-                            <html><html-template location="component://product/webapp/facility/inventory/TransferInventoryItem.ftl"/></html>
-                        </platform-specific>
+                        <label text="${title}" style="h1"/>
+                        <container style="button-bar">
+                            <link target="PickMoveStockSimple" text="${uiLabelMap.CommonPrint}" style="buttontext  ">
+                                <parameter param-name="facilityId" from-field="facilityId"/>
+                            </link>
+                        </container>
+                        <screenlet title="${uiLabelMap.ProductInventoryTransfersFor} ${uiLabelMap.FormFieldTitle_inventoryItemId}">
+                            <include-form name="CreateInventoryTransferForItem" location="component://product/widget/facility/FacilityForms.xml"/>
+                        </screenlet>
+                        <screenlet title="${uiLabelMap.ProductInventoryTransfersFor} ${uiLabelMap.FormFieldTitle_productId}">
+                            <include-form name="CreateInventoryTransferForProduct" location="component://product/widget/facility/FacilityForms.xml"/>
+                        </screenlet>
+                        <section>
+                            <condition>
+                                <or>
+                                    <not><if-empty field="inventoryTransfer"/></not>
+                                    <not><if-empty field="product"/></not>
+                                    <not><if-empty field="inventoryItem"/></not>
+                                </or>
+                            </condition>
+                            <widgets>
+                                <screenlet title="${uiLabelMap.ProductInventoryTransfer}">
+                                    <include-form name="CreateInventoryTransfer" location="component://product/widget/facility/FacilityForms.xml"/>
+                                </screenlet>
+                            </widgets>
+                        </section>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -1088,7 +1090,7 @@ under the License.
         <section>
             <actions>
                 <set field="tabButtonItem" value="ReceiveInventory"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/inventory/ReceiveInventory.groovy"/>
+                <script location="component://product/groovyScripts/facility/inventory/ReceiveInventory.groovy"/>
                 <set field="facilityId" from-field="parameters.facilityId"/>
                 <entity-one entity-name="Facility" value-field="facility"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap"/>
@@ -1099,7 +1101,7 @@ under the License.
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/facility/inventory/receiveInventory.ftl"/></html>
+                            <html><html-template location="component://product/template/inventory/ReceiveInventory.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -1113,13 +1115,13 @@ under the License.
                 <set field="headerItem" value="facility"/>
                 <set field="tabButtonItem" value="ReceiveReturn"/>
 
-                <script location="component://product/webapp/facility/WEB-INF/actions/returns/ReceiveReturn.groovy"/>
+                <script location="component://product/groovyScripts/facility/returns/ReceiveReturn.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/facility/returns/receiveReturn.ftl"/></html>
+                            <html><html-template location="component://product/template/returns/ReceiveReturn.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -1134,7 +1136,7 @@ under the License.
             </actions>
             <widgets>
                 <platform-specific>
-                    <html><html-template location="component://product/webapp/facility/returns/UpdatedInventoryItemStatus.ftl"/></html>
+                    <html><html-template location="component://product/template/returns/UpdatedInventoryItemStatus.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>
@@ -1172,7 +1174,7 @@ under the License.
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/facility/facility/PicklistOptions.ftl"/></html>
+                            <html><html-template location="component://product/template/facility/PicklistOptions.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -1187,7 +1189,7 @@ under the License.
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="facilityId" from-field="parameters.facilityId"/>
                 <set field="pickMoveInfoList" from-field="parameters.pickMoveInfoList"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/order/CompanyHeader.groovy"/>
+                <script location="component://order/groovyScripts/order/CompanyHeader.groovy"/>
             </actions>
             <widgets>
                 <section>
@@ -1195,7 +1197,7 @@ under the License.
                         <not><if-empty field="pickMoveInfoList"/></not>
                     </condition>
                     <actions>
-                        <script location="component://product/webapp/facility/WEB-INF/actions/shipment/PrintPickSheets.groovy"/>
+                        <script location="component://product/groovyScripts/facility/shipment/PrintPickSheets.groovy"/>
                     </actions>
                     <widgets>
                         <section>
@@ -1204,19 +1206,19 @@ under the License.
                             </condition>
                             <widgets>
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://product/webapp/facility/facility/PrintPickSheets.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://product/template/facility/PrintPickSheets.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </widgets>
                             <fail-widgets>
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://product/webapp/facility/facility/NotReadyToPick.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://product/template/facility/NotReadyToPick.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </fail-widgets>
                         </section>
                     </widgets>
                     <fail-widgets>
                         <platform-specific>
-                            <xsl-fo><html-template location="component://product/webapp/facility/facility/NotReadyToPick.fo.ftl"/></xsl-fo>
+                            <xsl-fo><html-template location="component://product/template/facility/NotReadyToPick.fo.ftl"/></xsl-fo>
                         </platform-specific>
                     </fail-widgets>
                 </section>
@@ -1226,13 +1228,13 @@ under the License.
     <screen name="ReviewOrdersNotPickedOrPacked">
         <section>
             <actions>
-                <script location="component://product/webapp/facility/WEB-INF/actions/shipment/ReviewOrdersNotPickedOrPacked.groovy"/>
+                <script location="component://product/groovyScripts/facility/shipment/ReviewOrdersNotPickedOrPacked.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/facility/facility/ReviewOrdersNotPickedOrPacked.ftl"/></html>
+                            <html><html-template location="component://product/template/facility/ReviewOrdersNotPickedOrPacked.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -1270,7 +1272,7 @@ under the License.
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/facility/facility/PicklistManage.ftl"/></html>
+                            <html><html-template location="component://product/template/facility/PicklistManage.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -1299,7 +1301,7 @@ under the License.
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.commonFacilityDecoratorLocation}">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/facility/facility/PickMoveStock.ftl"/></html>
+                            <html><html-template location="component://product/template/facility/PickMoveStock.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -1333,7 +1335,7 @@ under the License.
                 <decorator-screen name="SimpleDecorator" location="component://common/widget/CommonScreens.xml">
                     <decorator-section name="body">
                         <platform-specific>
-                            <xsl-fo><html-template location="component://product/webapp/facility/facility/PickMoveStockSimple.fo.ftl"/></xsl-fo>
+                            <xsl-fo><html-template location="component://product/template/facility/PickMoveStockSimple.fo.ftl"/></xsl-fo>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -1356,7 +1358,7 @@ under the License.
             </actions>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://product/webapp/facility/facility/Picklist.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://product/template/facility/Picklist.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -1371,7 +1373,7 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <html><html-template location="component://product/webapp/facility/facility/FacilityScheduleTabBar.ftl"/></html>
+                                    <html><html-template location="component://product/template/facility/FacilityScheduleTabBar.ftl"/></html>
                                 </platform-specific>
                                 <decorator-section-include name="schedule-body"/>
                             </widgets>
@@ -1405,7 +1407,7 @@ under the License.
                 <!-- get the default facility Uom -->
                 <entity-one entity-name="Facility" value-field="facility"/>
                 <entity-one entity-name="Uom" value-field="defaultWeightUom" use-cache="true" auto-field-map="false">
-                    <field-map from-field="facility.defaultWeightUomId" field-name="uomId"/>
+                    <field-map field-name="uomId" from-field="facility.defaultWeightUomId"/>
                 </entity-one>
             </actions>
             <widgets>
@@ -1444,7 +1446,7 @@ under the License.
                         <screenlet title="${uiLabelMap.PageTitleLabelPrinting}">
                             <include-form name="Labels" location="component://product/widget/facility/FacilityForms.xml"/>
                             <platform-specific>
-                                <html><html-template location="component://product/webapp/facility/facility/batchPrintMarkAsAccepted.ftl"/></html>
+                                <html><html-template location="component://product/template/facility/BatchPrintMarkAsAccepted.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>
@@ -1458,7 +1460,7 @@ under the License.
         <section>
             <widgets>
                 <platform-specific>
-                    <xsl-fo><html-template location="component://product/webapp/facility/facility/batchPrintShippingLabels.fo.ftl"/></xsl-fo>
+                    <xsl-fo><html-template location="component://product/template/facility/BatchPrintShippingLabels.fo.ftl"/></xsl-fo>
                 </platform-specific>
             </widgets>
         </section>
@@ -1468,7 +1470,7 @@ under the License.
         <section>
             <actions>
                 <set field="titleProperty" value="PageTitleFacilityLocationGeoLocation"/>
-                <script location="component://product/webapp/facility/WEB-INF/actions/facility/FacilityLocationGeoLocation.groovy"/>
+                <script location="component://product/groovyScripts/facility/facility/FacilityLocationGeoLocation.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFacilityDecorator" location="${parameters.mainDecoratorLocation}">

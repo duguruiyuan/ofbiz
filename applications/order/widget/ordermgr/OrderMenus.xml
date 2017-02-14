@@ -17,7 +17,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<menus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-menu.xsd">
+<menus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Menu" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Menu http://ofbiz.apache.org/dtds/widget-menu.xsd">
     <menu name="OrderAppBar" title="${uiLabelMap.OrderManager}" extends="CommonAppBarMenu" extends-resource="component://common/widget/CommonMenus.xml">
         <menu-item name="request" title="${uiLabelMap.OrderRequests}">
             <condition>
@@ -217,10 +217,7 @@ under the License.
 
         <menu-item name="ViewQuoteProfit" title="${uiLabelMap.OrderViewQuoteProfit}">
             <condition>
-                <and>
-                    <if-has-permission permission="ORDERMGR" action="_QUOTE_PRICE"/>
-                    <if-compare operator="equals" value="QUO_CREATED" field="quote.statusId"/>
-                </and>
+                <if-has-permission permission="ORDERMGR" action="_QUOTE_PRICE"/>
             </condition>
             <link target="ViewQuoteProfit">
                 <parameter param-name="quoteId" from-field="quote.quoteId"/>
@@ -247,8 +244,8 @@ under the License.
 
     <menu name="QuoteSubTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
         menu-container-style="button-bar button-style-2">
-        <menu-item name="quoteReport" title="${uiLabelMap.CommonReport}">
-            <link target="QuoteReport">
+        <menu-item name="quoteReport" title="${uiLabelMap.CommonPdf}">
+            <link target="QuoteReport" target-window="_BLANK">
                 <parameter param-name="quoteId" from-field="quote.quoteId"/>
             </link>
         </menu-item>
@@ -313,7 +310,7 @@ under the License.
                     <if-compare field="custRequest.statusId" operator="not-equals" value="CRQ_COMPLETED"/>
                 </and>
             </condition>
-            <link target="/requestitems">
+            <link target="requestitems">
                 <parameter param-name="custRequestId" from-field="custRequest.custRequestId"/>
             </link>
         </menu-item>
@@ -356,7 +353,7 @@ under the License.
         </menu-item>
     </menu>
 
-    <menu name="editrequestitemmenu" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml">
+    <menu name="EditRequestItemMenu" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml">
         <menu-item name="requestitem" title="${uiLabelMap.OrderRequestItem}">
             <link id="requestitem" target="requestitem">
                 <parameter param-name="custRequestId" from-field="custRequest.custRequestId"/>
@@ -382,7 +379,7 @@ under the License.
             </link>
         </menu-item>
     </menu>
-    <menu name="quoteTermSubTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+    <menu name="QuoteTermSubTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
         menu-container-style="button-bar button-style-2">
         <menu-item name="EditQuoteTerm" title="${uiLabelMap.OrderCreateOrderQuoteTerm}" >
             <condition>
@@ -408,7 +405,7 @@ under the License.
             </link>
         </menu-item>
     </menu>
-    <menu name="quoteItemSubTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
+    <menu name="QuoteItemSubTabBar" extends="CommonTabBarMenu" extends-resource="component://common/widget/CommonMenus.xml"
         menu-container-style="button-bar button-style-2">
         <menu-item name="EditQuoteTerm" title="${uiLabelMap.OrderCreateOrderQuoteTerm}" >
             <link target="EditQuoteItem" text="${uiLabelMap.OrderCreateOrderQuoteItem}" style="buttontext">

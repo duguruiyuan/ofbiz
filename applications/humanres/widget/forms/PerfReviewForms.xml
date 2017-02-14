@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+       xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="FindPerfReviews" type="single" target="FindPerfReviews" header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-entity entity-name="PerfReview" default-field-type="find"/>
         <field name="noConditionFind"><hidden value="Y"/><!-- if this isn't there then with all fields empty no query will be done --></field>
@@ -57,7 +57,7 @@ under the License.
         </field>
         <field name="managerRoleTypeId"><ignored/></field>
         <field name="perfReviewId">
-           <hyperlink also-hidden="false" description="${perfReviewId}" target="EditPerfReview">
+           <hyperlink description="${perfReviewId}" target="EditPerfReview" also-hidden="false">
                 <parameter param-name="perfReviewId"/>
                 <parameter param-name="employeePartyId"/>
                 <parameter param-name="employeeRoleTypeId"/>
@@ -72,17 +72,18 @@ under the License.
         <auto-fields-service service-name="updatePerfReview" map-name="perfReview"/>
         <field name="perfReviewId" use-when="perfReview==null"><text/></field>
         <field name="perfReviewId" use-when="perfReview!=null"><ignored/></field>
-        <field name="employeePartyId" use-when="perfReview==null" tooltip="${uiLabelMap.CommonRequired}" widget-style="required"><lookup target-form-name="LookupPartyName"/></field>
+        <field name="employeePartyId" use-when="perfReview==null" required-field="true"><lookup target-form-name="LookupPartyName"/></field>
         <field name="employeePartyId" use-when="perfReview!=null"><ignored/></field>
         <field name="employeeRoleTypeId"><hidden value="EMPLOYEE"/></field>
         <field name="managerPartyId"><lookup target-form-name="LookupPartyName"/></field>
         <field name="managerRoleTypeId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="RoleType" description="${description}" key-field-name="roleTypeId"/>
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId"/>
             </drop-down>
         </field>
         <field name="paymentId" title="${uiLabelMap.FormFieldTitle_paymentId}"><lookup target-form-name="LookupPayment"/></field>
         <field name="emplPositionId" title="${uiLabelMap.FormFieldTitle_emplPositionId}"><lookup target-form-name="LookupEmplPosition"/></field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
         <field name="submitButton" use-when="perfReview==null" title="${uiLabelMap.CommonCreate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="submitButton" use-when="perfReview!=null" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
@@ -101,7 +102,7 @@ under the License.
         <field name="perfReviewItemTypeId"><display-entity entity-name="PerfReviewItemType"></display-entity></field>
         <field name="perfRatingTypeId"><display-entity entity-name="PerfRatingType"/></field>
         <field name="deleteLink" title="${uiLabelMap.CommonDelete}" widget-style="buttontext">
-            <hyperlink target="deletePerfReviewItem" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deletePerfReviewItem" also-hidden="false">
                 <parameter param-name="perfReviewId"/>
                 <parameter param-name="employeePartyId"/>
                 <parameter param-name="employeeRoleTypeId"/>
@@ -118,14 +119,14 @@ under the License.
         <field name="employeeRoleTypeId"><hidden/></field>
         <field name="perfReviewItemTypeId">
             <drop-down allow-empty="false">
-                <entity-options description="${description}" key-field-name="perfReviewItemTypeId" entity-name="PerfReviewItemType">
+                <entity-options key-field-name="perfReviewItemTypeId" entity-name="PerfReviewItemType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="perfRatingTypeId">
             <drop-down allow-empty="false">
-                <entity-options description="${description}" key-field-name="perfRatingTypeId" entity-name="PerfRatingType">
+                <entity-options key-field-name="perfRatingTypeId" entity-name="PerfRatingType">
                     <entity-order-by field-name="-perfRatingTypeId"/><!-- order from good to bad -->
                 </entity-options>
             </drop-down>

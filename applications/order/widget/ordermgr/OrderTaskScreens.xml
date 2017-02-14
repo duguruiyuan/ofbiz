@@ -26,19 +26,19 @@ To use these screens add these entries to the controller.xml file:
 <!- - Order Manager Task List Requests - ->
 <request-map uri="acceptassignment">
     <security https="true" auth="true"/>
-    <event type="java" path="org.ofbiz.order.task.TaskEvents" invoke="acceptRoleAssignment"/>
+    <event type="java" path="org.apache.ofbiz.order.task.TaskEvents" invoke="acceptRoleAssignment"/>
     <response name="success" type="view" value="orderview"/>
     <response name="error" type="view" value="ordertasklist"/>
 </request-map>
 <request-map uri="delegateassignment">
     <security https="true" auth="true"/>
-    <event type="java" path="org.ofbiz.order.task.TaskEvents" invoke="delegateAndAcceptAssignment"/>
+    <event type="java" path="org.apache.ofbiz.order.task.TaskEvents" invoke="delegateAndAcceptAssignment"/>
     <response name="success" type="view" value="orderview"/>
     <response name="error" type="view" value="ordertasklist"/>
 </request-map>
 <request-map uri="completeassignment">
     <security https="true" auth="true"/>
-    <event type="java" path="org.ofbiz.order.task.TaskEvents" invoke="completeAssignment"/>
+    <event type="java" path="org.apache.ofbiz.order.task.TaskEvents" invoke="completeAssignment"/>
     <response name="success" type="view" value="ordertasklist"/>
     <response name="error" type="view" value="ordertasklist"/>
 </request-map>
@@ -59,13 +59,13 @@ To use these screens add these entries to the controller.xml file:
 <view-map name="ordertasklist" type="screen" page="component://order/widget/ordermgr/OrderTaskScreens.xml#OrderTaskList"/>
 
 ==================
-Also add this back to appheader.ftl:
+Also add this back to AppHeader.ftl:
 
 <li<#if selected = "tasklist"> class="selected"</#if>><a href="<@ofbizUrl>tasklist</@ofbizUrl>">${uiLabelMap.OrderOrderTasks}</a></li>
 
 -->
 
-<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonOrderTaskDecorator">
         <section>
             <widgets>
@@ -86,13 +86,13 @@ Also add this back to appheader.ftl:
             <actions>
                 <set field="titleProperty" value="OrderOrderTasks"/>
                 <set field="headerItem" value="tasklist"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/task/OrderTaskList.groovy"/>
+                <script location="component://order/groovyScripts/task/OrderTaskList.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonOrderTaskDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://order/webapp/ordermgr/task/ordertasklist.ftl"/></html>
+                            <html><html-template location="component://order/template/task/OrderTaskList.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>

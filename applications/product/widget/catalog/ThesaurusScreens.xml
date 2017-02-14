@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonThesaurusDecorator">
         <section>
             <widgets>
@@ -52,13 +52,13 @@ under the License.
                 <set field="tabButtonItem" value="EditKeywordThesaurus"/>
                 <set field="headerItem" value="thesaurus"/>
 
-                <script location="component://product/webapp/catalog/WEB-INF/actions/thesaurus/EditKeywordThesaurus.groovy"/>
+                <script location="component://product/groovyScripts/catalog/thesaurus/EditKeywordThesaurus.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonThesaurusDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/thesaurus/EditKeywordThesaurus.ftl"/></html>
+                            <html><html-template location="component://product/template/thesaurus/EditKeywordThesaurus.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>

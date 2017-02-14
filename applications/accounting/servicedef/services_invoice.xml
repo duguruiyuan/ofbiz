@@ -26,7 +26,7 @@ under the License.
 
 
     <service name="getNextInvoiceId" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="getNextInvoiceId">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="getNextInvoiceId">
         <description>Get the Next Invoice ID According to Settings on the PartyAcctgPreference Entity for the given Party</description>
         <implements service="createInvoice"/>
         <attribute name="partyId" type="String" mode="IN" optional="false"/>
@@ -34,21 +34,21 @@ under the License.
     </service>
 
     <service name="invoiceSequenceEnforced" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="invoiceSequenceEnforced">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="invoiceSequenceEnforced">
         <implements service="getNextInvoiceId"/>
-        <attribute name="partyAcctgPreference" type="org.ofbiz.entity.GenericValue" mode="IN"/>
+        <attribute name="partyAcctgPreference" type="org.apache.ofbiz.entity.GenericValue" mode="IN"/>
         <override name="invoiceId" type="Long" mode="OUT"/>
     </service>
 
     <service name="invoiceSequenceRestart" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="invoiceSequenceRestart">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="invoiceSequenceRestart">
         <implements service="getNextInvoiceId"/>
-        <attribute name="partyAcctgPreference" type="org.ofbiz.entity.GenericValue" mode="IN"/>
+        <attribute name="partyAcctgPreference" type="org.apache.ofbiz.entity.GenericValue" mode="IN"/>
     </service>
 
     <!-- Invoice services -->
     <service name="createInvoice" engine="simple" default-entity-name="Invoice"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="createInvoice">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="createInvoice">
         <description>Create Invoice Record</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="CREATE"/>
         <auto-attributes mode="INOUT" include="pk" optional="true"/>
@@ -60,22 +60,22 @@ under the License.
         <override name="invoiceMessage" allow-html="any"/>
     </service>
     <service name="copyInvoice" engine="simple" default-entity-name="Invoice"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="copyInvoice">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="copyInvoice">
         <description>Create Invoice Record/items from an existing invoice</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="CREATE"/>
         <auto-attributes mode="INOUT" include="pk" optional="true"/>
         <attribute name="invoiceIdToCopyFrom" type="String" mode="IN" optional="false"/>
     </service>
     <service name="getInvoice" engine="simple" default-entity-name="Invoice"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="getInvoice">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="getInvoice">
         <description>Retrieve an existing Invoice/Items</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="VIEW"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
-        <attribute name="invoice" type="org.ofbiz.entity.GenericValue" mode="OUT"/>
+        <attribute name="invoice" type="org.apache.ofbiz.entity.GenericValue" mode="OUT"/>
         <attribute name="invoiceItems" type="List" mode="OUT"/><!-- list of invoiceItem GenericValues -->
     </service>
     <service name="updateInvoice" engine="simple" default-entity-name="Invoice"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="updateInvoice">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="updateInvoice">
         <description>Update an existing Invoice Record</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="UPDATE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
@@ -84,7 +84,7 @@ under the License.
         <override name="invoiceMessage" allow-html="any"/>
     </service>
     <service name="setInvoiceStatus" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="setInvoiceStatus">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="setInvoiceStatus">
         <description>Set the Invoice  Status</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="UPDATE"/>
         <attribute name="invoiceId" type="String" mode="IN" optional="false"/>
@@ -95,7 +95,7 @@ under the License.
         <attribute name="oldStatusId" type="String" mode="OUT" optional="true"/>
     </service>
     <service name="copyInvoiceToTemplate" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="copyInvoiceToTemplate">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="copyInvoiceToTemplate">
         <description>Save a Invoice data to a template .</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="CREATE"/>
         <attribute name="invoiceId" type="String" mode="INOUT" optional="false"/>
@@ -111,7 +111,7 @@ under the License.
     we will continue to have null taxableFlags for awhile yet, which is why the mandatory taxableFlag of this method was taken out.
     -->
     <service name="createInvoiceItem" engine="simple" default-entity-name="InvoiceItem"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="createInvoiceItem">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="createInvoiceItem">
         <description>Create a new Invoice Item Record</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="UPDATE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
@@ -120,7 +120,7 @@ under the License.
         <override name="description" allow-html="any"/>
     </service>
     <service name="updateInvoiceItem" engine="simple" default-entity-name="InvoiceItem"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="updateInvoiceItem">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="updateInvoiceItem">
         <description>Update existing Invoice Item Record</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="UPDATE"/>
         <auto-attributes mode="INOUT" include="pk" optional="false"/>
@@ -128,34 +128,51 @@ under the License.
         <override name="description" allow-html="any"/>
     </service>
     <service name="removeInvoiceItem" engine="simple" default-entity-name="InvoiceItem"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="removeInvoiceItem">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="removeInvoiceItem">
         <description>Remove an existing Invoice Item Record</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="UPDATE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
     </service>
 
+    <service name="createInvoiceStatus" engine="entity-auto" default-entity-name="InvoiceStatus" invoke="create" auth="true">
+        <description>Create a Invoice Status Record</description>
+        <auto-attributes mode="IN" include="pk" optional="false"/>
+        <override name="statusDate" mode="IN" optional="true"/>
+    </service>
+
     <service name="createInvoiceRole" engine="simple" default-entity-name="InvoiceRole"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="createInvoiceRole">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="createInvoiceRole">
         <description>Create a new Invoice Role Record</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="UPDATE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
         <auto-attributes mode="IN" include="nonpk" optional="true"/>
     </service>
     <service name="removeInvoiceRole" engine="simple" default-entity-name="InvoiceRole"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="removeInvoiceRole">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="removeInvoiceRole">
         <description>Remove an existing Invoice Role Record</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="UPDATE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
     </service>
     <service name="createInvoiceTerm" engine="simple" default-entity-name="InvoiceTerm"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="createInvoiceTerm">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="createInvoiceTerm">
         <description>Create Invoice (Item) Term Record</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="UPDATE"/>
         <auto-attributes mode="OUT" include="pk" optional="false"/>
         <auto-attributes mode="IN" include="nonpk" optional="true"/>
     </service>
+    <service name="updateInvoiceTerm" engine="entity-auto" default-entity-name="InvoiceTerm" invoke="update">
+        <description>Update Invoice (Item) Term Record</description>
+        <permission-service service-name="acctgInvoicePermissionCheck" main-action="UPDATE"/>
+        <auto-attributes mode="IN" include="pk" optional="false"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="deleteInvoiceTerm" engine="entity-auto" default-entity-name="InvoiceTerm" invoke="delete">
+        <description>Delete Invoice (Item) Term Record</description>
+        <permission-service service-name="acctgInvoicePermissionCheck" main-action="DELETE"/>
+        <auto-attributes mode="IN" include="pk" optional="false"/>
+    </service>
     <service name="createInvoiceForOrderAllItems" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoiceForOrderAllItems">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoiceForOrderAllItems">
         <description>
             Create an invoice from existing order using all order items
             orderId = The orderId to associate the invoice with
@@ -164,7 +181,7 @@ under the License.
         <attribute name="invoiceId" type="String" mode="OUT" optional="true"/>
     </service>
     <service name="createInvoiceForOrder" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoiceForOrder">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoiceForOrder">
         <description>
             Create an invoice from existing order
             orderId = The orderId to associate the invoice with
@@ -177,18 +194,18 @@ under the License.
         <attribute name="invoiceTypeId" type="String" mode="OUT" optional="true"/>
     </service>
     <service name="createInvoiceFromReturn" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoiceFromReturn">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoiceFromReturn">
         <description>
             Create an invoice from a return
             returnId = The returnId to associate the invoice with
             billItems = List of ShipmentReceipts (for sales return) or ItemIssuance (for purchase return) to use for creating the invoice
         </description>
         <attribute name="returnId" type="String" mode="IN" optional="false"/>
-        <attribute name="billItems" type="List" mode="IN" optional="false"/>
+        <attribute name="billItems" type="List" mode="IN" optional="true"/>
         <attribute name="invoiceId" type="String" mode="OUT" optional="true"/>
     </service>
     <service name="createCommissionInvoices" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="createCommissionInvoices">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="createCommissionInvoices">
         <description>
             Create commission invoice for the list of sales invoices.  
             Returns a List of Maps, one for each invoice created containing: 
@@ -200,7 +217,7 @@ under the License.
         <attribute name="invoicesCreated" type="List" mode="OUT" optional="true"/>
     </service>
     <service name="sampleInvoiceAffiliateCommission" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/SampleCommissionServices.xml" invoke="sampleCalculateAffiliateCommission" auth="true">
+        location="component://accounting/minilang/invoice/SampleCommissionServices.xml" invoke="sampleCalculateAffiliateCommission" auth="true">
         <description>
             A sample/example service to calculate an affiliate commission (direct relationship to customer) and create
             and invoice for it on behalf of the affiliate, ie an invoice from the affiliate to the company that can
@@ -210,14 +227,14 @@ under the License.
         <attribute name="invoiceId" type="String" mode="OUT" optional="false"/>
     </service>
     <service name="readyInvoices" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="readyInvoices">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="readyInvoices">
         <description>
             Sets status of each invoice in the list of invoices to INVOICE_READY.
         </description>
         <attribute name="invoicesCreated" type="List" mode="IN" optional="false"/>
     </service>
     <service name="createInvoicesFromShipment" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoicesFromShipment">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoicesFromShipment">
         <description>
             Create invoice(s) from a Shipment
             All the order items associated with the shipment will be selected and
@@ -229,13 +246,13 @@ under the License.
         <attribute name="invoicesCreated" type="List" mode="OUT" optional="true"/>
     </service>
     <service name="setInvoicesToReadyFromShipment" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="setInvoicesToReadyFromShipment">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="setInvoicesToReadyFromShipment">
         <description>Set invoice(s) to Ready from Shipment</description>
         <attribute name="shipmentId" type="String" mode="IN" optional="false"/>
     </service>
 
     <service name="createSalesInvoicesFromDropShipment" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="createSalesInvoicesFromDropShipment">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="createSalesInvoicesFromDropShipment">
         <description>
             Create sales invoice(s) from a drop shipment by wrapping a call to
             createInvoicesFromShipments with the createSalesInvoicesForDropShipments parameter
@@ -244,7 +261,7 @@ under the License.
         <attribute name="invoicesCreated" type="List" mode="OUT" optional="true"/>
     </service>
     <service name="createInvoicesFromShipments" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoicesFromShipments">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoicesFromShipments">
         <description>
             Create invoice(s) from a shipment list.
             All the order items associated with the shipments will be selected and
@@ -260,7 +277,7 @@ under the License.
         <attribute name="invoicesCreated" type="List" mode="OUT" optional="true"/>
     </service>
     <service name="createInvoicesFromReturnShipment" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoicesFromReturnShipment">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="createInvoicesFromReturnShipment">
         <description>
             Create invoice(s) from a return Shipment
             invoicesCreated = List of invoiceIds which were created by this service
@@ -269,7 +286,7 @@ under the License.
         <attribute name="invoicesCreated" type="List" mode="OUT" optional="true"/>
     </service>
     <service name="sendInvoicePerEmail" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="sendInvoicePerEmail">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="sendInvoicePerEmail">
         <description>Send an invoice per email</description>
         <attribute name="invoiceId" type="String" mode="IN" optional="false"/>
         <attribute name="sendFrom" type="String" mode="IN" optional="false"/>
@@ -280,21 +297,24 @@ under the License.
         <attribute name="other" type="String" mode="IN" optional="true"/><!-- to send the invoice in the 'other' currency (y) -->
     </service>
     <service name="checkInvoicePaymentApplications" engine="java"
-            location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="checkInvoicePaymentApplications">
+            location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="checkInvoicePaymentApplications">
         <description>Checks to see if the payments applied to an invoice total up to the invoice total; if so sets to PAID</description>
         <attribute name="invoiceId" type="String" mode="IN" optional="false"/>
     </service>
-    <service name="createInvoiceContactMech" engine="simple"
-            location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="createInvoiceContactMech">
+    <service name="createInvoiceContactMech" engine="entity-auto" invoke="create" default-entity-name="InvoiceContactMech">
         <description>Create a ContactMech for an invoice</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="CREATE"/>
-        <auto-attributes entity-name="InvoiceContactMech" include="pk" mode="IN" optional="false"/>
-        <attribute name="contactMechId" type="String" mode="OUT" optional="true"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+    <service name="deleteInvoiceContactMech" engine="entity-auto" invoke="delete" default-entity-name="InvoiceContactMech">
+        <description>Delete a ContactMech for an invoice</description>
+        <permission-service service-name="acctgInvoicePermissionCheck" main-action="DELETE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
     <service name="calculateInvoicedAdjustmentTotal" engine="java"
-            location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="calculateInvoicedAdjustmentTotal">
+            location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="calculateInvoicedAdjustmentTotal">
         <description>Calculate the previously invoiced amount for an OrderAdjustment</description>
-        <attribute name="orderAdjustment" type="org.ofbiz.entity.GenericValue" mode="IN" optional="false"/>
+        <attribute name="orderAdjustment" type="org.apache.ofbiz.entity.GenericValue" mode="IN" optional="false"/>
         <attribute name="invoicedTotal" type="BigDecimal" mode="OUT" optional="false"/>
     </service>
 
@@ -304,20 +324,20 @@ under the License.
         <auto-attributes mode="IN" include="nonpk" optional="true"/>
     </service>
     <!-- Auto generate Invoice for fixed period -->
-    <service name="autoGenerateInvoiceFromExistingInvoice" engine="simple" location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="autoGenerateInvoiceFromExistingInvoice">
+    <service name="autoGenerateInvoiceFromExistingInvoice" engine="simple" location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="autoGenerateInvoiceFromExistingInvoice">
         <description>Scheduled service to generate Invoice from an existing Invoice</description>
         <attribute name="recurrenceInfoId" mode="IN" type="String" optional="false"/>
     </service>
 
     <service name="cancelInvoice" engine="simple"
-            location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="cancelInvoice">
+            location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="cancelInvoice">
         <description>Cancel Invoice</description>
         <attribute name="invoiceId" type="String" mode="IN" optional="false"/>
         <attribute name="invoiceTypeId" type="String" mode="OUT" optional="false"/>
     </service>
 
     <service name="getInvoiceRunningTotal" engine="simple"
-            location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="getInvoiceRunningTotal" auth="true">
+            location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="getInvoiceRunningTotal" auth="true">
         <description>calculate running total for selected Invoices</description>
         <attribute name="invoiceIds" type="List" mode="IN" optional="false"/>
         <attribute name="organizationPartyId" type="String" mode="IN" optional="true"/>
@@ -325,13 +345,13 @@ under the License.
     </service>
 
     <service name="addtax" engine="simple" 
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="addtax">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="addtax">
         <description>Call Tax Calculate Service</description>
         <attribute name="invoiceId" type="String" mode="IN" optional="false"/>
     </service>
 
     <service name="getInvoicesFilterByAssocType" engine="simple"
-            location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="getInvoicesFilterByAssocType" auth="true">
+            location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="getInvoicesFilterByAssocType" auth="true">
         <description>Filter invoices by invoiceItemAssocTypeId</description>
         <attribute name="invoiceList" type="List" mode="IN" optional="false"/>
         <attribute name="invoiceItemAssocTypeId" type="String" mode="IN" optional="false"/>
@@ -356,19 +376,19 @@ under the License.
     </service>
 
     <service name="removeInvoiceItemAssocOnCancelInvoice" engine="simple"
-            location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="removeInvoiceItemAssocOnCancelInvoice" auth="true">
+            location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="removeInvoiceItemAssocOnCancelInvoice" auth="true">
         <description>Remove invoiceItemAssoc record on cancel invoice</description>
         <attribute name="invoiceId" type="String" mode="IN" optional="false"/>
     </service>
 
     <service name="resetOrderItemBillingAndOrderAdjustmentBillingOnCancelInvoice" engine="simple"
-            location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="resetOrderItemBillingAndOrderAdjustmentBillingOnCancelInvoice" auth="true">
+            location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="resetOrderItemBillingAndOrderAdjustmentBillingOnCancelInvoice" auth="true">
         <description>Reset OrderItemBilling and OrderAdjustmentBilling records on cancel invoice, so it is isn't considered invoiced any more by createInvoiceForOrder service</description>
         <attribute name="invoiceId" type="String" mode="IN" optional="false"/>
     </service>
 
     <service name="massChangeInvoiceStatus" engine="simple"
-            location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="massChangeInvoiceStatus" auth="true">
+            location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="massChangeInvoiceStatus" auth="true">
         <description>Set status of invoices in bulk.</description>
         <attribute name="invoiceIds" type="List" mode="IN" optional="false"/>
         <attribute name="statusId" type="String" mode="IN" optional="false"/>
@@ -376,7 +396,7 @@ under the License.
     </service>
     
     <service name="createInvoiceFromOrder" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="createInvoiceFromOrder">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="createInvoiceFromOrder">
         <description>Create an invoice from existing order when invoicePerShipment is N</description>
         <attribute name="orderId" type="String" mode="IN" optional="false"/>
         <attribute name="invoiceId" type="String" mode="OUT" optional="true"/>
@@ -384,7 +404,7 @@ under the License.
     
     <!-- Invoice content services -->
     <service name="createInvoiceContent" default-entity-name="InvoiceContent" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="createInvoiceContent" auth="true">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="createInvoiceContent" auth="true">
         <description>Add Content To Invoice</description>
         <auto-attributes include="pk" mode="INOUT" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
@@ -393,21 +413,19 @@ under the License.
         <!--<override name="contentId" optional="true" mode="INOUT"/>-->
     </service>
     <service name="updateInvoiceContent" default-entity-name="InvoiceContent" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="updateInvoiceContent" auth="true">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="updateInvoiceContent" auth="true">
         <description>Update Content To Invoice</description>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <auto-attributes entity-name="Content" include="nonpk" mode="IN" optional="true"/>
     </service>
-    <service name="removeInvoiceContent" default-entity-name="InvoiceContent" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="removeInvoiceContent" auth="true">
+    <service name="removeInvoiceContent" default-entity-name="InvoiceContent" engine="entity-auto" invoke="delete" auth="true">
         <description>Remove Content From Invoice</description>
         <auto-attributes include="pk" mode="IN" optional="false"/>
-        <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
-    
+
     <service name="createSimpleTextContentForInvoice" default-entity-name="InvoiceContent" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="createSimpleTextContentForInvoice" auth="true">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="createSimpleTextContentForInvoice" auth="true">
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <auto-attributes entity-name="Content" include="nonpk" mode="IN" optional="true"/>
@@ -416,7 +434,7 @@ under the License.
         <override name="fromDate" optional="true"/>
     </service>
     <service name="updateSimpleTextContentForInvoice" default-entity-name="InvoiceContent" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="updateSimpleTextContentForInvoice" auth="true">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="updateSimpleTextContentForInvoice" auth="true">
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <auto-attributes mode="IN" entity-name="Content" optional="true"/>
@@ -424,17 +442,163 @@ under the License.
         <attribute name="text" type="String" mode="IN" optional="true" allow-html="any"/>
     </service>
     <service name="isInvoiceInForeignCurrency" engine="simple"
-        location="component://accounting/script/org/ofbiz/accounting/invoice/InvoiceServices.xml" invoke="isInvoiceInForeignCurrency" auth="true">
+        location="component://accounting/minilang/invoice/InvoiceServices.xml" invoke="isInvoiceInForeignCurrency" auth="true">
         <description>check if a invoice is in a foreign currency related to the accounting company.</description>
         <attribute name="invoiceId" type="String" mode="IN" optional="false"/>
         <attribute name="isForeign" type="Boolean" mode="OUT" optional="false"/>
     </service>
     <service name="importInvoice" engine="java"
-        location="org.ofbiz.accounting.invoice.InvoiceServices" invoke="importInvoice" auth="true">
+        location="org.apache.ofbiz.accounting.invoice.InvoiceServices" invoke="importInvoice" auth="true">
         <description>Import an invoice with invoiceitems in csv format</description>
         <permission-service service-name="acctgInvoicePermissionCheck" main-action="CREATE"/>
         <attribute mode="INOUT" name="organizationPartyId" type="String" optional="false"/>
         <attribute mode="IN" name="uploadedFile" type="java.nio.ByteBuffer" optional="true" />
     </service>
-    
+    <service name="createInvoiceItemAttribute" default-entity-name="InvoiceItemAttribute" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a InvoiceItemAttribute record</description>
+        <auto-attributes include="pk" mode="IN"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="updateInvoiceItemAttribute" default-entity-name="InvoiceItemAttribute" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a InvoiceItemAttribute record</description>
+        <auto-attributes include="pk" mode="IN"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteInvoiceItemAttribute" default-entity-name="InvoiceItemAttribute" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a InvoiceItemAttribute record</description>
+        <auto-attributes include="pk" mode="IN"/>
+    </service>
+    <service name="createInvoiceTermAttribute" default-entity-name="InvoiceTermAttribute" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a InvoiceTermAttribute record</description>
+        <auto-attributes include="pk" mode="IN"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="updateInvoiceTermAttribute" default-entity-name="InvoiceTermAttribute" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a InvoiceTermAttribute record</description>
+        <auto-attributes include="pk" mode="IN"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteInvoiceTermAttribute" default-entity-name="InvoiceTermAttribute" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a InvoiceTermAttribute record</description>
+        <auto-attributes include="pk" mode="IN"/>
+    </service>
+
+    <service name="createInvoiceTypeAttr" default-entity-name="InvoiceTypeAttr" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a InvoiceTypeAttr record</description>
+        <auto-attributes include="pk" mode="IN"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="updateInvoiceTypeAttr" default-entity-name="InvoiceTypeAttr" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a InvoiceTypeAttr record</description>
+        <auto-attributes include="pk" mode="IN"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteInvoiceTypeAttr" default-entity-name="InvoiceTypeAttr" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a InvoiceTypeAttr record</description>
+        <auto-attributes include="pk" mode="IN"/>
+    </service>
+
+    <!-- InvoiceAttribute services -->
+    <service name="createInvoiceAttribute" default-entity-name="InvoiceAttribute" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a InvoiceAttribute</description>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="INOUT" optional="false"/>
+    </service>
+    <service name="updateInvoiceAttribute" default-entity-name="InvoiceAttribute" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a InvoiceAttribute</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteInvoiceAttribute" default-entity-name="InvoiceAttribute" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a InvoiceAttribute</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
+    <!-- InvoiceItemAssocType services -->
+    <service name="createInvoiceItemAssocType" default-entity-name="InvoiceItemAssocType" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a InvoiceItemAssocType</description>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+    </service>
+    <service name="updateInvoiceItemAssocType" default-entity-name="InvoiceItemAssocType" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a InvoiceItemAssocType</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteInvoiceItemAssocType" default-entity-name="InvoiceItemAssocType" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a InvoiceItemAssocType</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
+    <!-- InvoiceNote services -->
+    <service name="createInvoiceNote" default-entity-name="InvoiceNote" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a InvoiceNote</description>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="INOUT" optional="false"/>
+    </service>
+    <service name="deleteInvoiceNote" default-entity-name="InvoiceNote" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a InvoiceNote</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
+    <service name="createInvoiceContentType" default-entity-name="InvoiceContentType" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a InvoiceContentType</description>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+    </service>
+    <service name="updateInvoiceContentType" default-entity-name="InvoiceContentType" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a InvoiceContentType</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteInvoiceContentType" default-entity-name="InvoiceContentType" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a InvoiceContentType</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
+    <!-- InvoiceItemTypeAttr services -->
+    <service name="createInvoiceItemTypeAttr" default-entity-name="InvoiceItemTypeAttr" engine="entity-auto" invoke="create" auth="true">
+        <description>Create InvoiceItemTypeAttr</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="updateInvoiceItemTypeAttr" default-entity-name="InvoiceItemTypeAttr" engine="entity-auto" invoke="update" auth="true">
+        <description>Update InvoiceItemTypeAttr</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteInvoiceItemTypeAttr" default-entity-name="InvoiceItemTypeAttr" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete InvoiceItemTypeAttr</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
+    <service name="createInvoiceItemTypeMap" default-entity-name="InvoiceItemTypeMap" engine="entity-auto" invoke="create" auth="true">
+        <description>Create InvoiceItemTypeMap</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="updateInvoiceItemTypeMap" default-entity-name="InvoiceItemTypeMap" engine="entity-auto" invoke="update" auth="true">
+        <description>Update InvoiceItemTypeMap</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteInvoiceItemTypeMap" default-entity-name="InvoiceItemTypeMap" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete InvoiceItemTypeMap</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
+    <service name="createInvoiceType" default-entity-name="InvoiceType" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a InvoiceType</description>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <auto-attributes include="pk" mode="INOUT" optional="true"/>
+    </service>
+    <service name="updateInvoiceType" default-entity-name="InvoiceType" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a InvoiceType</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteInvoiceType" default-entity-name="InvoiceType" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a InvoiceType</description>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
 </services>

@@ -19,7 +19,7 @@
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="FindPayGrades" type="single" target="FindPayGrades" title=""
         header-row-style="header-row" default-table-style="basic-table">
         <auto-fields-service service-name="createPayGrade" default-field-type="find"/>
@@ -44,7 +44,7 @@
             </hyperlink>
         </field>
         <field name="deleteLink" title="${uiLabelMap.CommonDelete}" widget-style="buttontext">
-            <hyperlink target="deletePayGrade" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deletePayGrade" also-hidden="false">
                 <parameter param-name="payGradeId"/>
             </hyperlink>
         </field>
@@ -53,14 +53,14 @@
         header-row-style="header-row" default-table-style="basic-table" default-map-name="payGrade">
         <alt-target use-when="payGradeId==null" target="createPayGrade"/>
         <auto-fields-service service-name="updatePayGrade"/>
-        <field use-when="payGrade!=null" name="payGradeId" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="payGrade!=null" name="payGradeId"><display/></field>
         <field use-when="payGrade==null" name="payGradeId"><text/></field>
-        <field name="payGradeName" tooltip="${uiLabelMap.CommonRequired}" widget-style="required"><text/></field>
+        <field name="payGradeName" required-field="true"><text/></field>
         <field name="submitButton" title="${uiLabelMap.CommonCreate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" use-when="payGrade!=null" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
     <form name="ListSalarySteps" type="multi" target="updateSalaryStep?salaryStepSeqId=${salaryStepSeqId}&amp;payGradeId=${payGradeId}" paginate-target="findSalarySteps"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" separate-columns="true">
         <actions>
             <entity-one entity-name="SalaryStep" auto-field-map="true"/>
             <entity-condition entity-name="SalaryStep"> <condition-expr field-name="payGradeId" operator="equals" from-field="payGradeId"/><order-by field-name="salaryStepSeqId"/></entity-condition>
@@ -71,9 +71,10 @@
         <field name="_rowSubmit" title="${uiLabelMap.CommonSelect}"><hidden value="Y"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonSubmit}" widget-style="smallSubmit"><submit/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteSalaryStep" description="${uiLabelMap.CommonDelete}">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteSalaryStep">
                 <parameter param-name="salaryStepSeqId"/>
                 <parameter param-name="payGradeId"/>
+                <parameter param-name="fromDate"/>
             </hyperlink>
         </field>
     </form>

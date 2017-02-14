@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <!-- Subscription Screens -->
     <screen name="FindSubscription">
@@ -132,7 +132,7 @@ under the License.
                 </section>
                 <decorator-screen name="CommonSubscriptionDecorator" location="${parameters.subscriptionDecoratorLocation}">
                     <decorator-section name="body">
-                        <screenlet id="editSubscription" title="${uiLabelMap.PageTitleEditSubscription}" collapsible="true">
+                        <screenlet id="editSubscription" title="${groovy: subscriptionId ? uiLabelMap.PageTitleEditSubscription : uiLabelMap.PageTitleNewSubscription}" collapsible="true">
                             <include-form name="EditSubscription" location="component://product/widget/catalog/SubscriptionForms.xml"/>
                         </screenlet>
                     </decorator-section>
@@ -181,9 +181,6 @@ under the License.
                                 <if-service-permission service-name="subscriptionPermissionCheck" main-action="VIEW"/>
                             </condition>
                             <widgets>
-                                <container style="h1">
-                                    <label text="${uiLabelMap.PageTitleFindSubscriptionResource}"/>
-                                </container>
                                 <container style="button-bar">
                                     <link target="EditSubscriptionResource" text="${uiLabelMap.ProductNewSubscriptionResource}" style="buttontext create"/>
                                 </container>
@@ -307,9 +304,9 @@ under the License.
                 <decorator-screen name="CommonSubscriptionDecorator" location="${parameters.subscriptionDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet id="addSubscriptionCommEvent" title="${uiLabelMap.PageTitleAddSubscriptionCommEvent}" collapsible="true">
-                            <include-form name="createSubscriptionCommEvent" location="component://product/widget/catalog/SubscriptionForms.xml"/>
+                            <include-form name="CreateSubscriptionCommEvent" location="component://product/widget/catalog/SubscriptionForms.xml"/>
                         </screenlet>
-                        <include-form name="listSubscriptionCommEvent" location="component://product/widget/catalog/SubscriptionForms.xml"/>
+                        <include-form name="ListSubscriptionCommEvent" location="component://product/widget/catalog/SubscriptionForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>

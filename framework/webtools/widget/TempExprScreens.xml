@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="TemporalExpressionDecorator">
         <section>
@@ -88,9 +88,9 @@ under the License.
             <actions>
                 <set field="tabMenuItem" value="editExpression"/>
                 <set field="titleProperty" value="${titleProperty}" default-value="TemporalExpressionMaintenance"/>
-                <entity-one value-field="temporalExpression" entity-name="TemporalExpression"/>
+                <entity-one entity-name="TemporalExpression" value-field="temporalExpression"/>
                 <set field="fromTempExprId" from-field="parameters.tempExprId"/>
-                <entity-condition list="childExpressionList" entity-name="TemporalExpressionChild">
+                <entity-condition entity-name="TemporalExpressionChild" list="childExpressionList">
                     <condition-expr field-name="fromTempExprId" from-field="fromTempExprId"/>
                 </entity-condition>
             </actions>
@@ -99,14 +99,14 @@ under the License.
                     <decorator-section name="body">
                         <include-menu name="TempExprTabBar" location="component://webtools/widget/Menus.xml"/>
                         <platform-specific>
-                            <html><html-template location="component://webtools/webapp/webtools/tempexpr/tempExprMaint.ftl"/></html>
+                            <html><html-template location="component://webtools/template/tempexpr/TempExprMaint.ftl"/></html>
                         </platform-specific>
                         <section>
                             <condition>
                                 <not><if-empty field="childExpressionList"/></not>
                             </condition>
                             <widgets>
-                                <include-form name="ListChildExpressions" location="component://webtools/widget/tempExprForms.xml"/>
+                                <include-form name="ListChildExpressions" location="component://webtools/widget/TempExprForms.xml"/>
                             </widgets>
                         </section>
                     </decorator-section>

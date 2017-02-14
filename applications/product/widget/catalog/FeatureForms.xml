@@ -19,7 +19,7 @@
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="EditProductFeature" type="single" target="updateProductFeature" title="" default-map-name="productFeature"
         header-row-style="header-row" default-table-style="basic-table">
 
@@ -34,7 +34,7 @@
 
         <field name="productFeatureTypeId" title="${uiLabelMap.ProductFeatureType}">
             <drop-down>
-                <entity-options entity-name="ProductFeatureType" description="${description}">
+                <entity-options entity-name="ProductFeatureType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -48,7 +48,7 @@
             </drop-down>
         </field>
         <field use-when="productFeature!=null&amp;&amp;productFeature.getString(&quot;productFeatureCategoryId&quot;)!=null" name="categoryLink" title=" " widget-style="buttontext">
-            <hyperlink target="/EditFeatureCategoryFeatures" target-type="intra-app" description="${uiLabelMap.ProductGoToFeatureCategory} ${productFeature.productFeatureCategoryId}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.ProductGoToFeatureCategory} ${productFeature.productFeatureCategoryId}" target="/EditFeatureCategoryFeatures" target-type="intra-app" also-hidden="false">
                 <parameter param-name="productFeatureCategoryId" from-field="productFeature.productFeatureCategoryId"/>
             </hyperlink>
         </field>
@@ -102,7 +102,7 @@
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="removeSupplierProductFeature" description="${uiLabelMap.CommonDelete}">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeSupplierProductFeature">
                 <parameter param-name="productFeatureId"/>
                 <parameter param-name="partyId"/>
             </hyperlink>
@@ -127,20 +127,20 @@
             </service>
         </actions>
         <field name="productFeatureTypeId" widget-style="buttontext">
-            <hyperlink target="EditFeatureType" description="${productFeatureTypeId}">
+            <hyperlink description="${productFeatureTypeId}" target="EditFeatureType">
                 <parameter param-name="productFeatureTypeId"/>
             </hyperlink>
         </field>
         <field name="description"><display/></field>
         <field name="parentTypeId">
-            <display-entity entity-name="ProductFeatureType" description="${description}" key-field-name="productFeatureTypeId">
+            <display-entity entity-name="ProductFeatureType" key-field-name="productFeatureTypeId">
                 <sub-hyperlink target="EditFeatureType" description="${parentTypeId}">
                     <parameter param-name="productFeatureTypeId" from-field="parentTypeId"/>
                 </sub-hyperlink>
             </display-entity>
         </field>
         <field name="removeFeatureType" title="${uiLabelMap.CommonDelete}" widget-style="buttontext">
-            <hyperlink target="removeProductFeatureType" description="${uiLabelMap.CommonDelete}">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeProductFeatureType">
                 <parameter param-name="productFeatureTypeId"/>
             </hyperlink>
         </field>
@@ -153,7 +153,7 @@
         <field use-when="productFeatureType==null&amp;&amp;productFeatureTypeId!=null" name="productFeatureTypeId" title="${uiLabelMap.ProductFeatureType}" tooltip="${uiLabelMap.ProductCouldNotFindProductFeatureType} [${productFeatureTypeId}]"><text size="20" maxlength="20"/></field>
         <field name="parentTypeId" title="${uiLabelMap.ProductParentType}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="ProductFeatureType" key-field-name="productFeatureTypeId" description="${description}">
+                <entity-options entity-name="ProductFeatureType" key-field-name="productFeatureTypeId">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -181,14 +181,14 @@
             </actions>
 
         <field name="productFeatureId">
-            <display-entity entity-name="ProductFeature" description="${description}">
+            <display-entity entity-name="ProductFeature">
                 <sub-hyperlink target="EditFeature" description="[${productFeatureId}]">
                 <parameter param-name="productFeatureId"/>
             </sub-hyperlink>
             </display-entity>
         </field>
         <field name="productFeatureIdTo">
-            <display-entity entity-name="ProductFeature" description="${description}" key-field-name="productFeatureId">
+            <display-entity entity-name="ProductFeature" key-field-name="productFeatureId">
                 <sub-hyperlink target="EditFeature" description="[${productFeatureIdTo}]">
                 <parameter param-name="productFeatureId" from-field="productFeatureIdTo"/>
             </sub-hyperlink>
@@ -197,7 +197,7 @@
         <field name="productFeatureIactnTypeId"><display-entity entity-name="ProductFeatureIactnType"/></field>
 
         <field name="removeFeatureInterAction" title="${uiLabelMap.CommonDelete}" widget-style="buttontext">
-            <hyperlink target="removeProductFeatureIactn" description="${uiLabelMap.CommonDelete}">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeProductFeatureIactn">
                 <parameter param-name="productFeatureId"/>
                 <parameter param-name="productFeatureIdTo"/>
             </hyperlink>
@@ -223,7 +223,7 @@
         </field>
         <field name="productFeatureIactnTypeId">
             <drop-down allow-empty="false">
-                <entity-options description="${description}" entity-name="ProductFeatureIactnType">
+                <entity-options entity-name="ProductFeatureIactnType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -244,7 +244,7 @@
         </field>
         <field name="sequenceNum"><text size="3"/></field>
         <field name="removeFeatureGroupAppl" title="${uiLabelMap.CommonRemove}" widget-style="buttontext">
-            <hyperlink target="RemoveProductFeatureGroupAppl" description="${uiLabelMap.CommonRemove}">
+            <hyperlink description="${uiLabelMap.CommonRemove}" target="RemoveProductFeatureGroupAppl">
                 <parameter param-name="productFeatureGroupId"/>
                 <parameter param-name="productFeatureId"/>
                 <parameter param-name="fromDate"/>
@@ -267,7 +267,7 @@
         <field name="productFeatureGroupId"><hidden/></field>
         <field name="productFeatureCategoryId">
             <drop-down>
-                <list-options key-name="productFeatureCategoryId" list-name="productFeatureCategories" description="${description}"/>
+                <list-options key-name="productFeatureCategoryId" list-name="productFeatureCategories"/>
             </drop-down>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonContinue}" widget-style="smallSubmit">
@@ -310,7 +310,7 @@
             </service>
         </actions>
         <field name="productFeatureCategoryId" title="${uiLabelMap.CommonId}" widget-style="buttontext">
-            <hyperlink target="EditFeatureCategoryFeatures" description="${productFeatureCategoryId}">
+            <hyperlink description="${productFeatureCategoryId}" target="EditFeatureCategoryFeatures">
                 <parameter param-name="productFeatureCategoryId"/>
             </hyperlink>
         </field>
@@ -319,10 +319,10 @@
     </form>
 
     <form name="CreateProductFeature" type="single" target="CreateFeatureCategory">
-        <field name="description" title="${uiLabelMap.CommonDescription}*"><text size="25"></text></field>
+        <field name="description" title="${uiLabelMap.CommonDescription}" required-field="true"><text size="25"></text></field>
         <field name="parentCategory" title="${uiLabelMap.ProductParentCategory}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="ProductFeatureCategory" key-field-name="description">
+                <entity-options entity-name="ProductFeatureCategory" key-field-name="description">
                 </entity-options>
             </drop-down>
         </field>
@@ -341,11 +341,11 @@
         <field name="currencyUomId" title="${uiLabelMap.ProductCurrency}"><display-entity entity-name="Uom" key-field-name="uomId" description="${description} [${uomId}]"/></field>
         <field name="fromDate" title="${uiLabelMap.CommonFromDate}"><display/></field>
         <field name="thruDate" title="${uiLabelMap.CommonThruDate}"><date-time default-value="${thruDate}"/></field>
-        <field name="price" title="${uiLabelMap.ProductPrice}" widget-style="required"><text size="25" default-value="${price}"/></field>
+        <field name="price" title="${uiLabelMap.ProductPrice}" required-field="true"><text size="25" default-value="${price}"/></field>
         <field name="updateFeaturePrice" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="lastModifiedBy" title="${uiLabelMap.ProductLastModifiedBy}"><display description="[${lastModifiedByUserLogin}] ${uiLabelMap.CommonOn} ${lastModifiedDate}"/></field>
         <field name="deleteFeaturePrice" title="${uiLabelMap.CommonDelete}" widget-style="buttontext">
-            <hyperlink target="deleteFeaturePrice" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteFeaturePrice" also-hidden="false">
                 <parameter param-name="productFeatureId"/>
                 <parameter param-name="productPriceTypeId"/>
                 <parameter param-name="currencyUomId"/>
@@ -360,14 +360,14 @@
         <field name="productFeatureId"><hidden/></field>
         <field name="productPriceTypeId" title="${uiLabelMap.ProductPriceType}">
             <drop-down allow-empty="false" no-current-selected-key="DEFAULT_PRICE">
-                <entity-options entity-name="ProductPriceType" description="${description}">
+                <entity-options entity-name="ProductPriceType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="fromDate" title="${uiLabelMap.CommonFromDate}" position="1"><date-time/></field>
         <field name="thruDate" title="${uiLabelMap.CommonThruDate}" position="2"><date-time/></field>
-        <field name="price" title="${uiLabelMap.ProductPrice}" widget-style="required" position="1"><text size="25"/></field>
+        <field name="price" title="${uiLabelMap.ProductPrice}" required-field="true" position="1"><text size="25"/></field>
         <field name="currencyUomId" title="${uiLabelMap.ProductCurrency}" position="2">
             <drop-down allow-empty="false" no-current-selected-key="${defaultOrganizationPartyCurrencyUomId}">
                 <entity-options key-field-name="uomId" description="${description} - ${abbreviation}" entity-name="Uom">

@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="EditInventoryItem" type="single" target="UpdateInventoryItem" title=""
         header-row-style="header-row" default-table-style="basic-table">
         <actions>
@@ -44,7 +44,7 @@ under the License.
         <field name="inventoryItemId" tooltip="${uiLabelMap.ProductNotModificationRecrationInventoryItem}"><display/></field>
         <field name="inventoryItemTypeId" title="${uiLabelMap.ProductInventoryItemTypeId}">
             <drop-down allow-empty="false">
-                <entity-options entity-name="InventoryItemType" description="${description}" key-field-name="inventoryItemTypeId"/>
+                <entity-options entity-name="InventoryItemType" key-field-name="inventoryItemTypeId"/>
             </drop-down>
         </field>
         <field name="productId" required-field="true" position="1">
@@ -56,24 +56,24 @@ under the License.
         </field>
         <field name="statusId" use-when="inventoryItem==null">
             <drop-down allow-empty="true">
-                <entity-options entity-name="StatusItem" description="${description}" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="INV_NON_SER_STTS"/>
                 </entity-options>
-                <entity-options entity-name="StatusItem" description="${description}" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="INV_SERIALIZED_STTS"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="statusId" use-when="inventoryItem!=null&amp;&amp;&quot;SERIALIZED_INV_ITEM&quot;.equals(inventoryItem.getString(&quot;inventoryItemTypeId&quot;))">
             <drop-down allow-empty="false">
-                <entity-options entity-name="StatusItem" description="${description}" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="INV_SERIALIZED_STTS"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="statusId" use-when="inventoryItem!=null&amp;&amp;&quot;NON_SERIAL_INV_ITEM&quot;.equals(inventoryItem.getString(&quot;inventoryItemTypeId&quot;))">
             <drop-down allow-empty="true">
-                <entity-options entity-name="StatusItem" description="${description}" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="INV_NON_SER_STTS"/>
                 </entity-options>
             </drop-down>
@@ -81,7 +81,7 @@ under the License.
         <field name="expireDate" title="${uiLabelMap.ProductExpireDate}"/>
         <field name="facilityId">
             <drop-down allow-empty="true">
-                <entity-options entity-name="Facility" description="${facilityName}" key-field-name="facilityId">
+                <entity-options entity-name="Facility" key-field-name="facilityId" description="${facilityName}">
                     <entity-order-by field-name="facilityName"/>
                 </entity-options>
                 <sub-hyperlink use-when="facilityId!=null" target="EditFacility" description="${uiLabelMap.ProductEditFacility} [${facilityId}]">
@@ -160,7 +160,7 @@ under the License.
         <field name="inventoryItemId" map-name="inventoryItem"><hidden/></field>
         <field name="varianceReasonId">
             <drop-down>
-                <entity-options entity-name="VarianceReason" description="${description}">
+                <entity-options entity-name="VarianceReason">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -191,17 +191,17 @@ under the License.
         <auto-fields-entity entity-name="InventoryItemDetail" map-name="inventoryItemDetail" default-field-type="display"/>
         <field name="inventoryItemId"><hidden/></field> <!-- this field is redundant -->
         <field name="orderId" widget-style="buttontext">
-            <hyperlink target="/ordermgr/control/orderview" target-type="inter-app" description="${orderId}" >
+            <hyperlink description="${orderId}" target="/ordermgr/control/orderview" target-type="inter-app" >
                 <parameter param-name="orderId"/>
             </hyperlink>
         </field>
         <field name="shipmentId" widget-style="buttontext">
-            <hyperlink target="ViewShipment" description="${shipmentId}" >
+            <hyperlink description="${shipmentId}" target="ViewShipment" >
                 <parameter param-name="shipmentId"/>
             </hyperlink>
         </field>
         <field name="reasonEnumId">
-            <display-entity entity-name="Enumeration" key-field-name="enumId" description="${description}"/>
+            <display-entity entity-name="Enumeration" key-field-name="enumId"/>
         </field>
         <!-- workEffortId - not sure if it's better to show manufacturing or workeffort app
         itemIssuanceId, receiptId, physicalInventoryId - no natural screens to show these -->
@@ -211,7 +211,7 @@ under the License.
         <auto-fields-entity entity-name="OrderItemShipGrpInvRes" default-field-type="display"/>
         <field name="inventoryItemId"><hidden/></field>
         <field name="orderId" widget-style="buttontext">
-            <hyperlink target="/ordermgr/control/orderview" target-type="inter-app" description="${orderId}" >
+            <hyperlink description="${orderId}" target="/ordermgr/control/orderview" target-type="inter-app" >
                 <parameter param-name="orderId"/>
             </hyperlink>
         </field>
@@ -221,7 +221,7 @@ under the License.
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
         <auto-fields-service service-name="updateInventoryItemLabelAppl"/>
         <field name="inventoryItemLabelId" title=" " widget-style="buttontext">
-            <hyperlink target="EditInventoryItemLabel" description="${inventoryItemLabelId}" also-hidden="true">
+            <hyperlink description="${inventoryItemLabelId}" target="EditInventoryItemLabel" also-hidden="true">
                 <parameter param-name="inventoryItemLabelId"/>
             </hyperlink>
         </field>
@@ -232,7 +232,7 @@ under the License.
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteInventoryItemLabelApplFromItem" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteInventoryItemLabelApplFromItem" also-hidden="false">
                 <parameter param-name="inventoryItemId"/>
                 <parameter param-name="inventoryItemLabelTypeId"/>
                 <parameter param-name="inventoryItemLabelId"/>

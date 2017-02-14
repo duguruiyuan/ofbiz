@@ -18,7 +18,7 @@
     under the License.
 -->
 
-<menus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-menu.xsd">
+<menus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Menu" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Menu http://ofbiz.apache.org/dtds/widget-menu.xsd">
     
     <menu name="SetupAppBar" title="${uiLabelMap.SetupApp}" extends="CommonAppBarMenu" extends-resource="component://common/widget/CommonMenus.xml">
         <menu-item name="main" title="${uiLabelMap.SetupInitialSetup}">
@@ -96,7 +96,7 @@
         </menu-item>
     </menu>
     
-    <menu name="personUpdate">
+    <menu name="PersonUpdate">
         <menu-item name="update" title="${uiLabelMap.CommonUpdate}">
             <link target="editperson">
                 <parameter param-name="customerPartyId" from-field="customerPartyId"/>
@@ -105,7 +105,7 @@
         </menu-item>
     </menu>
     
-    <menu name="groupUpdate">
+    <menu name="GroupUpdate">
         <menu-item name="update" title="${uiLabelMap.CommonUpdate}">
             <link target="editpartygroup">
                 <parameter param-name="partyId" from-field="organizationPartyId"/>

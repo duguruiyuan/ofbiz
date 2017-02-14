@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="GenericDecorator">
         <section>
@@ -233,8 +233,8 @@ under the License.
                         <include-menu name="GlSettingTabBar" location="component://accounting/widget/AccountingMenus.xml"/>
                         <screenlet title="${uiLabelMap[labelTitleProperty]}">
                             <container style="button-bar">
-                                <link target="ListGlAccountsReport" text="${uiLabelMap.CommonPrint}" style="buttontext"/>
-                                <link target="ListGlAccountsExport" text="${uiLabelMap.CommonExport}" style="buttontext"/>
+                                <link target="ListGlAccountsReport" target-window="_blank" text="${uiLabelMap.CommonPrint}" style="buttontext"/>
+                                <link target="ListGlAccountsExport" target-window="_blank" text="${uiLabelMap.CommonExport}" style="buttontext"/>
                             </container>
                             <include-form name="ListGlAccount" location="component://accounting/widget/GlobalGlAccountsForms.xml"/>
                         </screenlet>
@@ -254,7 +254,7 @@ under the License.
             <widgets>
                 <decorator-screen name="SimpleDecorator" location="component://common/widget/CommonScreens.xml">
                     <decorator-section name="body">
-                        <include-form name="ListGlAccount" location="component://accounting/widget/GlobalGlAccountsForms.xml"/>
+                        <include-form name="ListGlAccountPdf" location="component://accounting/widget/GlobalGlAccountsForms.xml"/>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -305,7 +305,7 @@ under the License.
                 <decorator-screen name="GlobalGLSettingsDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.AccountingUpdateRateAmount}" navigation-form-name="ListRateAmounts">
-                            <include-form name="updateRateAmount" location="component://accounting/widget/GlobalGlAccountsForms.xml"/>
+                            <include-form name="UpdateRateAmount" location="component://accounting/widget/GlobalGlAccountsForms.xml"/>
                         </screenlet>
                         <include-form name="ListRateAmounts" location="component://accounting/widget/GlobalGlAccountsForms.xml"/>
                     </decorator-section>
@@ -334,7 +334,7 @@ under the License.
                 <decorator-screen name="GlobalGLSettingsDecorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet id="FxConversionPanel" title="${uiLabelMap.AccountingUpdateFX}" collapsible="true">
-                            <include-form name="updateFXConversion" location="component://accounting/widget/GlSetupForms.xml"/>
+                            <include-form name="UpdateFXConversion" location="component://accounting/widget/GlSetupForms.xml"/>
                         </screenlet>
                         <include-form name="ListConversions" location="component://accounting/widget/GlSetupForms.xml"/>
                     </decorator-section>
@@ -367,7 +367,7 @@ under the License.
                                 <screenlet title="${uiLabelMap.FormFieldTitle_costCenters}">
                                     <platform-specific>
                                         <html>
-                                            <html-template location="component://accounting/webapp/accounting/ledger/CostCenters.ftl"/>
+                                            <html-template location="component://accounting/template/ledger/CostCenters.ftl"/>
                                         </html>
                                     </platform-specific>
                                 </screenlet>

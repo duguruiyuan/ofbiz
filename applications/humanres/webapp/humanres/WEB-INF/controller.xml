@@ -20,13 +20,11 @@ under the License.
 
 
 <site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/site-conf.xsd">
+        xmlns="http://ofbiz.apache.org/Site-Conf" xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
     <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
     <include location="component://party/webapp/partymgr/WEB-INF/controller.xml"/>
     <description>Human Resources Manager Module Site Configuration File</description>
     
-    <!-- view handlers -->
-    <handler name="service-multi" type="request" class="org.ofbiz.webapp.event.ServiceMultiEventHandler"/>
 
     <!-- Events to run on every request before security (chains exempt) -->
     <!--
@@ -36,7 +34,7 @@ under the License.
     <!-- Events to run on every request after all other processing (chains exempt) -->
     <!--
     <postprocessor>
-        <event name="test" type="java" path="org.ofbiz.webapp.event.TestEvent" invoke="test"/>
+        <event name="test" type="java" path="org.apache.ofbiz.webapp.event.TestEvent" invoke="test"/>
     </postprocessor>
     -->
 
@@ -473,7 +471,7 @@ under the License.
     </request-map>
     <request-map uri="updateEmplPositionResponsibility">
         <security https="true" auth="true"/>
-        <event type="service-multi" invoke="updateEmplPositionResponsibility"/>
+        <event type="service" invoke="updateEmplPositionResponsibility"/>
         <response name="success" type="view" value="EditEmplPositionResponsibilities"/>
     </request-map>
     <request-map uri="deleteEmplPositionResponsibility">
@@ -1050,19 +1048,19 @@ under the License.
     </request-map>
     <request-map uri="getHRChild">
         <security auth="false" https="true"/>
-        <event type="java" path="org.ofbiz.humanres.HumanResEvents" invoke="getChildHRCategoryTree"/>
+        <event type="java" path="org.apache.ofbiz.humanres.HumanResEvents" invoke="getChildHRCategoryTree"/>
         <response name="success" type="request" value="json"/>
         <response name="error" type="request" value="json"/>
     </request-map>
     <request-map uri="createInternalOrg">
         <security https="true" auth="true"/>
-        <event type="simple" path="component://humanres/script/org/ofbiz/humanres/HumanResEvents.xml" invoke="createInternalOrg"/>
+        <event type="simple" path="component://humanres/minilang/HumanResEvents.xml" invoke="createInternalOrg"/>
         <response name="success" type="view" value="main"/>
         <response name="error" type="view" value="main"/>
     </request-map>
     <request-map uri="removeInternalOrg">
         <security https="true" auth="true"/>
-        <event type="simple" path="component://humanres/script/org/ofbiz/humanres/HumanResEvents.xml" invoke="removeInternalOrg"/>
+        <event type="simple" path="component://humanres/minilang/HumanResEvents.xml" invoke="removeInternalOrg"/>
         <response name="success" type="view" value="main"/>
         <response name="error" type="view" value="main"/>
     </request-map>
@@ -1081,7 +1079,7 @@ under the License.
     </request-map>
     <request-map uri="createPublicHoliday">
         <security https="true" auth="true"/>
-        <event type="simple" path="component://humanres/script/org/ofbiz/humanres/HumanResEvents.xml" invoke="createPublicHoliday"/>
+        <event type="simple" path="component://humanres/minilang/HumanResEvents.xml" invoke="createPublicHoliday"/>
         <response name="success" type="request-redirect-noparam" value="PublicHoliday"/>
         <response name="error" type="view" value="PublicHoliday"/>
     </request-map>

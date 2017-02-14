@@ -19,14 +19,14 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="Calendar">
         <section>
             <actions>
                 <property-map resource="WorkEffortUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="parameters.period" from-field="parameters.period" default-value="${initialView}"/>
-                <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/CreateUrlParam.groovy"/>
+                <script location="component://workeffort/groovyScripts/workeffort/calendar/CreateUrlParam.groovy"/>
                 <set field="parentTypeId" from-field="parameters.parentTypeId" default-value="EVENT"/><!-- workeffortTypeId parent to ad events --> 
             </actions>
             <widgets>
@@ -45,15 +45,15 @@ under the License.
                     <actions>
                         <set field="titleProperty" value="PageTitleCalendarDay"/>
                         <set field="tabButtonItem" value="day"/>
-                        <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/Days.groovy"/>
+                        <script location="component://workeffort/groovyScripts/workeffort/calendar/Days.groovy"/>
                     </actions>
                     <widgets>
                       <include-screen name="eventDetail"/>
                       <container style="bothclear">
-                        <screenlet title="${uiLabelMap.WorkEffortDayView}: ${bsh:org.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;EEEE MMMM d, yyyy&quot;, timeZone, locale)}" navigation-menu-name="Day" padded="false">
+                        <screenlet title="${uiLabelMap.WorkEffortDayView}: ${groovy:org.apache.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;EEEE MMMM d, yyyy&quot;, timeZone, locale)}" navigation-menu-name="Day" padded="false">
                             <include-menu name="Day" location="component://workeffort/widget/WorkEffortMenus.xml"/>
                             <platform-specific>
-                                <html><html-template location="component://workeffort/webapp/workeffort/calendar/day.ftl"/></html>
+                                <html><html-template location="component://workeffort/template/calendar/Day.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                       </container>
@@ -67,15 +67,15 @@ under the License.
                         </or>
                     </condition>
                     <actions>
-                        <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/Week.groovy"/>
+                        <script location="component://workeffort/groovyScripts/workeffort/calendar/Week.groovy"/>
                     </actions>
                     <widgets>
                       <include-screen name="eventDetail"/>
                       <container style="bothclear">
-                        <screenlet title="${uiLabelMap.WorkEffortWeekView}: ${uiLabelMap.CommonWeek} ${bsh:org.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;w&quot;, timeZone, locale)}" navigation-menu-name="Week" padded="false">
+                        <screenlet title="${uiLabelMap.WorkEffortWeekView}: ${uiLabelMap.CommonWeek} ${groovy:org.apache.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;w&quot;, timeZone, locale)}" navigation-menu-name="Week" padded="false">
                             <include-menu name="Week" location="component://workeffort/widget/WorkEffortMenus.xml"/>
                             <platform-specific>
-                                <html><html-template location="component://workeffort/webapp/workeffort/calendar/week.ftl"/></html>
+                                <html><html-template location="component://workeffort/template/calendar/Week.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                       </container>
@@ -86,15 +86,15 @@ under the License.
                         <if-compare field="parameters.period" operator="equals" value="month"/>
                     </condition>
                     <actions>
-                        <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/Month.groovy"/>
+                        <script location="component://workeffort/groovyScripts/workeffort/calendar/Month.groovy"/>
                     </actions>
                     <widgets>
                       <include-screen name="eventDetail"/>
                       <container style="bothclear">
-                        <screenlet title="${uiLabelMap.WorkEffortMonthView}: ${bsh:org.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;MMMM yyyy&quot;, timeZone, locale)}" navigation-menu-name="Month" padded="false">
+                        <screenlet title="${uiLabelMap.WorkEffortMonthView}: ${groovy:org.apache.ofbiz.base.util.UtilDateTime.timeStampToString(start, &quot;MMMM yyyy&quot;, timeZone, locale)}" navigation-menu-name="Month" padded="false">
                             <include-menu name="Month" location="component://workeffort/widget/WorkEffortMenus.xml"/>
                             <platform-specific>
-                                <html><html-template location="component://workeffort/webapp/workeffort/calendar/month.ftl"/></html>
+                                <html><html-template location="component://workeffort/template/calendar/Month.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                       </container>
@@ -105,7 +105,7 @@ under the License.
                         <if-compare field="parameters.period" operator="equals" value="upcoming"/>
                     </condition>
                     <actions>
-                        <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/Upcoming.groovy"/>
+                        <script location="component://workeffort/groovyScripts/workeffort/calendar/Upcoming.groovy"/>
                     </actions>
                     <widgets>
                       <include-screen name="eventDetail"/>
@@ -113,7 +113,7 @@ under the License.
                         <screenlet title="${uiLabelMap.WorkEffortCalendarUpComingEventsView}" navigation-menu-name="Upcoming">
                             <include-menu name="Upcoming" location="component://workeffort/widget/WorkEffortMenus.xml"/>
                             <platform-specific>
-                                <html><html-template location="component://workeffort/webapp/workeffort/calendar/upcoming.ftl"/></html>
+                                <html><html-template location="component://workeffort/template/calendar/Upcoming.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                       </container>
@@ -127,7 +127,7 @@ under the License.
         <section>
             <actions>
                 <set field="parameters.period" from-field="parameters.period" default-value="${initialView}"/>
-                <script location="component://workeffort/webapp/workeffort/WEB-INF/actions/calendar/CreateUrlParam.groovy"/>
+                <script location="component://workeffort/groovyScripts/workeffort/calendar/CreateUrlParam.groovy"/>
                 <set field="titleProperty" value="WorkEffortCalendar"/>
             </actions>
             <widgets>
@@ -154,7 +154,7 @@ under the License.
                         <not><if-empty field="workEffort" /></not>
                     </condition>
                     <actions>
-                        <script location="component://workeffort/script/isCalOwner.groovy" />
+                        <script location="component:///workeffort/groovyScripts/ical/IsCalOwner.groovy" />
                     </actions>
                     <widgets />
                 </section>
@@ -187,15 +187,15 @@ under the License.
                                         <not><if-empty field="workEffort" /></not>
                                     </condition>
                                     <widgets>
-                                        <include-form name="cancelEvent" location="component://workeffort/widget/CalendarForms.xml" />
+                                        <include-form name="CancelEvent" location="component://workeffort/widget/CalendarForms.xml" />
                                     </widgets>
                                 </section>
-                                <include-form name="editCalEvent" location="component://workeffort/widget/CalendarForms.xml" />
+                                <include-form name="EditCalEvent" location="component://workeffort/widget/CalendarForms.xml" />
                             </screenlet>
                         </container>
                         <container style="righthalf">
                             <screenlet title="${uiLabelMap.WorkEffortParticipants}">
-                                <include-form name="showCalEventRolesDel" location="component://workeffort/widget/CalendarForms.xml" />
+                                <include-grid name="showCalEventRolesDel" location="component://workeffort/widget/CalendarForms.xml" />
                                 <section>
                                     <condition>
                                         <and>
@@ -206,7 +206,7 @@ under the License.
                                         </and>
                                     </condition>
                                     <widgets>
-                                        <include-form name="addCalEventRole" location="component://workeffort/widget/CalendarForms.xml" />
+                                        <include-form name="AddCalEventRole" location="component://workeffort/widget/CalendarForms.xml" />
                                     </widgets>
                                 </section>
                             </screenlet>
@@ -216,12 +216,12 @@ under the License.
                     <fail-widgets>
                         <container style="lefthalf">
                             <screenlet title="${uiLabelMap.WorkEffortSummary}">
-                                <include-form name="showCalEvent" location="component://workeffort/widget/CalendarForms.xml" />
+                                <include-form name="ShowCalEvent" location="component://workeffort/widget/CalendarForms.xml" />
                             </screenlet>
                         </container>
                         <container style="righthalf">
                             <screenlet title="${uiLabelMap.WorkEffortParticipants}">
-                                <include-form name="showCalEventRoles" location="component://workeffort/widget/CalendarForms.xml" />
+                                <include-grid name="showCalEventRoles" location="component://workeffort/widget/CalendarForms.xml" />
                             </screenlet>
                         </container>
                     </fail-widgets>
@@ -241,7 +241,7 @@ under the License.
                 <get-related value-field="parentWorkEffort" relation-name="WorkOrderItemFulfillment" list="parentWorkOrderItemFulfillments"/>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://workeffort/webapp/workeffort/calendar/calendarEventContent.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://workeffort/template/calendar/CalendarEventContent.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>

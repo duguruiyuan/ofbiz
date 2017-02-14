@@ -17,7 +17,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="ListContentApproval">
         <section>
             <condition>
@@ -126,7 +126,7 @@ under the License.
                 <set field="currentMenuItemName" value="approval"/>
 
                 <entity-one entity-name="ContentApproval" value-field="contentApproval" use-cache="true">
-                    <field-map from-field="parameters.contentApprovalId" field-name="contentApprovalId"/>
+                    <field-map field-name="contentApprovalId" from-field="parameters.contentApprovalId"/>
                 </entity-one>
                 <set from-field="contentApproval.contentId" field="rootContentId"/>
                 <set from-field="contentApproval.contentRevisionSeqId" field="rootContentRevisionSeqId"/>
@@ -167,7 +167,7 @@ under the License.
                 </entity-one>
                 <set from-field="content.contentTypeId" field="contentTypeId"/>
                 <entity-and entity-name="ContentRevision" list="contentRevisionList" use-cache="true">
-                    <field-map from-field="contentId" field-name="contentId"/>
+                    <field-map field-name="contentId" from-field="contentId"/>
                 </entity-and>
 
                 <set field="title" value="${uiLabelMap.ContentCompDocRevisionListPageForContent} ${rootContentId} ${uiLabelMap.ContentCompDocRev} ${rootContentRevisionSeqId}"/>
@@ -410,7 +410,7 @@ under the License.
                 <set from-field="content.contentTypeId" field="contentTypeId"/>
                 <entity-condition entity-name="ContentRevision" list="contentRevisions" use-cache="true">
                     <condition-list combine="and">
-                        <condition-expr field-name="contentId" from-field="rootContentId" operator="equals"/>
+                        <condition-expr field-name="contentId" operator="equals" from-field="rootContentId"/>
                     </condition-list>
                     <order-by field-name="-contentRevisionSeqId"/>
                 </entity-condition>
@@ -510,7 +510,7 @@ under the License.
                     <condition-list combine="and">
                         <condition-expr field-name="contentId" from-field="rootContentId"/>
                         <condition-expr field-name="itemContentId" from-field="contentId"/>
-                        <condition-expr field-name="contentRevisionSeqId" from-field="parameters.contentRevisionSeqId" operator="less-equals" ignore-if-empty="true"/>
+                        <condition-expr field-name="contentRevisionSeqId" operator="less-equals" from-field="parameters.contentRevisionSeqId" ignore-if-empty="true"/>
                     </condition-list>
                     <order-by field-name="-contentRevisionSeqId"/>
                 </entity-condition>
@@ -856,7 +856,7 @@ under the License.
                 <set value="COMPDOC_INSTANCE" field="contentTypeId"/>
                 <entity-condition entity-name="ContentRevision" list="contentRevisions" use-cache="true">
                     <condition-list combine="and">
-                        <condition-expr field-name="contentId" from-field="rootContentId" operator="equals"/>
+                        <condition-expr field-name="contentId" operator="equals" from-field="rootContentId"/>
                     </condition-list>
                     <order-by field-name="-contentRevisionSeqId"/>
                 </entity-condition>
@@ -1024,7 +1024,7 @@ under the License.
                 <set from-field="instanceContent.instanceOfContentId" field="templateContentId"/>
                 <entity-condition entity-name="ContentRevision" list="contentTemplateRevisions" use-cache="true">
                     <condition-list combine="and">
-                        <condition-expr field-name="contentId" from-field="templateContentId" operator="equals"/>
+                        <condition-expr field-name="contentId" operator="equals" from-field="templateContentId"/>
                     </condition-list>
                     <order-by field-name="-contentRevisionSeqId"/>
                 </entity-condition>
@@ -1097,7 +1097,7 @@ under the License.
     <screen name="childTemplateLine">
         <section>
             <actions>
-                <script location="component://content/webapp/content/WEB-INF/actions/content/PrepSeqNo.groovy"/>
+                <script location="component://content/groovyScripts/content/PrepSeqNo.groovy"/>
             </actions>
             <widgets>
                 <include-menu name="childTemplateLine" location="component://content/widget/compdoc/CompDocMenus.xml"/>
@@ -1107,7 +1107,7 @@ under the License.
     <screen name="childInstanceLine">
         <section>
             <actions>
-                <script location="component://content/webapp/content/WEB-INF/actions/content/PrepSeqNo.groovy"/>
+                <script location="component://content/groovyScripts/content/PrepSeqNo.groovy"/>
                 <!--  find the most recent ContentAssoc/ContentRevisionItem view using the rootInstanceContentId
                       as the contentId value and rootInstanceRevSeqId for the revision
                       and the contentId of the current template part as the itemContentId
@@ -1208,38 +1208,6 @@ under the License.
             </widgets>
         </section>
     </screen>
-    <!-- TO BE REMOVED
-    <screen name="ListContentRevisionItemApproval">
-        <section>
-            <condition>
-                <if-has-permission permission="CONTENTMGR" action="_UPDATE"/>
-            </condition>
-            <actions>
-                <set field="menuName" value="empty"/>
-                <set field="title" value="ContentRevisionItem and Approval List Page"/>
-
-                <set field="contentId" from-field="parameters.contentId" to-scope="screen" default-value="${defaultContentId}"/>
-                <set field="contentRevisionSeqId" from-field="parameters.contentRevisionSeqId" to-scope="screen" default-value="${defaultContentRevisionSeqId}"/>
-
-                <entity-and entity-name="ContentRevisionItemAndContentApprovalView" use-cache="true" list-name="ContentRevAppList">
-                        <field-map from-field="contentId" field-name="contentId"/>
-                        <field-map from-field="contentRevisionSeqId" field-name="contentRevisionSeqId"/>
-                </entity-and>
-            </actions>
-            <widgets>
-                <decorator-screen name="commonCompDocDecorator" location="component://content/widget/CommonScreens.xml">
-                    <decorator-section name="body">
-                        <platform-specific>
-                            <html>
-                                <html-template location="component://content/webapp/content/dummy.ftl"/>
-                            </html>
-                        </platform-specific>
-                    </decorator-section>
-                </decorator-screen>
-            </widgets>
-        </section>
-    </screen>
-    -->
     <screen name="EditCompDocContentRole">
         <section>
             <condition>

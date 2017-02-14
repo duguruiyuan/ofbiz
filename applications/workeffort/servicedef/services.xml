@@ -39,7 +39,7 @@ under the License.
         <override name="description" allow-html="any"/>
     </service>
     <service name="createWorkEffort" default-entity-name="WorkEffort" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffort">
+        location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffort">
         <description>Create a WorkEffort Entity</description>
         <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
         <implements service="interfaceWorkEffort"/>
@@ -55,7 +55,7 @@ under the License.
         <override name="description" allow-html="any"/>
     </service>
     <service name="createWorkEffortAndPartyAssign" default-entity-name="WorkEffort" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortAndPartyAssign">
+        location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortAndPartyAssign">
         <description>Create a WorkEffort Entity and assign to a party</description>
         <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
         <implements service="interfaceWorkEffort"/>
@@ -71,7 +71,7 @@ under the License.
         <override name="currentStatusId" optional="false"/>
     </service>
     <service name="updateWorkEffort" default-entity-name="WorkEffort" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="updateWorkEffort">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="updateWorkEffort">
         <description>Update a WorkEffort Entity</description>
         <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
         <implements service="interfaceWorkEffort"/>
@@ -81,13 +81,13 @@ under the License.
         <attribute name="webSiteId" type="String" mode="IN" optional="true"/><!-- for notification services -->
     </service>
     <service name="deleteWorkEffort" default-entity-name="WorkEffort" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffort">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffort">
         <description>Delete a WorkEffort Entity</description>
         <auto-attributes mode="IN" include="pk" optional="false"/>
     </service>
 
     <service name="copyWorkEffort" engine="simple" auth="true" transaction-timeout="300"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="copyWorkEffort">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="copyWorkEffort">
         <description>Copies an existing WorkEffort to a new WorkEffort.</description>
         <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
         <attribute name="sourceWorkEffortId" mode="IN" type="String" optional="false">
@@ -115,8 +115,10 @@ under the License.
     </service>
 
     <service name="duplicateWorkEffort" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="duplicateWorkEffort" auth="true">
-        <description>Duplicate a Work Effort. If workEffortId is empty a new workEffortId will be generated.</description>
+        location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="duplicateWorkEffort" auth="true">
+        <description>Duplicate a Work Effort. If workEffortId is empty a new workEffortId will be generated.
+            Set the statusId of the new WorkEffort to this status, otherwise, set the status to the first of the
+            sequenceId of the statusTypeId</description>
         <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
         <attribute name="workEffortId" type="String" mode="IN" optional="true"/>
         <attribute name="oldWorkEffortId" type="String" mode="IN" optional="false"/>
@@ -129,11 +131,12 @@ under the License.
         <attribute name="removeWorkEffortNotes" type="String" mode="IN" optional="true"/>
         <attribute name="removeWorkEffortAssignmentRates" type="String" mode="IN" optional="true"/>
         <attribute name="workEffortId" type="String" mode="OUT" optional="false"/>
+        <attribute name="statusId" type="String" mode="IN" optional="true"/>
     </service>
 
     <!-- Communication Event WorkEffort -->
     <service name="makeCommunicationEventWorkEffort" default-entity-name="WorkEffort" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="makeCommunicationEventWorkEffort" auth="true">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="makeCommunicationEventWorkEffort" auth="true">
         <description>Make a Communication Event Workeffort and create the workeffort itself if the ID not supplied</description>
         <auto-attributes include="pk" mode="INOUT" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
@@ -143,7 +146,7 @@ under the License.
 
     <!-- WorkEffortPartyAssignment services -->
     <service name="assignPartyToWorkEffort" default-entity-name="WorkEffortPartyAssignment" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="assignPartyToWorkEffort">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="assignPartyToWorkEffort">
         <description>Create a WorkEffortPartyAssignment Entity</description>
         <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
@@ -154,7 +157,7 @@ under the License.
         <override name="statusId" optional="false"/>
     </service>
     <service name="updatePartyToWorkEffortAssignment" default-entity-name="WorkEffortPartyAssignment" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="updatePartyToWorkEffortAssignment">
+        location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="updatePartyToWorkEffortAssignment">
         <description>Update a WorkEffortPartyAssignment Entity</description>
         <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
@@ -163,33 +166,32 @@ under the License.
         </auto-attributes>
     </service>
     <service name="deletePartyToWorkEffortAssignment" default-entity-name="WorkEffortPartyAssignment" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deletePartyToWorkEffortAssignment">
+        location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="deletePartyToWorkEffortAssignment">
         <description>delete/set the thrudate on the WorkEffortPartyAssignment Entity to today</description>
         <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
     </service>
-    <service name="unassignPartyFromWorkEffort" default-entity-name="WorkEffortPartyAssignment" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="unassignPartyFromWorkEffort">
+    <service name="unassignPartyFromWorkEffort" default-entity-name="WorkEffortPartyAssignment" engine="entity-auto" invoke="delete">
         <description>Delete a WorkEffortPartyAssignment Entity</description>
         <permission-service service-name="workEffortGenericPermission" main-action="DELETE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
     </service>
 
     <service name="quickAssignPartyToWorkEffort" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="quickAssignPartyToWorkEffort">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="quickAssignPartyToWorkEffort">
         <description>Quick Assign Party To WorkEffort as Owner</description>
         <attribute name="workEffortId" type="String" mode="IN" optional="false"/>
         <attribute name="quickAssignPartyId" type="String" mode="IN" optional="false"/>
     </service>
     <service name="quickAssignPartyToWorkEffortWithRole" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="quickAssignPartyToWorkEffortWithRole">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="quickAssignPartyToWorkEffortWithRole">
         <description>Quick Assign Party To WorkEffort as Owner</description>
         <attribute name="workEffortId" type="String" mode="IN" optional="false"/>
         <attribute name="quickAssignPartyId" type="String" mode="IN" optional="false"/>
         <attribute name="roleTypeId" type="String" mode="IN" optional="false"/>
     </service>
     <service name="createWorkEffortNote" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortNote" auth="true">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortNote" auth="true">
         <description>Create a WorkEffort Note</description>
         <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
         <attribute name="workEffortId" type="String" mode="IN" optional="false"/>
@@ -200,7 +202,7 @@ under the License.
         <attribute name="noteId" type="String" mode="OUT" optional="false"/>
     </service>
     <service name="updateWorkEffortNote" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="updateWorkEffortNote" auth="true">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="updateWorkEffortNote" auth="true">
         <description>Update a WorkEffort Note</description>
         <attribute name="workEffortId" type="String" mode="IN" optional="false"/>
         <attribute name="noteId" type="String" mode="IN" optional="false"/>
@@ -209,39 +211,39 @@ under the License.
     </service>
     <!-- Services for finding Assigned WorkEfforts -->
     <service name="getWorkEffortAssignedEventsForRole" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedEventsForRole">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedEventsForRole">
         <description>Get the active WorkEffort Events where the logged in user is assigned in the specidied role.</description>
         <attribute name="roleTypeId" type="String" mode="IN" optional="false"/>
         <attribute name="events" type="java.util.List" mode="OUT" optional="false"/>
     </service>
     <service name="getWorkEffortAssignedEventsForRoleOfAllParties" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedEventsForRoleOfAllParties">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedEventsForRoleOfAllParties">
         <description>Get the active WorkEffort Events in the specified role for all the parties.</description>
         <attribute name="roleTypeId" type="String" mode="IN" optional="false"/>
         <attribute name="events" type="java.util.List" mode="OUT" optional="false"/>
     </service>
     <service name="getWorkEffortAssignedTasks" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedTasks">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedTasks">
         <description>Get WorkEffort Assigned Tasks : workEffort assign to userLogin.partyId and with
             workEffortTypeId = TASK and currentStatusId not in (CAL_DECLINED, CAL_DELEGATED, CAL_COMPLETED, CAL_CANCELLED) and partyAssign.statusId != PRTYASGN_UNASSIGNED
             OR  workEffortTypeId = PROD_ORDER_TASK and currentStatusId not in (PRUN_CANCELLED, PRUN_COMPLETED, PRUN_CLOSED)</description>
         <attribute name="tasks" type="java.util.List" mode="OUT" optional="false"/>
     </service>
     <service name="getWorkEffortAssignedActivities" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedActivities">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedActivities">
         <description>Get WorkEffort Assigned Activities : workEffort assign to userLogin.partyId and with
             workEffortTypeId = ACTIVITY and currentStatusId not in (WF_COMPLETED, WF_TERMINATED, WF_ABORTED)
             and partyAssign.statusId not in (CAL_DECLINED, CAL_DELEGATED, CAL_COMPLETED, CAL_CANCELLED, PRTYASGN_UNASSIGNED)</description>
         <attribute name="activities" type="java.util.List" mode="OUT" optional="false"/>
     </service>
     <service name="getWorkEffortAssignedActivitiesByRole" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedActivitiesByRole">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedActivitiesByRole">
         <description>Get WorkEffort Assigned Activities By Role : same condition as getWorkEffortAssignedActivities but on view WorkEffortPartyAssignByRole
             to be able to have all party roles</description>
         <attribute name="roleActivities" type="java.util.List" mode="OUT" optional="false"/>
     </service>
     <service name="getWorkEffortAssignedActivitiesByGroup" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedActivitiesByGroup">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortAssignedActivitiesByGroup">
         <description>Get WorkEffort Assigned Activities By Group : same condition as getWorkEffortAssignedActivities but on view WorkEffortPartyAssignByGroup
             to be able to have all parties associated to userLogin.partyId by PartyRelationship</description>
         <attribute name="groupActivities" type="java.util.List" mode="OUT" optional="false"/>
@@ -249,18 +251,18 @@ under the License.
 
     <!-- Worker services -->
     <service name="getWorkEffort" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffort">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffort">
         <description>Get WorkEffort</description>
         <attribute name="workEffortId" type="java.lang.String" mode="INOUT" optional="true"/>
         <attribute name="currentStatusId" type="java.lang.String" mode="IN" optional="true"/>
-        <attribute name="workEffort" type="org.ofbiz.entity.GenericValue" mode="OUT" optional="true"/>
+        <attribute name="workEffort" type="org.apache.ofbiz.entity.GenericValue" mode="OUT" optional="true"/>
         <attribute name="canView" type="java.lang.Boolean" mode="OUT" optional="true"/>
         <attribute name="tryEntity" type="java.lang.Boolean" mode="OUT" optional="true"/>
-        <attribute name="currentStatusItem" type="org.ofbiz.entity.GenericValue" mode="OUT" optional="true"/>
+        <attribute name="currentStatusItem" type="org.apache.ofbiz.entity.GenericValue" mode="OUT" optional="true"/>
         <attribute name="partyAssigns" type="java.util.Collection" mode="OUT" optional="true"/>
     </service>
     <service name="getWorkEffortEventsByPeriod" auth="true" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortEventsByPeriod">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getWorkEffortEventsByPeriod">
         <description>Get WorkEffort Events by a period specified by periodType attribute (one of the
           java.util.Calendar field values). Return a Map with periodStart as the key and a Collection of events for that period as value
           If filterOutCanceledEvents is set to Boolean(true) then workEfforts with currentStatusId=EVENT_CANCELLED will not be returned.
@@ -284,13 +286,13 @@ under the License.
         <attribute name="maxConcurrentEntries" type="java.lang.Integer" mode="OUT" optional="false"/>
     </service>
     <service name="removeDuplicateWorkEfforts" auth="true" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="removeDuplicateWorkEfforts">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="removeDuplicateWorkEfforts">
         <description>Removes duplicate work efforts from a list of work efforts.</description>
         <attribute name="workEffortIterator" type="java.util.ListIterator" mode="IN" optional="true"/>
         <attribute name="workEfforts" type="java.util.List" mode="INOUT" optional="true"/>
     </service>
     <service name="getProductManufacturingSummaryByFacility" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getProductManufacturingSummaryByFacility">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="getProductManufacturingSummaryByFacility">
         <description>
             Create a map with an entry for each facility. The value is another map with information about
             the manufacturing orders running in the facility for the given product:
@@ -303,7 +305,7 @@ under the License.
         <attribute name="summaryOutByFacility" type="Map" mode="OUT" optional="false"/>
     </service>
     <service name="createWorkEffortAssoc" default-entity-name="WorkEffortAssoc" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortAssoc">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortAssoc">
         <description>
             Create a WorkEffort Assoc, for linking task to describe a project or
             for linking routing with its routingTasks
@@ -313,8 +315,7 @@ under the License.
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <override name="fromDate" optional="true"/>
     </service>
-    <service name="updateWorkEffortAssoc" default-entity-name="WorkEffortAssoc" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="updateWorkEffortAssoc">
+    <service name="updateWorkEffortAssoc" default-entity-name="WorkEffortAssoc" engine="entity-auto" invoke="update">
         <description>
             Update a WorkEffort Assoc, for linking task to describe a project or
             for linking routing with its routingTasks
@@ -323,8 +324,7 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
-    <service name="removeWorkEffortAssoc" engine="simple" default-entity-name="WorkEffortAssoc"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="removeWorkEffortAssoc">
+    <service name="removeWorkEffortAssoc" engine="entity-auto" default-entity-name="WorkEffortAssoc" invoke="delete">
         <description>
             Remove a WorkEffort Assoc, for linking task to describe a project or
             for linking routing with its routingTasks
@@ -334,7 +334,7 @@ under the License.
     </service>
 
     <service name="copyWorkEffortAssocs" engine="simple" auth="true" transaction-timeout="300"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="copyWorkEffortAssocs">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="copyWorkEffortAssocs">
         <description>Copies WorkEffortAssocs from one WorkEffort to another WorkEffort. Only child WorkEffort associations will be copied.</description>
         <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
         <attribute name="sourceWorkEffortId" mode="IN" type="String" optional="false">
@@ -357,13 +357,30 @@ under the License.
         </attribute>
     </service>
 
-    <service name="createWorkEffortAndAssoc" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortAndAssoc" auth="true">
+    <service name="createWorkEffortAndAssoc" engine="simple" location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortAndAssoc" auth="true">
         <description>Creates a WorkEffort entity and WorkEffortAssoc</description>
         <auto-attributes include="pk" mode="INOUT" optional="true" entity-name="WorkEffort"/>
         <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="WorkEffort"/>
-        <auto-attributes include="pk" mode="INOUT" optional="true" entity-name="WorkEffortAssoc"/>
+        <auto-attributes include="pk" mode="INOUT" optional="false" entity-name="WorkEffortAssoc"/>
         <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="WorkEffortAssoc"/>
         <attribute name="quickAssignPartyId" type="String" mode="IN" optional="true"/>
+        <override name="workEffortIdTo" optional="true"/>
+        <override name="fromDate" optional="true"/>
+        <override name="currentStatusId" optional="false">
+            <type-validate>
+                <fail-property resource="WorkEffortUiLabels" property="WorkEffortRequiredFieldMissingCurrentStatusId"/>
+            </type-validate>
+        </override>
+        <override name="workEffortName" optional="false">
+            <type-validate>
+                <fail-property resource="WorkEffortUiLabels" property="WorkEffortRequiredFieldMissingWorkEffortName"/>
+            </type-validate>
+        </override>
+        <override name="workEffortTypeId" optional="false">
+            <type-validate>
+                <fail-property resource="WorkEffortUiLabels" property="WorkEffortRequiredFieldMissingWorkEffortTypeId"/>
+            </type-validate>
+        </override>
     </service>
     <service name="updateWorkEffortAndAssoc" engine="group" location="updateWorkEffortAndAssoc" invoke="" auth="true">
         <description>Creates a WorkEffort entity and WorkEffortAssoc</description>
@@ -373,19 +390,17 @@ under the License.
         <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="WorkEffortAssoc"/>
     </service>
 
-    <service name="createWorkEffortGoodStandard" engine="simple" default-entity-name="WorkEffortGoodStandard"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortGoodStandard">
+    <service name="createWorkEffortGoodStandard" engine="entity-auto" default-entity-name="WorkEffortGoodStandard" invoke="create">
         <description>
             Create a WorkEffort - Product Assoc, for linking WorkEffort to In or Out  Product,
             for routing it's the link between Manufactured Product with its routings
         </description>
-        <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
+        <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <override name="fromDate" optional="true"/>
     </service>
-    <service name="updateWorkEffortGoodStandard" engine="simple" default-entity-name="WorkEffortGoodStandard"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="updateWorkEffortGoodStandard">
+    <service name="updateWorkEffortGoodStandard" engine="entity-auto" default-entity-name="WorkEffortGoodStandard" invoke="update">
         <description>
             Update a WorkEffort - Product Assoc, for linking WorkEffort to In or Out  Product,
             for routing it's the link between Manufactured Product with its routings
@@ -394,204 +409,212 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
-    <service name="removeWorkEffortGoodStandard" engine="simple" default-entity-name="WorkEffortGoodStandard"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="removeWorkEffortGoodStandard">
+    <service name="removeWorkEffortGoodStandard" engine="entity-auto" default-entity-name="WorkEffortGoodStandard" invoke="delete">
         <description>Remove a WorkEffort - Product Assoc, for linking WorkEffort to In or Out  Product,
             for routing it's the link between Manufactured Product with its routings
         </description>
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
     <service name="assignInventoryToWorkEffort" default-entity-name="WorkEffortInventoryAssign" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="assignInventoryToWorkEffort" auth="true">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="assignInventoryToWorkEffort" auth="true">
         <description>Create or update WorkEffortInventoryAssign</description>
         <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
-    <service name="createCommunicationEventWorkEff" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="makeCommunicationEventWorkEffort" auth="true">
+    <service name="createCommunicationEventWorkEff" engine="simple" location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="makeCommunicationEventWorkEffort" auth="true">
         <description>Creates a CommunicationEvent entity and CommunicationEventWorkEff</description>
         <auto-attributes include="pk" mode="INOUT" optional="true" entity-name="CommunicationEvent"/>
         <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="CommunicationEvent"/>
         <auto-attributes include="pk" mode="INOUT" optional="true" entity-name="CommunicationEventWorkEff"/>
         <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="CommunicationEventWorkEff"/>
     </service>
-    <service name="updateCommunicationEventWorkEff" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="updateCommunicationEventWorkEff" auth="true">
+    <service name="updateCommunicationEventWorkEff" engine="simple" location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="updateCommunicationEventWorkEff" auth="true">
         <description>Updates CommunicationEventWorkEff</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="UPDATE"/>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="CommunicationEventWorkEff"/>
         <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="CommunicationEventWorkEff"/>
     </service>
-    <service name="deleteCommunicationEventWorkEff" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteCommunicationEventWorkEff" auth="true">
+    <service name="deleteCommunicationEventWorkEff" engine="simple" location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="deleteCommunicationEventWorkEff" auth="true">
         <description>Deletes CommunicationEventWorkEff</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="DELETE"/>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="CommunicationEventWorkEff"/>
     </service>
-    <service name="createWorkEffortRequest" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortRequest" auth="true">
+    <service name="createWorkEffortRequest" engine="entity-auto" default-entity-name="CustRequestWorkEffort" invoke="create" auth="true">
         <description>Creates a CustRequestWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="CustRequestWorkEffort"/>
         <auto-attributes include="all" mode="IN" optional="true" entity-name="CustRequest"/>
-        <override name="custRequestId" optional="true" mode="INOUT"/>
+        <override name="custRequestId" optional="false" mode="INOUT">
+            <type-validate>
+                <fail-property resource="WorkEffortUiLabels" property="WorkEffortRequiredFieldMissingCustRequestId"/>
+            </type-validate>
+        </override>
         <override name="description" allow-html="any"/>
     </service>
-    <service name="deleteWorkEffortRequest" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortRequest" auth="true">
+    <service name="deleteWorkEffortRequest" engine="entity-auto" default-entity-name="CustRequestWorkEffort" invoke="delete" auth="true">
         <description>Deletes a CustRequestWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="CustRequestWorkEffort"/>
     </service>
     <service name="createWorkEffortRequestItemAndRequestItem" engine="group" location="createWorkEffortRequestItemAndRequestItem" invoke="" auth="true">
         <description>Creates a CustRequestItem entity and CustRequestItemWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="CustRequestItemWorkEffort"/>
-        <auto-attributes include="all" mode="IN" optional="true" entity-name="CustRequestItem"/>
+        <auto-attributes include="pk" mode="IN" optional="false" entity-name="CustRequestItem"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="CustRequestItem"/>
         <attribute name="custRequestItemExists" type="java.lang.String" mode="OUT" optional="true"/>
     </service>
-    <service name="createWorkEffortRequestItem" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortRequestItem" auth="true">
+    <service name="createWorkEffortRequestItem" engine="entity-auto" invoke="create" auth="true">
         <description>Creates a CustRequestItemWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="CustRequestItemWorkEffort"/>
-        <auto-attributes include="all" mode="IN" optional="true" entity-name="CustRequestItem"/>
+        <auto-attributes include="pk" mode="IN" optional="false" entity-name="CustRequestItem"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="CustRequestItem"/>
         <attribute name="custRequestItemExists" type="java.lang.String" mode="IN" optional="true"/>
     </service>
-    <service name="deleteWorkEffortRequestItem" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortRequestItem" auth="true">
+    <service name="deleteWorkEffortRequestItem" engine="entity-auto" invoke="delete" auth="true">
         <description>Deletes a CustRequestItemWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="CustRequestItemWorkEffort"/>
     </service>
-    <service name="checkCustRequestItemExists" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="checkCustRequestItemExists" auth="true">
+    <service name="checkCustRequestItemExists" engine="simple" location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="checkCustRequestItemExists" auth="true">
         <description>Checks to see if a CustRequestItem exists</description>
         <auto-attributes include="pk" mode="IN" optional="true" entity-name="CustRequestItem"/>
         <attribute name="custRequestItemExists" type="java.lang.String" mode="OUT" optional="true"/>
     </service>
 
-    <service name="createWorkEffortQuote" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortQuote" auth="true">
+    <service name="createWorkEffortQuote" engine="entity-auto" default-entity-name="QuoteWorkEffort" invoke="create" auth="true">
         <description>Creates a QuoteWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="QuoteWorkEffort"/>
         <auto-attributes include="all" mode="IN" optional="true" entity-name="Quote"/>
-        <override name="quoteId" optional="true" mode="INOUT"/>
+        <override name="quoteId" optional="false" mode="INOUT">
+            <type-validate>
+                <fail-property resource="WorkEffortUiLabels" property="WorkEffortRequiredFieldMissingQuoteId"/>
+            </type-validate>
+        </override>
     </service>
-    <service name="deleteWorkEffortQuote" default-entity-name="QuoteWorkEffort" engine="simple" auth="true"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortQuote">
+    <service name="deleteWorkEffortQuote" default-entity-name="QuoteWorkEffort" engine="entity-auto" auth="true" invoke="delete">
         <description>Deletes a QuoteWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 
-    <service name="createWorkRequirementFulfillment" engine="simple" auth="true"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkRequirementFulfillment">
+    <service name="createWorkRequirementFulfillment" engine="entity-auto" default-entity-name="WorkRequirementFulfillment" auth="true" invoke="create">
         <description>Creates a WorkRequirementFulfillment</description>
         <auto-attributes include="pk" mode="IN" optional="true" entity-name="WorkRequirementFulfillment"/>
         <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="WorkRequirementFulfillment"/>
         <auto-attributes include="all" mode="IN" optional="true" entity-name="Requirement"/>
+        <override name="workEffortId" optional="false">
+            <type-validate>
+                <fail-property resource="WorkEffortUiLabels" property="WorkEffortRequiredFieldMissingWorkEffortId"/>
+            </type-validate>
+        </override>
+        <override name="requirementTypeId" optional="false">
+            <type-validate>
+                <fail-property resource="WorkEffortUiLabels" property="WorkEffortRequiredFieldMissingRequirementTypeId"/>
+            </type-validate>
+        </override>
     </service>
-    <service name="deleteWorkRequirementFulfillment" engine="simple" auth="true"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkRequirementFulfillment">
+    <service name="deleteWorkRequirementFulfillment" engine="entity-auto" default-entity-name="WorkRequirementFulfillment" auth="true" invoke="delete">
         <description>Deletes a WorkRequirementFulfillment</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="WorkRequirementFulfillment"/>
     </service>
 
-    <service name="createShoppingListWorkEffort" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createShoppingListWorkEffort" auth="true">
+    <service name="createShoppingListWorkEffort" engine="entity-auto" default-entity-name="ShoppingListWorkEffort" invoke="create" auth="true">
         <description>Creates a ShoppingListWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="ShoppingListWorkEffort"/>
         <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="ShoppingListWorkEffort"/>
         <auto-attributes include="all" mode="IN" optional="true" entity-name="ShoppingList"/>
         <override name="shoppingListId" optional="true" mode="INOUT"/>
     </service>
-    <service name="deleteShoppingListWorkEffort" engine="simple" location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteShoppingListWorkEffort" auth="true">
+    <service name="deleteShoppingListWorkEffort" engine="entity-auto" default-entity-name="ShoppingListWorkEffort" invoke="delete" auth="true">
         <description>Deletes a ShoppingListWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="ShoppingListWorkEffort"/>
     </service>
 
-    <service name="createOrderHeaderWorkEffort" engine="simple" auth="true"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createOrderHeaderWorkEffort">
+    <service name="createOrderHeaderWorkEffort" engine="entity-auto" default-entity-name="OrderHeaderWorkEffort" auth="true" invoke="create">
         <description>Creates a OrderHeaderWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false" entity-name="OrderHeaderWorkEffort"/>
         <auto-attributes include="nonpk" mode="IN" optional="true" entity-name="OrderHeaderWorkEffort"/>
         <auto-attributes include="all" mode="IN" optional="true" entity-name="OrderHeader"/>
         <override name="orderId" optional="true" mode="INOUT"/>
     </service>
-    <service name="deleteOrderHeaderWorkEffort" default-entity-name="OrderHeaderWorkEffort" engine="simple" auth="true"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteOrderHeaderWorkEffort">
+    <service name="deleteOrderHeaderWorkEffort" default-entity-name="OrderHeaderWorkEffort" engine="entity-auto" auth="true" invoke="deleteOrderHeaderWorkEffort">
         <description>Deletes a OrderHeaderWorkEffort</description>
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
     <service name="setWorkEffortFixedAssetAssign" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="setWorkEffortFixedAssetAssign" auth="true">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="setWorkEffortFixedAssetAssign" auth="true">
         <description>Based on task's estimate dates, write assign entries for the fixed asset the task is assigned to</description>
         <attribute mode="IN" name="workEffortId" optional="false" type="String"/>
     </service>
     <!-- WorkEffort-FixedAsset management services -->
     <service name="createWorkEffortFixedAssetStd" engine="simple" auth="true"
             default-entity-name="WorkEffortFixedAssetStd"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml"
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml"
             invoke="createWorkEffortFixedAssetStd">
         <description>Creates a WorkEffortFixedAssetStd entry to associate a routing task
             with a fixed asset (type)</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="CREATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
-    <service name="updateWorkEffortFixedAssetStd" engine="simple" auth="true"
-            default-entity-name="WorkEffortFixedAssetStd"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml"
-            invoke="updateWorkEffortFixedAssetStd">
+    <service name="updateWorkEffortFixedAssetStd" engine="entiy-auto" auth="true"
+            default-entity-name="WorkEffortFixedAssetStd" invoke="update">
         <description>Updates an existing WorkEffortFixedAssetStd entry</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="UPDATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
     <service name="removeWorkEffortFixedAssetStd" engine="simple" auth="true"
             default-entity-name="WorkEffortFixedAssetStd"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml"
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml"
             invoke="removeWorkEffortFixedAssetStd">
         <description>Removes a WorkEffortFixedAssetStd, thus removing the association between a routing task
             and a fixed asset (type)</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="DELETE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
     <service name="createWorkEffortFixedAssetAssign" engine="simple" auth="true"
             default-entity-name="WorkEffortFixedAssetAssign"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml"
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml"
             invoke="createWorkEffortFixedAssetAssign">
         <description>Create a WorkEffortFixedAssetAssign entry to associate a fixed asset
             with a work effort (e.g. a production run task)</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="CREATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <override name="fromDate" optional="true" mode="IN"/>
     </service>
-    <service name="updateWorkEffortFixedAssetAssign" engine="simple" auth="true"
-            default-entity-name="WorkEffortFixedAssetAssign"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml"
-            invoke="updateWorkEffortFixedAssetAssign">
+    <service name="updateWorkEffortFixedAssetAssign" engine="entity-auto" auth="true"
+            default-entity-name="WorkEffortFixedAssetAssign" invoke="update">
         <description>Update an existing WorkEffortFixedAssetAssign entry</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="UPDATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
     <service name="removeWorkEffortFixedAssetAssign" engine="simple" auth="true"
             default-entity-name="WorkEffortFixedAssetAssign"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml"
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml"
             invoke="removeWorkEffortFixedAssetAssign">
         <description>Remove a WorkEffortFixedAssign entry, which removes the association between a fixed asset
             and a work effort (e.g. a production run task)</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="DELETE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
 
     <!-- work effort content services -->
-    <service name="createWorkEffortContent" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml"
-        invoke="createWorkEffortContent"
-        default-entity-name="WorkEffortContent" auth="true">
+    <service name="createWorkEffortContent" engine="entity-auto" invoke="create" default-entity-name="WorkEffortContent" auth="true">
         <description>Create a Work Effort Content</description>
-        <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
+        <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
         <override name="fromDate" optional="true"/>
     </service>
-    <service name="updateWorkEffortContent" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml"
-        invoke="updateWorkEffortContent"
-        default-entity-name="WorkEffortContent" auth="true">
+    <service name="updateWorkEffortContent" engine="entity-auto" invoke="update" default-entity-name="WorkEffortContent" auth="true">
         <description>Update a Work Effort Content</description>
         <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
-    <service name="deleteWorkEffortContent" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml"
-        invoke="deleteWorkEffortContent"
-        default-entity-name="WorkEffortContent" auth="true">
+    <service name="deleteWorkEffortContent" engine="entity-auto" invoke="delete" default-entity-name="WorkEffortContent" auth="true">
         <description>Delete a Work Effort Content</description>
+        <permission-service service-name="workEffortGenericPermission" main-action="DELETE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
@@ -622,117 +645,145 @@ under the License.
 
     <!-- work effort review services -->
     <service name="createWorkEffortReview" default-entity-name="WorkEffortReview" engine="simple"
-                location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortReview" auth="true">
+                location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortReview" auth="true">
         <description>Create a Work Effort Review</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="CREATE"/>
         <auto-attributes include="pk" mode="IN" optional="true"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
+        <override name="workEffortId" optional="false">
+            <type-validate>
+                <fail-property resource="WorkEffortUiLabels" property="WorkEffortRequiredFieldMissingWorkEffortId"/>
+            </type-validate>
+        </override>
     </service>
-    <service name="updateWorkEffortReview" default-entity-name="WorkEffortReview" engine="simple"
-                location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="updateWorkEffortReview" auth="true">
+    <service name="updateWorkEffortReview" default-entity-name="WorkEffortReview" engine="entity-auto" invoke="update" auth="true">
         <description>Update a Work Effort Review</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="UPDATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
     <service name="deleteWorkEffortReview" engine="simple"
-                location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortReview" auth="true">
+                location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortReview" auth="true">
         <description>Remove a Work Effort Review</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="DELETE"/>
         <auto-attributes entity-name="WorkEffortReview" include="pk" mode="IN" optional="false"/>
     </service>
 
     <service name="indexWorkEffortKeywords" engine="simple"
-                location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="indexWorkEffortKeywords">
+                location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="indexWorkEffortKeywords">
         <description>Index the Keywords for a WorkEffort</description>
         <attribute name="workEffortId" type="String" mode="IN" optional="false"/>
-        <attribute name="workEffortInstance" type="org.ofbiz.entity.GenericValue" mode="IN" optional="true"/>
+        <attribute name="workEffortInstance" type="org.apache.ofbiz.entity.GenericValue" mode="IN" optional="true"/>
     </service>
     <service name="createWorkEffortKeyword" default-entity-name="WorkEffortKeyword" engine="simple"
-                location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortKeyword" auth="true">
+                location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortKeyword" auth="true">
         <description>Create a Work Effort Keyword</description>
-        <auto-attributes include="pk" mode="IN" optional="true"/>
+        <permission-service service-name="workEffortManagerPermission" main-action="CREATE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
     <service name="deleteWorkEffortKeyword" engine="simple"
-                location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortKeyword" auth="true">
+                location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortKeyword" auth="true">
         <description>Remove a Work Effort Keyword</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="DELETE"/>
         <auto-attributes entity-name="WorkEffortKeyword" include="pk" mode="IN" optional="false"/>
     </service>
     <service name="createWorkEffortKeywords" default-entity-name="WorkEffortKeyword" engine="simple"
-                location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortKeywords" auth="true">
+                location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortKeywords" auth="true">
         <description>Create a Work Effort Keyword</description>
-        <auto-attributes include="pk" mode="IN" optional="true"/>
+        <permission-service service-name="workEffortManagerPermission" main-action="CREATE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
     <service name="deleteWorkEffortKeywords" engine="simple"
-                location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortKeywords" auth="true">
+                location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortKeywords" auth="true">
         <description>Remove all Work Effort Keyword</description>
+        <permission-service service-name="workEffortManagerPermission" main-action="DELETE"/>
         <auto-attributes entity-name="WorkEffort" include="pk" mode="IN" optional="false"/>
     </service>
 
     <!-- Permission Services -->
     <service name="workEffortManagerPermission" engine="simple"
-             location="component://workeffort/script/org/ofbiz/workeffort/permission/WorkEffortPermissionServices.xml" invoke="workEffortManagerPermission">
+             location="component://workeffort/minilang/permission/WorkEffortPermissionServices.xml" invoke="workEffortManagerPermission">
         <implements service="permissionInterface"/>
     </service>
     <service name="workEffortGenericPermission" engine="simple"
-             location="component://workeffort/script/org/ofbiz/workeffort/permission/WorkEffortPermissionServices.xml" invoke="workEffortGenericPermission">
+             location="component://workeffort/minilang/permission/WorkEffortPermissionServices.xml" invoke="workEffortGenericPermission">
         <implements service="permissionInterface"/>
         <attribute name="workEffortId" mode="IN" type="String" optional="true"/>
         <attribute name="workEffortParentId" mode="IN" type="String" optional="true"/>
     </service>
     <service name="timesheetUpdatePermission" engine="simple"
-             location="component://workeffort/script/org/ofbiz/workeffort/permission/WorkEffortPermissionServices.xml" invoke="timesheetUpdatePermission">
+             location="component://workeffort/minilang/permission/WorkEffortPermissionServices.xml" invoke="timesheetUpdatePermission">
         <implements service="permissionInterface"/>
         <attribute name="workEffortId" mode="IN" type="String" optional="true"></attribute>
     </service>
 
     <!-- WorkEffort Skill Standard Services -->
-    <service name="createWorkEffortSkillStandard" engine="simple" default-entity-name="WorkEffortSkillStandard"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortSkillStandard" auth="true">
+    <service name="createWorkEffortSkillStandard" engine="entity-auto" default-entity-name="WorkEffortSkillStandard" invoke="create" auth="true">
         <description>Create WorkEffortSkillStandard</description>
         <auto-attributes mode="IN" include="pk" optional="false"/>
         <auto-attributes mode="IN" include="nonpk" optional="true"/>
     </service>
-    <service name="updateWorkEffortSkillStandard" engine="simple" default-entity-name="WorkEffortSkillStandard"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="updateWorkEffortSkillStandard" auth="true">
+    <service name="updateWorkEffortSkillStandard" engine="entity-auto" default-entity-name="WorkEffortSkillStandard" invoke="update" auth="true">
         <description>Update WorkEffortSkillStandard</description>
         <auto-attributes mode="IN" include="pk" optional="false"/>
         <auto-attributes mode="IN" include="nonpk" optional="true"/>
     </service>
-    <service name="deleteWorkEffortSkillStandard" engine="simple" default-entity-name="WorkEffortSkillStandard"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortSkillStandard" auth="true">
+    <service name="deleteWorkEffortSkillStandard" engine="entity-auto" default-entity-name="WorkEffortSkillStandard" invoke="delete" auth="true">
         <description>Delete WorkEffortSkillStandard</description>
         <auto-attributes mode="IN" include="pk" optional="false"/>
     </service>
 
+    <!-- WorkEffort Attribute Services -->
+    <service name="createWorkEffortAttribute" default-entity-name="WorkEffortAttribute" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a WorkEffort Attribute</description>
+        <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="updateWorkEffortAttribute" default-entity-name="WorkEffortAttribute" engine="entity-auto" invoke="update" auth="true">
+        <description>Update a WorkEffort Attribute</description>
+        <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+        <auto-attributes include="nonpk" mode="IN" optional="true"/>
+    </service>
+    <service name="deleteWorkEffortAttribute" default-entity-name="WorkEffortAttribute" engine="entity-auto" invoke="delete" auth="true">
+        <description>Delete a WorkEffort Attribute</description>
+        <permission-service service-name="workEffortGenericPermission" main-action="DELETE"/>
+        <auto-attributes include="pk" mode="IN" optional="false"/>
+    </service>
+
     <!-- WorkEffort Contact Mech Services -->
     <service name="createWorkEffortContactMech" engine="simple"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortContactMech" auth="true">
+            location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortContactMech" auth="true">
         <description>Create WorkEffortContactMech; if contactMechId is not provided, a new contact mech is created (if partyId is set then the new contact mech is also associated to the party)</description>
         <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
         <auto-attributes entity-name="WorkEffortContactMech" mode="IN" include="nonpk" optional="true"/>
         <auto-attributes entity-name="PartyContactMech" include="all" mode="IN" optional="true"/>
         <attribute name="workEffortId" mode="IN" type="String" optional="false"></attribute>
-        <attribute name="contactMechTypeId" mode="IN" type="String" optional="true"></attribute>
+        <attribute name="contactMechTypeId" mode="IN" type="String" optional="false">
+            <type-validate>
+                <fail-property resource="WorkEffortUiLabels" property="WorkEffortRequiredFieldMissingContactMechTypeId"/>
+            </type-validate>
+        </attribute>
         <attribute name="infoString" mode="IN" type="String" optional="true"></attribute>
         <attribute name="contactMechPurposeTypeId" type="String" mode="IN" optional="true"/>
         <attribute name="contactMechId" type="String" mode="INOUT" optional="true"/>
     </service>
-    <service name="deleteWorkEffortContactMech" engine="simple" default-entity-name="WorkEffortContactMech"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortContactMech" auth="true">
+    <service name="deleteWorkEffortContactMech" engine="entity-auto" default-entity-name="WorkEffortContactMech" invoke="delete" auth="true">
         <description>Delete WorkEffortContactMech</description>
         <permission-service service-name="workEffortGenericPermission" main-action="DELETE"/>
         <auto-attributes mode="IN" include="pk" optional="false"/>
     </service>
 
     <!--WorkEffortInventoryProduced Services   -->
-    <service name="createWorkEffortInventoryProduced" engine="simple" default-entity-name="WorkEffortInventoryProduced"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortInventoryProduced" auth="true">
+    <service name="createWorkEffortInventoryProduced" engine="entity-auto" default-entity-name="WorkEffortInventoryProduced" invoke="create" auth="true">
         <description>Create WorkEffortInventoryProduced</description>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="false"/>
     </service>
-    <service name="deleteWorkEffortInventoryProduced" engine="simple" default-entity-name="WorkEffortInventoryProduced"
-            location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortInventoryProduced" auth="true">
+    <service name="deleteWorkEffortInventoryProduced" engine="entity-auto" default-entity-name="WorkEffortInventoryProduced" invoke="delete" auth="true">
         <description>Delete WorkEffortInventoryProduced</description>
         <auto-attributes mode="IN" include="pk" optional="false"/>
     </service>
@@ -756,13 +807,13 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
     <service name="workEffortICalendarPermission" engine="simple"
-             location="component://workeffort/script/org/ofbiz/workeffort/permission/WorkEffortPermissionServices.xml" invoke="workEffortICalendarPermission">
+             location="component://workeffort/minilang/permission/WorkEffortPermissionServices.xml" invoke="workEffortICalendarPermission">
         <description>iCalendar Permission Check</description>
         <implements service="permissionInterface"/>
         <attribute type="String" mode="IN" name="workEffortId" optional="true"/>
     </service>
     <service name="getICalWorkEfforts" engine="simple" auth="false"
-             location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="getICalWorkEfforts">
+             location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="getICalWorkEfforts">
         <description>Get iCalendar Work Efforts</description>
         <!-- No permission checking - the servlet handles that -->
         <attribute type="String" mode="IN" name="workEffortId" optional="false"/>
@@ -770,7 +821,7 @@ under the License.
         <attribute type="List" mode="OUT" name="workEfforts"/>
     </service>
     <service name="getPartyICalUrl" engine="simple" auth="false"
-             location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="getPartyICalUrl">
+             location="component://workeffort/minilang/workeffort/WorkEffortSimpleServices.xml" invoke="getPartyICalUrl">
         <description>Get Party iCalendar URL</description>
         <!-- No permission checking - the servlet handles that -->
         <attribute type="String" mode="IN" name="partyId" optional="false"/>
@@ -797,38 +848,30 @@ under the License.
         <auto-attributes include="pk" mode="IN" optional="false"/>
     </service>
     <service name="processWorkEffortEventReminders" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="processWorkEffortEventReminders" auth="true">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="processWorkEffortEventReminders" auth="true">
         <description>Process work effort event reminders. This service is run by the job scheduler.</description>
     </service>
     <service name="processWorkEffortEventReminder" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="processWorkEffortEventReminder" auth="true">
+            location="org.apache.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="processWorkEffortEventReminder" auth="true">
         <description>Send a work effort event reminder</description>
         <attribute name="reminder" mode="IN" type="GenericValue"/>
         <attribute name="bodyParameters" mode="IN" type="Map"/>
     </service>
-    <service name="migrateWorkEffortEventReminders" engine="java"
-            location="org.ofbiz.workeffort.workeffort.WorkEffortServices" invoke="migrateWorkEffortEventReminders" auth="true">
-        <description>Migrate work effort event reminders. Run this service to update work effort reminders.</description>
-    </service>
 
     <!-- WorkEffort and Survey Services -->
-    <service name="createWorkEffortSurveyAppl" engine="simple" default-entity-name="WorkEffortSurveyAppl"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="createWorkEffortSurveyAppl" auth="true">
+    <service name="createWorkEffortSurveyAppl" default-entity-name="WorkEffortSurveyAppl" engine="entity-auto" invoke="create" auth="true">
         <description>Create a WorkEffort Survey</description>
         <permission-service service-name="workEffortGenericPermission" main-action="CREATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
-        <override name="fromDate" optional="true"/>
     </service>
-    <service name="updateWorkEffortSurveyAppl" default-entity-name="WorkEffortSurveyAppl" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="updateWorkEffortSurveyAppl" auth="true">
+    <service name="updateWorkEffortSurveyAppl" default-entity-name="WorkEffortSurveyAppl" engine="entity-auto" invoke="update" auth="true">
         <description>Update a WorkEffort Survey</description>
         <permission-service service-name="workEffortGenericPermission" main-action="UPDATE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>
         <auto-attributes include="nonpk" mode="IN" optional="true"/>
     </service>
-    <service name="deleteWorkEffortSurveyAppl" default-entity-name="WorkEffortSurveyAppl" engine="simple"
-        location="component://workeffort/script/org/ofbiz/workeffort/workeffort/WorkEffortSimpleServices.xml" invoke="deleteWorkEffortSurveyAppl" auth="true">
+    <service name="deleteWorkEffortInventoryProduced" engine="entity-autp" default-entity-name="WorkEffortInventoryProduced" invoke="delete" auth="true">
         <description>Delete a WorkEffort Survey</description>
         <permission-service service-name="workEffortGenericPermission" main-action="DELETE"/>
         <auto-attributes include="pk" mode="IN" optional="false"/>

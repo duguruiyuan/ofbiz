@@ -20,12 +20,12 @@ under the License.
 
 <entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/entitymodel.xsd">
-    <title>Entity of an Open For Business Project Component</title>
+    <title>Entity of an Apache OFBiz Component</title>
     <description>None</description>
     <version>1.0</version>
 
   <entity entity-name="OldEmplPositionTypeRate" table-name="EMPL_POSITION_TYPE_RATE"
-    package-name="org.ofbiz.humanres.position"
+    package-name="org.apache.ofbiz.humanres.position"
     title="EmplPosition Type Rate Entity">
     <field name="emplPositionTypeId" type="id-ne"/>
     <field name="periodTypeId" type="id-ne"/>
@@ -44,7 +44,7 @@ under the License.
     <relation type="one" fk-name="EMPL_PSTPRT_PRDTYP" rel-entity-name="PeriodType">
       <key-map field-name="periodTypeId"/>
     </relation>
-    <relation type="one-nofk" fk-name="EMPL_PSTPRT_SSTP" rel-entity-name="SalaryStep">
+    <relation type="one-nofk" fk-name="EMPL_PSTPRT_SSTP" rel-entity-name="OldSalaryStep">
       <key-map field-name="salaryStepSeqId"/>
       <key-map field-name="payGradeId"/>
     </relation>
@@ -52,4 +52,19 @@ under the License.
       <key-map field-name="rateTypeId"/>
     </relation>
   </entity>
+  
+    <entity entity-name="OldSalaryStep" table-name="SALARY_STEP"
+            package-name="org.apache.ofbiz.humanres.employment"
+            title="Salary Step Entity">
+      <field name="salaryStepSeqId" type="id-ne"></field>
+      <field name="payGradeId" type="id-ne"></field>
+      <field name="dateModified" type="date-time"></field>
+      <field name="amount" type="currency-amount"></field>
+      <prim-key field="salaryStepSeqId"/>
+      <prim-key field="payGradeId"/>
+      <relation type="one" fk-name="SLRY_STP_PGRD" rel-entity-name="PayGrade">
+        <key-map field-name="payGradeId"/>
+      </relation>
+    </entity>
+  
 </entitymodel>

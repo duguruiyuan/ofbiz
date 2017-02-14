@@ -17,18 +17,18 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+<screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CheckInits">
         <section>
             <actions>
                 <set field="titleProperty" value="PageTitleOrderInits"/>
                 <set field="headerItem" value="orderentry"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/entry/CheckInits.groovy"/>
+                <script location="component://order/groovyScripts/entry/CheckInits.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
-                        <platform-specific><html><html-template location="component://order/webapp/ordermgr/entry/checkinits.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://order/template/entry/CheckInits.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -39,12 +39,12 @@ under the License.
             <actions>
                 <set field="titleProperty" value="PageTitleOrderAgreements"/>
                 <set field="headerItem" value="orderentry"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/entry/OrderAgreements.groovy"/>
+                <script location="component://order/groovyScripts/entry/OrderAgreements.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
-                        <platform-specific><html><html-template location="component://order/webapp/ordermgr/entry/orderagreements.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://order/template/entry/OrderAgreements.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -59,7 +59,7 @@ under the License.
                 <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer"/>
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/entry/SetShoppingCart.groovy"/>
+                <script location="component://order/groovyScripts/entry/SetShoppingCart.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonOrderCatalogDecorator" location="component://order/widget/ordermgr/OrderEntryCommonScreens.xml">
@@ -98,7 +98,7 @@ under the License.
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
 
                 <set field="requestParameters.statusId" to-scope="screen" default-value="QUO_APPROVED"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/entry/SetShoppingCart.groovy"/>
+                <script location="component://order/groovyScripts/entry/SetShoppingCart.groovy"/>
                 <set field="requestParameters.currencyUomId" to-scope="screen" from-field="currencyUomId"/>
             </actions>
             <widgets>
@@ -122,7 +122,7 @@ under the License.
                 <set field="title" value="${uiLabelMap.PageTitleShoppingList}"/>
                 <set field="partyId" from-field="requestParameters.partyId"/>
                 <entity-and entity-name="ShoppingList" list="customershoppinglists">
-                    <field-map from-field="partyId" field-name="partyId"/>
+                    <field-map field-name="partyId" from-field="partyId"/>
                 </entity-and>
             </actions>
             <widgets>
@@ -142,7 +142,7 @@ under the License.
                 <set field="title" value="${uiLabelMap.PageTitleShoppingListItem}"/>
                 <set field="shoppingListId" from-field="requestParameters.shoppingListId"/>
                 <entity-and entity-name="ShoppingListItem" list="shoppinglistitems">
-                    <field-map from-field="shoppingListId" field-name="shoppingListId"/>
+                    <field-map field-name="shoppingListId" from-field="shoppingListId"/>
                 </entity-and>
             </actions>
             <widgets>

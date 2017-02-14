@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="EditDataResourceType">
         <section>
             <actions>
@@ -180,7 +180,7 @@ under the License.
                 <set field="titleProperty" value="PageTitleEditDataResourceCategory"/>
                 <set field="headerItem" value="DataResourceSetupMenu"/>
                 <set field="tabButtonItem" to-scope="user" value="EditDataCategory"/>
-                <script location="component://content/webapp/content/WEB-INF/actions/datasetup/DataCategoryPrep.groovy"/>
+                <script location="component://content/groovyScripts/datasetup/DataCategoryPrep.groovy"/>
                 <set field="viewIndex" from-field="parameters.VIEW_INDEX" type="Integer"/>
                 <property-to-field resource="widget" property="widget.form.defaultViewSize" field="viewSizeDefaultValue"/>
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>

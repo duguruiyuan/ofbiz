@@ -17,7 +17,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="FindRequirements" type="single" target="RequirementsForSupplier" title=""
         default-title-style="tableheadtext">
         <field name="showList"><hidden value="Y"/></field>
@@ -58,7 +58,7 @@ under the License.
         <field name="quoteId" title="${uiLabelMap.OrderOrderQuoteId}"></field>
         <field name="quoteTypeId" title="${uiLabelMap.OrderOrderQuoteTypeId}">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="QuoteType" key-field-name="quoteTypeId"/>
+                <entity-options entity-name="QuoteType" key-field-name="quoteTypeId"/>
             </drop-down>
         </field>
         <field name="partyId" title="${uiLabelMap.PartyPartyId}">
@@ -89,7 +89,7 @@ under the License.
         <auto-fields-entity entity-name="Quote" default-field-type="display"/>
 
         <field name="quoteId" title="${uiLabelMap.OrderOrderQuoteId}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${quoteId}" target="loadCartFromQuote">
+            <hyperlink description="${quoteId}" target="loadCartFromQuote" also-hidden="false">
                 <parameter param-name="quoteId"/>
             </hyperlink>
         </field>
@@ -112,12 +112,12 @@ under the License.
         </field>
         <field name="description" title="${uiLabelMap.CommonDescription}"><display/></field>
         <field name="addFromList" title=" " widget-style="buttontext">
-            <hyperlink target="addFromShoppingList" description="${uiLabelMap.OrderToAddSelectedItemsToShoppingList}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.OrderToAddSelectedItemsToShoppingList}" target="addFromShoppingList" also-hidden="false">
                 <parameter param-name="shoppingListId"/>
             </hyperlink>
         </field>
         <field name="addAllFromList" title=" " widget-style="buttontext">
-            <hyperlink target="addAllFromShoppingList" description="${uiLabelMap.OrderQuickAdd}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.OrderQuickAdd}" target="addAllFromShoppingList" also-hidden="false">
                 <parameter param-name="shoppingListId"/>
             </hyperlink>
         </field>
@@ -129,7 +129,7 @@ under the License.
             <display-entity entity-name="Product" description="${productId} - ${description}"/>
         </field>
         <field name="addToCart" title=" " widget-style="buttontext">
-            <hyperlink target="additem/editShoppingList" description="${uiLabelMap.CommonAdd} ${quantity} ${uiLabelMap.OrderAddQntToOrder}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonAdd} ${quantity} ${uiLabelMap.OrderAddQntToOrder}" target="additem/editShoppingList" also-hidden="false">
                 <parameter param-name="shoppingListId"/>
                 <parameter param-name="shoppingListItemSeqId"/>
                 <parameter param-name="add_product_id" from-field="productId"/>
@@ -140,12 +140,12 @@ under the License.
     </form>
     <form name="AddFromShoppingListAll" type="single" target="">
         <field name="addAllFromList" title=" " widget-style="buttontext">
-            <hyperlink target="addAllFromShoppingList" description="${uiLabelMap.OrderQuickAdd}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.OrderQuickAdd}" target="addAllFromShoppingList" also-hidden="false">
                 <parameter param-name="shoppingListId"/>
             </hyperlink>
         </field>
         <field name="returnToOrderEntry" title=" " widget-style="buttontext">
-            <hyperlink target="orderentry" description="${uiLabelMap.OrderOrderReturn}" also-hidden="false"/>
+            <hyperlink description="${uiLabelMap.OrderOrderReturn}" target="orderentry" also-hidden="false"/>
         </field>
     </form>
 

@@ -19,13 +19,13 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <!-- Included Screens -->
     <screen name="states">
         <section>
             <widgets>
-                <platform-specific><html><html-template location="component://common/webcommon/includes/states.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/States.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -35,7 +35,7 @@ under the License.
                 <property-to-field field="defaultCountryGeoId" resource="general" property="country.geo.id.default" default="USA"/>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://common/webcommon/includes/countries.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/Countries.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -43,17 +43,17 @@ under the License.
     <screen name="cctypes">
         <section>
             <actions>
-                <script location="component://common/webcommon/WEB-INF/actions/includes/CcTypes.groovy"/>
+                <script location="component://common/groovyScripts/CcTypes.groovy"/>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://common/webcommon/includes/cctypes.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/CcTypes.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
     <screen name="ccmonths">
         <section>
             <widgets>
-                <platform-specific><html><html-template location="component://common/webcommon/includes/ccmonths.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/CcMonths.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -63,7 +63,7 @@ under the License.
                 <set field="thisDate" from-field="nowTimestamp"/>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://common/webcommon/includes/ccyears.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/CcYears.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -89,7 +89,7 @@ under the License.
     <screen name="genericLink">
         <section>
             <widgets>
-                <platform-specific><html><html-template location="component://common/webcommon/includes/genericLink.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/GenericLink.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -102,13 +102,13 @@ under the License.
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://common/webcommon/includes/htmlheader-for-ajax.ftl" />
+                        <html-template location="component://common/template/includes/HtmlHeaderForAjax.ftl" />
                     </html>
                 </platform-specific>
                 <decorator-section-include name="body" />
                 <platform-specific>
                     <html>
-                        <html-template location="component://common/webcommon/includes/htmlfooter-for-ajax.ftl" />
+                        <html-template location="component://common/template/includes/HtmlFooterForAjax.ftl" />
                     </html>
                 </platform-specific>
             </widgets>
@@ -126,7 +126,7 @@ under the License.
                 <decorator-screen name="AjaxGlobalDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://common/webcommon/includes/ajaxAutocompleteOptions.ftl" /></html>
+                            <html><html-template location="component://common/template/includes/AjaxAutocompleteOptions.ftl" /></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -137,41 +137,22 @@ under the License.
     <screen name="GlobalActions">
         <section>
             <actions>
-                <!-- The default (global) java scripts -->
-                <!-- jQuery part -->
-                <!-- Load available JS Language Files -->
-                <set field="initialLocaleComplete" type="String" value="${groovy:parameters?.userLogin?.lastLocale}" default-value="${groovy:locale.toString()}" />
-                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.ofbiz.common.JsLanguageFilesMapping.datejs.getFilePath(initialLocaleComplete)}" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.ofbiz.common.JsLanguageFilesMapping.jquery.getFilePath(initialLocaleComplete)}" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.ofbiz.common.JsLanguageFilesMapping.validation.getFilePath(initialLocaleComplete)}" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.ofbiz.common.JsLanguageFilesMapping.dateTime.getFilePath(initialLocaleComplete)}" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/plugins/asmselect/jquery.asmselect-1.0.4a-beta.js" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/plugins/datetimepicker/jquery-ui-timepicker-addon.min-1.4.3.js" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/plugins/jquery.maskedinput-1.3.1.min.js" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/ui/js/jquery-ui-1.10.3.min.js" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/plugins/jeditable/jquery.jeditable.js" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/plugins/validate/jquery.validate.min.js" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/plugins/fjTimer/jquerytimer-min.js" global="true" />
-                <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/jquery-migrate-1.2.1.js" global="true"/>
-                <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/jquery-1.11.0.min.js" global="true" />
-                <!-- jQuery CSSs -->
-                <set field="layoutSettings.styleSheets[+0]" value="/images/jquery/plugins/asmselect/jquery.asmselect-1.0.4a-beta.css" global="true" />
-                
-                <set field="layoutSettings.javaScripts[]" value="/images/OpenLayers-2.13.1.js" global="true" />
-                <set field="layoutSettings.javaScripts[]" value="/images/selectall.js" global="true" />
-                <set field="layoutSettings.javaScripts[]" value="/images/fieldlookup.js" global="true" />
-                <set field="layoutSettings.javaScripts[]" value="/images/date/date.format-1.2.3-min.js" global="true" />
-                <set field="layoutSettings.javaScripts[]" value="/images/date/date.timezone-min.js" global="true" />
-                <set field="layoutSettings.javaScripts[]" value="/images/miscAjaxFunctions.js" global="true" />
-                <set field="layoutSettings.javaScripts[]" value="/images/selectMultipleRelatedValues.js" global="true" />
-                <set field="layoutSettings.javaScripts[]" value="/images/util.js" global="true" />
-                <set field="layoutSettings.javaScripts[]" value="/images/date/FromThruDateCheck.js" global="true"/>                
                 <set field="visualThemeId" from-field="userPreferences.VISUAL_THEME" global="true" />
                 <service service-name="getVisualThemeResources">
                     <field-map field-name="visualThemeId" />
                     <field-map field-name="themeResources" from-field="layoutSettings" />
                 </service>
                 <set field="layoutSettings" from-field="themeResources" default-value="${layoutSettings}" global="true" />
+                
+                <set field="initialLocaleComplete" type="String" value="${groovy:parameters?.userLogin?.lastLocale}" default-value="${groovy:locale.toString()}" />
+                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.apache.ofbiz.common.JsLanguageFilesMapping.datejs.getFilePath(initialLocaleComplete)}" global="true" />
+                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.apache.ofbiz.common.JsLanguageFilesMapping.jquery.getFilePath(initialLocaleComplete)}" global="true" />
+                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.apache.ofbiz.common.JsLanguageFilesMapping.validation.getFilePath(initialLocaleComplete)}" global="true" />
+                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.apache.ofbiz.common.JsLanguageFilesMapping.dateTime.getFilePath(initialLocaleComplete)}" global="true" />
+                <!-- Jgrowl -->
+                <set field="layoutSettings.javaScripts[]" value="/images/jquery/plugins/Readmore.js-master/readmore.js" global="true"/>
+                <set field="layoutSettings.javaScripts[]" value="/images/jquery/plugins/jquery-jgrowl/1.4.1/jquery.jgrowl.min.js" global="true"/>
+                <set field="layoutSettings.styleSheets[+0]" value="/images/jquery/plugins/jquery-jgrowl/1.4.1/jquery.jgrowl.min.css" global="true" />
             </actions>
             <widgets />
         </section>
@@ -386,15 +367,15 @@ under the License.
 
                         <property-map resource="general" map-name="generalProperties" global="true"/>
                         <set field="visualThemeId" from-field="userPreferences.VISUAL_THEME" global="true"/>
+                        <set field="defaultOrganizationPartyId" from-field="userPreferences.ORGANIZATION_PARTY" global="true"/>
                         <service service-name="getVisualThemeResources">
                             <field-map field-name="visualThemeId"/>
                             <field-map field-name="themeResources" from-field="layoutSettings"/>
                         </service>
 
                         <set field="layoutSettings" from-field="themeResources" default-value="${layoutSettings}" global="true"/>
-                        <set field="layoutSettings.javaScripts[]" value="/images/fieldlookup.js" global="true"/>
 
-                        <set field="messagesTemplateLocation" from-field="layoutSettings.VT_MSG_TMPLT_LOC[0]" default-value="component://common/webcommon/includes/messages.ftl"/>
+                        <set field="messagesTemplateLocation" from-field="layoutSettings.VT_MSG_TMPLT_LOC[0]" default-value="component://common/template/includes/Messages.ftl"/>
                     </actions>
                     <widgets>
                         <section>
@@ -402,7 +383,7 @@ under the License.
                                 <if-compare value="layer" operator="not-equals" field="parameters.presentation"/>
                         </condition>
                             <widgets>
-                                <platform-specific><html><html-template location="component://common/webcommon/includes/lookup.ftl" /></html></platform-specific>
+                                <platform-specific><html><html-template location="component://common/template/includes/Lookup.ftl" /></html></platform-specific>
                             </widgets>
                         </section>
                         <platform-specific><html><html-template location="${messagesTemplateLocation}"/></html></platform-specific>
@@ -431,7 +412,7 @@ under the License.
                             <if-compare value="layer" operator="not-equals" field="parameters.presentation"/>
                         </condition>
                             <widgets>
-                                <platform-specific><html><html-template location="component://common/webcommon/includes/lookupFooter.ftl"/></html></platform-specific>
+                                <platform-specific><html><html-template location="component://common/template/includes/LookupFooter.ftl"/></html></platform-specific>
                             </widgets>
                         </section>
                     </widgets>
@@ -442,14 +423,14 @@ under the License.
                     <actions>
                         <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
                         <set field="searchType" from-field="parameters.searchType" default-value="${searchType}"/>
-                        <script location="component://common/webcommon/WEB-INF/actions/includes/FindAutocompleteOptions.groovy"/>
+                        <script location="component://common/groovyScripts/FindAutocompleteOptions.groovy"/>
                     </actions>
                     <widgets>
                         <decorator-screen name="AjaxGlobalDecorator">
                             <decorator-section name="body">
                                 <platform-specific>
                                     <html>
-                                        <html-template location="component://common/webcommon/includes/ajaxAutocompleteOptions.ftl" />
+                                        <html-template location="component://common/template/includes/AjaxAutocompleteOptions.ftl" />
                                     </html>
                                 </platform-specific>
                             </decorator-section>
@@ -467,16 +448,13 @@ under the License.
     <screen name="SimpleDecorator">
         <section>
             <actions>
-                <!-- The default (global) stylesheet -->
-                <set field="layoutSettings.styleSheets[+0]" value="/images/maincss.css" global="true"/>
-                <set field="layoutSettings.rtlStyleSheets[+0]" value="/images/mainrtl.css" global="true"/>
                 <!-- The default (global) java scripts -->
                     <!-- jQuery part -->
                 <!-- Load available JS Language Files -->
                 <set field="initialLocaleComplete" type="String" value="${groovy:parameters?.userLogin?.lastLocale}" default-value="${groovy:locale.toString()}"/>
-                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.ofbiz.common.JsLanguageFilesMapping.datejs.getFilePath(initialLocaleComplete)}" global="true"/>
-                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.ofbiz.common.JsLanguageFilesMapping.jquery.getFilePath(initialLocaleComplete)}" global="true"/>
-                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.ofbiz.common.JsLanguageFilesMapping.validation.getFilePath(initialLocaleComplete)}" global="true"/>
+                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.apache.ofbiz.common.JsLanguageFilesMapping.datejs.getFilePath(initialLocaleComplete)}" global="true"/>
+                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.apache.ofbiz.common.JsLanguageFilesMapping.jquery.getFilePath(initialLocaleComplete)}" global="true"/>
+                <set field="layoutSettings.javaScripts[+0]" value="${groovy: org.apache.ofbiz.common.JsLanguageFilesMapping.validation.getFilePath(initialLocaleComplete)}" global="true"/>
 
                 <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/plugins/asmselect/jquery.asmselect-1.0.4a-beta.js" global="true"/>
                 <set field="layoutSettings.javaScripts[+0]" value="/images/jquery/plugins/datetimepicker/jquery-ui-timepicker-addon.min-1.4.3.js" global="true"/>
@@ -490,21 +468,28 @@ under the License.
                 <set field="layoutSettings.styleSheets[+0]" value="/images/jquery/plugins/asmselect/jquery.asmselect-1.0.4a-beta.css" global="true"/>
 
                 <set field="layoutSettings.javaScripts[]" value="/images/OpenLayers-2.13.1.js" global="true" />
-                <set field="layoutSettings.javaScripts[]" value="/images/selectall.js" global="true"/>
+                <set field="layoutSettings.javaScripts[]" value="/images/OfbizUtil.js" global="true"/>
                 <set field="layoutSettings.javaScripts[]" value="/images/fieldlookup.js" global="true"/>
                 <!-- The default (global) shortcut icon -->
                 <set field="layoutSettings.shortcutIcon" value="/images/ofbiz.ico" global="true"/>
                 <!-- The settings below are used for xsl-fo screens -->
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+                <set field="organizationPartyId" from-field="parameters.organizationPartyId" default-value="${userPreferences.ORGANIZATION_PARTY}" global="true" to-scope="user"/>
+                <entity-one entity-name="PartyNameView" value-field="currentOrganization">
+                    <field-map field-name="partyId" from-field="organizationPartyId"/>
+                </entity-one>
                 <set field="logoImageUrl" value="/images/ofbiz_logo.gif"/>
                 <!--<set field="defaultFontFamily" value="Arial"/>-->
             </actions>
             <widgets>
                 <!-- render header -->
                 <platform-specific>
-                    <html><html-template location="component://common/webcommon/includes/simple.ftl"/></html>
-                    <xsl-fo><html-template location="component://common/webcommon/includes/simple.fo.ftl"/></xsl-fo>
-                    <xml><html-template location="component://common/webcommon/includes/minimal-decorator.ftl"/></xml>
+                    <html><html-template location="component://common/template/includes/Simple.ftl"/></html>
+                    <xsl-fo><html-template location="component://common/template/includes/Simple.fo.ftl"/></xsl-fo>
+                    <xml><html-template location="component://common/template/includes/MinimalDecorator.ftl"/></xml>
+                    <text><html-template location="component://common/template/includes/MinimalDecorator.ftl"/></text>
+                    <csv><html-template location="component://common/template/includes/MinimalDecorator.ftl"/></csv>
+                    <xls><html-template location="component://common/template/includes/Simple.xls.ftl"/></xls>
                 </platform-specific>
             </widgets>
         </section>
@@ -516,10 +501,10 @@ under the License.
             <actions>
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="logoImageUrl" value="/images/ofbiz_logo.gif" global="true"/>
-                <property-to-field resource="fop.properties" field="defaultFontFamily" property="fop.font.family" default="Arial"/>
+                <property-to-field resource="fop.properties" field="defaultFontFamily" property="fop.font.family" default="NotoSans"/>
             </actions>
             <widgets>
-                <platform-specific><xsl-fo><html-template location="component://common/webcommon/includes/reportTemplate.fo.ftl"/></xsl-fo></platform-specific>
+                <platform-specific><xsl-fo><html-template location="component://common/template/includes/ReportTemplate.fo.ftl"/></xsl-fo></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -533,13 +518,13 @@ under the License.
             <widgets>
                 <platform-specific>
                     <xsl-fo>
-                        <html-template location="component://common/webcommon/includes/fo/start.fo.ftl"/>
-                        <html-template location="component://common/webcommon/includes/fo/basic-header.fo.ftl"/>
-                        <html-template location="component://common/webcommon/includes/fo/basic-footer.fo.ftl"/>
+                        <html-template location="component://common/template/includes/fo/Start.fo.ftl"/>
+                        <html-template location="component://common/template/includes/fo/BasicHeader.fo.ftl"/>
+                        <html-template location="component://common/template/includes/fo/BasicFooter.fo.ftl"/>
                     </xsl-fo>
                 </platform-specific>
                 <decorator-section-include name="body"/>
-                <platform-specific><xsl-fo><html-template location="component://common/webcommon/includes/fo/end.fo.ftl"/></xsl-fo></platform-specific>
+                <platform-specific><xsl-fo><html-template location="component://common/template/includes/fo/End.fo.ftl"/></xsl-fo></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -554,7 +539,7 @@ under the License.
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
-<!--                <platform-specific><xsl-fo><html-template location="component://common/webcommon/error.fo.ftl"/></xsl-fo></platform-specific> -->
+<!--                <platform-specific><xsl-fo><html-template location="component://common/template/Error.fo.ftl"/></xsl-fo></platform-specific> -->
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -569,8 +554,14 @@ under the License.
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
+                        <section>
+                            <actions>
+                                <set field="loginTemplateLocation" from-field="layoutSettings.VT_LOGIN_TMPLT_LOC[0]" default-value="component://common/template/Login.ftl"/>
+                            </actions>
+                            <widgets />
+                        </section>
                         <platform-specific>
-                            <html><html-template location="component://common/webcommon/login.ftl"/></html>
+                            <html><html-template location="${loginTemplateLocation}"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -592,11 +583,77 @@ under the License.
 
     <screen name="requirePasswordChange">
         <section>
+            <actions>
+                <set field="userLoginId" from-field="parameters.USERNAME"/>
+                <entity-and entity-name="UserLoginSecurityQuestion" list="securityQuestions">
+                    <field-map field-name="userLoginId" />
+                </entity-and>
+                <set field="questionEnumId" from-field="securityQuestions[0].questionEnumId" />
+                <entity-one entity-name="Enumeration" value-field="securityQuestion">
+                    <field-map field-name="enumId" from-field="questionEnumId" />
+                </entity-one>
+            </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
+                        <section>
+                            <actions>
+                                <set field="changePasswordTemplateLocation" from-field="layoutSettings.VT_CHPWD_TMPLT_LOC[0]" default-value="component://common/template/ChangePassword.ftl"/>
+                            </actions>
+                            <widgets />
+                        </section>
                         <platform-specific>
-                            <html><html-template location="component://common/webcommon/changePassword.ftl"/></html>
+                            <html><html-template location="${changePasswordTemplateLocation}"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <screen name="forgotPassword_step1">
+        <section>
+            <widgets>
+                <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <section>
+                            <actions>
+                                <set field="forgotPasswordTemplateLocation" from-field="layoutSettings.VT_FGPWD_TMPLT_LOC[0]" default-value="component://common/template/ForgotPassword.ftl"/>
+                            </actions>
+                            <widgets />
+                        </section>
+                        <platform-specific>
+                            <html><html-template location="${forgotPasswordTemplateLocation}"/></html>
+                        </platform-specific>
+                    </decorator-section>
+                </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <screen name="forgotPassword_step2">
+        <section>
+            <actions>
+                <set field="userLoginId" from-field="parameters.USERNAME"/>
+                <entity-and entity-name="UserLoginSecurityQuestion" list="securityQuestions">
+                    <field-map field-name="userLoginId" />
+                </entity-and>
+                <set field="questionEnumId" from-field="securityQuestions[0].questionEnumId" />
+                <entity-one entity-name="Enumeration" value-field="securityQuestion">
+                    <field-map field-name="enumId" from-field="questionEnumId"/>
+                </entity-one> 
+            </actions>
+            <widgets>
+                <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
+                    <decorator-section name="body">
+                        <section>
+                            <actions>
+                                <set field="getSecurityQuestionTemplateLocation" from-field="layoutSettings.VT_GSQUE_TMPLT_LOC[0]" default-value="component://common/template/GetSecurityQuestion.ftl"/>
+                            </actions>
+                            <widgets />
+                        </section>
+                        <platform-specific>
+                            <html><html-template location="${getSecurityQuestionTemplateLocation}"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -609,8 +666,14 @@ under the License.
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
-                        <platform-specific>
-                            <html><html-template location="component://common/webcommon/forgotPassword.ftl"/></html>
+                        <section>
+                            <actions>
+                                <set field="forgotPasswordTemplateLocation" from-field="layoutSettings.VT_FGPWD_TMPLT_LOC[0]" default-value="component://common/template/ForgotPassword.ftl"/>
+                            </actions>
+                            <widgets />
+                         </section>
+                         <platform-specific>
+                            <html><html-template location="${forgotPasswordTemplateLocation}"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -624,7 +687,7 @@ under the License.
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://common/webcommon/includes/messages.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/Messages.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -685,8 +748,8 @@ under the License.
                 <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
             </actions>
             <widgets>
-                <platform-specific><html><html-template location="component://common/webcommon/viewBlocked.ftl"/></html></platform-specific>
-                <platform-specific><html><html-template location="component://common/webcommon/includes/messages.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/ViewBlocked.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://common/template/includes/Messages.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -698,7 +761,7 @@ under the License.
             </actions>
             <widgets>
                 <platform-specific>
-                    <html><html-template location="component://common/webcommon/includes/geolocation.ftl"/></html>
+                    <html><html-template location="component://common/template/includes/GeoLocation.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>

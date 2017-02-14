@@ -18,7 +18,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="CommonQuoteDecorator">
         <section>
@@ -45,6 +45,9 @@ under the License.
                                         </container>
                                     </widgets>
                                 </section>
+                                <container>
+                                  <link target="EditQuote" text="${uiLabelMap.OrderCreateOrderQuote}" style="buttontext"/>
+                                </container>
                                 <decorator-section-include name="body"/>
                             </widgets>
                             <fail-widgets>
@@ -116,7 +119,7 @@ under the License.
                         <include-screen name="ViewQuoteTemplate"/>
                         <screenlet title="${uiLabelMap.OrderCopyQuote}">
                             <platform-specific>
-                                <html><html-template location="component://order/webapp/ordermgr/quote/CopyQuote.ftl"/></html>
+                                <html><html-template location="component://order/template/quote/CopyQuote.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>
@@ -167,12 +170,13 @@ under the License.
                 <get-related-one value-field="quote" relation-name="Uom" to-value-field="currency"/>
                 <get-related-one value-field="quote" relation-name="ProductStore" to-value-field="store"/>
                 <get-related-one value-field="quote" relation-name="Party" to-value-field="party"/>
+                <get-related value-field="quote" relation-name="QuoteTerm" list="quoteTerms"/>
 
                 <set field="listOrderBy[]" value="quoteItemSeqId"/>
                 <get-related value-field="quote" relation-name="QuoteItem" list="quoteItems" order-by-list="listOrderBy"/>
                 <get-related value-field="quote" relation-name="QuoteAdjustment" list="quoteAdjustments"/>
 
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/quote/GetPartyAddress.groovy"/>
+                <script location="component://order/groovyScripts/quote/GetPartyAddress.groovy"/>
                 <!--
                 <get-related value-name="quote" relation-name="QuoteRole" list-name="quoteRoles"/>
                 <get-related value-name="quote" relation-name="QuoteAttribute" list-name="quoteAttributes"/>
@@ -194,7 +198,7 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/quote/quoteReportHeaderInfo.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/quote/QuoteReportHeaderInfo.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </widgets>
                         </section>
@@ -204,11 +208,11 @@ under the License.
                             <widgets>
                                 <!-- the contach mechanisms, terms, payment and shipping methods are shown in the first page -->
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/quote/quoteReportContactMechs.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/quote/QuoteReportContactMechs.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                                 <!-- quote items and totals -->
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/quote/quoteReportBody.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/quote/QuoteReportBody.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </widgets>
                         </section>
@@ -248,7 +252,7 @@ under the License.
 
                 <entity-one entity-name="Quote" value-field="quote" auto-field-map="true"/>
                 <entity-and entity-name="QuoteRole" list="quoteRoles">
-                    <field-map from-field="quote.quoteId" field-name="quoteId"/>
+                    <field-map field-name="quoteId" from-field="quote.quoteId"/>
                 </entity-and>
 
             </actions>
@@ -307,7 +311,7 @@ under the License.
                 <set field="viewSize" from-field="parameters.VIEW_SIZE" type="Integer" default-value="${viewSizeDefaultValue}"/>
                 <entity-one entity-name="Quote" value-field="quote" auto-field-map="true"/>
                 <entity-and entity-name="QuoteItem" list="quoteItems">
-                    <field-map from-field="quote.quoteId" field-name="quoteId"/>
+                    <field-map field-name="quoteId" from-field="quote.quoteId"/>
                     <order-by field-name="quoteItemSeqId"/>
                 </entity-and>
 
@@ -315,7 +319,7 @@ under the License.
             <widgets>
                 <decorator-screen name="CommonQuoteDecorator" location="${parameters.quoteDecoratorLocation}">
                     <decorator-section name="body">
-                        <include-menu name="quoteItemSubTabBar" location="component://order/widget/ordermgr/OrderMenus.xml"/>
+                        <include-menu name="QuoteItemSubTabBar" location="component://order/widget/ordermgr/OrderMenus.xml"/>
                         <screenlet title="${uiLabelMap.OrderOrderQuoteListItems}">
                             <include-form name="ListQuoteItems" location="component://order/widget/ordermgr/QuoteForms.xml"/>
                         </screenlet>
@@ -344,7 +348,7 @@ under the License.
                 <decorator-screen name="CommonQuoteDecorator" location="${parameters.quoteDecoratorLocation}">
                     <decorator-section name="body">
                         <container>
-                            <include-menu name="quoteTermSubTabBar" location="component://order/widget/ordermgr/OrderMenus.xml"/>
+                            <include-menu name="QuoteTermSubTabBar" location="component://order/widget/ordermgr/OrderMenus.xml"/>
                         </container>
                         <container style="lefthalf">
                             <screenlet title="${uiLabelMap.OrderOrderQuoteEditItems}" >
@@ -376,7 +380,7 @@ under the License.
 
                 <entity-one entity-name="Quote" value-field="quote" auto-field-map="true"/>
                 <entity-and entity-name="QuoteAttribute" list="quoteAttributes">
-                    <field-map from-field="quote.quoteId" field-name="quoteId"/>
+                    <field-map field-name="quoteId" from-field="quote.quoteId"/>
                 </entity-and>
             </actions>
             <widgets>
@@ -431,7 +435,7 @@ under the License.
 
                 <entity-one entity-name="Quote" value-field="quote" auto-field-map="true"/>
                 <entity-and entity-name="QuoteCoefficient" list="quoteCoefficients">
-                    <field-map from-field="quote.quoteId" field-name="quoteId"/>
+                    <field-map field-name="quoteId" from-field="quote.quoteId"/>
                 </entity-and>
             </actions>
             <widgets>
@@ -489,30 +493,30 @@ under the License.
 
                 <entity-one entity-name="Quote" value-field="quote" auto-field-map="true"/>
                 <entity-and entity-name="QuoteItem" list="quoteItems">
-                    <field-map from-field="quote.quoteId" field-name="quoteId"/>
+                    <field-map field-name="quoteId" from-field="quote.quoteId"/>
                     <order-by field-name="custRequestId"/>
                     <order-by field-name="custRequestItemSeqId"/>
                     <order-by field-name="quoteItemSeqId"/>
                 </entity-and>
                 <entity-and entity-name="QuoteCoefficient" list="quoteCoefficients">
-                    <field-map from-field="quote.quoteId" field-name="quoteId"/>
+                    <field-map field-name="quoteId" from-field="quote.quoteId"/>
                 </entity-and>
                 <set from-field="quote.quoteId" field="quoteId"/>
 
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/quote/ManageQuotePrices.groovy"/>
+                <script location="component://order/groovyScripts/quote/ManageQuotePrices.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonQuoteDecorator" location="${parameters.quoteDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.OrderOrderQuotePrices}">
                             <platform-specific>
-                                <html><html-template location="component://order/webapp/ordermgr/quote/ManageQuotePrices.ftl"/></html>
+                                <html><html-template location="component://order/template/quote/ManageQuotePrices.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                         <screenlet title="${uiLabelMap.OrderOrderQuotePrices}">
                             <include-form name="ManageQuotePrices" location="component://order/widget/ordermgr/QuoteForms.xml"/>
                             <platform-specific>
-                                <html><html-template location="component://order/webapp/ordermgr/quote/ManageQuotePricesTotals.ftl"/></html>
+                                <html><html-template location="component://order/template/quote/ManageQuotePricesTotals.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>
@@ -532,7 +536,7 @@ under the License.
                 <set field="quoteId" from-field="parameters.quoteId"/>
                 <entity-one entity-name="Quote" value-field="quote" auto-field-map="true"/>
                 <entity-and entity-name="QuoteAdjustment" list="quoteAdjustments">
-                    <field-map from-field="quote.quoteId" field-name="quoteId"/>
+                    <field-map field-name="quoteId" from-field="quote.quoteId"/>
                 </entity-and>
             </actions>
             <widgets>
@@ -593,24 +597,24 @@ under the License.
 
                 <entity-one entity-name="Quote" value-field="quote" auto-field-map="true"/>
                 <entity-and entity-name="QuoteItem" list="quoteItems">
-                    <field-map from-field="quote.quoteId" field-name="quoteId"/>
+                    <field-map field-name="quoteId" from-field="quote.quoteId"/>
                     <order-by field-name="custRequestId"/>
                     <order-by field-name="custRequestItemSeqId"/>
                     <order-by field-name="quoteItemSeqId"/>
                 </entity-and>
                 <entity-and entity-name="QuoteCoefficient" list="quoteCoefficients">
-                    <field-map from-field="quote.quoteId" field-name="quoteId"/>
+                    <field-map field-name="quoteId" from-field="quote.quoteId"/>
                 </entity-and>
                 <set from-field="quote.quoteId" field="quoteId"/>
 
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/quote/ViewQuoteProfit.groovy"/>
+                <script location="component://order/groovyScripts/quote/ViewQuoteProfit.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonQuoteDecorator" location="${parameters.quoteDecoratorLocation}">
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.OrderOrderQuoteViewProfit}">
                             <platform-specific>
-                                <html><html-template location="component://order/webapp/ordermgr/quote/ViewQuoteProfit.ftl"/></html>
+                                <html><html-template location="component://order/template/quote/ViewQuoteProfit.ftl"/></html>
                             </platform-specific>
                             <include-form name="ViewQuoteProfit" location="component://order/widget/ordermgr/QuoteForms.xml"/>
                         </screenlet>
@@ -628,7 +632,7 @@ under the License.
                 <set field="quoteId" from-field="parameters.quoteId"/>
                 <entity-one entity-name="Quote" value-field="quote"/>
                 <get-related-one value-field="quote" relation-name="Party" to-value-field="party"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/quote/GetPartyEmailAddress.groovy"/>
+                <script location="component://order/groovyScripts/quote/GetPartyEmailAddress.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonQuoteDecorator" location="${parameters.quoteDecoratorLocation}">
@@ -684,9 +688,14 @@ under the License.
     </screen>
     <screen name="quoteInfo">
         <section>
+            <actions>
+                <entity-one entity-name="PartyNameView" value-field="toParty">
+                    <field-map field-name="partyId"  from-field="quote.partyId"/>
+                </entity-one>
+            </actions>
             <widgets>
                 <platform-specific>
-                    <html><html-template location="component://order/webapp/ordermgr/quote/quoteInfo.ftl"/></html>
+                    <html><html-template location="component://order/template/quote/QuoteInfo.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>
@@ -719,7 +728,7 @@ under the License.
         <section>
             <widgets>
                 <platform-specific>
-                    <html><html-template location="component://order/webapp/ordermgr/quote/quoteDate.ftl"/></html>
+                    <html><html-template location="component://order/template/quote/QuoteDate.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>
@@ -728,7 +737,7 @@ under the License.
         <section>
             <widgets>
                 <platform-specific>
-                    <html><html-template location="component://order/webapp/ordermgr/quote/quoteRoles.ftl"/></html>
+                    <html><html-template location="component://order/template/quote/QuoteRoles.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>
@@ -739,17 +748,17 @@ under the License.
                 <not><if-empty field="quoteItems"/></not>
             </condition>
             <actions>
-                <entity-and list="quoteItemList" entity-name="QuoteItem">
+                <entity-and entity-name="QuoteItem" list="quoteItemList">
                     <field-map field-name="quoteId" from-field="parameters.quoteId"/>
                 </entity-and>
-                <entity-one value-field="quote" entity-name="Quote">
+                <entity-one entity-name="Quote" value-field="quote">
                     <field-map field-name="quoteId" from-field="parameters.quoteId"/>
                 </entity-one>
                 <set field="quoteStatusId" from-field="quote.statusId"/>
             </actions>
             <widgets>
                 <platform-specific>
-                    <html><html-template location="component://order/webapp/ordermgr/quote/ViewQuoteItemInfo.ftl"/></html>
+                    <html><html-template location="component://order/template/quote/ViewQuoteItemInfo.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>
@@ -817,7 +826,7 @@ under the License.
             <widgets>
                 <decorator-screen name="CommonQuoteDecorator" location="${parameters.quoteDecoratorLocation}">
                     <decorator-section name="body">
-                        <include-menu name="quoteTermSubTabBar" location="component://order/widget/ordermgr/OrderMenus.xml"/>
+                        <include-menu name="QuoteTermSubTabBar" location="component://order/widget/ordermgr/OrderMenus.xml"/>
                         <screenlet title="${uiLabelMap.OrderOrderQuoteTermList}">
                             <include-form name="ListQuoteTerms" location="component://order/widget/ordermgr/QuoteForms.xml"/>
                         </screenlet>

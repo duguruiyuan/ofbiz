@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="FindPartyInvitations" type="single" default-map-name="partyInvitations" target="partyInvitation"
         header-row-style="header-row" default-table-style="basic-table">
         <field position="1" name="partyInvitationId"><text-find ignore-case="true"/></field>
@@ -30,7 +30,7 @@ under the License.
         <field position="2" name="datefrom" title="${uiLabelMap.CommonFromDate}"><date-time/></field>
         <field name="statusId" position="1">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="StatusItem" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="PARTY_INV_STATUS"/>
                     <entity-order-by field-name="statusId"/>
                 </entity-options>
@@ -58,7 +58,7 @@ under the License.
             </service>
         </actions>
         <field name="partyInvitationId" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${partyInvitationId}" target="editPartyInvitation">
+            <hyperlink description="${partyInvitationId}" target="editPartyInvitation" also-hidden="false">
                 <parameter param-name="partyInvitationId"/>
             </hyperlink>
         </field>
@@ -66,11 +66,11 @@ under the License.
         <field name="partyId" title="${uiLabelMap.PartyPartyId}"><display/></field>
         <field name="toName" title="${uiLabelMap.PartyToName}"><display/></field>
         <field name="emailAddress" title="${uiLabelMap.PartyEmailAddress}"><display/></field>
-        <field name="statusId"><display-entity entity-name="StatusItem" description="${description}"/></field>
+        <field name="statusId"><display-entity entity-name="StatusItem"/></field>
         <field name="lastInviteDate"><display/></field>
         <field name="remove" title=" " widget-style="buttontext">
-            <hyperlink target="deletePartyInvitation" description="${uiLabelMap.CommonDelete}">
-                <parameter param-name="partyInvitationId" value="partyInvitationId"/>
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deletePartyInvitation">
+                <parameter param-name="partyInvitationId" from-field="partyInvitationId"/>
             </hyperlink>
         </field>
     </form>
@@ -88,7 +88,7 @@ under the License.
         </field>
         <field name="statusId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="StatusItem" key-field-name="statusId">
+                <entity-options entity-name="StatusItem" key-field-name="statusId">
                     <entity-constraint name="statusTypeId" operator="equals" value="PARTY_INV_STATUS"/>
                     <entity-order-by field-name="statusId"/>
                 </entity-options>
@@ -107,7 +107,7 @@ under the License.
             </entity-condition>
         </actions>
         <field name="partyInvitationId" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${partyInvitationId}" target="editPartyInvitation">
+            <hyperlink description="${partyInvitationId}" target="editPartyInvitation" also-hidden="false">
                 <parameter param-name="partyInvitationId"/>
             </hyperlink>
         </field>
@@ -119,7 +119,7 @@ under the License.
             </display-entity>
         </field>
         <field name="remove" title=" " widget-style="buttontext">
-            <hyperlink target="deletePartyInvitationGroupAssoc" description="${uiLabelMap.CommonDelete}">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deletePartyInvitationGroupAssoc">
                 <parameter param-name="partyInvitationId"/>
                 <parameter param-name="partyIdTo"/>
             </hyperlink>
@@ -150,13 +150,13 @@ under the License.
             </entity-condition>
         </actions>
         <field name="partyInvitationId" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${partyInvitationId}" target="editPartyInvitation">
+            <hyperlink description="${partyInvitationId}" target="editPartyInvitation" also-hidden="false">
                 <parameter param-name="partyInvitationId"/>
             </hyperlink>
         </field>
         <field name="roleTypeId" title="${uiLabelMap.PartyRoleTypeId}"><display-entity entity-name="RoleType"/></field>
         <field name="remove" title=" " widget-style="buttontext">
-            <hyperlink target="deletePartyInvitationRoleAssoc" description="${uiLabelMap.CommonDelete}">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deletePartyInvitationRoleAssoc">
                 <parameter param-name="partyInvitationId"/>
                 <parameter param-name="roleTypeId"/>
             </hyperlink>
@@ -169,7 +169,7 @@ under the License.
         <field name="partyInvitationId"><hidden/> </field>
         <field name="roleTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}" entity-name="RoleType" key-field-name="roleTypeId">
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId">
                     <entity-order-by field-name="roleTypeId"/>
                 </entity-options>
             </drop-down>

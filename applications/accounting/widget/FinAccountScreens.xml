@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <!-- Custom apps can use their own financial account decorator by specifying its
          location in parameters.finAccountDecoratorLocation -->
@@ -27,7 +27,7 @@ under the License.
         <section>
             <actions>
                 <set field="headerItem" value="FindFinAccount"/>
-                <entity-one value-field="finAccount" entity-name="FinAccount"/>
+                <entity-one entity-name="FinAccount" value-field="finAccount"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -58,6 +58,9 @@ under the License.
                                 <label style="h3" text="${uiLabelMap.AccountingViewPermissionError}"/>
                             </widgets>
                         </section>
+                        <container style="button-bar">
+                            <link target="EditFinAccount" text="${uiLabelMap.AccountingCreateNewFinAccount}" style="buttontext create"/>
+                        </container>
                         <decorator-section-include name="body"/>
                     </decorator-section>
                 </decorator-screen>
@@ -128,9 +131,6 @@ under the License.
                                 <not><if-empty field="finAccountId"/></not>
                             </condition>
                             <widgets>
-                                <container style="button-bar">
-                                    <link target="EditFinAccount" text="${uiLabelMap.AccountingCreateNewFinAccount}" style="buttontext create"/>
-                                </container>
                                 <label style="h1" text="${uiLabelMap.AccountingEditFinAccount}"></label>
                                 <screenlet id="EditFinAccountPanel" collapsible="true">
                                     <include-form name="EditFinAccount" location="component://accounting/widget/FinAccountForms.xml"/>
@@ -231,7 +231,7 @@ under the License.
                 <set field="partyIdFrom" from-field="parameters.partyIdFrom"/>
                 <set field="organizationPartyId" from-field="parameters.organizationPartyId"/>
                 <entity-one entity-name="FinAccount" value-field="finAccount"/>
-                <script location="component://accounting/webapp/accounting/WEB-INF/actions/payment/DepositWithdrawPayments.groovy"/>
+                <script location="component://accounting/groovyScripts/payment/DepositWithdrawPayments.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFinAccountDecorator" location="${parameters.finAccountDecoratorLocation}">
@@ -252,7 +252,7 @@ under the License.
                                     </decorator-section> 
                                     <decorator-section name="search-results">
                                         <platform-specific>
-                                            <html><html-template location="component://accounting/webapp/accounting/payment/depositWithdrawPayments.ftl"/></html>
+                                            <html><html-template location="component://accounting/template/payment/DepositWithdrawPayments.ftl"/></html>
                                         </platform-specific>
                                     </decorator-section>
                                 </decorator-screen>  
@@ -303,7 +303,7 @@ under the License.
                         <condition-expr field-name="finAccountId" from-field="parameters.finAccountId"/>
                     </condition-list>
                 </entity-condition>
-                <set field="paymentGroupIds" value="${groovy:org.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(pmtGrpMembrPaymentAndFinAcctTransList, 'paymentGroupId', true);}" type="List"/>
+                <set field="paymentGroupIds" value="${groovy:org.apache.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(pmtGrpMembrPaymentAndFinAcctTransList, 'paymentGroupId', true);}" type="List"/>
                 <entity-condition entity-name="PaymentGroup" list="paymentGroupList">
                     <condition-list combine="and">
                         <condition-expr field-name="paymentGroupId" operator="in" from-field="paymentGroupIds" ignore-if-empty="true"/>
@@ -390,7 +390,7 @@ under the License.
                 <set field="partyIdFrom" from-field="parameters.partyIdFrom"/>
                 <set field="organizationPartyId" from-field="parameters.organizationPartyId"/>
                 <entity-one entity-name="FinAccount" value-field="finAccount"/>
-                <script location="component://accounting/webapp/ar/WEB-INF/actions/BatchPayments.groovy"/>
+                <script location="component://accounting/groovyScripts/ar/BatchPayments.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFinAccountDecorator" location="${parameters.finAccountDecoratorLocation}">
@@ -403,7 +403,7 @@ under the License.
                                     </decorator-section> 
                                     <decorator-section name="search-results">
                                         <platform-specific>
-                                            <html><html-template location="component://accounting/webapp/ar/payment/batchPayments.ftl"/></html>
+                                            <html><html-template location="component://accounting/template/ar/payment/BatchPayments.ftl"/></html>
                                         </platform-specific>
                                     </decorator-section>
                                 </decorator-screen>  
@@ -457,7 +457,7 @@ under the License.
                             </decorator-section> 
                             <decorator-section name="search-results">
                                 <platform-specific>
-                                    <html><html-template location="component://accounting/webapp/accounting/finaccounttrans/FinAccountTrans.ftl"/></html>
+                                    <html><html-template location="component://accounting/template/finaccounttrans/FinAccountTrans.ftl"/></html>
                                 </platform-specific>
                             </decorator-section>
                         </decorator-screen>
@@ -508,7 +508,7 @@ under the License.
                                             <include-form name="FindBankReconciliationFinAcctTrans" location="component://accounting/widget/FinAccountForms.xml"/>
                                         </screenlet>
                                         <platform-specific>
-                                            <html><html-template location="component://accounting/webapp/accounting/finaccounttrans/FinAccountTrans.ftl"/></html>
+                                            <html><html-template location="component://accounting/template/finaccounttrans/FinAccountTrans.ftl"/></html>
                                         </platform-specific>
                                     </widgets>
                                 </section>
@@ -518,7 +518,7 @@ under the License.
                                     <include-form name="FindBankReconciliationFinAcctTrans" location="component://accounting/widget/FinAccountForms.xml"/>
                                 </screenlet>
                                 <platform-specific>
-                                    <html><html-template location="component://accounting/webapp/accounting/finaccounttrans/FinAccountTrans.ftl"/></html>
+                                    <html><html-template location="component://accounting/template/finaccounttrans/FinAccountTrans.ftl"/></html>
                                 </platform-specific>
                             </fail-widgets>
                         </section>
@@ -631,7 +631,7 @@ under the License.
                 <set field="previousGlReconciliation" from-field="glReconciliationList[0]"/>
                 <service service-name="getFinAccountTransListAndTotals" result-map="transactionTotalAmount"/>
                 <set field="finAccountTransList" from-field="transactionTotalAmount.finAccountTransList" type="List"/>
-                <set field="finAccountTransIds" value="${groovy:org.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(finAccountTransList, 'finAccountTransId', true);}" type="List"/>
+                <set field="finAccountTransIds" value="${groovy:org.apache.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(finAccountTransList, 'finAccountTransId', true);}" type="List"/>
                 <entity-condition entity-name="FinAccountTrans" list="finAccountTransactions">
                     <condition-list>
                         <condition-expr field-name="finAccountTransId" operator="in" from-field="finAccountTransIds"/>
@@ -653,7 +653,7 @@ under the License.
                     <decorator-section name="body">
                         <label style="h1" text="${uiLabelMap.AccountingGlReconciliationFor}"></label>
                         <platform-specific>
-                            <html><html-template location="component://accounting/webapp/accounting/finaccounttrans/GlReconciledFinAccountTrans.ftl"/></html>
+                            <html><html-template location="component://accounting/template/finaccounttrans/GlReconciledFinAccountTrans.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -676,7 +676,7 @@ under the License.
                         <condition-expr field-name="glReconciliationId" operator="equals" from-field="glReconciliationId" ignore-if-empty="true"/>
                     </condition-list>
                 </entity-condition>
-                <set field="glReconciliationIds" value="${groovy:org.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(finAccountTransList, 'glReconciliationId', true);}" type="List"/>
+                <set field="glReconciliationIds" value="${groovy:org.apache.ofbiz.entity.util.EntityUtil.getFieldListFromEntityList(finAccountTransList, 'glReconciliationId', true);}" type="List"/>
                 <entity-condition entity-name="GlReconciliation" list="glReconciliations">
                     <condition-list>
                         <condition-expr field-name="glReconciliationId" operator="in" from-field="glReconciliationIds"/>

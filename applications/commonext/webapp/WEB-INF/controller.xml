@@ -19,7 +19,7 @@ under the License.
 -->
 
 <site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/site-conf.xsd">
+        xmlns="http://ofbiz.apache.org/Site-Conf" xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
     <description>General Application CommonExt Configuration File</description>
     
     <!-- Request Mappings -->
@@ -43,7 +43,7 @@ under the License.
     </request-map>
     
     <request-map uri="stream">
-        <event type="java" path="org.ofbiz.content.data.DataEvents" invoke="serveObjectData"/>
+        <event type="java" path="org.apache.ofbiz.content.data.DataEvents" invoke="serveObjectData"/>
         <response name="success" type="none"/>
         <response name="error" type="view" value="error"/>
         <response name="io-error" type="none"/>

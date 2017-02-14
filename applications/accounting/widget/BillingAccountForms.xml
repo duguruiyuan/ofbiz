@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="ListBillingAccounts" type="list" list-name="listIt" paginate-target="FindBillingAccount" default-entity-name="BillingAccount"
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
@@ -82,13 +82,13 @@ under the License.
                 <field-map field-name="compareDate" from-field="invoiceDate"/>
                 <field-map field-name="lastNameFirst" value="Y"/>
             </service>
-            <set field="paidInvoice" value="${groovy: org.ofbiz.accounting.invoice.InvoiceWorker.getInvoiceNotApplied(delegator,invoiceId).compareTo(java.math.BigDecimal.ZERO)==0}" type="Boolean"/>
+            <set field="paidInvoice" value="${groovy: org.apache.ofbiz.accounting.invoice.InvoiceWorker.getInvoiceNotApplied(delegator,invoiceId).compareTo(java.math.BigDecimal.ZERO)==0}" type="Boolean"/>
             <set field="amountToApply" value="${groovy:
                 import java.text.NumberFormat;
-                return(NumberFormat.getNumberInstance(locale).format(org.ofbiz.accounting.invoice.InvoiceWorker.getInvoiceNotApplied(delegator,invoiceId)));}"/>
+                return(NumberFormat.getNumberInstance(locale).format(org.apache.ofbiz.accounting.invoice.InvoiceWorker.getInvoiceNotApplied(delegator,invoiceId)));}"/>
             <set field="total" value="${groovy:
                 import java.text.NumberFormat;
-                return(NumberFormat.getNumberInstance(locale).format(org.ofbiz.accounting.invoice.InvoiceWorker.getInvoiceTotal(delegator,invoiceId)));}"/>
+                return(NumberFormat.getNumberInstance(locale).format(org.apache.ofbiz.accounting.invoice.InvoiceWorker.getInvoiceTotal(delegator,invoiceId)));}"/>
         </row-actions>
         <field name="billingAccountId"><hidden/></field>
         <field name="invoiceId" widget-style="buttontext">
@@ -106,7 +106,7 @@ under the License.
         <field name="total" widget-area-style="align-text"><display type="currency" currency="${currencyUomId}"/></field>
         <field name="amountToApply" widget-area-style="align-text"><display type="currency" currency="${currencyUomId}"/></field>
         <field name="capture" use-when="${groovy:!paidInvoice}" widget-style="buttontext">
-            <hyperlink target="capturePaymentsByInvoice" description="${uiLabelMap.AccountingCapture}">
+            <hyperlink description="${uiLabelMap.AccountingCapture}" target="capturePaymentsByInvoice">
                 <parameter param-name="invoiceId"/>
                 <parameter param-name="billingAccountId"/>
             </hyperlink>
@@ -117,13 +117,13 @@ under the License.
     <form name="EditBillingAccount" type="single" target="updateBillingAccount" title=""
         header-row-style="header-row" default-table-style="basic-table">
         <actions>
-            <set field="availableBalance" value="${groovy:billingAccount != null ? org.ofbiz.order.order.OrderReadHelper.getBillingAccountBalance(billingAccount) : 0}" type="BigDecimal"/>
+            <set field="availableBalance" value="${groovy:billingAccount != null ? org.apache.ofbiz.order.order.OrderReadHelper.getBillingAccountBalance(billingAccount) : 0}" type="BigDecimal"/>
         </actions>
         <alt-target use-when="billingAccount==null" target="createBillingAccountAndRole"/>
         <auto-fields-service service-name="updateBillingAccount" map-name="billingAccount"/>
         <field name="description"><text size="60"/></field>
         <field use-when="billingAccount==null" name="billingAccountId"><hidden/></field>
-        <field use-when="billingAccount!=null" name="billingAccountId" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field use-when="billingAccount!=null" name="billingAccountId"><display/></field>
         <field name="partyId" use-when="billingAccount != null" ><display/></field>
         <field name="partyId" use-when="billingAccount == null" title="${uiLabelMap.AccountingPartyBilledTo}" required-field="true"><lookup target-form-name="LookupPartyName"/></field>
         <field name="roleTypeId"><hidden/></field>
@@ -137,7 +137,7 @@ under the License.
         </field>
         <field name="contactMechId" tooltip="${uiLabelMap.AccountingBillingContactMechIdMessage}" use-when="billingAccount != null">
             <drop-down>
-                <entity-options entity-name="BillingAccountRoleAndAddress" description="[${partyId}][${contactMechId}] ${toName}, ${attnName}, ${address1}, ${stateProvinceGeoId} ${postalCode}" key-field-name="contactMechId" filter-by-date="true">
+                <entity-options entity-name="BillingAccountRoleAndAddress" key-field-name="contactMechId" description="[${partyId}][${contactMechId}] ${toName}, ${attnName}, ${address1}, ${stateProvinceGeoId} ${postalCode}" filter-by-date="true">
                     <entity-constraint name="billingAccountId" env-name="billingAccountId"/>
                     <entity-order-by field-name="partyId"/>
                     <entity-order-by field-name="contactMechId"/>
@@ -146,18 +146,20 @@ under the License.
         </field>
         <!--
         <field name="netBalance" title="${uiLabelMap.AccountingBillingNetBalance}" tooltip="${uiLabelMap.AccountingBillingNetBalanceMessage}">
-            <display description="${groovy:org.ofbiz.accounting.payment.BillingAccountWorker.getBillingAccountNetBalance(delegator, billingAccountId)}" type="currency" currency="${billingAccount.accountCurrencyUomId}"/>
+            <display description="${groovy:org.apache.ofbiz.accounting.payment.BillingAccountWorker.getBillingAccountNetBalance(delegator, billingAccountId)}" type="currency" currency="${billingAccount.accountCurrencyUomId}"/>
         </field>
         -->
         <field name="availableBalance" title="${uiLabelMap.AccountingBillingAvailableBalance}" tooltip="${uiLabelMap.AccountingBillingAvailableBalanceMessage}">
             <display type="currency" currency="${billingAccount.accountCurrencyUomId}"/>
         </field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonCreate}" use-when="billingAccount == null" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" use-when="billingAccount!=null" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
 
     <form name="ListBillingAccountRoles" type="list"  list-name="billingAccountRoleList" target="updateBillingAccountRole"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar"
+        paginate-target="EditBillingAccountRoles" separate-columns="true">
         <actions>
             <entity-condition entity-name="BillingAccountRole" list="billingAccountRoleList">
                 <condition-expr field-name="billingAccountId" from-field="billingAccountId"/>
@@ -176,13 +178,13 @@ under the License.
             </display-entity>
         </field>
         <field name="roleTypeId" title="${uiLabelMap.PartyRoleTypeId}">
-            <display-entity entity-name="RoleType" description="${description}"/>
+            <display-entity entity-name="RoleType"/>
         </field>
         <field name="fromDate" title="${uiLabelMap.CommonFromDate}"><display/></field>
 
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}" widget-style="smallSubmit"><submit button-type="button"/></field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink target="deleteBillingAccountRole" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteBillingAccountRole" also-hidden="false">
                 <parameter param-name="billingAccountId"/>
                 <parameter param-name="roleTypeId"/>
                 <parameter param-name="partyId"/>
@@ -196,12 +198,13 @@ under the License.
         <field name="billingAccountId"><hidden/></field>
         <field name="roleTypeId" title="${uiLabelMap.PartyRoleTypeId}">
             <drop-down allow-empty="false" no-current-selected-key="BILL_TO_CUSTOMER">
-                <entity-options entity-name="RoleType" description="${description}">
+                <entity-options entity-name="RoleType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
-        <field name="partyId" title="${uiLabelMap.PartyPartyId}"><lookup target-form-name="LookupPartyName"/></field>
+        <field name="fromDate"><date-time default-value="${nowTimestamp}"/></field>
+        <field name="partyId" title="${uiLabelMap.PartyPartyId}" required-field="true"><lookup target-form-name="LookupPartyName"/></field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}" widget-style="smallSubmit"><submit button-type="button"/></field>
     </form>
 
@@ -214,11 +217,11 @@ under the License.
         </actions>
         <field name="billingAccountId"><hidden/></field>
         <field name="termTypeId" title="${uiLabelMap.PartyTermType}">
-            <display-entity entity-name="TermType" description="${description}"/>
+            <display-entity entity-name="TermType"/>
         </field>
         <field name="termValue" title="${uiLabelMap.CommonValue}"><display/></field>
         <field name="uomId" title="${uiLabelMap.CommonUom}">
-            <display-entity entity-name="Uom" description="${description}"/>
+            <display-entity entity-name="Uom"/>
         </field>
         <field name="billingAccountTermId" title=" " widget-style="buttontext">
             <hyperlink description="${uiLabelMap.CommonEdit}" target="EditBillingAccountTerms">
@@ -240,7 +243,7 @@ under the License.
         <field use-when="billingAccountTermId!=null" name="billingAccountTermId"><hidden/></field>
         <field name="termTypeId" title="${uiLabelMap.PartyTermType}">
             <drop-down>
-                <entity-options entity-name="TermType" description="${description}">
+                <entity-options entity-name="TermType">
                     <entity-constraint name="parentTypeId" value="FINANCIAL_TERM"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -248,7 +251,7 @@ under the License.
         </field>
         <field name="uomId" title="${uiLabelMap.CommonUom}">
             <drop-down allow-empty="true">
-                <entity-options entity-name="Uom" description="${description}">
+                <entity-options entity-name="Uom">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -269,7 +272,7 @@ under the License.
             </hyperlink>
         </field>
         <field name="paymentMethodTypeId" title="${uiLabelMap.CommonType}">
-            <display-entity entity-name="PaymentMethodType" description="${description}"/>
+            <display-entity entity-name="PaymentMethodType"/>
         </field>
         <field name="invoiceId"><display/></field>
         <field name="invoiceItemSeqId"><display/></field>
@@ -300,14 +303,14 @@ under the License.
         </field>
         <field name="paymentTypeId" title="${uiLabelMap.AccountingPaymentType}">
             <drop-down allow-empty="false" no-current-selected-key="CUSTOMER_DEPOSIT">
-                <entity-options description="${description}" entity-name="PaymentType">
+                <entity-options entity-name="PaymentType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
         </field>
         <field name="paymentMethodTypeId">
             <drop-down allow-empty="false">
-                <entity-options entity-name="PaymentMethodType" description="${description}">
+                <entity-options entity-name="PaymentMethodType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -321,7 +324,7 @@ under the License.
         odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <field name="billingAccountId"><hidden/></field>
         <field name="orderId" widget-style="buttontext">
-            <hyperlink target="/ordermgr/control/orderview" target-type="inter-app" description="${orderId}" also-hidden="false">
+            <hyperlink description="${orderId}" target="/ordermgr/control/orderview" target-type="inter-app" also-hidden="false">
                 <parameter param-name="orderId"/>
             </hyperlink>
         </field>

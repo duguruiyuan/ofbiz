@@ -19,10 +19,11 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="main-decorator">
         <section>
             <actions>
+                <set field="activeApp" value="webtools" global="true"/>
                 <!-- base/top/specific map first, then more common map added for shared labels -->
                 <property-map resource="TemporalExpressionUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="WebtoolsUiLabels" map-name="uiLabelMap" global="true"/>
@@ -35,8 +36,6 @@ under the License.
                 <!--<set field="layoutSettings.headerImageUrl" value="/images/ofbiz_logo.gif" global="true"/>-->
                 <!-- <set field="layoutSettings.headerMiddleBackgroundUrl" value="" global="true"/> -->
                 <!-- <set field="layoutSettings.headerRightBackgroundUrl" value="" global="true"/> -->
-                <set field="activeApp" value="webtools" global="true"/>
-                <!-- <set field="appheaderTemplate" value="component://webtools/webapp/webtools/includes/appheader.ftl" global="true"/> -->
                 <!-- Help link actions -->
                 <set field="helpTopic" value="${groovy: webappName.toUpperCase() + '_' + requestAttributes._CURRENT_VIEW_}"/>
                 <set field="applicationMenuLocation" value="component://webtools/widget/Menus.xml" global="true"/>
@@ -58,23 +57,9 @@ under the License.
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
                     <decorator-section name="body">
-                        <platform-specific><html><html-template location="component://webtools/webapp/webtools/main.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://webtools/template/Main.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
-            </widgets>
-        </section>
-    </screen>
-    <screen name="printStart">
-        <section>
-            <widgets>
-                <platform-specific><html><html-template location="component://webtools/webapp/webtools/print/printStart.ftl"/></html></platform-specific>
-            </widgets>
-        </section>
-    </screen>
-    <screen name="printDone">
-        <section>
-            <widgets>
-                <platform-specific><html><html-template location="component://webtools/webapp/webtools/print/printDone.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -87,9 +72,37 @@ under the License.
             <widgets>
                 <decorator-screen name="CommonConfigurationDecorator" location="component://webtools/widget/CommonScreens.xml">
                     <decorator-section name="body">
-                        <platform-specific><html><html-template location="component://webtools/webapp/webtools/cert/viewbrowsercerts.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://webtools/template/cert/ViewBrowserCerts.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+
+    <screen name="SimpleDecorator">
+        <section>
+            <actions>
+                <property-map resource="TemporalExpressionUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="WebtoolsUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="SecurityUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+            </actions>
+            <widgets>
+                <include-screen name="SimpleDecorator" location="component://common/widget/CommonScreens.xml"/>
+            </widgets>
+        </section>
+    </screen>
+
+    <screen name="PopUpDecorator">
+        <section>
+            <actions>
+                <property-map resource="TemporalExpressionUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="WebtoolsUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="SecurityUiLabels" map-name="uiLabelMap" global="true"/>
+                <property-map resource="CommonUiLabels" map-name="uiLabelMap" global="true"/>
+            </actions>
+            <widgets>
+                <include-screen name="LookupDecorator" location="component://common/widget/CommonScreens.xml"/>
             </widgets>
         </section>
     </screen>
@@ -143,7 +156,7 @@ under the License.
                                 <if-has-permission permission="WEBTOOLS" action="_VIEW"/>
                             </condition>
                             <widgets>
-                                <include-menu name="serviceTabBar" location="component://webtools/widget/Menus.xml"/>
+                                <include-menu name="ServiceTabBar" location="component://webtools/widget/Menus.xml"/>
                             </widgets>
                         </section>
                     </decorator-section>
@@ -179,7 +192,7 @@ under the License.
                                 <if-has-permission permission="ENTITY_MAINT"/>
                             </condition>
                             <widgets>
-                                <include-menu name="importExportTabBar" location="component://webtools/widget/Menus.xml"/>
+                                <include-menu name="ImportExportTabBar" location="component://webtools/widget/Menus.xml"/>
                             </widgets>
                         </section>
                     </decorator-section>
@@ -215,7 +228,7 @@ under the License.
                                 <if-has-permission permission="ENTITY_MAINT"/>
                             </condition>
                             <widgets>
-                                <include-menu name="artifactTabBar" location="component://webtools/widget/Menus.xml"/>
+                                <include-menu name="ArtifactTabBar" location="component://webtools/widget/Menus.xml"/>
                             </widgets>
                         </section>
                     </decorator-section>
@@ -251,7 +264,7 @@ under the License.
                                 <if-has-permission permission="ENTITY_MAINT"/>
                             </condition>
                             <widgets>
-                                <include-menu name="configurationTabBar" location="component://webtools/widget/Menus.xml"/>
+                                <include-menu name="ConfigurationTabBar" location="component://webtools/widget/Menus.xml"/>
                             </widgets>
                         </section>
                     </decorator-section>
@@ -287,7 +300,7 @@ under the License.
                                 <if-has-permission permission="WEBTOOLS" action="_VIEW"/>
                             </condition>
                             <widgets>
-                                <include-menu name="geoManagement" location="component://webtools/widget/Menus.xml"/>
+                                <include-menu name="GeoManagement" location="component://webtools/widget/Menus.xml"/>
                             </widgets>
                         </section>
                     </decorator-section>

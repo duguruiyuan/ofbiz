@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonConfigDecorator">
         <section>
             <widgets>
@@ -73,10 +73,10 @@ under the License.
                                 </container>
                             </decorator-section>
                             <decorator-section name="search-options">
-                                <include-form location="component://product/widget/catalog/ConfigForms.xml" name="FindProductConfigItemsFrom"/>
+                                <include-form name="FindProductConfigItemsFrom" location="component://product/widget/catalog/ConfigForms.xml"/>
                             </decorator-section>
                             <decorator-section name="search-results">
-                                <include-form location="component://product/widget/catalog/ConfigForms.xml" name="FindProductConfigItems"/>
+                                <include-form name="FindProductConfigItems" location="component://product/widget/catalog/ConfigForms.xml"/>
                             </decorator-section>
                         </decorator-screen>
                     </decorator-section>
@@ -98,7 +98,7 @@ under the License.
             <widgets>
                 <decorator-screen name="CommonConfigDecorator">
                     <decorator-section name="body">
-                        <screenlet title="${uiLabelMap.PageTitleEditConfigItem}">
+                        <screenlet title="${groovy: configItemId ? uiLabelMap.PageTitleEditConfigItem : uiLabelMap.PageTitleNewConfigItem}">
                             <include-form name="EditProductConfigItem" location="component://product/widget/catalog/ConfigForms.xml"/>
                         </screenlet>
                     </decorator-section>
@@ -218,16 +218,37 @@ under the License.
                 <set field="configItemId" from-field="parameters.configItemId"/>
                 <entity-one entity-name="ProductConfigItem" value-field="configItem" auto-field-map="true"/>
 
-                <script location="component://product/webapp/catalog/WEB-INF/actions/config/EditProductConfigItemContent.groovy"/>
+                <script location="component://product/groovyScripts/catalog/config/EditProductConfigItemContent.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonConfigDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/config/EditProductConfigItemContent.ftl"/></html>
+                            <html><html-template location="component://product/template/config/EditProductConfigItemContent.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="PrepareAddProductConfigItemContentAssoc">
+        <section>
+            <widgets>
+                <include-form name="PrepareAddProductConfigItemContentAssoc" location="component://product/widget/catalog/ConfigForms.xml"/>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="AddProductConfigItemContentAssoc">
+        <section>
+            <widgets>
+                <include-form name="AddProductConfigItemContentAssoc" location="component://product/widget/catalog/ConfigForms.xml"/>
+            </widgets>
+        </section>
+    </screen>
+    <screen name="AddProductConfigItemContentAssoc">
+        <section>
+            <widgets>
+                <include-form name="AddProductConfigItemContentAssoc" location="component://product/widget/catalog/ConfigForms.xml"/>
             </widgets>
         </section>
     </screen>
@@ -244,14 +265,35 @@ under the License.
 
                 <set field="fromDate" from-field="requetParameters.fromDate" type="Timestamp"/>
 
-                <script location="component://product/webapp/catalog/WEB-INF/actions/config/EditProductConfigItemContentContent.groovy"/>
+                <script location="component://product/groovyScripts/catalog/config/EditProductConfigItemContentContent.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonConfigDecorator">
                     <decorator-section name="body">
-                        <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/config/EditProductConfigItemContentContent.ftl"/></html>
-                        </platform-specific>
+                        <container style="button-bar">
+                            <link target="EditProductConfigItemContent" text="${uiLabelMap.ProductProduct} ${uiLabelMap.ProductConfigItem} ${uiLabelMap.ProductContent} ${uiLabelMap.CommonList}" style="buttontext">
+                                <parameter param-name="configItemId" from-field="configItemId"/>
+                            </link>
+                            <section>
+                                <condition>
+                                    <not><if-empty field="contentId"/></not>
+                                </condition>
+                                <widgets>
+                                    <link target="/content/control/EditContent?contentId=${contentId}" text="${uiLabelMap.ProductContent} ${uiLabelMap.CommonPage}" style="buttontext" target-window="_blank" url-mode="inter-app"/>
+                                </widgets>
+                            </section>
+                        </container>
+                        <section>
+                            <condition>
+                                <and>
+                                    <not><if-empty field="configItemId"/></not>
+                                    <not><if-empty field="productContent"/></not>
+                                </and>
+                            </condition>
+                            <widgets>
+                                <include-form name="EditProductConfigItemContentSimpleText" location="component://product/widget/catalog/ConfigForms.xml"/>
+                            </widgets>
+                        </section>
                     </decorator-section>
                 </decorator-screen>
             </widgets>

@@ -21,9 +21,9 @@ under the License.
 <!-- These forms are for generating printed documents, such as invoices, bills, statements, etc. -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
-    <!-- generate a PDF for the order, sharing the same BSH file as the HTML page for viewing the order -->
+    <!-- generate a PDF for the order, sharing the same groovy file as the HTML page for viewing the order -->
     <screen name="OrderPDF">
         <section>
             <actions>
@@ -32,7 +32,7 @@ under the License.
                 <property-map resource="AccountingUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
 
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/order/OrderView.groovy"/>
+                <script location="component://order/groovyScripts/order/OrderView.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="FoReportDecorator" location="component://common/widget/CommonScreens.xml">
@@ -49,7 +49,7 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/order/orderReportHeaderInfo.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/order/OrderReportHeaderInfo.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </widgets>
                         </section>
@@ -59,15 +59,15 @@ under the License.
                             <widgets>
                                 <!-- the contach mechanisms, terms, payment and shipping methods are shown in the first page -->
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/order/orderReportContactMechs.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/order/OrderReportContactMechs.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                                 <!-- order items and totals -->
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/order/orderReportBody.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/order/OrderReportBody.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                                 <!-- return policies and notes are shown in the last page -->
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/order/orderReportConditions.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/order/OrderReportConditions.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </widgets>
                         </section>
@@ -79,10 +79,10 @@ under the License.
     <screen name="CompanyLogo">
         <section>
             <actions>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/order/CompanyHeader.groovy"/>
+                <script location="component://order/groovyScripts/order/CompanyHeader.groovy"/>
             </actions>
             <widgets>
-                <platform-specific><xsl-fo><html-template location="component://order/webapp/ordermgr/order/companyHeader.fo.ftl"/></xsl-fo></platform-specific>
+                <platform-specific><xsl-fo><html-template location="component://order/template/order/CompanyHeader.fo.ftl"/></xsl-fo></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -93,8 +93,8 @@ under the License.
                 <property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="AccountingUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnHeader.groovy"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/return/ReturnItems.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnHeader.groovy"/>
+                <script location="component://order/groovyScripts/return/ReturnItems.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="FoReportDecorator" location="component://common/widget/CommonScreens.xml">
@@ -111,7 +111,7 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/return/returnReportHeaderInfo.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/return/ReturnReportHeaderInfo.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </widgets>
                         </section>
@@ -121,15 +121,15 @@ under the License.
                             <widgets>
                                 <!-- the contach mechanisms, terms, payment and shipping methods are shown in the first page -->
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/return/returnReportContactMechs.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/return/ReturnReportContactMechs.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                                 <!-- order items and totals -->
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/return/returnReportBody.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/return/ReturnReportBody.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                                 <!-- return policies and notes are shown in the last page -->
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/return/returnReportConditions.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/return/ReturnReportConditions.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </widgets>
                         </section>
@@ -144,7 +144,7 @@ under the License.
                 <set field="titleProperty" value="OrderShipGroups"/>
                 <property-map resource="OrderUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="ProductUiLabels" map-name="uiLabelMap" global="true"/>
-                <script location="component://order/webapp/ordermgr/WEB-INF/actions/order/ShipGroups.groovy"/>
+                <script location="component://order/groovyScripts/order/ShipGroups.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="FoReportDecorator" location="component://common/widget/CommonScreens.xml">
@@ -160,7 +160,7 @@ under the License.
                         <section>
                             <widgets>
                                 <platform-specific>
-                                    <xsl-fo><html-template location="component://order/webapp/ordermgr/order/shipGroups.fo.ftl"/></xsl-fo>
+                                    <xsl-fo><html-template location="component://order/template/order/ShipGroups.fo.ftl"/></xsl-fo>
                                 </platform-specific>
                             </widgets>
                         </section>

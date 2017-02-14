@@ -19,13 +19,13 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="FindUtilCache">
         <section>
             <actions>
                 <set field="headerItem" value="cache"/>
                 <set field="titleProperty" value="PageTitleFindUtilCache"/>
-                <script location="component://webtools/webapp/webtools/WEB-INF/actions/cache/FindUtilCache.groovy"/>
+                <script location="component://webtools/groovyScripts/cache/FindUtilCache.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -41,7 +41,7 @@ under the License.
                                 </screenlet>
                                 <screenlet>
                                     <include-menu name="FindCache" location="component://webtools/widget/Menus.xml"/>
-                                    <include-form name="ListCache" location="component://webtools/widget/CacheForms.xml"/>
+                                    <include-grid name="ListCache" location="component://webtools/widget/CacheForms.xml"/>
                                     <include-menu name="FindCache" location="component://webtools/widget/Menus.xml"/>
                                 </screenlet>
                             </widgets>
@@ -60,7 +60,7 @@ under the License.
             <actions>
                 <set field="headerItem" value="cache"/>
                 <set field="titleProperty" value="PageTitleFindUtilCacheElements"/>
-                <script location="component://webtools/webapp/webtools/WEB-INF/actions/cache/FindUtilCacheElements.groovy"/>
+                <script location="component://webtools/groovyScripts/cache/FindUtilCacheElements.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -74,7 +74,7 @@ under the License.
                                 <screenlet title="${uiLabelMap.PageTitleFindUtilCacheElements}">
                                     <label>${uiLabelMap.WebtoolsCacheName} ${cacheName} (${now}) ${uiLabelMap.WebtoolsSizeTotal} ${totalSize} ${uiLabelMap.WebtoolsBytes}</label>
                                     <include-menu name="CacheElements" location="component://webtools/widget/Menus.xml"/>
-                                    <include-form name="ListCacheElements" location="component://webtools/widget/CacheForms.xml"/>
+                                    <include-grid name="ListCacheElements" location="component://webtools/widget/CacheForms.xml"/>
                                     <include-menu name="CacheElements" location="component://webtools/widget/Menus.xml"/>
                                 </screenlet>
                             </widgets>
@@ -93,7 +93,7 @@ under the License.
             <actions>
                 <set field="headerItem" value="cache"/>
                 <set field="titleProperty" value="PageTitleEditUtilCache"/>
-                <script location="component://webtools/webapp/webtools/WEB-INF/actions/cache/EditUtilCache.groovy"/>
+                <script location="component://webtools/groovyScripts/cache/EditUtilCache.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">

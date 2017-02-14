@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonFindDecorator">
         <section>
             <widgets>
@@ -58,13 +58,13 @@ under the License.
                 <entity-condition entity-name="ProdCatalog" list="prodCatalogs">
                     <order-by field-name="catalogName"/>
                 </entity-condition>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/find/advancedsearchoptions.groovy"/>
+                <script location="component://product/groovyScripts/catalog/find/AdvancedSearchOptions.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFindDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/find/advancedsearch.ftl"/></html>
+                            <html><html-template location="component://product/template/find/AdvancedSearch.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -75,16 +75,16 @@ under the License.
         <section>
             <actions>
                 <set field="titleProperty" value="PageTitleSearchResults"/>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/find/keywordsearch.groovy"/>
+                <script location="component://product/groovyScripts/catalog/find/KeywordSearch.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonFindDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/find/keywordsearch.ftl"/></html>
+                            <html><html-template location="component://product/template/find/KeywordSearch.ftl"/></html>
                         </platform-specific>
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/find/keywordsearchactions.ftl"/></html>
+                            <html><html-template location="component://product/template/find/KeywordSearchActions.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -101,7 +101,7 @@ under the License.
                 <decorator-screen name="CommonFindDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/find/exportproducts.ftl"/></html>
+                            <html><html-template location="component://product/template/find/ExportProducts.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>                
@@ -130,7 +130,7 @@ under the License.
                         <include-screen name="leftbar" location="component://product/widget/catalog/CommonScreens.xml"/>
                     </decorator-section>
                     <decorator-section name="body">
-                        <platform-specific><html><html-template location="component://product/webapp/catalog/find/FindProductById.ftl"/></html></platform-specific>
+                        <platform-specific><html><html-template location="component://product/template/find/FindProductById.ftl"/></html></platform-specific>
                     </decorator-section>
                 </decorator-screen>
             </widgets>

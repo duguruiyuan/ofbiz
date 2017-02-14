@@ -19,7 +19,7 @@
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+    xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="main-decorator">
         <section>
             <actions>
@@ -37,9 +37,6 @@
                 <set field="layoutSettings.companySubtitle" from-field="uiLabelMap.SetupCompanySubtitle" global="true"/>
                 <!-- layoutSettings.headerImageUrl can be used to specify an application specific logo; if not set,
                     then the global layoutSettings.commonHeaderImageUrl (specified in GlobalDecorator) will be used. -->
-                <!--<set field="layoutSettings.headerImageUrl" value="/images/ofbiz_logo.gif" global="true"/>-->
-                <!-- <set field="layoutSettings.headerMiddleBackgroundUrl" value="" global="true"/> -->
-                <!-- <set field="layoutSettings.headerRightBackgroundUrl" value="" global="true"/> -->
                 <set field="activeApp" value="ofbizsetup" global="true"/>
                 <set field="applicationMenuName" value="SetupAppBar" global="true"/>
                 <set field="applicationMenuLocation" value="component://commonext/widget/ofbizsetup/Menus.xml" global="true"/>
@@ -148,7 +145,7 @@
                     <decorator-section name="body">
                         <screenlet title="${uiLabelMap.PageTitleEntityExportAll}">
                             <platform-specific>
-                                <html><html-template location="component://webtools/webapp/webtools/entity/EntityExportAll.ftl"/></html>
+                                <html><html-template location="component://webtools/template/entity/EntityExportAll.ftl"/></html>
                             </platform-specific>
                         </screenlet>
                     </decorator-section>

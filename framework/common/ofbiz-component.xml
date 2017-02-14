@@ -22,8 +22,8 @@ under the License.
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/ofbiz-component.xsd">
     <resource-loader name="main" type="component"/>
-    <classpath type="jar" location="build/lib/*"/>
     <classpath type="dir" location="config"/>
+    
     <entity-resource type="model" reader-name="main" loader="main" location="entitydef/entitymodel.xml"/>
     <entity-resource type="data" reader-name="seed" loader="main" location="data/CommonSecurityPermissionSeedData.xml"/>
     <entity-resource type="data" reader-name="demo" loader="main" location="data/CommonSecurityGroupDemoData.xml"/>
@@ -51,6 +51,7 @@ under the License.
     <entity-resource type="data" reader-name="seed" loader="main" location="data/GeoData_MX.xml"/>
     <entity-resource type="data" reader-name="seed" loader="main" location="data/GeoData_MY.xml"/>
     <entity-resource type="data" reader-name="seed" loader="main" location="data/GeoData_NL.xml"/>
+    <entity-resource type="data" reader-name="seed" loader="main" location="data/GeoData_NZ.xml"/>
     <entity-resource type="data" reader-name="seed" loader="main" location="data/GeoData_PL.xml"/>
     <entity-resource type="data" reader-name="seed" loader="main" location="data/GeoData_TH.xml"/>
     <entity-resource type="data" reader-name="seed" loader="main" location="data/GeoData_UK.xml"/>
@@ -65,6 +66,10 @@ under the License.
     <service-resource type="model" loader="main" location="servicedef/services.xml"/>
     <service-resource type="model" loader="main" location="servicedef/services_cdyne.xml"/>
     <service-resource type="model" loader="main" location="servicedef/services_email.xml"/>
+    <service-resource type="model" loader="main" location="servicedef/services_enum.xml"/>
+    <service-resource type="model" loader="main" location="servicedef/services_method.xml"/>
+    <service-resource type="model" loader="main" location="servicedef/services_geo.xml"/>
+    <service-resource type="model" loader="main" location="servicedef/services_qrcode.xml"/>
     <service-resource type="model" loader="main" location="servicedef/services_security.xml"/>
     <service-resource type="model" loader="main" location="servicedef/services_test.xml"/>
     <service-resource type="group" loader="main" location="servicedef/groups_test.xml"/>

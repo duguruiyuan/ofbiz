@@ -18,7 +18,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="ListEmploymentApps" type="multi" list-name="listIt" use-row-submit="true" separate-columns="true" target="updateEmploymentAppExt?partyId=${partyId}&amp;&amp;referredByPartyId=${partyId}" paginate-target="FindEmploymentApps"
         odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" >
         <actions>
@@ -42,7 +42,7 @@ under the License.
         <field name="applicationId" title="${uiLabelMap.HumanResApplicationId}"><display also-hidden="true"/></field>
         <field name="statusId">
             <drop-down allow-empty="true" current-description="">
-                <entity-options description="${description}" key-field-name="statusId" entity-name="StatusItem">
+                <entity-options key-field-name="statusId" entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="EMPL_POSITION_STATUS"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -58,11 +58,10 @@ under the License.
         </field>
         <field name="partyId"><hidden/></field>
         <field name="applyingPartyId" title="${uiLabelMap.FormFieldTitle_applyingPartyId}"><lookup target-form-name="LookupPartyName"/></field>
-        <field name="referredByPartyId" title="${uiLabelMap.FormFieldTitle_referredByPartyId}" use-when="&quot;${referredByPartyId}&quot;.equals(null)"><lookup target-form-name="LookupPartyName"/></field>
-        <field name="referredByPartyId" use-when="referredByPartyId!=null"><lookup target-form-name="LookupPartyName"/></field>
+        <field name="referredByPartyId" title="${uiLabelMap.FormFieldTitle_referredByPartyId}"><lookup target-form-name="LookupPartyName"/></field>
         <field name="applicationDate" title="${uiLabelMap.FormFieldTitle_applicationDate}"><date-time/></field>
         <field name="deleteLink" title="${uiLabelMap.CommonDelete}" widget-style="buttontext">
-            <hyperlink target="deleteEmploymentApp" description="${uiLabelMap.CommonDelete}" also-hidden="true">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteEmploymentApp" also-hidden="true">
                 <parameter param-name="applicationId"/>
                 <parameter param-name="partyId"/>
                 <parameter param-name="referredByPartyId"/>
@@ -80,16 +79,16 @@ under the License.
         <field name="emplPositionId"><lookup target-form-name="LookupEmplPosition"/></field>
         <field name="applicationId"><lookup target-form-name="LookupEmploymentApp"/></field>
         <field name="statusId">
-            <drop-down allow-empty="true" current-description="">
-                <entity-options description="${description}" key-field-name="statusId" entity-name="StatusItem">
+            <check all-checked="false">
+                <entity-options key-field-name="statusId" entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="EMPL_POSITION_STATUS"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
-            </drop-down>
+            </check>
         </field>
         <field name="employmentAppSourceTypeId">
             <drop-down allow-empty="true" current-description="">
-                <entity-options description="${description}" key-field-name="employmentAppSourceTypeId" entity-name="EmploymentAppSourceType">
+                <entity-options key-field-name="employmentAppSourceTypeId" entity-name="EmploymentAppSourceType">
                     <entity-order-by field-name="description"/>
                 </entity-options>
             </drop-down>
@@ -112,11 +111,11 @@ under the License.
         <alt-target use-when="insideEmployee != null" target="createEmploymentAppExt"/>
         <auto-fields-service service-name="createEmploymentApp" default-field-type="hidden"/>
         <field name="partyId"><hidden value="${referredByPartyId}" /></field>
-        <field name="applicationId" tooltip="${uiLabelMap.CommonRequired}" widget-style="required"><lookup target-form-name="LookupEmploymentApp"/></field>
+        <field name="applicationId" required-field="true"><lookup target-form-name="LookupEmploymentApp"/></field>
         <field name="emplPositionId"><lookup target-form-name="LookupEmplPosition"/></field>
         <field name="statusId">
             <drop-down allow-empty="true" current-description="">
-                <entity-options description="${description}" key-field-name="statusId" entity-name="StatusItem">
+                <entity-options key-field-name="statusId" entity-name="StatusItem">
                     <entity-constraint name="statusTypeId" operator="equals" value="EMPL_POSITION_STATUS"/>
                     <entity-order-by field-name="description"/>
                 </entity-options>
@@ -127,7 +126,7 @@ under the License.
         <field name="referredByPartyId" use-when="employmentApp!=null"><hidden/></field>
         <field name="employmentAppSourceTypeId">
             <drop-down allow-empty="true" current-description="">
-                <entity-options description="${description}" key-field-name="employmentAppSourceTypeId" entity-name="EmploymentAppSourceType">
+                <entity-options key-field-name="employmentAppSourceTypeId" entity-name="EmploymentAppSourceType">
                     <entity-order-by field-name="employmentAppSourceTypeId"/>
                 </entity-options>
             </drop-down>

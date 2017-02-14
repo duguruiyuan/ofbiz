@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <form name="ListVendors" type="list" list-name="listIt" paginate-target="findVendors" odd-row-style="alternate-row" default-table-style="basic-table hover-bar">
         <actions>
             <service service-name="performFind" result-map="result" result-map-list="listIt">
@@ -31,7 +31,7 @@ under the License.
             </service>
         </actions>
         <field name="partyId" title="${uiLabelMap.PartyPartyId}" widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${partyId}" target="editVendor">
+            <hyperlink description="${partyId}" target="editVendor" also-hidden="false">
                 <parameter param-name="partyId"/>
             </hyperlink>
         </field>
@@ -73,7 +73,7 @@ under the License.
         <field name="parentTypeId"><hidden value="DISBURSEMENT"/></field>
         <field name="paymentTypeId" position="1">
             <drop-down allow-empty="true">
-                <entity-options entity-name="PaymentType" description="${description}">
+                <entity-options entity-name="PaymentType">
                     <entity-constraint name="parentTypeId" value="DISBURSEMENT"/>
                 </entity-options>
             </drop-down>

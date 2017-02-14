@@ -19,7 +19,7 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="CommonCategoryDecorator">
         <section>
             <actions>
@@ -118,13 +118,13 @@ under the License.
                 <entity-condition entity-name="ProductCategoryType" list="productCategoryTypes">
                     <order-by field-name="description"/>
                 </entity-condition>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/category/EditCategory.groovy"/>
+                <script location="component://product/groovyScripts/catalog/category/EditCategory.groovy"/>
             </actions>
             <widgets>
                  <decorator-screen name="CommonCategoryDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/EditCategory.ftl"/></html>
+                            <html><html-template location="component://product/template/category/EditCategory.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -143,7 +143,7 @@ under the License.
                 <entity-condition entity-name="ProductCategoryType" list="productCategoryTypes">
                     <order-by field-name="description"/>
                 </entity-condition>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/category/EditCategory.groovy"/>
+                <script location="component://product/groovyScripts/catalog/category/EditCategory.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="main-decorator" location="${parameters.mainDecoratorLocation}">
@@ -191,7 +191,7 @@ under the License.
                             </fail-widgets>
                         </section>
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/EditCategory.ftl"/></html>
+                            <html><html-template location="component://product/template/category/EditCategory.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -226,7 +226,7 @@ under the License.
                             <include-form name="AddCategoryContentAssoc" location="component://product/widget/catalog/CategoryForms.xml"/>
                         </screenlet>
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/EditCategoryContent.ftl"/></html>
+                            <html><html-template location="component://product/template/category/EditCategoryContent.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -251,8 +251,8 @@ under the License.
                 <set field="textDataMap.textDataResourceId" from-field="content.dataResourceId"/>
                 <set field="contentId" from-field="content.contentId"/>
                 
-                <script location="component://product/webapp/catalog/WEB-INF/actions/category/EditCategoryContentContent.groovy"/>
-                <script location="component://product/webapp/catalog/WEB-INF/actions/category/EditCategorySEO.groovy"/>
+                <script location="component://product/groovyScripts/catalog/category/EditCategoryContentContent.groovy"/>
+                <script location="component://product/groovyScripts/catalog/category/EditCategorySEO.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonCategoryDecorator">
@@ -263,17 +263,22 @@ under the License.
                                 <link target="/content/control/gotoContent" text="${uiLabelMap.ContentContent} ${uiLabelMap.CommonPage}" url-mode="inter-app" style="buttontext">
                                     <parameter param-name="contentId"/>
                                 </link>
+                                <screenlet title="${contentFormTitle}">
+                                    <include-form name="${contentFormName}" location="component://product/widget/catalog/CategoryForms.xml"/>
+                                </screenlet>
+                                <screenlet title="${uiLabelMap.ProductListAssociatedContentInfos}">
+                                    <include-form name="ListAssociatedContentInfos" location="component://product/widget/catalog/ProductForms.xml"/>
+                                </screenlet>
+                                <screenlet title="${uiLabelMap.ProductCreateSimpleTextContentForAlternateLocale}">
+                                    <include-form name="CreateSimpleTextContentForAlternateLocale" location="component://product/widget/catalog/CategoryForms.xml"/>
+                                </screenlet>
                             </widgets>
+                            <fail-widgets>
+                                <screenlet title="${contentFormTitle}">
+                                    <include-form name="${contentFormName}" location="component://product/widget/catalog/CategoryForms.xml"/>
+                                </screenlet>
+                            </fail-widgets>
                         </section>
-                        <screenlet title="${contentFormTitle}">
-                            <include-form name="${contentFormName}" location="component://product/widget/catalog/CategoryForms.xml"/>
-                        </screenlet>
-                        <screenlet title="${uiLabelMap.ProductListAssociatedContentInfos}">
-                            <include-form name="ListAssociatedContentInfos" location="component://product/widget/catalog/ProductForms.xml"/>
-                        </screenlet>
-                        <screenlet title="${uiLabelMap.ProductCreateSimpleTextContentForAlternateLocale}">
-                            <include-form name="CreateSimpleTextContentForAlternateLocale" location="component://product/widget/catalog/CategoryForms.xml"/>
-                        </screenlet>
                     </decorator-section>
                 </decorator-screen>
             </widgets>
@@ -285,7 +290,8 @@ under the License.
                 <set field="titleProperty" value="PageTitleEditCategoryRollup"/>
                 <set field="tabButtonItem" value="EditCategoryRollup"/>
                 <set field="labelTitleProperty" value="ProductRollup"/>
-                <set field="productCategoryId" from-field="parameters.productCategoryId"/>
+                <set field="productCategoryId" from-field="parameters.showProductCategoryId" default-value="${parameters.productCategoryId}"/>
+                <set field="parameters.productCategoryId" from-field="productCategoryId"/>
 
                 <entity-condition entity-name="ProductCategoryRollup" list="currentProductCategoryRollups">
                     <condition-expr field-name="productCategoryId" from-field="productCategoryId"/>
@@ -301,7 +307,7 @@ under the License.
                 <decorator-screen name="CommonCategoryDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/EditCategoryRollup.ftl"/></html>
+                            <html><html-template location="component://product/template/category/EditCategoryRollup.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -317,13 +323,13 @@ under the License.
 
                 <set field="productCategoryId" from-field="parameters.productCategoryId"/>
 
-                <script location="component://product/webapp/catalog/WEB-INF/actions/category/EditCategoryProducts.groovy"/>
+                <script location="component://product/groovyScripts/catalog/category/EditCategoryProducts.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonCategoryDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/EditCategoryProducts.ftl"/></html>
+                            <html><html-template location="component://product/template/category/EditCategoryProducts.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -358,7 +364,7 @@ under the License.
                 <decorator-screen name="CommonCategoryDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/EditCategoryProdCatalogs.ftl"/></html>
+                            <html><html-template location="component://product/template/category/EditCategoryProdCatalogs.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -396,7 +402,7 @@ under the License.
                 <decorator-screen name="CommonCategoryDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/EditCategoryFeatureCats.ftl"/></html>
+                            <html><html-template location="component://product/template/category/EditCategoryFeatureCats.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -427,7 +433,7 @@ under the License.
                 <decorator-screen name="CommonCategoryDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/EditCategoryParties.ftl"/></html>
+                            <html><html-template location="component://product/template/category/EditCategoryParties.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -475,7 +481,7 @@ under the License.
                 <decorator-screen name="CommonCategoryDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/createProductInCategoryStart.ftl"/></html>
+                            <html><html-template location="component://product/template/category/CreateProductInCategoryStart.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>
@@ -491,13 +497,13 @@ under the License.
                 <set field="productCategoryId" from-field="parameters.productCategoryId"/>
                 <entity-one entity-name="ProductCategory" value-field="productCategory"/>
 
-                <script location="component://product/webapp/catalog/WEB-INF/actions/category/CreateProductInCategoryCheckExisting.groovy"/>
+                <script location="component://product/groovyScripts/catalog/category/CreateProductInCategoryCheckExisting.groovy"/>
             </actions>
             <widgets>
                 <decorator-screen name="CommonCategoryDecorator">
                     <decorator-section name="body">
                         <platform-specific>
-                            <html><html-template location="component://product/webapp/catalog/category/createProductInCategoryCheckExisting.ftl"/></html>
+                            <html><html-template location="component://product/template/category/CreateProductInCategoryCheckExisting.ftl"/></html>
                         </platform-specific>
                     </decorator-section>
                 </decorator-screen>

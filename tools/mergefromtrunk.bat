@@ -1,4 +1,4 @@
-echo off
+@echo off
 rem #####################################################################
 rem Licensed to the Apache Software Foundation (ASF) under one
 rem or more contributor license agreements.  See the NOTICE file
@@ -45,7 +45,7 @@ echo y) tests
 echo n) exit
 
 echo Do you want to run tests (else the commit will be done automatically using the comment grabed from trunk by the merge)?
-choice /c:yn 
+choice /c:yn
 if errorlevel = 2 goto commit
 if errorlevel = 1 goto tests
 
@@ -56,9 +56,7 @@ goto exit
 
 :tests
 echo on
-ant clean-all
-ant load-demo
-ant run-tests
+gradlew cleanAll loadDefault testIntegration
 echo off
 
 echo You can now do the commit by hand if all is OK. The comment grabbed from trunk by the merge is in the file comment.tmp at root

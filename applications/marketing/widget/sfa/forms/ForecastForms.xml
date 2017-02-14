@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
 
     <form name="FindSalesForecast" type="single" target="FindSalesForecast" extends="LookupSalesForecast"
             extends-resource="component://marketing/widget/LookupForms.xml"
@@ -38,7 +38,7 @@ under the License.
         </actions>
         <auto-fields-entity entity-name="SalesForecast" default-field-type="display"/>
         <field name="salesForecastId" widget-style="buttontext">
-            <hyperlink target="EditSalesForecast" description="${salesForecastId}" also-hidden="false">
+            <hyperlink description="${salesForecastId}" target="EditSalesForecast" also-hidden="false">
                 <parameter param-name="salesForecastId"/>
             </hyperlink>
         </field>
@@ -53,7 +53,7 @@ under the License.
         <alt-target use-when="salesForecast==null" target="createSalesForecast"/>
         <auto-fields-service service-name="updateSalesForecast"/>
 
-        <field name="salesForecastId" use-when="salesForecastId!=null" tooltip="${uiLabelMap.CommonNotModifRecreat}"><display/></field>
+        <field name="salesForecastId" use-when="salesForecastId!=null"><display/></field>
         <field name="salesForecastId" use-when="salesForecast==null&amp;&amp;salesForecastId==null"><ignored/></field>
         <field name="salesForecastId" use-when="salesForecast==null&amp;&amp;salesForecastId!=null" tooltip="${uiLabelMap.CommonCannotBeFound}: [${salesForecastId}]"><display also-hidden="false"/></field>
 
@@ -105,7 +105,7 @@ under the License.
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonUpdate}"><submit button-type="button"/></field>
         <field name="deleteLink" title="" widget-style="buttontext">
-            <hyperlink target="deleteSalesForecastDetail" description="${uiLabelMap.CommonDelete}" also-hidden="false">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="deleteSalesForecastDetail" also-hidden="false">
                 <parameter param-name="salesForecastId"/>
                 <parameter param-name="salesForecastDetailId"/>
             </hyperlink>

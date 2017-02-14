@@ -19,7 +19,7 @@ under the License.
 -->
 
 <forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-form.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
     <!-- ContentType forms -->
     <form name="AddContentType" target="addContentType" title="" type="single"
         header-row-style="header-row" default-table-style="basic-table">
@@ -29,7 +29,7 @@ under the License.
         </field>
     </form>
     <form name="UpdateContentType" list-name="contentList" target="updateContentType" title="" type="list"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" separate-columns="true">
         <actions>
           <entity-condition entity-name="ContentType" use-cache="false"/>
         </actions>
@@ -41,7 +41,7 @@ under the License.
             <submit button-type="button"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeContentType">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeContentType" also-hidden="false">
                 <parameter param-name="contentTypeId"/>
             </hyperlink>
         </field>
@@ -53,8 +53,7 @@ under the License.
         <auto-fields-service service-name="createContentTypeAttr"/>
         <field entity-name="ContentType" name="contentTypeId">
             <drop-down allow-empty="false">
-                <entity-options description="${description}"
-                    entity-name="ContentType" key-field-name="contentTypeId"/>
+                <entity-options entity-name="ContentType" key-field-name="contentTypeId"/>
             </drop-down>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}" widget-style="smallSubmit">
@@ -74,7 +73,7 @@ under the License.
             <display/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeContentTypeAttr">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeContentTypeAttr" also-hidden="false">
                 <parameter param-name="contentTypeId"/>
                 <parameter param-name="attrName"/>
             </hyperlink>
@@ -102,7 +101,7 @@ under the License.
             <submit button-type="button"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeContentAssocType">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeContentAssocType" also-hidden="false">
                 <parameter param-name="contentAssocTypeId"/>
             </hyperlink>
         </field>
@@ -129,7 +128,7 @@ under the License.
             <submit button-type="button"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeContentPurposeType">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeContentPurposeType" also-hidden="false">
                 <parameter param-name="contentPurposeTypeId"/>
             </hyperlink>
         </field>
@@ -144,7 +143,7 @@ under the License.
         </field>
     </form>
     <form name="UpdateContentAssocPredicate" list-name="contentList" target="updateContentAssocPredicate" title="" type="list"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" separate-columns="true">
         <actions>
             <entity-condition entity-name="ContentAssocPredicate" use-cache="false"/>
         </actions>
@@ -156,7 +155,7 @@ under the License.
             <submit button-type="button"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeContentAssocPredicate">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeContentAssocPredicate" also-hidden="false">
                 <parameter param-name="contentAssocPredicateId"/>
             </hyperlink>
         </field>
@@ -171,7 +170,7 @@ under the License.
         </field>
     </form>
     <form name="UpdateContentOperation" list-name="contentList" target="updateContentOperation" title="" type="list"
-        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar" separate-columns="true">
         <actions>
             <entity-condition entity-name="ContentOperation" use-cache="false"/>
         </actions>
@@ -183,7 +182,7 @@ under the License.
             <submit button-type="button"/>
         </field>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeContentOperation">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeContentOperation" also-hidden="false">
                 <parameter param-name="contentOperationId"/>
             </hyperlink>
         </field>
@@ -194,20 +193,18 @@ under the License.
         <auto-fields-service service-name="createContentPurposeOperation"/>
         <field name="contentPurposeTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}"
+                <entity-options
                     entity-name="ContentPurposeType" key-field-name="contentPurposeTypeId"/>
             </drop-down>
         </field>
         <field name="contentOperationId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}"
-                    entity-name="ContentOperation" key-field-name="contentOperationId"/>
+                <entity-options entity-name="ContentOperation" key-field-name="contentOperationId"/>
             </drop-down>
         </field>
         <field name="roleTypeId">
             <drop-down allow-empty="true">
-                <entity-options description="${description}"
-                    entity-name="RoleType" key-field-name="roleTypeId"/>
+                <entity-options entity-name="RoleType" key-field-name="roleTypeId"/>
             </drop-down>
         </field>
         <field name="submitButton" title="${uiLabelMap.CommonAdd}" widget-style="smallSubmit">
@@ -221,7 +218,7 @@ under the License.
         </actions>
         <auto-fields-service service-name="updateContentPurposeOperation" default-field-type="display"/>
         <field name="deleteLink" title=" " widget-style="buttontext">
-            <hyperlink also-hidden="false" description="${uiLabelMap.CommonDelete}" target="removeContentPurposeOperation">
+            <hyperlink description="${uiLabelMap.CommonDelete}" target="removeContentPurposeOperation" also-hidden="false">
                 <parameter param-name="contentPurposeTypeId"/>
                 <parameter param-name="contentOperationId"/>
                 <parameter param-name="roleTypeId"/>

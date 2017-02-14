@@ -19,15 +19,15 @@ under the License.
 -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
     <screen name="FlotChart">
         <section>
             <actions>
-                <script location="component://common/webcommon/WEB-INF/actions/includes/PrepareDataForFlotGraph.groovy"/>
+                <script location="component://common/groovyScripts/PrepareDataForFlotGraph.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
-                     <html><html-template location="component://common/webcommon/includes/flotCharts/${chartType}.ftl"/></html>
+                     <html><html-template location="component://common/template/includes/flotCharts/${chartType}.ftl"/></html>
                 </platform-specific>
             </widgets>
         </section>

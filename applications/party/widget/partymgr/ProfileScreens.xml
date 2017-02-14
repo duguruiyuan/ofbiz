@@ -18,7 +18,7 @@
   -->
 
 <screens xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="http://ofbiz.apache.org/dtds/widget-screen.xsd">
+        xmlns="http://ofbiz.apache.org/Widget-Screen" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Screen http://ofbiz.apache.org/dtds/widget-screen.xsd">
 
     <screen name="Party">
         <section>
@@ -35,13 +35,13 @@
                 <entity-one entity-name="PartyAndPerson" value-field="lookupPerson">
                     <field-map field-name="partyId" from-field="parameters.partyId"/><!-- is required -->
                 </entity-one>
-                <entity-and list="partyContentList" entity-name="PartyContent">
+                <entity-and entity-name="PartyContent" list="partyContentList" filter-by-date="true">
                     <field-map field-name="partyId" from-field="parameters.partyId"/>
                     <field-map field-name="partyContentTypeId" value="LGOIMGURL"/>
                     <order-by field-name="-fromDate"/>
                 </entity-and>
                 <set field="partyContentId" from-field="partyContentList[0].contentId"/>
-                <set field="partyContent" value="${groovy: partyContentId!=null?&quot;/content/control/stream?contentId=&quot; + partyContentId : &quot;&quot;}"/>
+                <set field="partyContent" value="${groovy: partyContentId!=null?'/content/control/stream?contentId=' + partyContentId + externalKeyParam : ''}"/>
                 <set field="partyGroupLogoLinkUrl" from-field="partyContent" default-value="${lookupGroup.logoImageUrl}" global="true"/>
                 <set field="personalImage" from-field="partyContent"/>
             </actions>
@@ -59,8 +59,8 @@
                                 </or>
                             </condition>
                             <widgets>
-                                <screenlet title="${uiLabelMap.PartyPersonalInformation}" navigation-menu-name="personUpdate" id="PartyPersonalInformationPanel">
-                                           <include-menu name="personUpdate" location="component://party/widget/partymgr/PartyMenus.xml"/>
+                                <screenlet title="${uiLabelMap.PartyPersonalInformation}" navigation-menu-name="PersonUpdate" id="PartyPersonalInformationPanel">
+                                           <include-menu name="PersonUpdate" location="component://party/widget/partymgr/PartyMenus.xml"/>
                                     <include-form name="ViewPartyPerson" location="component://party/widget/partymgr/PartyForms.xml"/>
                                     <section>
                                         <condition>
@@ -98,8 +98,8 @@
                                 <if-has-permission permission="PARTYMGR" action="_GRP_UPDATE"/>
                                </condition>
                             <widgets>
-                                <screenlet title="${uiLabelMap.PartyPartyGroupInformation}" navigation-menu-name="groupUpdate" id="PartyGroupInformationPanel">
-                                    <include-menu name="groupUpdate" location="component://party/widget/partymgr/PartyMenus.xml"/>
+                                <screenlet title="${uiLabelMap.PartyPartyGroupInformation}" navigation-menu-name="GroupUpdate" id="PartyGroupInformationPanel">
+                                    <include-menu name="GroupUpdate" location="component://party/widget/partymgr/PartyMenus.xml"/>
                                     <include-form name="ViewPartyGroup" location="component://party/widget/partymgr/PartyForms.xml"/>
                                     <section>
                                         <condition>
@@ -136,13 +136,13 @@
             <actions>
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <set field="partyId" from-field="parameters.partyId" default-value="${userLogin.partyId}"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetContactMechs.groovy"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetUserLoginPrimaryEmail.groovy"/>
+                <script location="component://party/groovyScripts/party/GetContactMechs.groovy"/>
+                <script location="component://party/groovyScripts/party/GetUserLoginPrimaryEmail.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/Contact.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/Contact.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -156,9 +156,9 @@
                 <set field="partyId" from-field="parameters.partyId"/>
             </actions>
             <widgets>
-                <screenlet title="${uiLabelMap.PartyPartyIdentifications}" navigation-menu-name="newPartyIdentification" id="PartyIdentificationPanel">
-                    <include-menu name="newPartyIdentification" location="component://party/widget/partymgr/PartyMenus.xml"/>                
-                    <include-form name="listPartyIdentification" location="component://party/widget/partymgr/PartyForms.xml"/>
+                <screenlet title="${uiLabelMap.PartyPartyIdentifications}" navigation-menu-name="NewPartyIdentification" id="PartyIdentificationPanel">
+                    <include-menu name="NewPartyIdentification" location="component://party/widget/partymgr/PartyMenus.xml"/>
+                    <include-form name="ListPartyIdentification" location="component://party/widget/partymgr/PartyForms.xml"/>
                 </screenlet>
             </widgets>
         </section>
@@ -169,12 +169,12 @@
             <actions>
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <property-map resource="AccountingUiLabels" map-name="uiLabelMap" global="true"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetPaymentMethods.groovy"/>
+                <script location="component://party/groovyScripts/party/GetPaymentMethods.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/PaymentMethods.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/PaymentMethods.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -194,7 +194,7 @@
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/Attributes.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/Attributes.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -214,7 +214,7 @@
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/AvsSettings.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/AvsSettings.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -224,12 +224,12 @@
     <screen name="Cart">
         <section>
             <actions>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetCurrentCart.groovy"/>
+                <script location="component://party/groovyScripts/party/GetCurrentCart.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/Cart.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/Cart.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -240,12 +240,12 @@
         <section>
             <actions>
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
-                <script location="component://party/webapp/partymgr/WEB-INF/actions/party/GetLoyaltyPoints.groovy"/>
+                <script location="component://party/groovyScripts/party/GetLoyaltyPoints.groovy"/>
             </actions>
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/LoyaltyPoints.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/LoyaltyPoints.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -265,7 +265,7 @@
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/UserLogin.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/UserLogin.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -286,7 +286,7 @@
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/Visits.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/Visits.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -338,7 +338,7 @@
                                     <widgets>
                                         <platform-specific>
                                             <html>
-                                                <html-template location="component://party/webapp/partymgr/party/profileblocks/FinAccounts.ftl"/>
+                                                <html-template location="component://party/template/party/profileblocks/FinAccounts.ftl"/>
                                             </html>
                                         </platform-specific>
                                     </widgets>
@@ -379,7 +379,7 @@
                     <widgets>
                         <platform-specific>
                             <html>
-                                <html-template location="component://party/webapp/partymgr/party/profileblocks/SerializedInventory.ftl"/>
+                                <html-template location="component://party/template/party/profileblocks/SerializedInventory.ftl"/>
                             </html>
                         </platform-specific>
                     </widgets>
@@ -436,7 +436,7 @@
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/Content.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/Content.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -456,7 +456,7 @@
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/ContentList.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/ContentList.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -476,7 +476,7 @@
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/Notes.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/Notes.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
@@ -489,8 +489,8 @@
                 <set field="partyId" from-field="parameters.partyId"/>
             </actions>
             <widgets>
-                <screenlet title="${uiLabelMap.PartyShipperAccount}" navigation-menu-name="addShipper">
-                    <include-menu name="addShipper" location="component://party/widget/partymgr/PartyMenus.xml"/>
+                <screenlet title="${uiLabelMap.PartyShipperAccount}" navigation-menu-name="AddShipper">
+                    <include-menu name="AddShipper" location="component://party/widget/partymgr/PartyMenus.xml"/>
                     <include-form name="ListCarrierAccounts" location="component://party/widget/partymgr/PartyForms.xml"/>
                 </screenlet>
             </widgets>
@@ -511,7 +511,7 @@
             <actions>
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
                 <entity-one entity-name="Party" value-field="party"></entity-one>
-                <entity-and list="contacts" entity-name="PartyRelationship" filter-by-date="true">
+                <entity-and entity-name="PartyRelationship" list="contacts" filter-by-date="true">
                     <field-map field-name="partyIdFrom" from-field="parameters.partyId"/>
                     <field-map field-name="roleTypeIdFrom" value="ACCOUNT"/>
                     <field-map field-name="roleTypeIdTo" value="CONTACT"/>
@@ -524,8 +524,8 @@
                         <if-compare field="party.partyTypeId" operator="equals" value="PARTY_GROUP"/>
                     </condition>
                     <widgets>
-                        <screenlet title="${uiLabelMap.PartyListRelatedContacts}" navigation-menu-name="addRelContactAccounts">
-                            <include-menu name="addRelContactAccounts" location="component://party/widget/partymgr/PartyMenus.xml"/>
+                        <screenlet title="${uiLabelMap.PartyListRelatedContacts}" navigation-menu-name="AddRelContactAccounts">
+                            <include-menu name="AddRelContactAccounts" location="component://party/widget/partymgr/PartyMenus.xml"/>
                             <section>
                                 <condition>
                                     <not><if-empty field="parameters.editPartyRel"/></not>
@@ -546,7 +546,7 @@
         <section>
             <actions>
                 <property-map resource="PartyUiLabels" map-name="uiLabelMap" global="true"/>
-                <entity-and list="accounts" entity-name="PartyRelationship" filter-by-date="true">
+                <entity-and entity-name="PartyRelationship" list="accounts" filter-by-date="true">
                     <field-map field-name="partyIdTo" from-field="parameters.partyId"/>
                     <field-map field-name="roleTypeIdFrom" value="ACCOUNT"/>
                     <field-map field-name="roleTypeIdTo" value="CONTACT"/>
@@ -559,8 +559,8 @@
                         <if-compare field="party.partyTypeId" operator="equals" value="PERSON"/>
                     </condition>
                     <widgets>                        
-                        <screenlet title="${uiLabelMap.PartyListRelatedAccounts}" navigation-menu-name="addRelContactAccounts">  
-                            <include-menu name="addRelContactAccounts" location="component://party/widget/partymgr/PartyMenus.xml"/>
+                        <screenlet title="${uiLabelMap.PartyListRelatedAccounts}" navigation-menu-name="AddRelContactAccounts">  
+                            <include-menu name="AddRelContactAccounts" location="component://party/widget/partymgr/PartyMenus.xml"/>
                             <section>
                                 <condition>
                                     <not><if-empty field="parameters.editPartyRel"/></not>
@@ -590,7 +590,7 @@
                 <service service-name="getWorkEffortAssignedTasks"/>
             </actions>
             <widgets><!-- can always view your own tasks -->
-                <platform-specific><html><html-template location="component://party/webapp/partymgr/party/profileblocks/mytasks.ftl"/></html></platform-specific>
+                <platform-specific><html><html-template location="component://party/template/party/profileblocks/MyTasks.ftl"/></html></platform-specific>
             </widgets>
         </section>
     </screen>
@@ -626,7 +626,7 @@
             <widgets>
                 <platform-specific>
                     <html>
-                        <html-template location="component://party/webapp/partymgr/party/profileblocks/ProductStores.ftl"/>
+                        <html-template location="component://party/template/party/profileblocks/ProductStores.ftl"/>
                     </html>
                 </platform-specific>
             </widgets>
